@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.21">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/favicon-72x72.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/favicon-16x16.png">
+<title>الملحق الرابع: دليل المصطلحات | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="D-terms" class="book">
+<div id="body"><div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.421,</span>
+<span id="revdate">2024-03-01</span>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle">فهرس المحتويات</div>
+<p><span class="toc-root"><a href="index.html">احترف Git</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><s>الباب الرابع: جت على الخادوم</s>
+</li>
+<li><s>الباب الخامس: جت الموزع</s>
+</li>
+<li><s>الباب السادس: GitHub</s>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><s>الباب الثامن: تخصيص جت</s>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><s>الملحق الأول: جت في البيئات الأخرى</s>
+</li>
+<li><s>الملحق الثاني: تضمين جت في تطبيقاتك</s>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html"><span class="toc-current">الملحق الرابع: دليل المصطلحات</span></a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="D-terms">الملحق الرابع: دليل المصطلحات</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">access</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">وصول، إذن</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">access control level</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مستوى الوصول(؟)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">alias</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">كُنية (ج:&nbsp;كُنيات)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">amend</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تصحيح</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">annotated tag</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">وسم معنون (انظر&nbsp;أيضا&nbsp;lightweight&nbsp;tag)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Apache</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">أباتشي</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">archive, archived file</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">ملف مضغوط</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">argument</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مُعامِل (ج:&nbsp;مُعامِلات)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">assign, assignment</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إسناد</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">attribute</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">خاصية</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">authentication</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">استيثاق، يستوثق</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">autocompletion</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إكمال آلي</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">automatically</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تلقائيا، آليا</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">avatar</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">صورة شخصية، صورة تشخيصية</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">backward compatibility</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">التوافقية مع الإصدارات السابقة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bare</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مجرد</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">blob</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">ك‍تلة (ج:&nbsp;ك‍تل)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">branch, branching</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">فرع، تفريع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bug</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">عِلة (ج:&nbsp;علل)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">change</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تعديل</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">chapter (in the book)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">باب</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">character</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مَحْرِف (ج:&nbsp;مَحارف)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">check</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تحقّق [الشيء] (بغير «من»)، تفقّد [الشيء]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">check out</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">سحب</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">checksum</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">[قيمة] بصمة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">clone</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">استنساخ</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">command</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">أمر</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">command line</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">سطر أوامر</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">commit, commit, committed, do/make a commit</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">يودع، إيداع، مودع، يصنع إيداعا</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">compress, compression, compressed</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">يضغط، ضغط، مضغوط</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">computer</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">حاسوب (ج:&nbsp;حواسيب)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">configure; configuration</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">ضبط، تهيئة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">continuous integration</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تكامل مستمر</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">contribute; contribution</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">يساهم، مساهمة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">custom</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مخصص</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">customized</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مخصص، مفضل</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">daemon</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">عفريت (ج:&nbsp;عفاريت)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">daemonize</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">عفرتة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">dashboard</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">صفحة رئيسية</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">default</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مبدئي، مفترض</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">delta</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">فرق (ج:&nbsp;فروقات)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">detached HEAD [state]</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">¯/_(ツ)_\¯</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">develop; development</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تطوير</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">developer</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مطوِّر</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">directory</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مجلد</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">disk</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">قرص</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">distributed</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">موزع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">download</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تنزيل</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">downstream</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مصب (انظر&nbsp;أيضا&nbsp;upstream)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">entry</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بيان</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">environment</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بيئة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">environment variable</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">متغير بيئة (ج:&nbsp; متغيرات بيئة)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">error-prone</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">خطّاء، عُرضة للخطأ</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">exit non-zero (verb, intransitive)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إنهاء التنفيذ بقيمة خروج غير الصفر</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">experience (previous knowledge)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">خبرة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">experience (usage, like user ∿ (UX), developer ∿ (DX))</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تجربة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">fast-forward</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تسريع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">fast-forward merge</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">دمج تسريع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">folder</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مجلد</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">fork</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اشتق، يشتق، اشتقاق</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Git</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">جت</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitHub</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">جت‌هب</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitLab</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">جت‌لاب</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GitWeb</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">جت‌وب</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">glob</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">أنماط توسيع [المسارات]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">graphical user interface, GUI</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">واجهة رسومية</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hacker (1. expert or eager learner; meanings 1–7 in <a href="http://catb.org/esr/jargon/html/H/hacker.html">the Jargon File</a>)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">خارق</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hacker (2. cracker; meaning 8 in the the Jargon File or <a href="http://catb.org/esr/jargon/html/C/cracker.html">the standalone entry</a>)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مخترق</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">handler (Apache)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">معالج</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hard disk</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">قرص [صلب]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hardlink</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">رابط صلب</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hash</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بصمة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HEAD branch</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">الفرع الرأس(؟)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">header</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">ترويسة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HEAD [pointer]</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إشارة الرأس</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hierarchical</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">شجري</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">history</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تاريخ</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hook</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">خطاف (ج:&nbsp;خطاطيف)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hook script</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بريمج خطاف</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">host, hosting</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">يستضيف، استضافة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hostname</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اسم المضيف(?)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">include</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">ضم</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">index (in Git)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">الفهرس</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">inode</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مؤشر فهرسة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">install, installation (1. software)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تثبيت</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">install, installation (2. non-software)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تركيب</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">integrated development environment, IDE</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بيئة تطوير [متكاملة]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">integrity</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">سلامة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">issue</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مشكلة، مسألة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">killer feature</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">ميزة قاتلة للمنافسة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">landing page</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">صفحة استقبال</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">license</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">رخصة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">lightweight tag</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">وسم خفيف (انظر&nbsp;أيضا&nbsp;annotated&nbsp;tag)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">limit (v)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تقييد</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">list (n)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">قائمة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">list (v)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">سرد</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">login</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">ولوج</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">log (n)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">سجل</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">maintain, maintenance</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تطوير، رعاية</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">merge commit</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إيداع دمج</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">merged</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مدموج</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">merge [to]</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">دمج [في]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">metadata</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بيانات وصفية</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mirror [copy]</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">نسخة مقابلة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mirror [server]</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">خادوم مرآة(؟)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">model</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">نموذج</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">modify</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تعديل</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mount, mounted</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">ضم، مضموم</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">namespace</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مساحة أسماء</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">nonlinear</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">لاخطي (كلمة واحدة، بغير مسافة)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">normalize, normalization</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">استنظام</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">open source</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مصادر مفتوحة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">output</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">ناتج</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pack</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">عُلبة (ج:&nbsp;عُلب)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">packfile</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">ملف عُلبة (ج:&nbsp;ملفات عُلبة)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pager</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">[برنامج] عارض</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">patch</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">رُقعة (ج:&nbsp;رُقع)، ترقيع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pipe (n)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">قناة [يونكسية]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">platform</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">منصة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pointer</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إشارة (متحد مع ref)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">policy</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">سياسة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">port forwarding</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">توجيه منفذ</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">private</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">خصوصي</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">prompt</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مُوَجِّه (ج:&nbsp;مُوَجِّهات)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">proprietary</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">احتكاري</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">protocol</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">ميفاق (ج:&nbsp;موافيق)، بروتوكول</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">public</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">عمومي</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pull</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">جذب</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pull request</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">طلب جذب، طلب دمج</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">push</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">دفع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">read access</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إذن القراءة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">read/write access</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إذن التحرير</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rebase [on]</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إعادة تأسيس [على]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reflog</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">سجل الإشارات</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ref, reference</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إشارة (انظر التفصيل في الملحق الآخر: <a href="E-arabic-reference.html#_terms_reference">إشارة الرأس وإشارات الكائنات</a>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">release</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إصدار، إصدارة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">remote</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">[مستودع] بعيد</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">remote-tracking branch</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">فرع متعقب لبعيد</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">remove</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إزالة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rename</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تغيير اسم</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">repo, repository</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مستودع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reset</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إرجاع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">restore</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">استعادة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">revert</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">نقض</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">revision</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مراجعة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">revision control</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">التحكم في المراجعات</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rollback</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إعادة(?)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">root</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">جذر، جذري</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">root directory</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مجلد جذر</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">script</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بُريمِج (ج:&nbsp;بُريمِجات)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">scripting</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">برمجة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">section (in a Git project)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">قسم</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">section (in the book)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">فصل</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">serve</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">قدّم، يقدِّم، تقديم، يتيح، إتاحة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">server</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">خادوم (ج:&nbsp;خواديم)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">setup (arrangement)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">ترتيب (ج:&nbsp;ترتيبات، تراتيب)، تركيب، تكوين</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">setup (installation)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تثبيت</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">set up, setting</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إعداد</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">shell</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">صَدَفة، طرفية</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">shell access</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">وصول صَدَفي</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sign [sth]</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">توقيع [شيء]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">single point of failure</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">نقطة انهيار حاسمة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">snapshot</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">لقطة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">stage, staging, staged</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">يؤهل، تأهيل، مؤهل</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">staging area</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">منطقة التأهيل</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">standard</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">معيار</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">switch (v)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">انتقال</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">system</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">نظام (ج:&nbsp;أنظمة)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tab (char)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مسافة جدولة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tab-completion</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إكمال بزر الجدولة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tab (key)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">زر الجدولة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tab (ui)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تبويب</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tag, annotated</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">وسم معنون</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tag, lightweight</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">وسم خفيف</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">team</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">فِرقة (ج:&nbsp;فِرَق)(؟)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">teammate</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">زميل (ج:&nbsp;زملاء)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">terminal [emulator]</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">طرفية</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">timestamp</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">خَتم زمني</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">track; tracking</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تعقب، متعقِّب (انظر التفصيل في الملحق الآخر: <a href="E-arabic-reference.html#_terms_tracking">التعقب والمتابعة: tracking</a>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">transaction</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">معاملة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">two factor authentication</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">استيثاق ثنائي</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">undo</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تراجع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">untracked</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">غير متعقَّب</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">upload</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">رفع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">upstream</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">منبع (انظر&nbsp;أيضا&nbsp;downstream)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">verify [sth]</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">توثيق [شيء]، تحقق [شيء] (بغير «من»)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">version</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">نسخة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">version control</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إدارة النسخ</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">version control system, VCS</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">نظام إدارة نسخ</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">versioned</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مراقَب [للتغييرات]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">virtual private network, VPN</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">شبكة وهمية خاصة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">web</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">وب</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">workflow</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">[أسلوب] سير عمل</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">working copy</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">نسخة عمل</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">working tree</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">شجرة العمل</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ السابق: <a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a> | ↑ البداية: <a href="index.html">احترف Git</a> | التالي: <a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-03-01 20:13:25 +0000
+</div>
+</div>
+</div></body></html>

@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.21">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/favicon-72x72.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/favicon-16x16.png">
+<title>الملحق الخامس: المصطلحات والمفاهيم باللغتين | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="E-arabic-reference" class="book">
+<div id="body"><div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.421,</span>
+<span id="revdate">2024-03-01</span>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle">فهرس المحتويات</div>
+<p><span class="toc-root"><a href="index.html">احترف Git</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><s>الباب الرابع: جت على الخادوم</s>
+</li>
+<li><s>الباب الخامس: جت الموزع</s>
+</li>
+<li><s>الباب السادس: GitHub</s>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><s>الباب الثامن: تخصيص جت</s>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><s>الملحق الأول: جت في البيئات الأخرى</s>
+</li>
+<li><s>الملحق الثاني: تضمين جت في تطبيقاتك</s>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html"><span class="toc-current">الملحق الخامس: المصطلحات والمفاهيم باللغتين</span></a>
+<ul class="sectlevel2">
+<li><a href="E-arabic-reference.html#_الإيداع_والسحب">الإيداع والسحب</a>
+</li>
+<li><a href="E-arabic-reference.html#_terms_push_pull_fetch">الدفع والجذب والاستحضار</a>
+</li>
+<li><a href="E-arabic-reference.html#_terms_reset_restore_revert">الإرجاع والاستعادة والنقض</a>
+</li>
+<li><a href="E-arabic-reference.html#_terms_commands">أسماء أوامر جت</a>
+</li>
+<li><a href="E-arabic-reference.html#_terms_reference">إشارة الرأس وإشارات الكائنات</a>
+</li>
+<li><a href="E-arabic-reference.html#_terms_tracking">التعقب والمتابعة: tracking</a>
+</li>
+<li><a href="E-arabic-reference.html#_terms_tracking_branches">الفروع البعيدة والفروع المتعقِّبة لبعيد والفروع المتعقِّبة</a>
+</li>
+<li><a href="E-arabic-reference.html#_terms_read_write">إذنا القراءة والتحرير</a>
+</li>
+<li><a href="E-arabic-reference.html#_terms_code">تعريب كلمة كود</a>
+</li>
+<li><a href="E-arabic-reference.html#_terms_general_tips">إصلاحات لغوية عامة ونصائح أسلوبية</a>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="E-arabic-reference">الملحق الخامس: المصطلحات والمفاهيم باللغتين</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>يضم هذا الملحق أوامر جيت مثل الملحق الثالث، ولكنه أيضا يضم مفاهيم جيت وأنظمة إدارة النسخ الموزعة، ويتناولها جميعًا بشرح موجز مع توضيح أسمائها باللغتين وأسباب هذه الأسماء، ويضم ملاحظات متفرقة للمترجم.</p>
+</div>
+<div class="sect2">
+<h3 id="_الإيداع_والسحب">الإيداع والسحب</h3>
+<div class="paragraph">
+<p>الغرض الأساسي في أنظمة إدارة النسخ هو أنك تحفظ النسخة الحالية من مجلد العمل كما تحفظ الأموال في المصرف، ثم عندما تحتاجها تأخذها منه. ولكنك لا تأخذها للأبد، بل «تستلفها» مؤقتا مثلما تستلف كتبا من المكتبة العامة.</p>
+</div>
+<div class="paragraph">
+<p>فعملية السحب هذه لها اسم واحد شائع: check out.
+أما عملية الحفظ فلها اسمان في الأنظمة المختلفة: check in أو commit.</p>
+</div>
+<div class="paragraph">
+<p>انظر أيضا: <a href="https://stackoverflow.com/q/12510574" class="bare">https://stackoverflow.com/q/12510574</a></p>
+</div>
+<div class="paragraph">
+<p>وانظر: <a href="https://www.noureddin.dev/ysmu/link/commit" class="bare">https://www.noureddin.dev/ysmu/link/commit</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_terms_push_pull_fetch">الدفع والجذب والاستحضار</h3>
+<div class="paragraph">
+<p>لأن «سحب» محجوز لـcheck out، فكان علينا الإتيان بلفظ آخر ليعني pull.</p>
+</div>
+<div class="paragraph">
+<p>العملية المرافقة لـpull هي push، وكلاهما يعرفان بالدفع والجذب، فكان هذان اللفظان مناسبين.</p>
+</div>
+<div class="paragraph">
+<p>ولكن عملية الجذب pull عمليتان في الحقيقة، أولهما fetch، لإحضار الكائنات (objects) والإشارات (refs) من المستودع البعيد. فكان اللفظ المناسب لها تنزيل أو إحضار، فاخترت استحضار (طلب الحضور) لتمييزها عن الكلمة العامة «إحضار».</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_terms_reset_restore_revert">الإرجاع والاستعادة والنقض</h3>
+<div class="paragraph">
+<p>يفرّق جيت بين الإرجاع reset، والاستعادة restore، والنقض revert، وطبعا إعادة التأسيس rebase.</p>
+</div>
+<div class="paragraph">
+<p>وقد حاولت أن أجعل أسماءهم العربية متباعدة، تقليلا للخلط الأكيد بينهم.</p>
+</div>
+<div class="paragraph">
+<p>والخلط بينهم وارد حتى إن دليل (‪&#8220;manpage&#8221;‬) جت نفسه يخصص فصلا للفرق بينهم، ثم يشير إلى هذا الفصل في دليل كل أمر منهم. فنجد في دليل <code>git</code> فصلا بعنوان ‪&#8220;Reset, restore and revert&#8221;‬، هذه ترجمته:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>في جت ثلاثة أوامر بأسماء متشابهة: الإرجاع <code>git reset</code>، والاستعادة <code>git restore</code>، والنقض <code>git revert</code>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>أمر النقض <code>git revert</code> يصنع إيداعا جديدا ينقض (يعكس) فيه التعديلات التي قدّمتها إيداعات سابقة معينة.</p>
+</li>
+<li>
+<p>أمر الاستعادة <code>git restore</code> يستعيد ملفات في شجرة العمل من الفهرس (منطقة التأهيل) أو من إيداع سابق. هذا الأمر لا يحدّث الفرع الحالي. يمكن استعمال هذا الأمر كذلك لاستعادة ملفات في الدليل من إيداع سابق.</p>
+</li>
+<li>
+<p>أمر الإرجاع <code>git reset</code> يحدّث الفرع الحالي بتحريك رأس الفرع ليضيف أو يزيل إيداعات منه. هذه العملية تغيّر تاريخ الإيداعات.</p>
+<div class="paragraph">
+<p>يمكن استعمال أمر الإرجاع <code>git reset</code> لاستعادة الفهرس، وهو استعمال يشترك فيه مع أمر الاستعادة <code>git restore</code>.</p>
+</div>
+</li>
+</ul>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>ثم يذكر هذا في دليل أمر النقض <code>git revert</code> :</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>لاحظ: يُستعمل أمر النقض <code>git revert</code> لتسجيل إيداعات جديدة تنقض (تعكس) تأثير إيداعات سابقة معينة (غالبا إيداعات خاطئة).
+إن أردت نبذ التعديلات غير المؤهلة جميعا من مجلد العمل، فانظر أمر الإرجاع <code>git reset</code>، تحديدا الخيار <code>--hard</code>.
+إذا أردت استخلاص ملفات معينة من إيداع سابق، فانظر أمر الاستعادة <code>git restore</code>، تحديدا الخيار <code>--source</code>.
+كن حذرا في استعمالك هذين البديلين، فكلاهما يلغي التعديلات غير المؤهلة التي في مجلد عملك.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>لم أسمِّ أي أمر منهم باسم «إعادة» خشية خلطه على الناس مع «استعادة»، وكذلك لم أسمِّ أمرًا «تراجع» خشية خلطه مع «إرجاع»، بل آثرت جذرا مختلفا لكلٍ منهم.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_terms_commands">أسماء أوامر جت</h3>
+<div class="paragraph">
+<p>نسمي أوامر جت، وخصوصا الأوامر العلوية (انظر <s>الأوامر السفلية والعلوية (السباكة والبورسلين)</s>)، بأسماء عربية، فمثلا أمر <code>git commit</code> اسمه أمر الإيداع، وأمر <code>git branch</code> اسم أمر التفريع، وهكذا.</p>
+</div>
+<div class="paragraph">
+<p>وأذكر أسماء الأوامر هنا مع وجودها في الملحق الثالث لسببين: الأول أن الملحق الثالث غير منشور لأنه غير مكتمل بعد (فذلك ما في الجدول الأول)، والآخِر لأن من الأوامر المذكورة في الك‍تاب ما لم يُذكر في الملحق الثالث (بعد)، مثل الأوامر الجديدة كأمر الاستعادة <code>git restore</code> وأمر الانتقال <code>git switch</code>، ومثل بعض الأوامر السفلية مثل أمر سرد الملفات <code>git ls-files</code> وأمر استعراض الملف <code>git cat-file</code> (وذلك ما في الجدول الآخِر).</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">add</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إضافة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">apply</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تطبيق</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">archive</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">ضغط</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">bisect</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تفتيش</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">blame</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">عتاب</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">branch</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">فرع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">checkout</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">سحب</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cherry-pick</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اصطفاء</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">clean</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تنظيف</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">clone</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">استنساخ</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">commit</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إيداع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">config</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تهيئة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">describe</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">وصف</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">diff</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">الفرق</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">difftool</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">أداة الفرق</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">fast-import</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">استيراد سريع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">fetch</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">استحضار</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">format-patch</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تنسيق رقعة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">fsck</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">فحص نظام الملفات</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">gc</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">جامع المهملات</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">grep</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بحث</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">help</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مساعدة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">init</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">ابتداء</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">log</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">السجل</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">merge</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">دمج</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mergetool</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">أداة الدمج</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mv</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">نقل</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pull</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">جذب</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">push</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">دفع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rebase</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إعادة تأسيس</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reflog</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">سجل الإشارات</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">remote</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">البعيد</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">request-pull</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">طلب جذب</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reset</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">استعادة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">revert</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إرجاع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rm</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إزالة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">send-email</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">أرسل بريد</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">shortlog</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">السجل الموجز</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">show</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إظهار</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">stash</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تخبئة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">الحالة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">submodule</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">وحدة فرعية</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tag</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">وسم</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>من الأوامر غير المذكورة في الملحق الثالث:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">cat-file</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">استعراض الملف</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">daemon</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">العفريت</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ls-files</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">سرد الملفات</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ls-remote</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">سرد البُعداء</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ls-tree</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">سرد الأشجار</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">restore</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">استعادة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">switch</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">انتقال</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_terms_reference">إشارة الرأس وإشارات الكائنات</h3>
+<div class="paragraph">
+<p>يقول جيت أحيانا pointer وأحيانا ref أو reference، لكن خلافا لبعض لغات البرمجة، <a href="https://github.com/progit/progit2/issues/1460">هذه جميعا تعني الشيء نفسه</a>، وهو الشيء الذي «يُشير» إلى كائن أو شيء آخر.</p>
+</div>
+<div class="paragraph">
+<p>عند التحدث عن الفأرة مثلا، فكلمة «مؤشر» (pointer أو cursor) صحيحة لأنها اسم الفاعل من الفعل «يؤشر» أيْ ذلك الشيء الذي «يضع إشارة». أما عند التحدث عن البرمجة، فإن pointer <strong>لا تعني</strong> «مؤشر»، لإن الـpointer لا يضع إشارة على شيء، بل يشير إلى شيء، فاللفظ الصحيح هو «مُشِير». وهو اللفظ المستخدم في لغة كلمات.</p>
+</div>
+<div class="paragraph">
+<p>أما كلمة reference، ففي سياق الكتب تعني الك‍تاب الذي نرجع إليه للبحث عن معلومة، فترجمته إلى «مرجع» عندئذٍ صحيحة. لكن في سياق البرمجة، الـreference لا يَرجع إلى شيء، بل يُرجعنا نحن أو يُحيلنا إلى شيء (refer to)، فترجمته إلى «مُحيل» أفضل.</p>
+</div>
+<div class="paragraph">
+<p>ولكن المشير والمحيل اسمان لمسمى واحد في جت، فالأفضل توحيد الاسم.</p>
+</div>
+<div class="paragraph">
+<p>استعملت «مشيرًا» في البدء، ثم وجدت أن الأقرب في الاستعمال هو «إشارة»، فهي ما استعملت في الك‍تاب.</p>
+</div>
+<div class="paragraph">
+<p>ولمنع اللبس، أقول «إشارة الرأس» غالب الوقت للفظ HEAD.</p>
+</div>
+<div class="paragraph">
+<p>ولكن جت يفرق بين head وHEAD؛ انظر <code>man gitglossary</code> أو <a href="https://git-scm.com/docs/gitglossary#Documentation/gitglossary.txt-aiddefhashahash">على الشابكة</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_terms_tracking">التعقب والمتابعة: tracking</h3>
+<div class="paragraph">
+<p>يستعمل الفعل tracking في المشاريع البرمجية استعمالين رئيسيين، ويترجم بلفظ مختلف حسب استعماله:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>«المتابعة»، وهي أن يتابع الإنسانُ العللَ (bugs) والمسائل (issues) والأهداف (milestones) وغير ذلك. ومنها متابع العلل (bug tracker) أو متابع المسائل (issue tracker).</p>
+</li>
+<li>
+<p>«التعقب»، وهي (١) أن يتعقب جت ملفًا، أي أن يتابع تغييراته ويرصدها ويسجلها، (٢) وأن تجعل جت يتعقب فرعًا بعيدًا، أن أي يجعل جت فرعا محليا (يسمى «فرعا متعقِّبا») أو إشارة محلية (تسمى «فرعا متعقِّبا لبعيد») تتابع التغييرات الحادثة في الفرع البعيد. (انظر الفصل التالي لتفصيل هذا الأمر.)</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_terms_tracking_branches">الفروع البعيدة والفروع المتعقِّبة لبعيد والفروع المتعقِّبة</h3>
+<div class="paragraph">
+<p>يفرق جت وك‍تاب احترف جت بين الفروع المتعقبة (tracking branch) والفروع المتعقبة لبعيد (remote-tracking branch)؛ انظر <a href="ch03-git-branching.html#_tracking_branches">تعقب الفروع</a>.</p>
+</div>
+<div class="paragraph">
+<p>لكن لا يبدو أن الك‍تاب يفرق بين الفروع البعيدة (remote branch) والفروع المتعقبة لبعيد (remote-tracking branch)، إلا قليلا، فكلاهما نظرتان للشيء نفسه: الفرع <code>origin/master</code> مثلا هو الفرع الرئيس في المستودع البعيد، فهو في مستودعي المحلي فرع متعقب لبعيد، لكنه يشير إلى الفرع البعيد نفسه. فيجوز قول «الفرع البعيد» للفرع المتعقب لبعيد من باب المجاز المرسل أغلب الوقت. وهذا استعمال الك‍تاب إلا قليلا. (من أمثلة هذا القليل: <a href="ch03-git-branching.html#_delete_branches">حذف فروع بعيدة</a>.)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_terms_read_write">إذنا القراءة والتحرير</h3>
+<div class="paragraph">
+<p>أقترح تعريب ‪&#8220;read-only&#8221;‬ بـ«القراءة»، و ‪&#8220;read/write&#8221;‬ بـ«التحرير»، والاسم ‪&#8220;access&#8221;‬ المرتبط بهما غالبا بـ«إذن» (وجمعه «أذون»).</p>
+</div>
+<div class="paragraph">
+<p>واخترت هذين الفعلين لأنهما متعديان بغير حرف جر، فلا نحتاج أن نقول «الك‍تابة على/إلى/في المستودع»، بل نقول «تحرير المستودع» بغير وسيط. ومثله في القراءة.</p>
+</div>
+<div class="paragraph">
+<p>و«التحرير» أقوى من «الك‍تابة» المجردة، فهو يعني التعديل والتقويم، وحديثا يشمل المراجعة والإنشاء. فمعناه واضح فيه أنه ‪&#8220;read/write&#8221;‬، فغالبا لا يوجد إذن «ك‍تابة فقط»، فالأنسب كلمة تدل على القراءة والك‍تابة معا.</p>
+</div>
+<div class="paragraph">
+<p>وقد استعملت وقتًا قصيرا كلمة «اطلاع» تعريبًا لـ ‪&#8220;read&#8221;‬، لكني عدلت عنها إلى «قراءة» لحاجة «اطلاع» إلى حرف جر، وعدم وجود منفعة من «اطلاع» (مثل شمول معنى «تحرير»، فصار أنفع من «ك‍تابة»)، ولشهرة «قراءة».</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_terms_code">تعريب كلمة كود</h3>
+<div class="paragraph">
+<p>لهذه الكلمة معانٍ كثيرة في غير البرمجة، منها رمز ورقم ومعيار وغيرهم.</p>
+</div>
+<div class="paragraph">
+<p>ومعناها في البرمجة شديد الاتساع ويستعصي على النقل إلى لغة أخرى،
+فأبى أكثر الناس إلا أن يأخذوا هذه الكلمة بكل معانيها البرمجية.
+فمنهم من نقلها صوتيا («كود») ومنهم من أتى بكلمة من جذر الكلمة الإنجليزية الأصلية («رمز») في لغتهم،
+فقال السوريون «رِماز» (على وزن «ك‍تاب») وقال الصينيون 代码 (رمز تبديل(؟)).</p>
+</div>
+<div class="paragraph">
+<p>ولا أرى في هذا خيرا كثيرا، فهذا لفظ أعجمي في أصله ومعناه واستعماله،
+وليس فيه من العربية إلا حرفه.</p>
+</div>
+<div class="paragraph">
+<p>ففي هذا الك‍تاب نحاول تعريب هذه الكلمة في مواضعها المختلفة تعريبا يفهمه العربي بغير شرح وبغير معرفة الاستعمال الإنجليزي وبغير معرفة الاصطلاح السوري.</p>
+</div>
+<div class="paragraph">
+<p>وصعوبة الأمر أن هذه الكلمة شديدة العموم، فنحتاج إلى تخصيصها في كل سياق قبل تعريبها،
+فغالبا نعتبرها صفة (=«برمجية») لاسم محذوف، ونرد هذا الاسم عند الترجمة.</p>
+</div>
+<div class="paragraph">
+<p>فهذه أشهر تعريباتها حسب السياق:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>«مصدر برمجي» (= ‪&#8220;source code&#8221;‬) أو «مصدر» فحسب ←</p>
+<div class="ulist">
+<ul>
+<li>
+<p>«قاعدة المصدر» = ‪&#8220;code base&#8221;‬ (أو «مصدر برمجي» أيضا)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>«مشروع برمجي» (مثل العبارة: ‪&#8220;hosting your code&#8221;‬ وما في معناها)</p>
+</li>
+<li>
+<p>«برمجيات» ←</p>
+<div class="ulist">
+<ul>
+<li>
+<p>«محرر برمجيات» = ‪&#8220;code editor&#8221;‬</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>«تعليمات برمجية» ←</p>
+<div class="ulist">
+<ul>
+<li>
+<p>«ثغرة تنفيذ تعليمات برمجية عشوائية» = ‪&#8220;arbitrary code execution vulnerability&#8221;‬</p>
+</li>
+<li>
+<p>«تعليمات برمجية خبيثة» = ‪&#8220;malicious code&#8221;‬</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>ولم نفرغ من هذه الكلمة بعد.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_terms_general_tips">إصلاحات لغوية عامة ونصائح أسلوبية</h3>
+<div class="paragraph">
+<p>بعض هذه النصائح إصلاحات حقيقية، وبعضها ليست سوى اقتراحات.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>قل «يستعمل» أغلب الوقت، ولا تقل «يستخدم» إلا للضرورة. ولكن قلل من كليهما. (وتبقى ‪&#8220;user&#8221;‬ «مستخدما».)</p>
+</li>
+<li>
+<p>لا تقل «نفس الشيء» وقل «الشيء نفسه». (أو «شيء واحد» أو «الشيء الواحد» عند إرادة الإبهام، مثل «يمكنكم الآن التعاون في مشروع واحد».)</p>
+</li>
+<li>
+<p>لا تقل «بسيط» إلا عندما تعني «غير معقد»، وقلل منها عموما.</p>
+</li>
+<li>
+<p>قلل من «فقط» واستعمل الاستثناء أو «إنما» متى أمكن.</p>
+</li>
+<li>
+<p>قل «يبقى» و«يظل» و«لا يزال» و«ما زال»، لكن لا تقل «لا زال»، فاستعمال «لا» مع الماضي يعني الدعاء، مثل «لا أراك الله مكروها».</p>
+</li>
+<li>
+<p>لا تقل «استبدل» لشيوع الخطأ فيه، وقل «أبدل القديم بالجديد»، فلا خلاف فيه، أو ائت بفعل من جذر آخر مثل «يحل محل».</p>
+</li>
+<li>
+<p>لا تستعمل حرف الجر الكاف إلا للتشبيه، وعلامة ذلك استقامة المعنى وثبوته عندما تبدلها بـ«مثل»، وإلا فغيّر تركيب الجملة واستعمل شيئا غير الجر بالكاف، كالتمييز والحال والمفعول به.</p>
+</li>
+<li>
+<p>لا تقل «بداية»، فهي عامية، وفصيحها «بَداءة» لكنه غير مألوف، فقل «بَدء» أو «ابتداء» أو «أول». (قال فيها المصباح المنير: «و"البِدَايَةُ" بالياء مكان الهمز عامي نصّ عليه ابن بري وجماعة». وقال العباب الزاخز: «وقَوْلُ العامَّةِ: البِدايَةُ - مؤازاةً للنِّهاية: لَحْنٌ، ولا تُقاس على الغَدَايا والعَشايا؛ فإنَّها مَسْموعةٌ بخلاف البِداية».)</p>
+</li>
+<li>
+<p>لا تقل «تحقّق من [شيء أو فعل أن تفعل]»؛ قل «تحقّق…» بغير «من» أو «تفقّد…».</p>
+</li>
+<li>
+<p>لا تقل «كل ما عليك هو»؛ إنما قل «ليس عليك سوى/إلا/غير».</p>
+</li>
+<li>
+<p>قدّم الفعل على فاعله ما لم يسبب ذلك خلطا على القارئ.</p>
+</li>
+<li>
+<p>انظر <a href="https://www.noureddin.dev/ysmu/notes/">موارد معجم يسمو</a>، وبالأخص ك‍تاب <a href="https://web.archive.org/web/20100914143217/http://www.reefnet.gov.sy/Arabic_Proficiency/Arabic_Proficiency_Index.htm">نحو إتقان الك‍تابة باللغة العربية</a>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ السابق: <a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a> | ↑ البداية: <a href="index.html">احترف Git</a></p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-03-01 20:13:25 +0000
+</div>
+</div>
+</div></body></html>

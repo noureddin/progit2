@@ -1,0 +1,52 @@
+#!/bin/bash
+
+__g__() {
+  grep --color=always -i "$@" [ABC]-*.asc ch*.asc book/*[!r].asc book/*/sections/*.asc | less -R
+  # grep "$@" -i `find -name '*.asc'`
+}
+
+__g()   { __g__        --     "$*"; }
+__gg()  { __g__ -B1    -- "//.*$*"; }
+__ggg() { __g__ -B1 -h -- "//.*$*"; }
+
+__wc() {
+  git diff | grep ^'+//' | wc -w  # count the words of only the lines that have been translated
+}
+
+__help() {
+  >&2 echo 'unknown command; expected `g`, `gg`, `ggg`, or `wc`'
+}
+
+__a() {
+  < "$@" perl -CDAS -nE 's/\{[^}]+\}//g; say $1 while /(\p{Arabic}+)/g' | wc -l
+  # < "$@" sed 's/{[^}]\+}//g' | grep -Po '\p{Arabic}+' | wc -l
+}
+
+__t() {
+  < "$@" perl -ne 'print unless /^----$/.../^----$/' | grep -v '^\[.*\]$' | sed 's/<<[^>]\+>>//g; s/(((\+[^)]\+)))\+//g; s/\([^"'\'']\)`\([^"'\'']\)[^`]\+\([^"'\'']\)`\([^"'\'']\)/$1$4/g' | grep -Po '\p{Latin}+' | wc -l
+}
+
+
+case "$1" in
+  # editor's helpers (word counters)
+  a) __a "$2" ;;  # how many Arabic words are there in the file
+  t) __t "$2" ;;  # how many translatable words (except code, links, index entries) in the file (regradless of whether translated or not)
+  # user word counter (how many words were translated)
+  wc)  __wc  "${*:2}" ;;  # count translated words (from the source language)
+  # various greppers
+  g)   __g   "${*:2}" ;;  # grep any string in the book (bring your own pattern)
+  gg)  __gg  "${*:2}" ;;  # grep translated lines (by English)
+  ggg) __ggg "${*:2}" ;;  # same as `gg` but w/o file names
+  ## Actually, I stopped using these and now I just use `grep OPTIONS PATTERN **/*.asc`,
+  ## with `globstar` enabled in my shell; I have the following line in my .bashrc:
+  ##     shopt -s globstar  # expand /**/ to any number of dirs
+  ## Starting the pattern with '^// ' greps a translated line. Use -B1 to get its translation too.
+  ## You may prefer ripgrep, ack, ag, or another grep-replacement.
+  # etc
+  -)  (python3 editor.py light "${@:2}" &> /dev/null &) &> /dev/null ;;
+  --) (python3 editor.py       "${@:2}" &> /dev/null &) &> /dev/null ;;
+  *)   __help ;;
+esac
+
+
+

@@ -10,21 +10,21 @@ namespace :book do
   end
   date_string = Time.now.strftime('%Y-%m-%d')
   params = "--attribute revnumber='#{version_string}' --attribute revdate='#{date_string}'"
-  header_hash = `git rev-parse --short HEAD`.strip
+  header_hash = `git rev-parse --short main`.strip
 
   # Check contributors list
-  # This checks commit hash stored in the header of list against current HEAD
+  # This checks commit hash stored in the header of list against main's head
   def check_contrib
     if File.exist?('book/contributors.txt')
-      current_head_hash = `git rev-parse --short HEAD`.strip
+      current_head_hash = `git rev-parse --short main`.strip
       header = `head -n 1 book/contributors.txt`.strip
       # Match regex, then coerce resulting array to string by join
       header_hash = header.scan(/[a-f0-9]{7,}/).join
 
       if header_hash == current_head_hash
-        puts "Hash on header of contributors list (#{header_hash}) matches the current HEAD (#{current_head_hash})"
+        puts "Hash on header of contributors list (#{header_hash}) matches main's head (#{current_head_hash})"
       else
-        puts "Hash on header of contributors list (#{header_hash}) does not match the current HEAD (#{current_head_hash}), refreshing"
+        puts "Hash on header of contributors list (#{header_hash}) does not match main's head (#{current_head_hash}), refreshing"
         sh "rm book/contributors.txt"
         # Reenable and invoke task again
         Rake::Task['book/contributors.txt'].reenable
@@ -55,8 +55,9 @@ namespace :book do
   desc 'generate contributors list'
   file 'book/contributors.txt' do
       puts 'Generating contributors list'
-      sh "echo 'Contributors as of #{header_hash}:\n' > book/contributors.txt"
-      sh "git shortlog -s HEAD | grep -v -E '(Straub|Chacon|dependabot)' | cut -f 2- | sort | column -c 120 >> book/contributors.txt"
+      sh "echo 'المساهمون حتى الإيداع `#{header_hash}`:' > book/contributors_header.txt"
+      sh "git shortlog -s main | grep -v -E '(Straub|Chacon|dependabot|Noureddin)' | cut -f 2- | sort | column -c 120 > book/contributors.txt"
+      # I also remove 'Noureddin' b/c I have commits made with the name 'noureddin', which is my name on GitHub.
   end
 
   desc 'build HTML format'
@@ -64,7 +65,7 @@ namespace :book do
       check_contrib()
 
       puts 'Converting to HTML...'
-      sh "bundle exec asciidoctor #{params} -a data-uri progit.asc"
+      sh "bundle exec asciidoctor #{params} progit.asc"
       puts ' -- HTML output at progit.html'
 
   end

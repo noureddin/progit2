@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.21">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/favicon-72x72.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/favicon-16x16.png">
+<title>توطئة | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="frontmatter" class="book">
+<div id="body"><div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.421,</span>
+<span id="revdate">2024-03-01</span>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle">فهرس المحتويات</div>
+<p><span class="toc-root"><a href="index.html">احترف Git</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html"><span class="toc-current">توطئة</span></a>
+<ul class="sectlevel2">
+<li><a href="frontmatter.html#preface_translator">تمهيد المترجم</a>
+</li>
+<li><a href="frontmatter.html#preface_schacon">تمهيد Scott Chacon</a>
+</li>
+<li><a href="frontmatter.html#preface_ben">تمهيد Ben Straub</a>
+</li>
+<li><a href="frontmatter.html#dedication">إهداء</a>
+</li>
+<li><a href="frontmatter.html#license">الرخصة</a>
+</li>
+<li><a href="frontmatter.html#contributors">مساهمات</a>
+</li>
+</ul>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><s>الباب الرابع: جت على الخادوم</s>
+</li>
+<li><s>الباب الخامس: جت الموزع</s>
+</li>
+<li><s>الباب السادس: GitHub</s>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><s>الباب الثامن: تخصيص جت</s>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><s>الملحق الأول: جت في البيئات الأخرى</s>
+</li>
+<li><s>الملحق الثاني: تضمين جت في تطبيقاتك</s>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="frontmatter">توطئة</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="preface_translator">تمهيد المترجم</h3>
+<div class="paragraph">
+<p>ك‍تاب احترف جت من «أمهات الكتب» في صناعة البرمجيات. فهو يعّلم نظامًا من أشهر أنظمة إدارة النسخ على الإطلاق، هو جت، ويعلّم فن التطوير باستخدام نظام إدارة نسخ موزع. فليس يقتصر نفعه على من يريد استخدام Git و GitHub، بل يمتد إلى من أراد استخدام GitLab أو حتى نظام آخر مثل Mercurial.</p>
+</div>
+<div class="paragraph">
+<p>دراسة هذا الك‍تاب ضرورية لأي مبرمج.</p>
+</div>
+<div class="paragraph">
+<p>وقد حرصت على تقليل الإنجليزية في الك‍تاب، إلا مما يلزم (مثل الأوامر ونواتجها) فترجمت ما نحتاجه منها مع إبقاء أصله كله، حتى يفهم الك‍تاب العامة والخاصة فلا نجعل إتقان الإنجليزية شرطًا لفهم ك‍تاب عربي. على أن معرفة الإنجليزية ضرورة للمبرمجين ولمستخدمي جت لا محالة.</p>
+</div>
+<div class="paragraph">
+<p>ودراسة العلم بلغة الإنسان الأولى تساعده على الفهم العميق لما يتعلم. ولا سبيل للنهضة إلا بنقل العلوم واستيعابها بلغتنا.</p>
+</div>
+<div class="paragraph">
+<p>ولا يعني هذا إهمال اللغات الأجنبية؛ فتعلمها ضرورة.</p>
+</div>
+<div class="paragraph">
+<p>أما عن الألفاظ: فلغة أي فن من الفنون هي دائما غريبة على مسامع من لم يعتادوها. حتى الإنجليزية؛ اسأل شخصا وُلد وعاش وشاخ في بلد يتحدث هذه اللغة، ولم يسمع أو يقرأ في حياته بأي لغة أخرى، عن عبارات مثل ‪&#8220;fork a process&#8221;‬ أو ‪&#8220;clone a repository&#8221;‬&#8230;&#8203;</p>
+</div>
+<div class="paragraph">
+<p>والأمثلة على ذلك كثيرة، منها: «لا يدخل الزحاف في شيء من الأوتاد، وإنما يدخل في الأسباب خاصةً.» وهذا من ك‍تاب في علم العَروض. والذي أتى بمصطلحاته، مثل الأسباب والأوتاد والزحاف، هو الخليل ابن أحمد، واضع أسس علم النحو، وجامع معجم العين، أول معجم عربي.</p>
+</div>
+<div class="paragraph">
+<p>ومن درس علم التجويد سيجد أن كل لفظ يُعرَّف أولا بمعناه في اللغة ثم بمعناه في علم التجويد، فيقولون مثلا «الإخفاء لغةً هو&#8230;&#8203;، واصطلاحًا هو&#8230;&#8203;».</p>
+</div>
+<div class="paragraph">
+<p>فلكل علم لغته الخاصة داخل اللغة العامة. ومثال آخر على ذلك لغة الحساب الحديث، ففيها الاسم «زائد» يُستعمل حرف عطف، والفعل المنصرف «يساوي» يُستعمل جامدًا ولا ينصرف أبدا، فنقول «اثنين زائد ثلاثة يساوي خمسة». فهل هذه الجملة ليست عربية؟</p>
+</div>
+<div class="paragraph">
+<p>ولن يجد العربي غير المتخصص عبارة مثل «استنسخ مستودعًا» أو «أودِع التعديلات المؤهلة» أغرب مما يجد الإنجليزي غير المتخصص عبارة مثل ‪&#8220;clone a repository&#8221;‬ أو ‪&#8220;commit the staged changes&#8221;‬. فكل فن له لغته الخاصة داخل اللغة العامة.</p>
+</div>
+<div class="paragraph">
+<p>ولسنا اليوم بصدد تغيير قواعد اللغة هنا كما فعل أهل الحساب، إنما نحتاج فقط إلى توسيع معاني بعض الكلمات كما فعل أهل التجويد. ولن نأتِ بمصطلحات كثيرة كما فعل الخليل رحمه الله في علمَي العَروض والقافية.</p>
+</div>
+<div class="paragraph">
+<p>وأرجو من القارئ الكريم التماس العذر لي إن بدا مني خطأ، وأن ينبهني إليه على صفحة مسائل ترجمة الك‍تاب على جت‌هب.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="preface_schacon">تمهيد Scott Chacon</h3>
+<div class="paragraph">
+<p>مرحبا بكم في الإصدارة الثانية من ك‍تاب احترف جت.
+نُشرت الإصدارة الأولى منذ ما يزيد الآن على أربعة أعوام.
+وتغيّرت أمور كثيرة منذ ذلك الوقت، إلا أن الكثير من الأشياء المهمة لم تتغير.
+ومع أن أكثر الأوامر والمفاهيم الأساسية لا تزال سارية اليوم&#8201;&#8212;&#8201;لأن الفريق الأساسي القائم على جت يقوم بمجهود خيالي للحفاظ على التوافقية مع الإصدارات السابقة (backward compatibility)&#8201;&#8212;&#8201;فقد ظهرت بعض الإضافات والتغييرات البارزة في المجتمع الذي حول جت.
+المراد من الإصدارة الثانية من هذا الك‍تاب هو تناول تلك التغييرات، وتحديثه ليكون أكثر إفادةً للمستخدم الجديد.</p>
+</div>
+<div class="paragraph">
+<p>عندما كتبت الإصدارة الأولى، كان جت صعب الاستخدام نسبيا، وبالكاد يستخدمه الخارقون (hackers) الأشداء.
+كان بدأ ينتشر في بعض المجتمعات، لكن لم تقترب حاله مما صار عليه اليوم من الوجود المطلق في كل مكان.
+ثم بدأت تستخدمه أكثر مجتمعات المصادر المفتوحة.
+ولقد تقدم جت تقدما مذهلا: في عمله على ويندوز، وفي انفجار أعداد الواجهات الرسومية له على جميع المنصات، وفي دعم بيئات التطوير له، وفي الاستخدام التجاري.
+وك‍تاب احترف جت الذي جاء منذ أربعة أعوام لم يكن يعلم شيئًا من هذا كله.
+فكان ذكر جميع تلك الآفاق الجديدة في مجتمع جت من أكبر همومنا في هذه الإصدارة الجديدة.</p>
+</div>
+<div class="paragraph">
+<p>وأيضا تضاعف بسرعة مجتمع المصادر المفتوحة الذي يستخدم جت.
+فعندما جلست أول مرة أكتب هذا الك‍تاب منذ قرابة خمسة أعوام (فقد استغرق الأمر مني وقتا لإطلاق الإصدارة الأولى)، كنت وقتئذٍ قد بدأت العمل في شركة مغمورة جدا تطوّر موقع استضافة جت يسمى جِت‌هَب (GitHub).
+وعند نشره، لم يكن للموقع سوى نحو بضعة آلاف مستخدم، ولم نكن إلا أربعة موظفين نعمل عليه.
+وبينما أنا أكتب هذه المقدمة الآن، إذ أعلن جت‌هب استضافتنا للمشروع رقم عشرة ملايين، مع قرابة خمسة ملايين حساب مطوِّر مسجَّل، وأكثر من ٢٣٠ موظفًا.
+سواءً أحببت أم كرهت، لقد غيّر جت‌هب كثيرًا في جماعات ضخمة من مجتمع المصادر المفتوحة بطريقة لم يكد يتخيلها أحد عند ك‍تابتي الإصدارة الأولى.</p>
+</div>
+<div class="paragraph">
+<p>كتبت فصلا قصيرا في النسخة الأصلية من ك‍تاب احترف جت عن جت‌هب ليكون مثالا لاستضافة جت، ولم أشعر قط بالارتياح الكامل إلى هذا الفصل؛
+لم يعجبني أنني أكتب ما أشعر أنه في الأصل ذُخرا للمجتمع، ثم أتحدث فيه عن شركتي.
+ومع أني ما زلت لا أحب تضارب المصالح، فإن أهمية جت‌هب في مجتمع جت لا يمكن التغاضي عنها.
+وبدلا من كون هذا الجزء من الك‍تاب مثالا على استضافة جت، فقد قررت تحويله إلى شرح عميق لماهية جت‌هب وكيفية استخدامه بشكل فعّال.
+فإذا كنت تنوي تعلم استخدام جت، فستساعدك معرفة استخدام جت‌هب في المشاركة في مجتمع مترامي الأطراف، فهي قيّمة بغض النظر عن استضافة جت التي ستقرر استخدامها لمشاريعك البرمجية.</p>
+</div>
+<div class="paragraph">
+<p>أما التغيير الكبير الآخر منذ النشر السابق فكان تطوير وبروغ بروتوكول HTTP لمعاملات جت الشبكية.
+فغيّرنا معظم أمثلة الك‍تاب من SSH إلى HTTP لأنه أسهل كثيرا.</p>
+</div>
+<div class="paragraph">
+<p>لقد كان مذهلا مشاهدة جت ينمو عبر الأعوام من نظام إدارة نسخ مغمور نسبيا إلى نظام إدارة النسخ المهيمن في المشروعات التجارية والمفتوحة.
+أنا سعيد بكون ك‍تاب احترف جت قد أبلى بلاءً حسنًا وكان قادرًا أن يكون من الكتب التقنية، القليلة في السوق، الناجحة والمفتوحة بالكامل معًا.</p>
+</div>
+<div class="paragraph">
+<p>أرجو أن تنتفع بهذه الإصدارة المحدثة من احترف جت.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="preface_ben">تمهيد Ben Straub</h3>
+<div class="paragraph">
+<p>الإصدارة الأولى من هذا الك‍تاب هي ما جعلني مولعا بـجت.
+كانت هي ما عرّفني أسلوب صناعة برمجيات وجدته طبيعيا أكثر من كل ما رأيت سابقًا.
+لقد كنت بالفعل مطوِّرا منذ عدة أعوام وقتئذٍ، لكن هذا كان المنعطف الصحيح الذي ساقني إلى طريق أمتع كثيرا من الطريق الذي كنت عليه.</p>
+</div>
+<div class="paragraph">
+<p>واليوم وبعد أعوام، أنا مساهم في تطبيق جت رائد، وعملت في أكبر شركة استضافة جت، وطُفت العالم معلِّمًا الناس جت.
+وعندما سألني Scott إذا ما كنت أرغب في العمل على الإصدارة الثانية من الك‍تاب، لم أحتجْ حتى للتفكير.</p>
+</div>
+<div class="paragraph">
+<p>لقد كان العمل على هذا الك‍تاب شرف عظيم وسعادة كبيرة لي.
+وأرجو أن يساعدك بقدر ما ساعدني.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="dedication">إهداء</h3>
+<div class="paragraph">
+<p>إلى زوجتي Becky، التي بغير وجودها لم تكن هذه المغامرة لتبدأ قَط. —&nbsp;Ben</p>
+</div>
+<div class="paragraph">
+<p>أهدي هذه الإصدارة إلى فتياتي:
+إلى زوجتي Jessica التي ساندتني طوال السنين، وإلى ابنتي Josephine التي ستساندني عندما أكون شيخًا مسننًا لا يدرك ما يدور حوله. —&nbsp;Scott</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="license">الرخصة</h3>
+<div class="paragraph">
+<p>هذا العمل متاح برخصة المشاع الإبداعي الإصدارة الثالثة غير الموطنة بشروط النسبة للمصنِّف والاستخدام غير التجاري والترخيص بالمثل (CC BY-NC-SA 3.0 unported).
+لرؤية نسخة من هذه الرخصة، برجاء زيارة <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/deed.ar" class="bare">https://creativecommons.org/licenses/by-nc-sa/3.0/deed.ar</a> أو إرسال بريد إلى</p>
+</div>
+<div class="paragraph">
+<p>
+<p style="margin-top:-1em" align="left" dir="ltr">Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.&lrm;</p>
+</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="contributors">مساهمات</h3>
+<div class="paragraph">
+<p>لأن هذا الك‍تاب مفتوح المصدر، فقد تبرع لنا الناس بالعديد من التصحيحات وتعديلات المحتوى.
+إليكم جميع من ساهم في النسخة الإنجليزية من المشروع مفتوح المصدر Pro Git.
+شكرا لكم جميعا على مساعدتنا في جعل هذا الك‍تاب أفضل للناس جميعا.</p>
+</div>
+<div class="paragraph">
+<p>المساهمون حتى الإيداع <code>be823c3a</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>4wk-                            HairyFotr                       pedrorijo91
+Adam Laflamme                   Hamid Nazari                    Pessimist
+Adrien Ollier                   Hamidreza Mahdavipanah          Peter Kokot
+ajax333221                      haripetrov                      peterwwillis
+Akrom K                         Haruo Nakayama                  Petr Bodnar
+Alan D. Salewski                Helmut K. C. Tessarek           Petr Janeček
+Alba Mendez                     Hemant Kumar Meena              Petr Kajzar
+Aleh Suprunovich                Hidde de Vries                  petsuter
+Alexander Bezzubov              HonkingGoose                    Philippe Blain
+Alexandre Garnier               Howard                          Philippe Miossec
+alex-koziell                    i-give-up                       Phil Mitchell
+Alex Povel                      Ignacy                          Pratik Nadagouda
+Alfred Myers                    Igor                            Rafi
+allen joslin                    Ilker Cat                       rahrah
+Amanda Dillon                   iprok                           Raphael R
+andreas                         Jan Groenewald                  Ray Chen
+Andreas Bjørnestad              Jaswinder Singh                 Rex Kerr
+Andrei Dascalu                  Jean-Noël Avila                 Reza Ahmadi
+Andrei Korshikov                Jeroen Oortwijn                 Richard Hoyle
+Andrew Layman                   Jim Hill                        Ricky Senft
+Andrew MacFie                   jingsam                         Rintze M. Zelle
+Andrew Metcalf                  jliljekrantz                    rmzelle
+Andrew Murphy                   Joel Davies                     Rob Blanco
+AndyGee                         Johannes Dewender               Robert P. Goldman
+AnneTheAgile                    Johannes Schindelin             Robert P. J. Day
+Anthony Loiseau                 johnhar                         Robert Theis
+Antonello Piemonte              John Lin                        Rohan D'Souza
+Antonino Ingargiola             Jonathan                        Roman Kosenko
+Anton Trunov                    Jon Forrest                     Ronald Wampler
+applecuckoo                     Jon Freed                       root
+Ardavast Dayleryan              Jordan Hayashi                  Rory
+Artem Leshchev                  Joris Valette                   Rüdiger Herrmann
+atalakam                        Josh Byster                     Sam Ford
+Atul Varma                      Joshua Webb                     Sam Joseph
+axmbo                           Junjie Yuan                     Sanders Kleinfeld
+Bagas Sanjaya                   Junyeong Yim                    sanders@oreilly.com
+Benjamin Dopplinger             Justin Clift                    Sarah Schneider
+Ben Sima                        Kaartic Sivaraam                SATO Yusuke
+Billy Griffin                   KatDwo                          Saurav Sachidanand
+Bob Kline                       Katrin Leinweber                Scott Bronson
+Bohdan Pylypenko                Kausar Mehmood                  Scott Jones
+Borek Bernard                   Keith Hill                      Sean Head
+Brett Cannon                    Kenneth Kin Lum                 Sean Jacobs
+bripmccann                      Kenneth Lum                     Sebastian Krause
+brotherben                      Klaus Frank                     Sergey Kuznetsov
+Buzut                           Kristijan "Fremen" Velkovski    Severino Lorilla Jr
+Cadel Watson                    Krzysztof Szumny                sharpiro
+Carlos Martín Nieto             Kyrylo Yatsenko                 Shengbin Meng
+Carlos Tafur                    Lars Vogel                      Sherry Hietala
+Chaitanya Gurrapu               Laxman                          Shi Yan
+Changwoo Park                   Lazar95                         Siarhei Bobryk
+Christian Decker                leerg                           Siarhei Krukau
+Christoph Bachhuber             Leonard Laszlo                  Skyper
+Christopher Wilson              Linus Heckemann                 slavos1
+Christoph Prokop                Logan Hasson                    Smaug123
+C Nguyen                        Louise Corrigan                 Snehal Shekatkar
+CodingSpiderFox                 Luc Morin                       Solt Budavári
+Cory Donnelly                   Lukas Röllin                    Song Li
+Cullen Rhodes                   maks                            spacewander
+Cyril                           Marat Radchenko                 Stephan van Maris
+Damien Tournoud                 Marcin Sędłak-Jakubowski        Steven Roddis
+Daniele Tricoli                 Marie-Helene Burle              Stuart P. Bentley
+Daniel Hollas                   Marius Žilėnas                  SudarsanGP
+Daniel Knittl-Frank             Markus KARG                     Suhaib Mujahid
+Daniel Shahaf                   Marti Bolivar                   Susan Stevens
+Daniel Sturm                    Mashrur Mia (Sa'ad)             Sven Selberg
+Daniil Larionov                 Masood Fallahpoor               td2014
+Danny Lin                       Mathieu Dubreuilh               Thanix
+Dan Schmidt                     Matt Cooper                     Thomas Ackermann
+Davide Angelocola               Matthew Miner                   Thomas Hartmann
+David Rogers                    Matthieu Moy                    Tiffany
+delta4d                         Matt Trzcinski                  Tomas Fiers
+Denis Savitskiy                 Mavaddat Javid                  Tomoki Aonuma
+devwebcl                        Max Coplan                      Tom Schady
+Dexter                          Máximo Cuadros                  Tvirus
+Dexter Morganov                 Michael MacAskill               twekberg
+DiamondeX                       Michael Sheaver                 Tyler Cipriani
+Dieter Ziller                   Michael Welch                   Ud Yzr
+Dino Karic                      Michiel van der Wulp            uerdogan
+Dmitri Tikhonov                 Miguel Bernabeu                 UgmaDevelopment
+Dmitriy Smirnov                 Mike Charles                    ugultopu
+Doug Richardson                 Mike Pennisi                    un1versal
+dualsky                         Mike Thibodeau                  Vadim Markovtsev
+Duncan Dean                     Mikhail Menshikov               Vangelis Katsikaros
+Dustin Frank                    Mitsuru Kariya                  Vegar Vikan
+Eden Hochbaum                   mmikeww                         Victor Ma
+Ed Flanagan                     mosdalsvsocld                   Vipul Kumar
+Eduard Bardají Puig             nicktime                        Vitaly Kuznetsov
+Eric Henziger                   Niels Widger                    Volker-Weissmann
+evanderiel                      Niko Stotz                      Volker Weißmann
+Explorare                       Nils Reuße                      Wesley Gonçalves
+eyherabh                        Noelle Leigh                    William Gathoye
+Ezra Buehler                    noureddin                       William Turrell
+Fabien-jrt                      OliverSieweke                   Wlodek Bzyl
+Fady Nagh                       Olleg Samoylov                  Xavier Bonaventura
+Felix Nehrke                    Osman Khwaja                    xJom
+Filip Kucharczyk                Otto Kekäläinen                 xtreak
+flip111                         Owen                            yakirwin
+flyingzumwalt                   Pablo Schläpfer                 Yann Soubeyrand
+Fornost461                      Pascal Berger                   Y. E
+franjozen                       Pascal Borreli                  Your Name
+Frank                           Patrice Krakow                  Yue Lin Ho
+Frederico Mazzone               patrick96                       Yunhai Luo
+Frej Drejhammar                 Patrick Steinhardt              Yusuke SATO
+goekboet                        paveljanik                      zwPapEr
+grgbnc                          Pavel Janík                     ᐯᕮᒪᗝᑕᕮᒣ
+Guthrie McAfee Armstrong        Paweł Krupiński                 狄卢</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>↑ البداية: <a href="index.html">احترف Git</a> | التالي: <a href="introduction.html">مقدمة</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-03-01 20:13:25 +0000
+</div>
+</div>
+</div></body></html>

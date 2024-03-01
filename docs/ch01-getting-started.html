@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.21">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/favicon-72x72.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/favicon-16x16.png">
+<title>الباب الأول: البدء | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="ch01-getting-started" class="book">
+<div id="body"><div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.421,</span>
+<span id="revdate">2024-03-01</span>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle">فهرس المحتويات</div>
+<p><span class="toc-root"><a href="index.html">احترف Git</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html"><span class="toc-current">الباب الأول: البدء</span></a>
+<ul class="sectlevel2">
+<li><a href="ch01-getting-started.html#_عن_إدارة_النسخ">عن إدارة النسخ</a>
+</li>
+<li><a href="ch01-getting-started.html#_تاريخ_جت_بإيجاز">تاريخ جت بإيجاز</a>
+</li>
+<li><a href="ch01-getting-started.html#what_is_git_section">ما هو جت؟</a>
+</li>
+<li><a href="ch01-getting-started.html#_سطر_الأوامر">سطر الأوامر</a>
+</li>
+<li><a href="ch01-getting-started.html#_تثبيت_جت">تثبيت جت</a>
+</li>
+<li><a href="ch01-getting-started.html#_first_time">إعداد جت لأول مرة</a>
+</li>
+<li><a href="ch01-getting-started.html#_git_help">الحصول على المساعدة</a>
+</li>
+<li><a href="ch01-getting-started.html#_الخلاصة">الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><s>الباب الرابع: جت على الخادوم</s>
+</li>
+<li><s>الباب الخامس: جت الموزع</s>
+</li>
+<li><s>الباب السادس: GitHub</s>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><s>الباب الثامن: تخصيص جت</s>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><s>الملحق الأول: جت في البيئات الأخرى</s>
+</li>
+<li><s>الملحق الثاني: تضمين جت في تطبيقاتك</s>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="ch01-getting-started">الباب الأول: البدء</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>هذا الباب عن البدء مع جِت (Git).
+نبدأ بشرح خلفية عن أدوات إدارة النسخ، ثم ننتقل إلى كيفية تشغيل جت على نظامك، وأخيرا كيفية إعداده لبدء العمل معه.
+في نهاية الفصل ستكون قد فهمت سبب وجود جت، ولماذا عليك استخدامه، وأن تكون قد أعددته للاستخدام.</p>
+</div>
+<div class="sect2">
+<h3 id="_عن_إدارة_النسخ">عن إدارة النسخ</h3>
+<div class="paragraph">
+<p>
+ما هي «إدارة النسخ»، ولماذا عليك أن تهتم؟
+إدارة النسخ هي نظام يسجل التعديلات على ملف أو مجموعة من الملفات عبر الزمان، حتى يمكنك استدعاء نسخ معينة منها فيما بعد.
+نستخدم في أمثلة هذا الك‍تاب ملفات مصادر برمجية لإدارة نُسخها، ولو أن في الحقيقة يمكنك فعل ذلك مع أكثر أنواع الملفات الحاسوبية.</p>
+</div>
+<div class="paragraph">
+<p>إذا كنت مصمم رسوميات أو وب وتريد الإبقاء على جميع نسخ صورة أو تخطيط (والذي هو شيء يُفترض أنك تريد فعله بالتأكيد)، فإن استخدام نظام إدارة نسخ (VCS) لهو قرار حكيم جدا.
+فهو يسمح لك بإرجاع ملف محدد إلى حالة سابقة، أو إرجاع المشروع كله إلى حالة سابقة، أو مقارنة التعديلات عبر الزمان، أو معرفة مَن آخر من عدّل شيئا قد يكون سبّب مشكلة، أو مَن تسبب في إحداث علّة، وغير ذلك.
+استخدام نظام إدارة نسخ أيضا يعني في العموم أنك إذا دمّرت أشياء أو فقدت ملفات، فإنك تستطيع استرداد الأمور بسَهولة.
+وكل هذا تحصل عليه مقابل عبء ضليل جدا.</p>
+</div>
+<div class="sect3">
+<h4 id="_الأنظمة_المحلية_لإدارة_النسخ">الأنظمة المحلية لإدارة النسخ</h4>
+<div class="paragraph">
+<p>
+طريقة إدارة النسخ عند الكثيرين هي نسخ الملفات إلى مجلد آخر (ربما بختم زمني، إذا كان المستخدم بارعا).
+هذه الطريقة شائعة جدا لأنها سهلة جدا، لكنها أيضا خطّاءة جدا جدا.
+فسهل جدا أن تنسى أي مجلد أنت فيه وأن تكتب على الملف الخاطئ أو تنسخ على ملفات لم ترد إبدالها.</p>
+</div>
+<div class="paragraph">
+<p>لحل هذه القضية، طوّر المبرمجون منذ زمن بعيد «أنظمة محلية لإدارة النسخ» ذات قاعدة بيانات بسيطة تحفظ جميع التعديلات على الملفات المراد التحكم في نُسخها.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/local-AR.png" alt="رسم توضيحي للإدارة المحلية للنسخ">
+</div>
+<div class="title">شكل ١. رسم توضيحي للإدارة المحلية للنسخ</div></div>
+<div class="paragraph">
+<p>كان من أشهر أنظمة إدارة النسخ نظام يسمى RCS، وهو ما زال موزعا مع حواسيب كثيرة اليوم.
+يعمل <a href="https://www.gnu.org/software/rcs/" target="_blank" rel="noopener">RCS</a> بالاحتفاظ بمجموعات الرقع (أي الفروقات بين الملفات) بصيغة مخصوصة على القرص؛ فيمكنه إذًا إحياء أي ملف من أي حقبة زمنية بمجرد جمع الرقع.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_الأنظمة_المركزية_لإدارة_النسخ">الأنظمة المركزية لإدارة النسخ</h4>
+<div class="paragraph">
+<p>
+المشكلة الكبرى الأخرى التي واجهت الناس هي أنهم يحتاجون إلى التعاون مع مطوِّرين على أنظمة أخرى.
+ولحلها، أُنشئت «الأنظمة المركزية لإدارة النسخ» (CVCS).
+لهذه الأنظمة (مثل CVS و Subversion و Perforce) خادوم وحيد به جميع الملفات المراقَبة، وعدد من العملاء الذين يستنسخون الملفات من ذلك المركز الوحيد.
+كان هذا هو المعيار المتبع لإدارة النسخ لأعوام عديدة.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/centralized-AR.png" alt="رسم توضيحي للإدارة المركزية للنسخ">
+</div>
+<div class="title">شكل ٢. رسم توضيحي للإدارة المركزية للنسخ</div></div>
+<div class="paragraph">
+<p>لهذا الترتيب مزايا كثيرة، لا سيما على الإدارة المحلية للنسخ.
+مثلا، الجميع يعلم، إلى حدٍ ما، كل ما يفعله الآخرون في المشروع نفسه.
+ولدى المديرين تحكم مفصّل في تحديد مَن يستطيع فعل ماذا، وإنه لأسهل كثيرا إدارة نظام مركزي مقارنةً بالتعامل مع قواعد بيانات محلية عند كل عميل.</p>
+</div>
+<div class="paragraph">
+<p>ولكن لهذا الترتيب بعض العيوب الخطيرة.
+أكثرها وضوحا هو نقطة الانهيار الحاسمة الذي يمثلها الخادوم المركزي.
+فإذا تعطل الخادوم ساعةً، ففي تلك الساعة لن يستطيع أحد مطلقا التعاون أو حتى حفظ تعديلاتهم على ما يعملون عليه.
+وإذا تلف قرص قاعدة البيانات المركزية، ولم تحفظ أي نسخ احتياطية، ستفقد كل شيء تماما: تاريخ المشروع برُمّته، ما عدا أي لقطات فردية تصادف أن يُبقيها الناس على أجهزتهم المحلية.
+تعاني الأنظمة المحلية لإدارة النسخ أيضا من هذه العلة نفسها؛ وقتما جعلت التاريخ الكامل للمشروع في مكان وحيد، فإنك تعرض نفسك لفقد كل شيء.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_الأنظمة_الموزعة_لإدارة_النسخ">الأنظمة الموزعة لإدارة النسخ</h4>
+<div class="paragraph">
+<p>
+الآن تتدخل الأنظمة الموزعة لإدارة النسخ (DVCS).
+في نظام موزع (مثل جت و Mercurial و Darcs)، لا يستنسخ العملاء اللقطة الأخيرة فقط من الملفات، ولكنهم يستنسخون المستودع برُمّته، بما في ذلك تاريخه بالكامل.
+لذا فإن انهار أحد الخواديم فجأة، وكانت هذه الأنظمة تتعاون عبر هذا الخادوم، فيمكن نسخ مستودع أي عميل إلى الخادوم مجددا لإعادته للعمل.
+كل نسخة هي في الحقيقة نسخة احتياطية كاملة لجميع البيانات.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/distributed-AR.png" alt="رسم توضيحي للإدارة الموزعة للنسخ">
+</div>
+<div class="title">شكل ٣. رسم توضيحي للإدارة الموزعة للنسخ</div></div>
+<div class="paragraph">
+<p>علاوة على ذلك، الكثير من هذه الأنظمة تتعامل جيدا مع وجود العديد من المستودعات البعيدة التي يمكنها العمل معها، لذا يمكنك التعاون مع مجموعات مختلفة من الناس بأساليب متعددة في الوقت نفسه داخل المشروع الواحد.
+هذا يسمح لك بتكوين أساليب سير عمل متعددة لم تكن ممكنة في الأنظمة المركزية، كالنماذج الشجرية.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_تاريخ_جت_بإيجاز">تاريخ جت بإيجاز</h3>
+<div class="paragraph">
+<p>مثل الكثير من الأشياء العظيمة في الحياة، بدأ جت بشيء من التدمير الإبداعي والخلافات المُتَّقدة.</p>
+</div>
+<div class="paragraph">
+<p>نواة لينكس هي مشروع برمجي مفتوح المصدر ذو امتداد شاسع إلى حد ما.
+في السنوات الأولى من تطوير نواة لينكس (١٩٩١–٢٠٠٢)، كانت التعديلات البرمجية تتناقل في صورة رقع وملفات مضغوطة.
+وفي عام ٢٠٠٢، بدأ مشروع نواة لينكس باستخدام نظام إدارة نسخ موزع احتكاري يسمى BitKeeper.</p>
+</div>
+<div class="paragraph">
+<p>ولكن في عام ٢٠٠٥، تدهورت العلاقة بين المجتمع الذي يطور نواة لينكس والشركة التجارية التي تتطور BitKeeper، وأسقطت صفة المجانية عن الأداة.
+دفع هذا مجتمع تطوير لينكس (وبالأخص Linus Torvalds، مؤسس لينكس) إلى تطوير أداتهم الخاصة بناءً على بعض ما تعلموه في أثناء استخدامهم BitKeeper.
+وكانت من أهداف النظام الجديد ما يلي:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>السرعة</p>
+</li>
+<li>
+<p>التصميم البسيط</p>
+</li>
+<li>
+<p>دعم وثيق للتطوير اللاخطي (آلاف الفروع المتوازية)</p>
+</li>
+<li>
+<p>موزع بالكامل</p>
+</li>
+<li>
+<p>التعامل مع مشروعات ضخمة كنواة لينكس بكفاءة (من ناحية السرعة وحجم البيانات)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>منذ ولادة جت في عام ٢٠٠٥، وقد نما ونضج حتى صار سهل الاستخدام، ومع هذا فقد احتفظ بهذه الصفات الأولية.
+إنه سريع لدرجة مذهلة. إنه كفء جدا مع المشروعات الضخمة. إن له نظام تفريع خيالي للتطوير اللاخطي (انظر <a href="ch03-git-branching.html">التفريع في جت</a>).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="what_is_git_section">ما هو جت؟</h3>
+<div class="paragraph">
+<p>إذًا، ما هو جت باختصار؟
+هذا فصل مهم ويجب استيعابه جيدا، لأنك إذا فهمت ماهية جت وأصول طريقة عمله، فسيكون سهل جدا عليك استخدام جت بفعالية.
+وخلال تعلمك جت، عليك تصفية ذهنك من كل ما تعمله عن أنظمة إدارة النسخ الأخرى، مثل CVS أو Subversion أو Perforce&#8201;&#8212;&#8201;يساعدك هذا على تجنب أي التباسات خفية عندما تستخدمه.
+ومع أن واجهة جت قريبة الشبه بالأنظمة الأخرى، إلا أن جت يخزن المعلومات بطريقة وينظر إليها نظرةً مختلفة أشد الاختلاف، ويساعدك فهم هذه الفروق على تجنب الالتباس عند استخدامه.</p>
+</div>
+<div class="sect3">
+<h4 id="_لقطات_وليس_فروقات">لقطات، وليس فروقات</h4>
+<div class="paragraph">
+<p>الفرق الأكبر بين جت وأي نظام آخر (بما في ذلك Subversion وأشباهه)، هو نظرة جت إلى بياناته.
+من حيث المفهوم، تخزن معظم الأنظمة الأخرى المعلومات في صورة سلسلة تعديلات على الملفات.
+هذه الأنظمة الأخرى (CVS و Subversion و Perforce إلخ) تنظر إلى المعلومات التي تخزنها على أنها مجموعة من الملفات والتعديلات التي تتم على كل ملف عبر الزمان (يوصف هذا غالبا بأنه إدارة نسخ <em>بناءً على الفروقات</em>).</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/deltas-AR.png" alt="تخزين البيانات في صورة تعديلات على نسخة أساسية من كل ملف">
+</div>
+<div class="title">شكل ٤. تخزين البيانات في صورة تعديلات على نسخة أساسية من كل ملف</div></div>
+<div class="paragraph">
+<p>لا ينظر جت إلى بياناته ولا يخزنها بهذه الطريقة.
+بل يعتبرها أشبه بلقطات من نظام ملفات مصغر.
+في جت، كل مرة تصنع إيداعا (<code>commit</code>)، أو تحفظ حالة مشروعك، يلتقط جت صورة لما تبدو عليه ملفاتك جميعًا في هذه اللحظة، ويخزن إشارة لهذه اللقطة.
+وحتى يُحسن استغلال الموارد، فإن الملفات التي لم تتغير لا يخزنها جت مجددا، بل يخزن فقط إشارةً إلى الملف السابق المطابق الذي خزّنه سابقا.
+فإن جت يعتبر أن بياناته <strong>سيل من اللقطات</strong>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/snapshots-AR.png" alt="تخزين البيانات في صورة لقطات من المشروع على مر الزمان">
+</div>
+<div class="title">شكل ٥. تخزين البيانات في صورة لقطات من المشروع على مر الزمان</div></div>
+<div class="paragraph">
+<p>هذا تمييز مهم بين جت وأكثر الأنظمة الأخرى.
+إنه يجعل جت يعيد التفكير في أغلب جوانب إدارة النسخ التي نسختها معظم الأنظمة الأخرى من الأجيال السابقة.
+إنه يجعل جت أشبه بنظام ملفات مصغر ذي أدوات خارقة مبنية عليه، بدلا من مجرد نظام إدارة نسخ.
+عندما نتناول التفريع في جت في <a href="ch03-git-branching.html">التفريع في جت</a>، سنستكشف بعضًا من المنافع التي تحصل عليها عندما تنظر إلى بياناتك هذه النظرة.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_أغلب_العمليات_محلية">أغلب العمليات محلية</h4>
+<div class="paragraph">
+<p>أكثر العمليات في جت لا تحتاج إلا إلى ملفات وموارد محلية لكي تعمل؛ فعموما لا حاجة إلى أي معلومات من حواسيب أخرى على الشبكة.
+إذا كنت معتادًا على نظام إدارة نسخ مركزي، حيث معظم العمليات مثقلة بعبء زمن الانتقال في الشبكة، فإن هذا الجانب من جت سيجعلك تظن أن الله قد منّ عليه بقدرة لدنيّة لتكون له هذه السرعة.
+فلأن لديك التاريخ الكامل للمشروع بين يديك على قرصك المحلي، فإن معظم العمليات تبدو آنية.</p>
+</div>
+<div class="paragraph">
+<p>مثلا، لتصفح تاريخ المشروع، لا يحتاج جت إلى السفر إلى الخادوم ليعود إليك حاملا التاريخ ليعرضه لك&#8201;&#8212;&#8201;إنما يقرؤه من قاعدة بياناتك المحلية.
+هذا يعني أنك ترى تاريخ المشروع أسرع من طرفة العين.
+وإذا أردت أن ترى التعديلات التي حدثت على ملف بين نسخته الآن ومنذ شهر، فيستطيع جت أن يأتي بهذا الملف منذ شهر ويحسب الفرق على حاسوبك، بدلا من الاضطرار إلى طلب هذا الفرق من خادوم بعيد أو طلب النسخة القديمة منه وحساب الفرق محليا.</p>
+</div>
+<div class="paragraph">
+<p>هذا أيضا يعني أنك ما زلت تستطيع فعل كل شيء، إلا القليل النادر، إذا كنت بغير اتصال بالإنترنت أو بشبكتك الوهمية الخاصة (VPN).
+فإذا كنت في طائرة أو قطار، وتريد العمل قليلا، تستطيع الإيداع بكل سعادة (إلى نسختك <em>المحلية</em>، أتتذكر؟) حتى تجد اتصالا شبكيا للرفع.
+وإذا عدت إلى المنزل ولم تجد عميل شبكتك الوهمية يستطيع العمل، فإنك ما زلت تستطيع العمل.
+أما في الكثير من الأنظمة الأخرى، فالعمل من غير اتصال إما أليم جدا وإما مستحيل أصلا.
+في Perforce مثلا، لا يمكنك فعل الكثير إن لم تكن متصلا بالخادوم. في Subversion و CVS تستطيع تعديل الملفات، لكن لا تستطيع إيداع أي تعديلات في قاعدة بياناتك (لأن قاعدة بياناتك غير متصلة).
+ربما تظن أن هذا ليس بالأمر العظيم، لكنك إذًا ستتفاجأ بضخامة الفرق الذي يصنعه.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_في_جت_السلامة">في جت السلامة</h4>
+<div class="paragraph">
+<p>يضمن جت سلامة البيانات دائمًا،
+فهو يحسب قيم البصمات لكل شيء قبل أن يخزنه، وبعدئذٍ يشير إلى الأشياء ببصماتها.
+هذا يعني أن تعديل محتويات أي ملف أو مجلد بغير علم جت مستحيل.
+هذا مبني في أساس جت ومن أركان فلسفته.
+فمستحيل فقد معلومات أثناء النقل أو حتى فساد ملفات من غير أن يكتشف جت ذلك.</p>
+</div>
+<div class="paragraph">
+<p>الآلية التي يستخدمها جت لحساب البصمة معروفة باسم بصمة SHA-1.
+وهي تنتج سلسلة نصية من أربعين (٤٠) رقما ستعشريا (0–9 و a–f) محسوبين من محتوى الملف أو بنية المجلد في جت.
+تشبه بصمة SHA-1 هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>24b9da6552252987aa493b52f8696cd6d3b00373</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ترى قيم البصمات هذه في كل مكان في جت لأنه يستخدمها كثيرا.
+في الحقيقة، يخزن جت كل  شيء في قاعدة بياناته، ليس بأسماء الملفات، بل بقيم بصمة محتواها.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_يضيف_جت_بيانات_فقط_في_العموم">يضيف جت بيانات فقط في العموم</h4>
+<div class="paragraph">
+<p>أكثر الإجراءات في جت لا تفعل شيئا سوى أن <em>تضيف</em> بيانات إلى قاعدة بيانات جت.
+ومن الصعب أن تجعله يفعل شيئا لا يمكن التراجع عنه أو أن تجعله يمسح بيانات بأي طريقة.
+مثلما الحال مع أي نظام إدارة نسخ، يمكن أن تفقد أو تدمر التعديلات التي لم تودعها بعد، لكن ما إن تودعها في جت، فمن العسير جدا أن تفقدها، خصوصا إذا كنت تدفع (<code>push</code>) قاعدة بياناتك بانتظام إلى مستودع آخر.</p>
+</div>
+<div class="paragraph">
+<p>هذا يجعل استخدام جت مبهجًا لأننا نعلم أننا نستطيع التجريب بغير خطر التخريب.
+لنظرة أعمق على كيفية تخرين جت لبياناته وكيفية استعادة البيانات التي تبدو لك قد فُقدت، انظر <a href="ch02-git-basics-chapter.html#_undoing">التراجع عن الأفعال</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_المراحل_الثلاثة">المراحل الثلاثة</h4>
+<div class="paragraph">
+<p>انتبه الآن وركّز؛ هذا هو أهم شيء عليك أن تتذكره دوما عن جت إذا أردت أن تمضي رحلة تعلمك بسلاسة.
+في جت ثلاث مراحل يمكن أن تكون ملفاتك فيها: <em>معدّل</em>، و<em>مؤهل</em>، و<em>مُودَع</em>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>معدل يعني أنك عدلت الملف لكنك لم تُودِع التعديلات بعد في قاعدة بياناتك.</p>
+</li>
+<li>
+<p>مؤهل يعني أنك حددت ملفًا معدلًا في نسخته الحالية ليكون ضمن لقطة الإيداع التالية.</p>
+</li>
+<li>
+<p>مُودَع يعني أن البيانات صارت مخزنة بأمان في قاعدة بياناتك.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>يقودنا هذا إلى الأقسام الرئيسية الثلاثة في أي مشروع جت: شجرة العمل، ومنطقة التأهيل، ومجلد جت.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/areas-AR.png" alt="شجرة العمل، ومنطقة التأهيل، ومجلد جت">
+</div>
+<div class="title">شكل ٦. شجرة العمل، ومنطقة التأهيل، ومجلد جت</div></div>
+<div class="paragraph">
+<p>شجرة العمل (أو مجلد العمل) هي نسخة واحدة مسحوبة من المشروع.
+تُجلب لك هذه الملفات من قاعدة البيانات المضغوطة في مجلد جت وتُوضع لك على القرص لتستخدمها أو تعدلها.</p>
+</div>
+<div class="paragraph">
+<p>منطقة التأهيل هي ملف يخزن معلومات عما سيكون في إيداعك التالي، وعادةً يكون ملف منطقة التأهيل في مجلد جت لمشروعك.
+المصطلح التقني في لغة جت هو «الفهرس» (<code>index</code>)، لكن العبارة «منطقة التأهيل» (<code>staging area</code>) مناسبة ومستخدمة أيضا.</p>
+</div>
+<div class="paragraph">
+<p>مجلد جت هو المكان الذي يخزن فيه جت البيانات الوصفية وقاعدة بيانات الكائنات لمشروعك.
+هذا هو أهم جزء في جت، وهم الذي يُنسخ عندما <em>تستنسخ</em> (<code>clone</code>) مستودعا من حاسوب آخر.</p>
+</div>
+<div class="paragraph">
+<p>يبدو أسلوب سير العمل الأساسي في جت مثل هذا:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>تعدّل ملفات في شجرة عملك.</p>
+</li>
+<li>
+<p>تنتقي من تلك التعديلات ما تؤهله ليكون جزءًا من إيداعك التالي، وهذا <em>لا يضيف إلا</em> هذه التعديلات إلى منطقة التأهيل.</p>
+</li>
+<li>
+<p>تصنع إيداعا، وهذا يلتقط صورة للملفات كما هي من منطقة التأهيل ويخزن هذه اللقطة في مجلد جت لمشروعك إلى الأبد.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>إذا كانت نسخة معينة من أحد الملفات موجودة داخل مجلد جت، فإنها تعتبر <em>مُودَعة</em>.
+وإذا كانت معدّلة وقد أضيفت إلى منطقة التأهيل، فإنها <em>مؤهَّلة</em>.
+وإذا كانت معدّلة بعد آخر مرة سُحبت فيها لكنها لم تؤهل بعد، فإنها <em>معدَّلة</em>.
+ستتعلم المزيد في <a href="ch02-git-basics-chapter.html">أسس جت</a> عن هذه الحالات وكيف يمكنك استغلالها أو تخطي مرحلة التأهيل برمتها.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_سطر_الأوامر">سطر الأوامر</h3>
+<div class="paragraph">
+<p>لاستخدام جت طرائق عديدة مختلفة.
+فلدينا أدوات سطر الأوامر الأصلية، وأيضا الكثير من الواجهات الرسومية ذات القدرات المتفاوتة.
+نستخدم في هذا الك‍تاب جت من سطر الأوامر.
+فسطر الأوامر هو المكان الوحيد الذي يمكنك فيه تنفيذ <em>جميع</em> أوامر جت؛ فمعظم الواجهات الرسومية لا تتيح إلا جزءًا من وظائف جت للتسهيل.
+وإذا كنت تعرف كيف تستخدم نسخة سطر الأوامر، ففي الغالب أنك أيضا ستعرف كيف تستخدم النسخة الرسومية، لكن العكس ليس بالضرورة صحيح.
+وأيضا اختيارك لعميل رسومي يخضع لذوقك الشخصي، لكن <em>جميع</em> المستخدمين لديهم أدوات سطر الأوامر مثبتة ومتاحة.</p>
+</div>
+<div class="paragraph">
+<p>لذلك فإننا نتوقع منك معرفة كيف تفتح الطرفية (Terminal) في الأنظمة اليونكسية أو موجه سطر الأوامر (Command Prompt) أو PowerShell في ويندوز.
+إن لم تكن تعلم عما نتحدث، فعليك التوقف الآن وبحث هذا سريعا حتى تستطيع السير مع الأمثلة والأوصاف التي في الك‍تاب.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_تثبيت_جت">تثبيت جت</h3>
+<div class="paragraph">
+<p>قبل الشروع في استخدام جت، عليك جعله متاحًا على حاسوبك.
+حتى لو كان مثبتًا بالفعل، فغالبا من الأفضل تحديثه إلى آخر نسخة.
+يمكنك إما تثبيته من حزمة أو عبر مثبت آخر وإما تنزيل المصدر البرمجي وبناءه بنفسك.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>كُتب هذا الك‍تاب عن جت نسخة ٢.‎
+لكن لأن جت متميز في الحفاظ على التوافقية مع الإصدارات السابقة، فأي نسخة حديثة ينبغي أن تعمل جيدا.
+ومع أن معظم الأوامر  ينبغي أن تعمل حتى في نسخ جت الأثرية، فقد لا يعمل بعضها أو يعمل باختلاف طفيف.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_التثبيت_على_لينكس">التثبيت على لينكس</h4>
+<div class="paragraph">
+<p>
+إذا أردت تثبيت أدوات جت الأساسية على لينكس عبر مثبت برمجيات مبنية، فيمكنك غالبا فعل ذلك عبر أداة إدارة الحزم التي في توزيعتك.
+فإذا كنت على فيدورا (أو أي توزيعة قريبة منها تستخدم حزم RPM، مثل ردهات (RHEL) أو CentOS)، فيمكنك استخدام <code>dnf</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ sudo dnf install git-all</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وإذا كنت على توزيعة دبيانية مثل أوبنتو، جرب <code>apt</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ sudo apt install git-all</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لخيارات أخرى، توجد على موقع جت تعليمات لتثبيته على توزيعات لينكسية ويونكسية عديدة، في <a href="https://git-scm.com/download/linux" class="bare" target="_blank" rel="noopener">https://git-scm.com/download/linux</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_التثبيت_على_ماك_أو_إس">التثبيت على ماك أو إس</h4>
+<div class="paragraph">
+<p>
+توجد طرائق عديدة لتثبيت جت على ماك.
+ربما أسهلها هو تثبيت أدوات سطر أوامر إكس‌كود (Xcode Command Line Tools).
+وعلى ماك مافريكس (Mavericks, 10.9) أو أحدث، يمكنك فعل هذا بمجرد محاولة تنفيذ <code>git</code> في الطرفية لأول مرة مطلقا.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git --version</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فإذا لم يكن مثبتًا لديك بالفعل، فسيحثك على تثبيته.</p>
+</div>
+<div class="paragraph">
+<p>أما إذا أردت نسخة أحدث، فيمكنك أيضا تثبيته عبر مثبت برمجيات مبنية.
+يوجد مثبت جت لماك على موقع جت، في <a href="https://git-scm.com/download/mac" class="bare" target="_blank" rel="noopener">https://git-scm.com/download/mac</a>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/git-osx-installer.png" alt="مثبت جت على ماك أو إس">
+</div>
+<div class="title">شكل ٧. مثبت جت على ماك أو إس</div></div>
+</div>
+<div class="sect3">
+<h4 id="_التثبيت_على_ويندوز">التثبيت على ويندوز</h4>
+<div class="paragraph">
+<p>لتثبيت جت على ويندوز عدة طرائق أيضا.
+النسخة المبنية الأكثر رسميةً متاحة على موقع جت.
+عليك فقط الذهاب إلى <a href="https://git-scm.com/download/win" class="bare" target="_blank" rel="noopener">https://git-scm.com/download/win</a> وسيبدأ التنزيل تلقائيا.
+لاحظ أن هذا مشروع يسمى «جت لويندوز» (Git for Windows)، وهو منفصل عن جت نفسه؛ للمزيد من المعلومات عنه، اذهب إلى <a href="https://gitforwindows.org" class="bare" target="_blank" rel="noopener">https://gitforwindows.org</a>.</p>
+</div>
+<div class="paragraph">
+<p>أما إذا أردت مثبتا آليا فيمكنك استخدام <a href="https://community.chocolatey.org/packages/git" target="_blank" rel="noopener">حزمة Git على Chocolatey</a>.
+لاحظ أن المجتمع هو من يرعى حزمة Chocolatey.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_التثبيت_من_المصدر_البرمجي">التثبيت من المصدر البرمجي</h4>
+<div class="paragraph">
+<p>ربما يفيد بعض الناس تثبيت جت من المصدر البرمجي بدلا من ذلك، لأنك عندئذٍ ستحصل على أحدث نسخة إطلاقا.
+مثبتات البرمجيات المبنية تميل إلى التأخر قليلا، لكن لأن جت قد نضج في الأعوام الأخيرة، فلم يعد هذا يشكّل فارقا كما كان.</p>
+</div>
+<div class="paragraph">
+<p>إذا أردت تثبيت جت من المصدر البرمجي، فستحتاج إلى المكتبات التالية التي يعتمد عليها جت: <code>autotools</code> و <code>curl</code> و <code>zlib</code> و <code>openssl</code> و <code>expat</code> و <code>libiconv</code>.
+مثلا، إذا كنت على نظام يستخدم <code>dnf</code> (مثل فيدورا) أو <code>apt-get</code> (مثل الأنظمة الدبيانية)، فيمكنك استخدام أحد هذين الأمرين لتثبيت أقل اعتماديات مطلوبة لبناء جت وتثبيته:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ sudo dnf install dh-autoreconf curl-devel expat-devel gettext-devel \
+  openssl-devel perl-devel zlib-devel
+$ sudo apt-get install dh-autoreconf libcurl4-gnutls-dev libexpat1-dev \
+  gettext libz-dev libssl-dev</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وتحتاج هذه الاعتماديات حتى تضيف التوثيق بصيغه المختلفة (<code>doc</code> و <code>html</code> و <code>info</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ sudo dnf install asciidoc xmlto docbook2X
+$ sudo apt-get install asciidoc xmlto docbook2x</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>يحتاج مستخدمو ردهات والتوزيعات الردهاتية مثل CentOS و Scientific Linux إلى <a href="https://docs.fedoraproject.org/en-US/epel/#how_can_i_use_these_extra_packages" target="_blank" rel="noopener">تفعيل مستودع EPEL (الشرح بالإنجليزية)</a> حتى يستطيعوا تثبيت حزمة <code>docbook2X</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>إذا كنت تستخدم توزيعة دبيانية (دبيان أو أوبنتو أو إحدى مشتقاتهما)، فتحتاج أيضا حزمة <code>install-info</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ sudo apt-get install install-info</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>إذا كنت تستخدم توزيعة تستخدم RPM (فيدورا أو ردهات أو إحدى مشتقاتهما)، فتحتاج أيضا حزمة <code>getopt</code> (المثبتة مبدئيا في التوزيعات الدبيانية):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ sudo dnf install getopt</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>إضافة إلى ذلك، إذا كنت تستخدم فيدورا أو ردهات أو إحدى مشتقاتهما، فتحتاج أن تفعل هذا أيضا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ sudo ln -s /usr/bin/db2x_docbook2texi /usr/bin/docbook2x-texi</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>بسبب اختلافات في أسماء الأوامر.</p>
+</div>
+<div class="paragraph">
+<p>عندما يكون لديك جميع الاعتماديات المطلوبة، يمكنك تنزيل أحدث ملف مضغوط موسوم برقم إصدار، من عدة أماكن.
+يمكنك تنزيله من موقع نواة لينكس، من <a href="https://www.kernel.org/pub/software/scm/git" class="bare" target="_blank" rel="noopener">https://www.kernel.org/pub/software/scm/git</a>، أو من النسخة المقابلة على موقع جت‌هب، من <a href="https://github.com/git/git/tags" class="bare" target="_blank" rel="noopener">https://github.com/git/git/tags</a>.
+غالبا يكون أوضح قليلا على جت‌هب ما هي النسخة الأحدث، ولكن في صفحة موقع نواة لينكس ستجد بصمات الإصدارات، إذا أحببت تفقّد صحة الملفات التي نزّلتها.</p>
+</div>
+<div class="paragraph">
+<p>بعدئذٍ قم بالبناء والتثبيت:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ tar -zxf git-2.8.0.tar.gz
+$ cd git-2.8.0
+$ make configure
+$ ./configure --prefix=/usr
+$ make all doc info
+$ sudo make install install-doc install-html install-info</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>بعد إتمام هذا، يمكنك الحصول على جت عبر جت نفسه للتحديثات:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git clone https://git.kernel.org/pub/scm/git/git.git</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_first_time">إعداد جت لأول مرة</h3>
+<div class="paragraph">
+<p>الآن وقد صار جت على نظامك، ستودّ عمل بعض الأمور لتخصيص بيئته لك.
+تحتاج عملها مرة واحدة فقط على أي حاسوب؛ فإنها تبقى عندما تحدّث جت.
+يمكنك أيضا تعديلها في أي وقت بالمرور على الأوامر مرة أخرى.</p>
+</div>
+<div class="paragraph">
+<p>في جت أداة «تهيئة»، <code>git config</code>، لتعرض أو تضبط متغيرات التهيئة التي تتحكم في جميع مناحي مظهر وسلوك جت.
+وتُخزَّن هذه المتغيرات في ثلاثة أماكن مختلفة:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>ملف <code>[path]/etc/gitconfig</code>: يحتوي القيم التي تُطبّق على جميع المستخدمين ومستودعاتهم.
+إذا أعطيت الخيار <code>--system</code> («نظام») إلى أمر التهيئة <code>git config</code>، فإنه يقرأ ويكتب في هذا الملف تحديدًا.
+طبعًا تحتاج صلاحيات إدارية لتعديل هذا الملف لأنه ملف إعدادات خاص بالنظام.</p>
+</li>
+<li>
+<p>ملف <code>~/.gitconfig</code> أو <code>~/.config/git/config</code>: القيم الخاصة بك أنت تحديدًا.
+يمكنك جعل جت يقرأ ويكتب في هذا الملف تحديدًا بالخيار <code>--global</code> («عام»)، والذي يؤثر في جميع مستودعاتك على هذا النظام.</p>
+</li>
+<li>
+<p>ملف <code>config</code> في مجلد جت (أي <code>.git/config</code>) في أي مستودع أنت فيه الآن: القيم الخاصة بهذا المستودع وحده.
+يمكنك إجبار جت على القراءة والك‍تابة في هذا الملف بالخيار <code>--local</code> («محلي»)، ولكن في الحقيقة هذا هو المفترض.
+بالطبع تحتاج إلى التواجد في مكان ما في مستودع جت حتى يمكنك استخدام هذا الخيار.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>قيم كل مستوى تطغى على قيم المستوى السابق، لذا فقيم <code>.git/config</code> تتفوق على التي في <code>[path]/etc/gitconfig</code>.</p>
+</div>
+<div class="paragraph">
+<p>في أنظمة ويندوز، يبحث جت عن ملف <code>.gitconfig</code> في مجلد المنزل، <code>$HOME</code> (والذي غالبا يكون <code>C:\Users\$USER</code>).
+ويبحث كذلك عن <code>[path]/etc/gitconfig</code>، ولكن بالنسبة إلى جذر MSys، وهو أينما قررت تثبيت جت فيه على نظامك عندما شغّلت المثبت.
+وإذا كنت تستخدم Git for Windows النسخة <code>2.x</code> أو أحدث، فستجد أيضا ملف إعداد على مستوى النظام، في <code>C:\Documents and Settings\All Users\Application Data\Git\config</code> على ويندوز إكس بي، وفي <code>C:\ProgramData\Git\config</code> على ويندوز فيستا والأحدث.
+لا يمكن تغيير هذا الملف إلا بتنفيذ الأمر <code>git config -f &lt;ملف&gt;</code> بحساب المدير.</p>
+</div>
+<div class="paragraph">
+<p>يمكنك رؤية جميع إعداداتك ومن أين أتت باستخدام:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git config --list --show-origin</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_هويتك">هويتك</h4>
+<div class="paragraph">
+<p>أول شيء تحتاج فعله عند تثبيت جت هو ضبط اسمك وعنوان بريدك الإلكتروني.
+هذا مهم لأن كل إيداع جت يستخدم هاتين المعلومتين، ويصيران جزءًا ثابتًا في الإيداعات التي ستبدأ في صنعها.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git config --global user.name "John Doe"
+$ git config --global user.email johndoe@example.com</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>مجددًا، لن تحتاج إلى فعل هذا إلا مرة واحدة إذا استخدمت الخيار <code>--global</code> («عام»)، لأن جت عندئذٍ يستخدم هاتين المعلومتين لكل ما تفعله على هذا النظام.
+وإن احتجت إلى تجاوز إحدى هاتين القيمتين في مشروعات محددة، يمكنك تنفيذ الأمر في ذلك المشروع بغير خيار <code>--global</code>.</p>
+</div>
+<div class="paragraph">
+<p>تساعدك الكثير من الواجهات الرسومية في فعل هذا عند تشغيلها لأول مرة.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_editor">محررك</h4>
+<div class="paragraph">
+<p>الآن وقد أعددنا هُويّتك، يمكنك ضبط محررك المبدئي للنصوص، والذي يستخدمه جت عندما يريد منك أن تكتب رسالة.
+إذا لم يكن مضبوطا، فيستخدم جت المحرر المبدئي لنظامك.</p>
+</div>
+<div class="paragraph">
+<p>إذا أردت استخدام محررا آخر، مثل Emacs، فيمكنك فعل الآتي:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git config --global core.editor emacs</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>على ويندوز، إذا أردت ضبط محرر آخر، فعليك تحديد المسار الكامل لملفه التنفيذي.
+والذي يختلف باختلاف طريقة تحزيم محررك.</p>
+</div>
+<div class="paragraph">
+<p>في حالة Notepad++&lrm;، وهو محرر برمجيات مشهور، ستريد غالبا أن تستخدم نسخة ٣٢-بت منه، لأن حتى وقت ك‍تابة هذا، لا تدعم نسخة ٦٤-بت جميع الإضافات.
+إذا كنت على ويندوز ٣٢-بت أو تستخدم محرر ٦٤-بت على ويندوز ٦٤-بت، فإنك ستكتب شيئا مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git config --global core.editor "'C:/Program Files/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Vim و Emacs و Notepad++&lrm; هي محررات نصوص شهيرة يستخدمها المبرمجون على ويندوز والأنظمة اليونكسية مثل لينكس وماك.
+إذا كنت تستخدم محررًا آخر، أو نسخة ٣٢-بت، فرجاءً انظر التعليمات الخاصة بإعداد محررك المفضل مع جت في <s>git config core.editor commands</s>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>إذا لم تضبط محررك مثل هذا، فإنك قد تجد نفسك في حالة محيرة جدا، عندما يحاول جت فتحه.
+مثال ذلك على ويندوز أن يحاول جت فتح المحرر فلا يستطيع فيغلق مبكرًا.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_new_default_branch">اسم الفرع المبدئي</h4>
+<div class="paragraph">
+<p>عندما تنشئ مستودعًا جديدًا بالأمر <code>git init</code>، فإن جت سيُنشئ فيه فرعًا، والذي يسميه مبدئيا <code>master</code>.
+يمكنك ضبط اسم آخر للفرع الأوليّ ابتداءً من النسخة 2.28 من جت.</p>
+</div>
+<div class="paragraph">
+<p>لجعل اسم الفرع المبدئي هو <code>main</code>، نفّذ:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git config --global init.defaultBranch main</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_تفقّد_إعداداتك">تفقّد إعداداتك</h4>
+<div class="paragraph">
+<p>إذا أردت تفقّد إعدادات تهيئتك، فيمكنك استخدام خيار السرد مع أمر التهيئة&#8201;&#8212;&#8201;<code>git config --list</code>&#8201;&#8212;&#8201;والذي يسرد لك جميع الإعدادات التي يراها جت وقتئذٍ:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git config --list
+user.name=John Doe
+user.email=johndoe@example.com
+color.status=auto
+color.branch=auto
+color.interactive=auto
+color.diff=auto
+...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ربما ترى بعض الأسماء مكررة، هذا لأن جت قد وجد الاسم نفسه في أكثر من ملف (<code>[path]/etc/gitconfig</code> و <code>~/.gitconfig</code> مثلا).
+يستخدم جت في مثل هذه الحالة القيمة الأخيرة لكل اسم يراه.</p>
+</div>
+<div class="paragraph">
+<p>يمكنك أيضا سؤال جت عن القيمة التي يظنها لاسم معين، بالأمر <code>git config &lt;اسم&gt;</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git config user.name
+John Doe</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>قد يقرأ جت متغير تهيئة معين من أكثر من ملف، فمن الممكن أن تجد بعض القيم مثيرة للدهشة ولا تعرف من أين أتت.
+يمكنك في مثل هذه الحالة سؤال جت: من أين لك هذا؟&#8201;&#8212;&#8201;أي باستخدام خيار إظهار الأصل <code>--show-origin</code>، الذي سيخبرك بالملف الذي غلب على أمرهم في قيمة هذا المتغير:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git config --show-origin rerere.autoUpdate
+file:/home/johndoe/.gitconfig	false</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_git_help">الحصول على المساعدة</h3>
+<div class="paragraph">
+<p>إذا احتجت يوما إلى المساعدة في جت، فعندك ثلاث طرائق متكافئة للحصول على صفحة الدليل الشامل (manpage) لأي أمر من أوامر جت:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git help &lt;أمر&gt;
+$ git &lt;أمر&gt; --help
+$ man git-&lt;أمر&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>مثلا، للحصول على صفحة مساعدة الأمر <code>git config</code>، نفّذ هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git help config</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هذه الأوامر جميلة لأنك تستطيع استخدامها في أي مكان، حتى عندما تكون غير متصل بالإنترنت.
+إن لم تكن صفحات المساعدة وهذا الك‍تاب كافيين واحتجت مساعدة شخصية، يمكنك تجربة إحدى قنوات IRC مثل <code>#git</code> أو <code>#github</code> أو <code>#gitlab</code> على خادوم Libera Chat، والذي تجده على <a href="https://libera.chat" class="bare" target="_blank" rel="noopener">https://libera.chat</a>.
+هذه القنوات مليئة باستمرار بمئات الخبراء في جت والذين أغلب الأوقات يوَدّون المساعدة.</p>
+</div>
+<div class="paragraph">
+<p>وإذا كنت غير محتاج إلى صفحة الدليل الكبيرة الكاملة، ولكن تحتاج فقط إلى تجديد معرفتك بالخيارات المتاحة لأحد أوامر جت، فيمكنك طلب المساعدة الموجزة بالخيار <code>-h</code>، مثل:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git add -h
+usage: git add [&lt;options&gt;] [--] &lt;pathspec&gt;...
+
+    -n, --dry-run               dry run
+    -v, --verbose               be verbose
+
+    -i, --interactive           interactive picking
+    -p, --patch                 select hunks interactively
+    -e, --edit                  edit current diff and apply
+    -f, --force                 allow adding otherwise ignored files
+    -u, --update                update tracked files
+    --renormalize               renormalize EOL of tracked files (implies -u)
+    -N, --intent-to-add         record only the fact that the path will be added later
+    -A, --all                   add changes from all tracked and untracked files
+    --ignore-removal            ignore paths removed in the working tree (same as --no-all)
+    --refresh                   don't add, only refresh the index
+    --ignore-errors             just skip files which cannot be added because of errors
+    --ignore-missing            check if - even missing - files are ignored in dry run
+    --sparse                    allow updating entries outside of the sparse-checkout cone
+    --chmod (+|-)x              override the executable bit of the listed files
+    --pathspec-from-file &lt;file&gt; read pathspec from file
+    --pathspec-file-nul         with --pathspec-from-file, pathspec elements are separated with NUL character</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_الخلاصة">الخلاصة</h3>
+<div class="paragraph">
+<p>أنت الآن مُلم بماهية جت وكيف هو مختلف عن أي نظام إدارة نسخ مركزي ربما تكون استخدمه سابقا.
+وكذلك الآن لديك جت مثبتا على نظامك ومضبوطا بهويتك الشخصية.
+حان الآن موعد تعلم بعض أسس جت.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ السابق: <a href="introduction.html">مقدمة</a> | ↑ البداية: <a href="index.html">احترف Git</a> | التالي: <a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-03-01 20:13:25 +0000
+</div>
+</div>
+</div></body></html>

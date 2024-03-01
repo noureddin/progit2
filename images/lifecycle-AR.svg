@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg7076"
+   version="1.1"
+   viewBox="0 0 516 227"
+   sodipodi:docname="lifecycle-AR.svg"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
+   inkscape:export-filename="lifecycle-AR.png"
+   inkscape:export-xdpi="288"
+   inkscape:export-ydpi="288">
+  <defs
+     id="defs45" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1048"
+     id="namedview43"
+     showgrid="false"
+     inkscape:zoom="2.5426357"
+     inkscape:cx="258"
+     inkscape:cy="113.5"
+     inkscape:window-x="0"
+     inkscape:window-y="4"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg7076"
+     inkscape:snap-page="true"
+     inkscape:object-paths="true" />
+  <metadata
+     id="metadata7080">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>images/lifecycle</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <!-- Generator: Sketch 56.3 (81716) - https://sketch.com -->
+  <title
+     id="title7020">images/lifecycle</title>
+  <desc
+     id="desc7022">Created with Sketch.</desc>
+  <path
+     id="Line-6"
+     d="m 460.9972,17.469 v 195.88"
+     style="fill:#8f8981;fill-rule:evenodd;stroke:#8f8981;stroke-linecap:square"
+     inkscape:connector-curvature="0" />
+  <path
+     id="Line-3"
+     d="m 189.5972,17.469 v 195.88"
+     style="fill:#8f8981;fill-rule:evenodd;stroke:#8f8981;stroke-linecap:square"
+     inkscape:connector-curvature="0" />
+  <path
+     id="Line-2"
+     d="m 325.2972,17.469 v 195.88"
+     style="fill:#8f8981;fill-rule:evenodd;stroke:#8f8981;stroke-linecap:square"
+     inkscape:connector-curvature="0" />
+  <path
+     id="Line-7"
+     d="m 53.9813,16.937 v 195.88"
+     style="fill:#8f8981;fill-rule:evenodd;stroke:#8f8981;stroke-linecap:square"
+     inkscape:connector-curvature="0" />
+  <rect
+     y="0"
+     x="-243.5972"
+     style="fill:#cd9f00;fill-rule:evenodd;stroke-width:0.99921972"
+     height="33"
+     width="107.83152"
+     transform="scale(-1,1)"
+     id="Rectangle-3" />
+  <path
+     id="Line-4"
+     d="m 253.9972,116.32 h 71.316 V 94.638 l -71.316,-0.0349 v -6.4182 l -64.395,17.311 64.395,17.305 z"
+     style="fill:#8f8981;fill-rule:nonzero"
+     inkscape:connector-curvature="0" />
+  <path
+     id="Line-9"
+     d="m 117.0872,76.738 h 343.93 V 55.021 h -343.93 v -6.4121 l -63.071,17.271 63.071,17.33 z"
+     style="fill:#8f8981;fill-rule:nonzero"
+     inkscape:connector-curvature="0" />
+  <path
+     id="Line-10"
+     d="m 398.0553,142.72 h -72.744 v 21.67 l 72.744,-10e-6 v 6.449 l 62.956,-17.3 -62.956,-17.32 z"
+     style="fill:#8f8981;fill-rule:nonzero"
+     inkscape:connector-curvature="0" />
+  <path
+     id="Line-5"
+     d="m 117.0816,139.516 h 72.52 v -21.717 h -72.52 v -6.4368 l -63.071,17.325 63.071,17.322 z"
+     style="fill:#8f8981;fill-rule:nonzero"
+     inkscape:connector-curvature="0" />
+  <path
+     id="Line-8"
+     d="m 262.5372,174.61 h -208.52 v 21.636 l 208.52,-0.0262 v 6.5437 l 62.777,-17.317 -62.777,-17.307 z"
+     style="fill:#8f8981;fill-rule:nonzero"
+     inkscape:connector-curvature="0" />
+  <rect
+     y="0"
+     x="-514.99719"
+     style="fill:#efefe7;fill-rule:evenodd;stroke-width:1.12062478"
+     height="33"
+     width="107.9988"
+     transform="scale(-1,1)"
+     id="Rectangle-2" />
+  <rect
+     y="0"
+     x="-379.3916"
+     style="fill:#00909a;fill-rule:evenodd;stroke-width:1.12098169"
+     height="33"
+     width="108.0676"
+     transform="scale(-1,1)"
+     id="rect7058" />
+  <rect
+     y="0"
+     x="-107.9504"
+     style="fill:#f44d27;fill-rule:evenodd;stroke-width:1.00915802"
+     height="33"
+     width="107.9504"
+     transform="scale(-1,1)"
+     id="rect7068" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;line-height:1.25;font-family:'Noto Kufi Arabic';-inkscape-font-specification:'Noto Kufi Arabic Bold';text-align:center;letter-spacing:0px;word-spacing:0px;direction:rtl;text-anchor:middle;fill:#f0f0f0;fill-opacity:1;stroke:none"
+     x="189.62143"
+     y="19.620001"
+     id="text872"><tspan
+       sodipodi:role="line"
+       id="tspan870"
+       x="189.62143"
+       y="19.620001">معدل</tspan></text>
+  <text
+     id="text1462"
+     y="19.691999"
+     x="53.915195"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;line-height:1.25;font-family:'Noto Kufi Arabic';-inkscape-font-specification:'Noto Kufi Arabic Bold';text-align:center;letter-spacing:0px;word-spacing:0px;direction:rtl;text-anchor:middle;fill:#f0f0f0;fill-opacity:1;stroke:none"
+     xml:space="preserve"><tspan
+       y="19.691999"
+       x="53.915195"
+       id="tspan1460"
+       sodipodi:role="line">مؤهل</tspan></text>
+  <text
+     id="text1466"
+     y="19.559999"
+     x="325.23779"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;line-height:1.25;font-family:'Noto Kufi Arabic';-inkscape-font-specification:'Noto Kufi Arabic Bold';text-align:center;letter-spacing:0px;word-spacing:0px;direction:rtl;text-anchor:middle;fill:#f0f0f0;fill-opacity:1;stroke:none"
+     xml:space="preserve"><tspan
+       y="19.559999"
+       x="325.23779"
+       id="tspan1464"
+       sodipodi:role="line">غير معدل</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;line-height:1.25;font-family:'Noto Kufi Arabic';-inkscape-font-specification:'Noto Kufi Arabic Bold';text-align:center;letter-spacing:0px;word-spacing:0px;direction:rtl;text-anchor:middle;fill:#808080;fill-opacity:1;stroke:none"
+     x="460.87778"
+     y="19.35"
+     id="text1470"><tspan
+       sodipodi:role="line"
+       id="tspan1468"
+       x="460.87778"
+       y="19.35">غير متعقب</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;line-height:1.25;font-family:'Noto Kufi Arabic';-inkscape-font-specification:'Noto Kufi Arabic Bold';text-align:center;letter-spacing:0px;word-spacing:0px;direction:rtl;text-anchor:middle;fill:#f0f0f0;fill-opacity:1;stroke:none"
+     x="277.42218"
+     y="71.777504"
+     id="text1557"><tspan
+       sodipodi:role="line"
+       id="tspan1555"
+       x="277.42218"
+       y="71.777504">أضف الملف</tspan></text>
+  <text
+     id="text1561"
+     y="109.049"
+     x="277.53278"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;line-height:1.25;font-family:'Noto Kufi Arabic';-inkscape-font-specification:'Noto Kufi Arabic Bold';text-align:center;letter-spacing:0px;word-spacing:0px;direction:rtl;text-anchor:middle;fill:#f0f0f0;fill-opacity:1;stroke:none"
+     xml:space="preserve"><tspan
+       y="109.049"
+       x="277.53278"
+       id="tspan1559"
+       sodipodi:role="line">عدّل الملف</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;line-height:1.25;font-family:'Noto Kufi Arabic';-inkscape-font-specification:'Noto Kufi Arabic Bold';text-align:center;letter-spacing:0px;word-spacing:0px;direction:rtl;text-anchor:middle;fill:#f0f0f0;fill-opacity:1;stroke:none"
+     x="141.70312"
+     y="133.11551"
+     id="text1565"><tspan
+       sodipodi:role="line"
+       id="tspan1563"
+       x="141.70312"
+       y="133.11551">أهّل الملف</tspan></text>
+  <text
+     id="text1569"
+     y="189.36227"
+     x="170.19672"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;line-height:1.25;font-family:'Noto Kufi Arabic';-inkscape-font-specification:'Noto Kufi Arabic Bold';text-align:center;letter-spacing:0px;word-spacing:0px;direction:rtl;text-anchor:middle;fill:#f0f0f0;fill-opacity:1;stroke:none"
+     xml:space="preserve"><tspan
+       y="189.36227"
+       x="170.19672"
+       id="tspan1567"
+       sodipodi:role="line">أودع</tspan></text>
+  <text
+     id="text1573"
+     y="158.013"
+     x="373.49548"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;line-height:1.25;font-family:'Noto Kufi Arabic';-inkscape-font-specification:'Noto Kufi Arabic Bold';text-align:center;letter-spacing:0px;word-spacing:0px;direction:rtl;text-anchor:middle;fill:#f0f0f0;fill-opacity:1;stroke:none"
+     xml:space="preserve"><tspan
+       y="158.013"
+       x="373.49548"
+       id="tspan1571"
+       sodipodi:role="line">أزل الملف</tspan></text>
+</svg>

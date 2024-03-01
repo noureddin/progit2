@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.21">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/favicon-72x72.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/favicon-16x16.png">
+<title>الباب الثالث: التفريع في جت | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="ch03-git-branching" class="book">
+<div id="body"><div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.421,</span>
+<span id="revdate">2024-03-01</span>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle">فهرس المحتويات</div>
+<p><span class="toc-root"><a href="index.html">احترف Git</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html"><span class="toc-current">الباب الثالث: التفريع في جت</span></a>
+<ul class="sectlevel2">
+<li><a href="ch03-git-branching.html#_git_branches_overview">الفروع بإيجاز</a>
+</li>
+<li><a href="ch03-git-branching.html#_أسس_التفريع_والدمج">أسس التفريع والدمج</a>
+</li>
+<li><a href="ch03-git-branching.html#_branch_management">إدارة الفروع</a>
+</li>
+<li><a href="ch03-git-branching.html#_أساليب_العمل_التفريعية">أساليب العمل التفريعية</a>
+</li>
+<li><a href="ch03-git-branching.html#_remote_branches">الفروع البعيدة</a>
+</li>
+<li><a href="ch03-git-branching.html#_rebasing">إعادة التأسيس</a>
+</li>
+<li><a href="ch03-git-branching.html#_الخلاصة_3">الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><s>الباب الرابع: جت على الخادوم</s>
+</li>
+<li><s>الباب الخامس: جت الموزع</s>
+</li>
+<li><s>الباب السادس: GitHub</s>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><s>الباب الثامن: تخصيص جت</s>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><s>الملحق الأول: جت في البيئات الأخرى</s>
+</li>
+<li><s>الملحق الثاني: تضمين جت في تطبيقاتك</s>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="ch03-git-branching">الباب الثالث: التفريع في جت</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>
+معظم أنظمة إدارة النسخ بها نوع ما من دعم التفريع.
+التفريع يعني أنك تنشق عن مسار التطوير الرئيسي، وتستمر بالعمل من غير أن تؤثر في ذلك المسار الرئيسي.
+هذه عملية مكلفة نوعا ما في أدوات إدارة نسخ كثيرة، وغالبا تحتاج منك إلى إنشاء نسخة جديدة من مجلد مشروعك، الذي قد يحتاج وقتًا طويلًا في المستودعات الكبيرة.</p>
+</div>
+<div class="paragraph">
+<p>يسمي البعض نموذج التفريع في جت بأنه «ميزته القاتلة للمنافسة»، وهي بكل تأكيد تميّزه في مجتمع إدارة النسخ.
+لماذا هي مميزة هكذا؟
+لأن طريقة التفريع في جت خفيفة خفة مستحيلة، مما يجعل إنشاء فرع جديد عملية شِبه آنيّة، والانتقال بين الفروع ذهابًا وإيابًا له تلك السرعة نفسها تقريبا.
+وخلافا للكثير من الأنظمة الأخرى، يشجع جت على أساليب سير العمل التي تعتمد على التفريع والدمج كثيرا، عدة مرات في اليوم حتى.
+وفهم هذه الخاصية وإتقانها يعطيانك أداة قوية وفريدة، وقد يغيّران تمامًا الطريقة التي تطوّر بها.</p>
+</div>
+<div class="sect2">
+<h3 id="_git_branches_overview">الفروع بإيجاز</h3>
+<div class="paragraph">
+<p>لنفهم حقًا طريقة التفريع في جت، علينا أن نتراجع خطوة إلى الخلف ونتدبر طريقته في تخزين البيانات.</p>
+</div>
+<div class="paragraph">
+<p>كما قد تتذكر من <a href="ch01-getting-started.html#what_is_git_section">ما هو جت؟</a>، لا يخزن جت بياناته في صورة فروقات، بل في صورة لقطات.</p>
+</div>
+<div class="paragraph">
+<p>وعندما تُودع، يخزن جت كائنَ إيداع فيه إشارة إلى لقطة المحتوى الذي أهّلته.
+وفيه كذلك اسم المؤلف وعنوان بريده ورسالة الإيداع والإشارات إلى الإيداعات السابقة له مباشرةً (الإيداعات الآباء): لا أب للإيداع المبدئي، وأب واحد للإيداعات العادية، وأبوين أو أكثر لإيداعات الدمج، وهي الإيداعات الناتجة من دمج فرعين أو أكثر.</p>
+</div>
+<div class="paragraph">
+<p>حتى نستطيع تصور هذا، لنفترض أن لديك مجلدًا به ثلاثة ملفات، وأنك أهّلتها جميعها ثم أودعتها.
+يحسب تأهيل الملفات بصمة كل ملف (بصمة SHA-1 التي ذكرناها في <a href="ch01-getting-started.html#what_is_git_section">ما هو جت؟</a>)، ويخزن نسخة الملف هذه في المستودع (وهي ما يسميها جت «ك‍تلة رقمية» (‪&#8220;blob&#8221;‬)، ونسميها «ك‍تلة» اختصارا)، ويضيف تلك البصمة إلى منطقة التأهيل:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git add README test.rb LICENSE
+$ git commit -m 'Initial commit'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>عندما تودع بأمر <code>git commit</code>، فإن جت يحسب أيضا بصمات كل مجلد ومجلد فرعي (في هذه الحالة، مجلد جذر المشروع فقط)، ويخزنها في صورة كائنات أشجار في المستودع.
+ثم ينشئ جت كائنَ إيداعٍ فيه بيانات وصفية وإشارة إلى شجرة جذر المشروع، حتى يستطيع إعادة إنشاء تلك اللقطة عند الحاجة.</p>
+</div>
+<div class="paragraph">
+<p>صار في مستودعك الآن خمسة كائنات: ثلاث <em>ك‍تل</em> (كلٌ منها يمثل محتويات ملف من الثلاثة)، و<em>شجرة</em> واحدة (تسرد محتويات المجلد وما الك‍تل التي تشير إليها أسماء الملفات)، و<em>إيداع</em> واحد (فيه إشارة إلى شجرة الجذر تلك وكذلك البيانات الوصفية للإيداع).</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/commit-and-tree.png" alt="إيداعٌ وشجرته">
+</div>
+<div class="title">شكل ٩. إيداعٌ وشجرته</div></div>
+<div class="paragraph">
+<p>إذا أجريت تعديلات وأودعتها، فإن إيداعك التالي سيخزن إشارةً إلى الإيداع السابق له مباشرةً.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/commits-and-parents.png" alt="إيداعات وآباؤها">
+</div>
+<div class="title">شكل ١٠. إيداعات وآباؤها</div></div>
+<div class="paragraph">
+<p>فإنما الفرع في جت هو إشارة متحركة تشير إلى أحد هذه الإيداعات.
+والفرع المبدئي في جت يُسمى <code>master</code>.
+فعندما تشرع في صنع الإيداعات، فإن جت يعطيك فرعا رئيسا يسمى <code>master</code> ويشير إلى آخر إيداع صنعته.
+ويتقدم فرع <code>master</code> تلقائيًا مع كل إيداعٍ تودِعه.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>فرع <code>master</code> في جت ليس مميزًا.
+فهو تمامًا مثل أي فرع آخر.
+والسبب الوحيد لوجوده في أغلب المستودعات أن أمر <code>git init</code> ينشئه بهذا الاسم المبدئي وأكثر الناس لا يبالون بتغييره.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/branch-and-history.png" alt="فرع وتاريخ إيداعاته">
+</div>
+<div class="title">شكل ١١. فرع وتاريخ إيداعاته</div></div>
+<div class="sect3">
+<h4 id="_create_new_branch">إنشاء فرع جديد</h4>
+<div class="paragraph">
+<p>
+ماذا يحدث عندما تنشئ فرعًا جديدًا؟
+الإجابة: ينشئ جت إشارة جديدة لك لتحركها كما تشاء.
+لنقُل إنك أردت إنشاء فرع جديد اسمه <code>testing</code>.
+تفعل هذا بأمر التفريع، <code>git branch</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch testing</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ينشئ هذا إشارةً إلى الإيداع الذي تقف عنده الآن.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/two-branches.png" alt="فرعان يشيران إلى سلسلة الإيداعات نفسها">
+</div>
+<div class="title">شكل ١٢. فرعان يشيران إلى سلسلة الإيداعات نفسها</div></div>
+<div class="paragraph">
+<p>كيف يعرف جت في أيّ فرع أنت الآن؟
+إنه يحتفظ بإشارة مخصوصة تسمى «إشارة الرأس» (<code>HEAD</code>).
+لاحظ أن هذه مختلفة كثيرًا عن مفهوم <code>HEAD</code> في الأنظمة الأخرى مثل Subversion و CVS.
+في جت، هذه إشارة إلى الفرع المحلي الذي تقف فيه الآن.
+في حالتنا هذه، ما زلتَ واقفًا في فرع <code>master</code>.
+فما على أمر <code>git branch</code> إلا إنشاء فرع جديد؛ ليس عليه الانتقال إليه.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/head-to-master.png" alt="إشارة الرأس `HEAD` تشير إلى فرع">
+</div>
+<div class="title">شكل ١٣. إشارة الرأس <code>HEAD</code> تشير إلى فرع</div></div>
+<div class="paragraph">
+<p>يمكنك رؤية هذا بسهولة بأمر السجل، والذي يُظهر لك ما تشير إليه إشارات الفروع،
+وذلك بالخيار <code>--decorate</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log --oneline --decorate
+f30ab (HEAD -&gt; master, testing) Add feature #32 - ability to add new formats to the central interface
+34ac2 Fix bug #1328 - stack overflow under certain conditions
+98ca9 Initial commit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يمكنك رؤية فرعَي <code>master</code> و <code>testing</code> عند إيداع <code>f30ab</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_switching_branches">الانتقال بين الفروع</h4>
+<div class="paragraph">
+<p>
+للانتقال إلى فرع موجود، استخدم أمر السحب <code>git checkout</code>.
+هيا بنا نتنقل إلى فرعنا الجديد <code>testing</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout testing</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يحرك هذا الأمر إشارة الرأس لتشير إلى فرع <code>testing</code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/head-to-testing.png" alt="إشارة الرأس تشير إلى الفرع الحالي">
+</div>
+<div class="title">شكل ١٤. إشارة الرأس تشير إلى الفرع الحالي</div></div>
+<div class="paragraph">
+<p>ما دلالة هذا؟
+لنصنع إيداعًا آخر إذًا.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ vim test.rb
+$ git commit -a -m 'Make a change'</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/advance-testing.png" alt="فرع الرأس يتقدم عند صنع إيداع">
+</div>
+<div class="title">شكل ١٥. فرع الرأس يتقدم عند صنع إيداع</div></div>
+<div class="paragraph">
+<p>هذا يدعو للتفكر، لأن الآن فرع <code>testing</code> قد تقدم، بينما قعد فرع <code>master</code> في مكانه مشيرًا إلى الإيداع القديم نفسه عندما انتقلنا إلى الفرع الجديد بأمر السحب.
+لنعد إلى فرع <code>master</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout master</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">لا يُظهر أمر السجل <em>جميع</em> الفروع <em>طوال</em> الوقت</div>
+<div class="paragraph">
+<p>إذا نفذت <code>git log</code> الآن، فستتساءل أين ذهب فرع <code>testing</code> الذي أنشأته، لأنه لن يظهر في ناتجه.</p>
+</div>
+<div class="paragraph">
+<p>لم يتبخر الفرع، ولكن جت لا يعلم أنك مهتمٌ به الآن، ولا يُظهر لك جت إلا ما يظن أنك مهتم به.
+بلفظ آخر، لا يُظهر لك أمر السجل بطبيعته إلا تاريخ الفرع الذي تقف عليه حاليًا.</p>
+</div>
+<div class="paragraph">
+<p>لإظهار تاريخ فرع آخر، عليك طلب ذلك صراحةً، مثل <code>git log testing</code>.
+ولإظهار جميع الفروع، اطلب ذلك من <code>git log</code> بالخيار <code>--all</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/checkout-master.png" alt="تتحرك إشارة الرأس عندما تنتقل إلى فرع آخر">
+</div>
+<div class="title">شكل ١٦. تتحرك إشارة الرأس عندما تنتقل إلى فرع آخر</div></div>
+<div class="paragraph">
+<p>فَعَل هذا الأمر فعلين:
+أعاد إشارة الرأس لتشير إلى فرع <code>master</code>، وأرجع الملفات في مجلد العمل إلى حالها كما كانت في اللقطة التي يشير إليها <code>master</code>.
+هذا يعني أيضا أن التغييرات التي ستصنعها الآن ستُبنى على نسخة قديمة من المشروع.
+أي أنه عمليًّا يتراجع عما فعلت في فرع <code>testing</code> لكي تستطيع السير في اتجاه آخر.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">الانتقال بين الفروع يغيّر الملفات التي في مجلد عملك</div>
+<div class="paragraph">
+<p>مهمٌ ملاحظة أنك عندما تنتقل إلى فرع آخر في جت، فإن الملفات التي في مجلد عملك ستتغير.
+فإذا انتقلت إلى فرع قديم، سيعود مجلد عملك إلى ما كان عليه عند آخر إيداع في هذا الفرع.
+وإن لم يستطع جت تغيير الملفات تغييرا نظيفا، فلن يسمح لك بالتبديل أصلا.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>لنُجري بعض التعديلات ونودع مجددًا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ vim test.rb
+$ git commit -a -m 'Make other changes'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>الآن افترق تاريخ مشروعك (انظر <a href="ch03-git-branching.html#divergent_history">تاريخ مفترِق</a>).
+فلقد أنشأتَ فرعًا وانتقلت إليه وعملت فيه قليلا، ثم عدت إلى الفرع الرئيس وعملت فيه عملا آخر.
+كلا هذين التغييرين منعزلان في فرعين منفصلين: يمكنك التنقل بينهما ذهابًا وإيابًا ثم دمجهما معًا عندما تكون مستعدًا.
+وكل هذا فعلتَه بسَهولة بأوامر التفريع <code>branch</code> والسحب <code>checkout</code> والإيداع <code>commit</code>.</p>
+</div>
+<div id="divergent_history" class="imageblock">
+<div class="content">
+<img src="images/advance-master.png" alt="تاريخ مفترِق">
+</div>
+<div class="title">شكل ١٧. تاريخ مفترِق</div></div>
+<div class="paragraph">
+<p>يمكنك أيضا رؤية هذا بسهولة بأمر السجل،
+فإذا نفّذت <code>git log --oneline --decorate --graph --all</code> فسيُظهر لك تاريخ إيداعاتك ومواضع إشارات فروعك وكيف افترق تاريخك.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log --oneline --decorate --graph --all
+* c2b9e (HEAD, master) Make other changes
+| * 87ab2 (testing) Make a change
+|/
+* f30ab Add feature #32 - ability to add new formats to the central interface
+* 34ac2 Fix bug #1328 - stack overflow under certain conditions
+* 98ca9 Initial commit of my project</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ولأن الفرع في جت ليس إلا ملفًا هيّنًا فيه ٤٠ حرفًا تمثّل بصمة الإيداع الذي يشير إليه الفرع، فإن إنشاء الفروع وإزالتها عمليتان رخيصتان سريعتان.
+فعملية إنشاء فرع جديد تماثل في سرعتها ويسرها عملية ك‍تابة ٤١ بايتًا إلى ملف (وهم ٤٠ محرفًا للبصمة ثم محرف نهاية السطر).</p>
+</div>
+<div class="paragraph">
+<p>هذا اختلاف عظيم عن طريقة التفريع في معظم الأنظمة القديمة لإدارة النسخ، والتي يُنسخ فيها جميع ملفات المشروع إلى مجلد آخر.
+قد يحتاج هذا عدة ثوانٍ أو حتى دقائق، حسب حجم المشروع. ولكن تلك العملية في جت دائمًا عملية آنيّة.
+وأيضا لأننا نسجّل آباء الإيداعات عندما نودع، فإن إيجاد قاعدة مناسبة للدمج هي عملية يفعلها جت من أجلنا آليًّا، وهي سهلة جدا عموما.
+تشجّع هذه الخصائص المطورين على إنشاء فروع واستخدامها بكثرة.</p>
+</div>
+<div class="paragraph">
+<p>لنرَ لماذا عليك فعل هذا.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">إنشاء فرع جديد والانتقال إليه في خطوة واحدة</div>
+<div class="paragraph">
+<p>من المعتاد أن ترغب في الانتقال إلى فرع جديد فور إنشائه&#8201;&#8212;&#8201;يمكنك إنشاء فرع والانتقال إليه بأمر واحد: <code>git checkout -b &lt;اسم&zwnj;الفرع&zwnj;الجديد&gt;</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>ابتداءً من النسخة 2.23 من جت يمكنك استعمال أمر التبديل بدلًا من أمر السحب من أجل:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>الانتقال إلى فرع موجود: <code>git switch testing-branch</code>.</p>
+</li>
+<li>
+<p>إنشاء فرع جديد والانتقال إليه: <code>git switch -c new-branch</code>.
+الخيار <code>-c</code> للإنشاء، ويمكنك استخدام الخيار الكامل: <code>--create</code>.</p>
+</li>
+<li>
+<p>العودة إلى الفرع المسحوب سابقًا: <code>git switch -</code>.</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_أسس_التفريع_والدمج">أسس التفريع والدمج</h3>
+<div class="paragraph">
+<p>لننظر مثالا سهلا عن التفريع والدمج بأسلوب سير عمل قد تستعمله في الحقيقة.
+ستتبع هذه الخطوات:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>تقوم ببعض الأعمال على موقع وب.</p>
+</li>
+<li>
+<p>تنشئ فرعا لـ«قصة المستخدم» الجديدة التي تعمل عليها.</p>
+</li>
+<li>
+<p>تقوم ببعض الأعمال في هذا الفرع.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>وبينما أنت هنا، تأتيك مكالمة بأن علة أخرى خطيرة تحتاج منك إصلاحا عاجلا.
+فستفعل الآتي:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>تنتقل إلى فرعك الإنتاجي ("production").</p>
+</li>
+<li>
+<p>تنشئ فرعا لإضافة الإصلاح العاجل.</p>
+</li>
+<li>
+<p>وبعد اختباره، تدمج فرع الإصلاح العاجل، وتدفعه إلى فرع الإنتاج.</p>
+</li>
+<li>
+<p>تعود إلى قصة المستخدم الأصلية وتكمل عملك عليها.</p>
+</li>
+</ol>
+</div>
+<div class="sect3">
+<h4 id="_basic_branching">أسس التفريع</h4>
+<div class="paragraph">
+<p>
+أولا، لنقُل أنك تعمل على مشروعك، ولديك بضعة إيداعات بالفعل في فرع <code>master</code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/basic-branching-1.png" alt="تاريخ إيداعات بسيط">
+</div>
+<div class="title">شكل ١٨. تاريخ إيداعات بسيط</div></div>
+<div class="paragraph">
+<p>ثم قررت أنك ستعمل على المسألة رقم ٥٣ في نظام متابعة المسائل الذي تستخدمه شركتك.
+فتنفّذ أمر <code>git checkout</code> مع الخيار <code>-b</code>، لإنشاء فرعٍ جديدٍ والانتقال إليه في الوقت نفسه:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout -b iss53
+Switched to a new branch "iss53"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وهذا اختصار للأمرين:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch iss53
+$ git checkout iss53</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/basic-branching-2.png" alt="إنشاء إشارة إلى فرع جديد">
+</div>
+<div class="title">شكل ١٩. إنشاء إشارة إلى فرع جديد</div></div>
+<div class="paragraph">
+<p>يمكنك العمل على موقعك وصنع بعض الإيداعات.
+فعل هذا يحرك فرع <code>iss53</code> إلى الأمام، لأنه الفرع المسحوب (أي أنه الفرع الذي تشير إليه إشارة الرأس <code>HEAD</code> لديك):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ vim index.html
+$ git commit -a -m 'Create new footer [issue 53]'</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/basic-branching-3.png" alt="تقدَّم فرع `iss53` بعملك عليه">
+</div>
+<div class="title">شكل ٢٠. تقدَّم فرع <code>iss53</code> بعملك عليه</div></div>
+<div class="paragraph">
+<p>ثم تأتيك مكالمة الآن بأن الموقع به علة، وعليك حلها فورا.
+لا تحتاج مع جت أن تنشر إصلاحك لهذه العلة مع تعديلات <code>iss53</code> التي صنعتها، ولا تحتاج أيضا إلى بذل المجهود للتراجع عن هذه التعديلات حتى تستطيع العمل على إصلاح علة الموقع.
+ليس عليك إلا أن تنتقل عائدا إلى فرعك الرئيس <code>master</code>.</p>
+</div>
+<div class="paragraph">
+<p>ولكن، قبل هذا، عليك ملاحظة أن إن كان مجلد عملك أو منطقة تأهيلك فيهما تعديلات غير مودعة وتختلف عما في الفرع الذي تريد الانتقال إليه، فلن يسمح لك جت بالانتقال.
+من الأفضل دوما أن تجعل حالة العمل نظيفة قبل الانتقال بين الفروع.
+يمكن التحايل على هذا بطريقة أو بأخرى (تحديدا، التخبئة وتصحيح الإيداعات) والتي سنتطرق إليها فيما بعد في <s>Stashing and Cleaning</s>.
+ولكن لنفترض الآن أنك أودعت كل تعديلاتك، حتى يتسنى لك الانتقال عائدا إلى فرعك الرئيس:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout master
+Switched to branch 'master'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ستجد الآن أن مجلد عملك مطابق تماما لما كان عليه قبل أن تبدأ العمل على المسألة رقم ٥٣، ويمكنك الآن التركيز على إصلاح العلة الجديدة.
+هذه النقطة مهمة ويجب تذكرها: عندما تنتقل من فرع إلى آخر، يعيد جت مجلد عملك إلى ما كان عليه آخر مرة أودعت فيها في هذا الفرع،
+فيضيف ويحذف ويعدّل المِلفات آليا، حتى يجعل نسخة العمل مشابهة تماما لما كان عليه الفرع عند آخر إيداع تم فيه.</p>
+</div>
+<div class="paragraph">
+<p>عليك الآن العمل على الإصلاح العاجل.
+لننشئ فرع <code>hotfix</code> لتعمل عليه حتى تنتهي:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout -b hotfix
+Switched to a new branch 'hotfix'
+$ vim index.html
+$ git commit -a -m 'Fix broken email address'
+[hotfix 1fb7853] Fix broken email address
+ 1 file changed, 2 insertions(+)</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/basic-branching-4.png" alt="فرع الإصلاح العاجل (`hotfix`) مبني على الفرع الرئيس (`master`)">
+</div>
+<div class="title">شكل ٢١. فرع الإصلاح العاجل (<code>hotfix</code>) مبني على الفرع الرئيس (<code>master</code>)</div></div>
+<div class="paragraph">
+<p>يمكنك الآن إجراء الاختبارات والتأكد من أن الإصلاح الذي صنعته هو المراد. ثم دمج فرع الإصلاح العاجل في الفرع الرئيس حتى تدفعه إلى الإنتاج.
+يمكنك فعل هذا بأمر الدمج <code>git merge</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout master
+$ git merge hotfix
+Updating f42c576..3a0874c
+Fast-forward
+ index.html | 2 ++
+ 1 file changed, 2 insertions(+)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ستلاحظ عبارة ‪&#8220;fast-forward&#8221;‬ («تسريع») في ناتج الدمج.
+هذا لأن الإيداع <code>C4</code> الذي يشير إليه فرع الإصلاح العاجل كان مباشرةً أمام الإيداع <code>C2</code> الذي تقف فيه، فلم يفعل جت سوى تحريك الإشارة إلى الأمام.
+بلفظ آخر: عندما تريد دمج إيداع في إيداع آخر يمكن الوصول إليه بتتبع تاريخه، فإن جت لا يعقد الأمور بل يحرك الإشارة إلى الأمام، فلا أعمال مفترقة ليحاول دمجها&#8201;&#8212;&#8201;يسمى هذا «تسريعًا» (‪&#8220;fast-forward&#8221;‬).</p>
+</div>
+<div class="paragraph">
+<p>تعديلاتك الآن موجودة في لقطة الإيداع التي يشير إليها الفرع الرئيس، فيمكنك الآن نشرها.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/basic-branching-5.png" alt="تسريع `master` إلى `hotfix`">
+</div>
+<div class="title">شكل ٢٢. تسريع <code>master</code> إلى <code>hotfix</code></div></div>
+<div class="paragraph">
+<p>بعد نشر إصلاحك شديد الأهمية، تكون مستعدا للعودة إلى عملك الذي كنت تفعله قبل هذه المقاطعة.
+ولكن عليك أولا حذف فرع <code>hotfix</code> لأنك لم تعد تحتاج إليه؛ فالفرع الرئيس يشير إلى الشيء نفسه.
+يمكنك حذفه بالخيار <code>-d</code> مع أمر التفريع <code>git branch</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch -d hotfix
+Deleted branch hotfix (3a0874c).</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يمكنك الآن العودة إلى فرع العمل الحالي الخاص بالمسألة رقم ٥٣، وإكمال العمل عليها.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout iss53
+Switched to branch "iss53"
+$ vim index.html
+$ git commit -a -m 'Finish the new footer [issue 53]'
+[iss53 ad82d7a] Finish the new footer [issue 53]
+1 file changed, 1 insertion(+)</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/basic-branching-6.png" alt="استكمال العمل على `iss53`">
+</div>
+<div class="title">شكل ٢٣. استكمال العمل على <code>iss53</code></div></div>
+<div class="paragraph">
+<p>من الواجب ملاحظة أن مِلفات فرع <code>iss53</code> لا تحتوى على عملك في فرع <code>hotfix</code>.
+فإذا احتجت إلى جذبه إليها، ادمج فرع <code>master</code> في فرع <code>iss53</code> بالأمر <code>git merge master</code>، أو أجّله حتى تقرر جذب فرع <code>iss53</code> إلى <code>master</code> فيما بعد.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_basic_merging">أسس الدمج</h4>
+<div class="paragraph">
+<p>
+إذا رأيت أن عملك على المسألة رقم ٥٣ قد اكتمل وصار جاهزا لدمجه في الفرع الرئيس،
+فستدمج فرع <code>iss53</code> في فرع <code>master</code>، تماما مثلما دمجت فرع <code>hotfix</code> سابقا:
+ليس عليك سوى سحب الفرع الذي تريد الدمج فيه ثم تنفيذ أمر الدمج:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout master
+Switched to branch 'master'
+$ git merge iss53
+Merge made by the 'recursive' strategy.
+index.html |    1 +
+1 file changed, 1 insertion(+)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يبدو هذا مختلفا قليلا عن دمج <code>hotfix</code> الذي أجريتَه سابقا.
+ففي حالتنا هذه قد افترق تاريخ التطوير منذ نقطة سابقة.
+ولأن الإيداع الأخير في الفرع الذي تقف فيه ليس سَلَفًا مباشرا (أب أو جد أو جد أعلى) للفرع الذي تريد دمجه، فإن على جت القيام ببعض العمل.
+في هذه الحالة، يعمل جت دمجًا ثلاثيًا نموذجيًّا، للقطتين اللتين يشيران إليهما رأسَا الفرعين، مع السلف المشترك للاثنتين.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/basic-merging-1.png" alt="اللقطات الثلاثة المستعملة في دمج نموذجي معتاد">
+</div>
+<div class="title">شكل ٢٤. اللقطات الثلاثة المستعملة في دمج نموذجي معتاد</div></div>
+<div class="paragraph">
+<p>فبدلا من مجرد تحريك الإشارة إلى الأمام، ينشئ جت لقطة جديدة ناتجة عن هذا الدمج الثلاثي، وينشئ آليًّا إيداعًا جديدًا يشير إليها.
+يسمى هذا «إيداع دمج»، ويتميز بأن له أكثر من أب.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/basic-merging-2.png" alt="إيداع دمج">
+</div>
+<div class="title">شكل ٢٥. إيداع دمج</div></div>
+<div class="paragraph">
+<p>الآن قد دُمِج عملك، ولم تعد في حاجة إلى فرع <code>iss53</code>.
+فيمكنك غلق هذه المسألة في نظام متابعة المسائل، وحذف الفرع:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch -d iss53</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_basic_merge_conflicts">أسس نزاعات الدمج</h4>
+<div class="paragraph">
+<p>
+لا تسير هذه العملية بسلاسة في بعض الأحيان.
+فإذا عدّلت الجزء نفسه في الملف نفسه تعديلا مختلفا في الفرعين اللذين تنوي دمجهما، فلن يستطيع جت أن يدمجمهما دمجا نظيفا.
+فإن كان إصلاحك للمسألة رقم ٥٣ عدّل الجزء نفسه من الملف الذي عدّلته في فرع الإصلاح العاجل، فستواجه نزاع دمج يشبه هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git merge iss53
+Auto-merging index.html
+CONFLICT (content): Merge conflict in index.html
+Automatic merge failed; fix conflicts and then commit the result.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لم ينشئ جت آليًّا إيداعَ دمجٍ جديدًا،
+بل أوقف العملية حتى تحل النزاع.
+فإذا أردت رؤية الملفات غير المدموجة في أي وقت بعد نزاع الدمج، نفّذ أمر الحالة <code>git status</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git status
+On branch master
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+
+Unmerged paths:
+  (use "git add &lt;file&gt;..." to mark resolution)
+
+    both modified:      index.html
+
+no changes added to commit (use "git add" and/or "git commit -a")</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ستظهر الملفات المتنازع عليها ولم تُدمج بعد أنها غير مدموجة ‪&#8220;unmerged&#8221;‬.
+ويضيف جت علامات معيارية لحل النزاعات إلى الملفات المتنازع عليها، حتى تتمكن من تحريرها يدويا وحل تلك النزاعات.
+فستجد أن في ملفك جزءًا يشبه هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD:index.html
+&lt;div id="footer"&gt;contact : email.support@github.com&lt;/div&gt;
+=======
+&lt;div id="footer"&gt;
+ please contact us at support@github.com
+&lt;/div&gt;
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; iss53:index.html</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>تجد نسخة <code>HEAD</code> (فرع <code>master</code>، لأنه الفرع الذي سحبته قبل أمر الدمج) في النصف الأعلى من هذه الك‍تلة (كل ما هو فوق سطر <code>=======</code>)، ونسخة <code>iss53</code> في النصف الأسفل منها.
+وحتى تحل هذا النزاع، عليك اختيار أحد الجزأين أو دمج محتواهما بنفسك.
+فمثلا قد تحله بتغيير الك‍تلة كلها إلى:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">&lt;div id="footer"&gt;
+please contact us at email.support@github.com
+&lt;/div&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يحمل هذا الحل شيئا من كلا الجزأين. أما الأسطر <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> و <code>=======</code> و <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> فقد أزلناها بالكامل.
+وبعد حل كل نزاع مثل هذا في كل ملف متنازع عليه، نفّذ أمر الإضافة <code>git add</code> على كل ملف لإعلام جت أنه قد حُلّ.
+فتأهيل الملف في جت يعلن نزاعه محلولا.</p>
+</div>
+<div class="paragraph">
+<p>وإذا أردت استعمال أداة رسومية لحل هذه المشاكل، فيمكنك تنفيذ <code>git mergetool</code>، والذي يشغّل أداة دمج رسومية مناسبة ويسير معك خلال النزاعات:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git mergetool
+
+This message is displayed because 'merge.tool' is not configured.
+See 'git mergetool --tool-help' or 'git help config' for more details.
+'git mergetool' will now attempt to use one of the following tools:
+opendiff kdiff3 tkdiff xxdiff meld tortoisemerge gvimdiff diffuse diffmerge ecmerge p4merge araxis bc3 codecompare vimdiff emerge
+Merging:
+index.html
+
+Normal merge conflict for 'index.html':
+  {local}: modified file
+  {remote}: modified file
+Hit return to start merge resolution tool (opendiff):</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>إذا أردت استعمال أداة دمج أخرى غير الأداة المبدئية (اختار جت في هذه الحالة أداة <code>opendiff</code> لأننا نفّذاه على نظام ماك)، فيمكنك رؤية قائمة بجميع الأدوات المدعومة في الأعلى بعد جملة ‪&#8220;one of the following tools&#8221;‬.
+ليس عليك سوى ك‍تابة اسم الأداة التي تريدها.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>إذا احتجت أدوات متقدمة أكثر لحل النزاعات العويصة، فسنتحدث أكثر عن الدمج في <s>Advanced Merging</s>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>بعد إغلاق أداة الدمج، فسيسألك جت عما إذا كان الدمج ناجحا.
+إذا أجبت بنعم، فسيؤهل الملف لك لإعلان أنه قد حُل.
+ويمكنك عندئذٍ استعراض الحالة مجددا للتحقق أن جميع النزاعات قد حُلت:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git status
+On branch master
+All conflicts fixed but you are still merging.
+  (use "git commit" to conclude merge)
+
+Changes to be committed:
+
+    modified:   index.html</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فإذا كنت راضيا عن هذا، وتأكدت من أن كل شيء كان عليه نزاع قد أُهِّل، نفّذ <code>git commit</code> لاختتام إيداع الدمج.
+ورسالة الإيداع المبدئية تشبه هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">Merge branch 'iss53'
+
+Conflicts:
+    index.html
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	modified:   index.html
+#</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فيها يمكنك شرح حلك للنزاع وتعليل تعديلاتك إن لم تكن واضحة، إذا ظننت أن هذا يفيد من يرى هذا الإيداع فيما بعد.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_branch_management">إدارة الفروع</h3>
+<div class="paragraph">
+<p>
+الآن وقد أنشأت فروعا ودمجتها وحذفتها، لنرَ أدوات إدارة فروع ستفيدك عندما تشرع في استعمال الفروع طوال الوقت.</p>
+</div>
+<div class="paragraph">
+<p>ليس أمر التفريع <code>git branch</code> لإنشاء فروع وحذفها فحسب.
+فإذا نفّذته بلا مُعامِلات، سيسرد لك فروعك الحالية:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch
+  iss53
+* master
+  testing</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لاحظ مِحرف النجمة <code>*</code> أمام فرع <code>master</code>؛ إنه يعني أن هذا الفرع هو الفرع المسحوب حاليا (أي أنه الفرع الذي تشير إليه إشارة الرأس <code>HEAD</code>).
+يعني هذا أنك إذا أودعت الآن، فإن فرع <code>master</code> سيتقدم إلى الأمام بعملك الجديد.
+لرؤية آخر إيداع في كل فرع، نفّذ <code>git branch -v</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch -v
+  iss53   93b412c Fix javascript issue
+* master  7a98805 Merge branch 'iss53'
+  testing 782fd34 Add scott to the author list in the readme</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>والخياران المفيدان <code>--merged</code> («مدموج») و <code>--no-merged</code> («غير مدموج») يصفّيان هذه القائمة فلا ترى إلا الفروع التي دمجتها أو التي لم تدمجها في الفرع الذي تقف فيه.
+فللفروع المدموجة في الفرع الحالي، نفّذ <code>git branch --merged</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch --merged
+  iss53
+* master</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ترى <code>iss53</code> في القائمة لأنك دمجته سابقًا.
+والفروع التي في هذه القائمة وليس أمامها نجمة (<code>*</code>)، يمكنك في العموم حذفها بأمان بالأمر <code>git branch -d</code>؛ لن تفقد شيئًا بحذفها لأنك بالفعل ضممت ما فيها من عمل إلى فرع آخر.</p>
+</div>
+<div class="paragraph">
+<p>لرؤية جميع الفروع التي بها عمل غير مدموج بعد، نفّذ <code>git branch --no-merged</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch --no-merged
+  testing</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يُظهر لك هذا الأمر فرعك الآخر.
+ستفشل محاولة حذفه بالأمر <code>git branch -d</code> لأن به عملًا غير مدمج بعد:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch -d testing
+error: The branch 'testing' is not fully merged.
+If you are sure you want to delete it, run 'git branch -D testing'.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>إن رغبت حقًا ويقينًا في حذف الفرع وفقد ما فيه من عمل، فأجبر جت على حذفه بالخيار <code>-D</code>، كما تخبرك الرسالة.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>إذا لم تعطِ إيداعًا أو اسمَ فرعٍ إلى الخيارين <code>--merged</code> و <code>--no-merged</code>، فإنهما، على الترتيب، سيسردان ما الذي دُمج أو لم يُدمج في الفرع <em>الحالي</em>.</p>
+</div>
+<div class="paragraph">
+<p>يمكنك دائما إعطاؤهما اسم فرع للسؤال عن حالة دمجه من غير أن تحتاج إلى الانتقال أولا إلى هذا الفرع بأمر السحب، مثلا: ما الذي لم يُدمج في فرع <code>master</code>؟</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout testing
+$ git branch --no-merged master
+  topicA
+  featureB</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_تغيير_اسم_فرع">تغيير اسم فرع</h4>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>لا تغيّر اسم فرع ما زال الآخرون يستعمله.
+ولا تغيّر اسم فرع مثل <code>master</code> أو <code>main</code> أو <code>mainline</code> قبل أن تقرأ فصل <a href="ch03-git-branching.html#_changing_master">تغيير اسم الفرع الرئيس</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>هَبْ فرعًا لديك اسمه <code>bad-branch-name</code> وتريد جعله <code>corrected-branch-name</code> مع الإبقاء على تاريخه بالكامل.
+وتريد أيضا تغيير اسمه على الخادوم البعيد (جت‌هب GitHub أو جت‌لاب GitLab أو غيرهما).
+كيف تفعل هذا؟</p>
+</div>
+<div class="paragraph">
+<p>غيّر اسم الفرع محليًّا بالأمر <code>git branch --move</code> :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch --move bad-branch-name corrected-branch-name</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هذا يغيّر <code>bad-branch-name</code> إلى <code>corrected-branch-name</code>، ولكن هذا التغيير محليٌّ فقط حتى الآن.
+ولجعل الآخرين يرون الفرع الصحيح في المستودع البعيد، عليك دفعه:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git push --set-upstream origin corrected-branch-name</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لنلقِ نظرةً على حالنا الآن:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch --all
+* corrected-branch-name
+  main
+  remotes/origin/bad-branch-name
+  remotes/origin/corrected-branch-name
+  remotes/origin/main</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لاحظ أنك في فرع <code>corrected-branch-name</code> وأنه متاح في المستودع البعيد.
+ولكنّ الفرع ذا الاسم الخاطئ متاح كذلك هناك، ولكن يمكنك حذفه بالأمر التالي:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git push origin --delete bad-branch-name</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>الآن قد حلّ اسم الفرع الصحيح محل اسم الفرع الخاطئ في كل مكان.</p>
+</div>
+<div class="sect4">
+<h5 id="_changing_master">تغيير اسم الفرع الرئيس</h5>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>تغيير اسم فرع مثل <code>master</code> أو <code>main</code> أو <code>mainline</code> أو <code>default</code> سيُعطّل التكاملات والخدمات والأدوات المساعدة وبُريمِجات البناء والإصدار التي يستخدمها مستودعك.
+لذا عليك التشاور مع زملائك في المشروع قبل الإقدام على هذا الأمر.
+وعليك كذلك أن تبحث بحثًا وافيًا في مستودعك وتحدّث أيّ إشارة إلى الاسم القديم للفرع في الكود والبُريمِجات.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>غيّر اسم فرع <code>master</code> المحلي إلى <code>main</code> بالأمر:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch --move master main</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لم يعد لدينا أي فرع محلي <code>master</code>، لأننا غيّرنا اسمه إلى <code>main</code>.</p>
+</div>
+<div class="paragraph">
+<p>ولجعل الآخرين يرون فرع <code>main</code> الجديد، عليك دفعه إلى المستودع البعيد.
+هذا يجعل الفرع الجديد متاحًا هناك:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git push --set-upstream origin main</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>نجد الآن أنفسنا في الحالة التالية:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch --all
+* main
+  remotes/origin/HEAD -&gt; origin/master
+  remotes/origin/main
+  remotes/origin/master</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>اختفى فرعك المحلي <code>master</code>، وحلّ محله الفرع <code>main</code>.
+وصار <code>main</code> في المستودع البعيد.
+ولكن فرع <code>master</code> القديم بقى موجودًا في المستودع البعيد.
+فسيظل المشاركون الآخرون يتّخِذون فرع <code>master</code> أساسًا لأعمالهم، حتى تتّخذَ إجراءً آخر.</p>
+</div>
+<div class="paragraph">
+<p>بين يديك الآن عددٌ من المهام لاجتياز تلك المرحلة الانتقالية:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>على جميع المشروعات المعتمِدة على هذا المشروع تحديث كودها و/أو إعداداتها.</p>
+</li>
+<li>
+<p>عليك تحديث أي مِلفات إعدادات خاصة بالاختبارات.</p>
+</li>
+<li>
+<p>عليك مواءمة بُريمِجات البناء والإصدار.</p>
+</li>
+<li>
+<p>عليك مواءمة إعدادات خادوم مستودعك، مثل الفرع المبدئي وقواعد الدمج والأمور الأخرى التي تعتمد على أسماء الفروع.</p>
+</li>
+<li>
+<p>عليك تحديث الإشارات إلى الفرع القديم في التوثيق.</p>
+</li>
+<li>
+<p>عليك إغلاق أو دمج كل طلبات الجذب الموجهة إلى الفرع القديم.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>بعد فعل جميع هذه المهام، والتيقن أن فرع <code>main</code> يقوم بعمله تمامًا مثل فرع <code>master</code>، يمكنك حذف فرع <code>master</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git push origin --delete master</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_أساليب_العمل_التفريعية">أساليب العمل التفريعية</h3>
+<div class="paragraph">
+<p>بما أنك الآن تعلم أسس التفريع والدمج، ماذا يمكنك أو يجدر بك فعله بهما؟
+سنتناول في هذا الفصل بعض أشهر أساليب العمل التي يجعلها هذا التفريع الخفيف ممكنة، لكي تقرر إذا ما كنت تود أن تجعلها جزءًا من دورة التطوير التي تتبعها.</p>
+</div>
+<div class="sect3">
+<h4 id="_الفروع_طويلة_العمر">الفروع طويلة العمر</h4>
+<div class="paragraph">
+<p>
+يستعمل جت دمجا ثلاثيا غير معقد، مما يسهّل عملية الدمج بين فرعين مرات عديدة عبر مدة زمنية طويلة.
+يتيح لك هذا وجود عدد من الفروع المفتوحة دائما لتستعملها لمراحل مختلفة من دورة التطوير، لأنك تستطيع أن تدمج باستمرار فيما بينها.</p>
+</div>
+<div class="paragraph">
+<p>الكثيرون من المطورين مستخدمي جت يعتمدون هذا النهج في أسلوب سير العمل، فيخصصون مثلا الفرع الرئيس للمصدر المستقر تماما وحسب، أو للذي أُصدر فعلا، أو للذي سيُصدر.
+ويكون لديهم فرعا موازيا اسمه <code>develop</code> أو <code>next</code> مثلا، ليعملوا منه أو ليستعملوه لاختبار الاستقرار، فليس بالضرورة أن يكون مستقرا دوما، ولكن عند استقراره، يمكن دمجه في الفرع الرئيس.
+ويستعملون هذا الفرع ليجذبوا فيه فروع المواضيع (الفروع قصيرة العمر، مثل فرع <code>iss53</code> المذكور سابقا) عندما تكون جاهزة، لضمان اجتيازها جميع الاختبارات وأنها لا تُحدِث عللًا.</p>
+</div>
+<div class="paragraph">
+<p>نحن فعليا نتحدث عن إشارات ترتقي في سلّم ايداعاتك.
+فالفروع المستقرة في أسفله، أما طليعة التطوير ففي أعلاه.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/lr-branches-1.png" alt="منظور خطي لتفريع الاستقرار المتزايد">
+</div>
+<div class="title">شكل ٢٦. منظور خطي لتفريع الاستقرار المتزايد</div></div>
+<div class="paragraph">
+<p>لعل الأسهل تصور أنها صومعات عمل منعزلة، فتتخرج دفعة من الإيداعات إلى صومعة أخرى أكثر استقرارا عندما تجتاز جميع الاختبارات.</p>
+</div>
+<div id="lrbranch_b" class="imageblock">
+<div class="content">
+<img src="images/lr-branches-2.png" alt="منظور «صومعي» لتفريع الاستقرار المتزايد">
+</div>
+<div class="title">شكل ٢٧. منظور «صومعي» لتفريع الاستقرار المتزايد</div></div>
+<div class="paragraph">
+<p>يمكنك فعل هذا بعدة مستويات من الاستقرار.
+فلدى بعض المشروعات الكبيرة فرع <code>proposed</code> أو <code>pu</code> («تحديثات مقترحة») ويدمجوا فيه فروعا قد لا تكون جاهزة لأن تكون في فرع <code>next</code> أو <code>master</code>.
+فالأمر أن فروعك في مستويات مختلفة من الاستقرار، فعندما يصل أحدها إلى مستوى استقرار أعلى، فإنه يُدمج في الفرع الأعلى.
+ونكرر: ليس ضروريا استعمال عدد من الفروع طويلة العمر، ولكنه كثيرا ما يفيد، خصوصا عندما تتعامل مع مشروعات معقدة أو كبيرة جدا.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_topic_branch">فروع المواضيع</h4>
+<div class="paragraph">
+<p>
+لكن فروع المواضيع تفيد جميع المشروعات بغض النظر عن حجمها.
+فرع الموضوع هو فرع قصير العمر تنشئه وتستعمله لميزة واحدة أو ما يخصها من عمل.
+لعلك لم تفعل هذا قط مع نظام إدارة نسخ آخر، لأن التفريع والدمج غالبا ما يكونا بطيئين جدا في الأنظمة الأخرى.
+ولكن الشائع مع جت هو إنشاء فروع والعمل عليها ودمجها وحذفها عدة مرات في اليوم الواحد.</p>
+</div>
+<div class="paragraph">
+<p>وقد رأيت هذا في الفصل السابق في فرعَي <code>iss53</code> و <code>hotfix</code> اللذين أنشأتهما،
+فقد صنعت بضعة إيداعات فيهما ثم حذفتهما فور دمجهما في فرعك الرئيس.
+يسمح لك هذا الأسلوب بـ«تبديل السياق» سريعا وبالكامل، لأنك قسّمت عملك إلى صومعات، وكل صومعة (فرع) ليس فيها إلا التعديلات التي تخص موضوعا واحدا، مما يسهّل كثيرا رؤيتها عند المراجعة (code review) وغير ذلك.
+ويمكنك إبقاء التعديلات هناك دقائق أو أياما أو شهورا، ثم دمجها عندما تكون جاهزة، بغض النظر عن ترتيب إنشائها أو العمل عليها.</p>
+</div>
+<div class="paragraph">
+<p>لنقُل مثلا إنك عملت (في <code>master</code>)، ثم تفرّعت لإصلاح علة (<code>iss91</code>)، وعملت عليها قليلا، ثم تفرّعت مجددا (من الفرع الثاني) لتجرب طريقة أخرى لإصلاح العلة نفسها (<code>iss91v2</code>)، ثم عدت إلى فرعك الرئيس (<code>master</code>) وعملت فيه قليلا، ثم تفرّعت منه لتجربة شيء لست واثقا أنه جيد (فرع <code>dumbidea</code>).
+سيبدو تاريخ إيداعك الآن مثل هذا:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/topic-branches-1.png" alt="فروع مواضيع متعددة">
+</div>
+<div class="title">شكل ٢٨. فروع مواضيع متعددة</div></div>
+<div class="paragraph">
+<p>لنقُل إنك الآن وجدت إصلاحك الثاني للعلة (<code>iss91v2</code>) أفضل، وأنك أريت زملاءك فرع <code>dumbidea</code> فأخبروك أنه عبقري.
+فيمكنك إذًا إلقاء فرع <code>iss91</code> الأصلي (وفقد الإيداعين <code>C5</code> و <code>C6</code>)، ودمج الفرعين الآخرين في الفرع الرئيس.
+سيبدو تاريخك الآن كهذا:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/topic-branches-2.png" alt="التاريخ بعد دمج `dumbidea` و `iss91v2`">
+</div>
+<div class="title">شكل ٢٩. التاريخ بعد دمج <code>dumbidea</code> و <code>iss91v2</code></div></div>
+<div class="paragraph">
+<p>سنتحدث بتفصيل أكبر عن مختلف أساليب سير العمل الممكنة في مشروعات جت في <s>جت الموزع</s>، فعليك قراءة هذا الفصل قبل أن تقرر أي أسلوب تفريع سيتبعه مشروعك التالي.</p>
+</div>
+<div class="paragraph">
+<p>من المهم تذكر أنك عندما تفعل أيًّا من هذا فإن هذه الفروع تبقى محلية بالكامل.
+فعندما تتفرّع وتدمج، يحدث كل شيء داخل مستودع جت الخاص بك وحسب؛ لا يحدث أي تواصل مع الخادوم.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_remote_branches">الفروع البعيدة</h3>
+<div class="paragraph">
+<p>
+الإشارات البعيدة هي تلك الإشارات الموجودة في مستودعاتك البعيدة، كالفروع والوسوم.
+يمكنك سرد جميع الإشارات البعيدة بالأمر <code>git ls-remote &lt;البعيد&gt;</code>، أو سرد الفروع البعيدة ومعلوماتها بالأمر <code>git remote show &lt;البعيد&gt;</code> (حيث <code>&lt;البعيد&gt;</code> هو الاسم المختصر المستودع البعيد).
+ولكن الشائع هو الانتفاع بـ«الفروع المتعقِّبة للبعيد».</p>
+</div>
+<div class="paragraph">
+<p>الفرع المتعقِّب لبعيد هو إشارة إلى حالة فرع بعيد.
+أي أنه إشارة محلية (أي في المستودع الذي على حاسوبك) لكن لا يمكنك تحريكها؛ إن جت يحركها لك عند الاتصال مع الخادوم، حتى يضمن أنها دائما تمثل حالة المستودع البعيد.
+اعتبرها إشارات مرجعية مثل علامات المتصفح، لتذكرك أين كانت فروع مستودعك البعيد عندما تواصلت معها آخر مرة.</p>
+</div>
+<div class="paragraph">
+<p>يكون شكل أسماء الفروع المتعقِّبة للبعيد <code>&lt;remote&gt;/&lt;branch&gt;</code> (أيْ اسم المستودع البعيد ثم شرطة مائلة ثم اسم الفرع).
+فمثلا إذا أردت رؤية كيف بدا فرع <code>master</code> في مستودعك البعيد <code>origin</code> عندما اتصلت به آخر مرة، فانتقل إلى فرع <code>origin/master</code>.
+وإذا كنت تعمل مع زميل على مسألةٍ ودفَعَ فرع <code>iss53</code> إلى المستودع البعيد، فقد يكون لديك فرع محلي بالاسم نفسه، ولكن الفرع الذي على الخادوم سيمثله عندك الفرع المتعقِّب للبعيد الذي اسمه <code>origin/iss53</code>.</p>
+</div>
+<div class="paragraph">
+<p>لعل الكلام غامض، فدعنا ننظر إلى مثال.
+لنقُل إن لديك خادوم جت على شبكتك عنوانه <code>git.ourcompany.com</code>.
+إذا استنسخته، فإن أمر الاستنساخ سيسميه <code>origin</code> لك، ويجذب كل ما فيه من بيانات، وينشئ إشارة إلى ما يشير إليه فرع <code>master</code> عليه ويسميه <code>origin/master</code> محليا.
+وسيعطيك جت أيضا فرع <code>master</code> محلي خاص بك بادئا من المكان نفسه الذي فيه فرع <code>master</code> الخاص بالأصل، حتى يتسنّى لك البدء بالعمل.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">الاسم ‪&#8220;origin&#8221;‬ ليس مميزا</div>
+<div class="paragraph">
+<p>تماما مثلما أن اسم الفرع الرئيس ‪&#8220;master&#8221;‬ لا يحمل أي معنى خاص في جت، فكذلك اسم المستودع البعيد الأصل ‪&#8220;origin&#8221;‬.
+فإن ‪&#8220;master&#8221;‬ هو الاسم المبدئي لأول فرع ينشئه جت عندما تستخدم <code>git init</code> (وهو السبب الوحيد لشيوعه)، وكذلك ‪&#8220;origin&#8221;‬ هو الاسم المبدئي للمستودع البعيد عندما تستخدم <code>git clone</code>.
+فإذا استخدمت <code>git clone -o yalla</code> مثلا، فإنك ستجد أن <code>yalla/master</code> هو اسم الفرع البعيد المبدئي.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/remote-branches-1.png" alt="المستودعان البعيد والمحلي بعد الاستنساخ">
+</div>
+<div class="title">شكل ٣٠. المستودعان البعيد والمحلي بعد الاستنساخ</div></div>
+<div class="paragraph">
+<p>إذا عملت في فرعك الرئيس المحلي، ودفع أحد إلى الفرع الرئيس في المستودع البعيد، فإن تاريخَي الفرعين سيتقدمان مفترقين.
+وإن تجنبت الاتصال مع مستودعك البعيد على الخادوم الأصل، فلن تتحرك إشارة <code>origin/master</code> التي لديك.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/remote-branches-2.png" alt="قد يفترق العمل المحلي والبعيد">
+</div>
+<div class="title">شكل ٣١. قد يفترق العمل المحلي والبعيد</div></div>
+<div class="paragraph">
+<p>لمزامنة عملك مع مستودع بعيد، نفّذ الأمر <code>git fetch &lt;البعيد&gt;</code> (في حالتنا <code>git fetch origin</code>).
+فهذا الأمر يبحث عن المستودع المسمى ‪&#8220;origin&#8221;‬ (في حالتنا <code>git.ourcompany.com</code>)، ويستحضر البيانات التي عليه وليست عندك بعد، ويحدّث قاعدة بياناتك المحلية، ويحرك إشارة <code>origin/master</code> الخاص بك لتشير إلى موقعها الجديد المحدَّث.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/remote-branches-3.png" alt="يحدّث أمر الاستحضار `git fetch` فروعك المتعقِّبة للبعيد">
+</div>
+<div class="title">شكل ٣٢. يحدّث أمر الاستحضار <code>git fetch</code> فروعك المتعقِّبة للبعيد</div></div>
+<div class="paragraph">
+<p>لتمثيل وجود خواديم بعيدة عديدة ولإيضاح منظر الفروع المتعقِّبة لهذه المستودعات البعيدة، لنقُل إن لديك خادوم جت داخلي آخر، والذي لا يستخدمه إلا فريق واحد من أجل التطوير،
+وإن عنوانه هو <code>git.team1.ourcompany.com</code>.
+يمكنك إضافته إشارةً بعيدة جديدة في مشروعك، بأمر <code>git remote add</code> كما رأينا في <a href="ch02-git-basics-chapter.html">أسس جت</a>،
+وتسميته <code>teamone</code>، والذي يُعتبر اسما مختصرا لرابطه الكامل.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/remote-branches-4.png" alt="إضافة إشارة إلى خادوم بعيد آخر">
+</div>
+<div class="title">شكل ٣٣. إضافة إشارة إلى خادوم بعيد آخر</div></div>
+<div class="paragraph">
+<p>والآن، نفّذ أمر <code>git fetch teamone</code> لاستحضار كل ما لدى خادوم <code>teamone</code> البعيد وليس لديك بعد.
+ولأن ليس لديه من البيانات إلا جزءًا من التي لدى خادومك الأصلي (<code>origin</code>) الآن، فلن يستحضر جت شيئا، ولكنه سيضبط فرعا متعقبا للبعيد يسمى <code>teamone/master</code> ليشير إلى الإيداع الذي يشير إليه فرع <code>master</code> في مستودع <code>teamone</code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/remote-branches-5.png" alt="فرع متعقب للبعيد للفرع `teamone/master`">
+</div>
+<div class="title">شكل ٣٤. فرع متعقب للبعيد للفرع <code>teamone/master</code></div></div>
+<div class="sect3">
+<h4 id="_pushing_branches">الدفع</h4>
+<div class="paragraph">
+<p>
+عندما تريد أن تشارك فرعا مع العالَم، فعليك دفعه إلى مستودع بعيد لديك إذن تحريره.
+ففروعك المحلية لا تُزامَن آليًّا إلى المستودعات البعيدة، حتى التي دفعت إليها؛ عليك دفع الفروع التي تريد مشاركتها بأمر صريح.
+يسمح لك هذا أن تستعمل فروعا خصوصية للأعمال التي لا تريد مشاركتها، وألا تدفع إلا فروع المواضيع التي تريد التعاون عليها.</p>
+</div>
+<div class="paragraph">
+<p>مثلا إذا كان لديك فرعا اسمه <code>serverfix</code> وتريد العمل عليه مع الآخرين، يمكنك دفعه بالطريقة نفسها التي دفعت بها فرعك الأول؛
+نفّذ <code>git push &lt;remote&gt; &lt;branch&gt;</code> (أي اسم المستودع البعيد ثم الفرع):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git push origin serverfix
+Counting objects: 24, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (15/15), done.
+Writing objects: 100% (24/24), 1.91 KiB | 0 bytes/s, done.
+Total 24 (delta 2), reused 0 (delta 0)
+To https://github.com/schacon/simplegit
+ * [new branch]      serverfix -&gt; serverfix</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هذا اختصار،
+لأن جت يفك اسم الفرع <code>serverfix</code> إلى <code>refs/heads/serverfix:refs/heads/serverfix</code>، الذي يعني «ادفع فرعي المحلي <code>serverfix</code> إلى المستودع البعيد <code>origin</code> لتحدّث فرع <code>serverfix</code> عليه».
+سنفصّل شرح جزء <code>refs/heads/</code> في <s>دواخل جت</s>، ولكن عامةً يمكنك تركه.
+كذلك يمكنك تنفيذ <code>git push origin serverfix:serverfix</code> الذي يفعل الشيء نفسه؛ إنه يقول: «خذ فرعي المسمى <code>serverfix</code> واجعله فرع <code>serverfix</code> في المستودع البعيد».
+هذه الصياغة مفيدة لدفع فرع محلي إلى فرع بعيد باسم مختلف.
+فمثلا إن لم تُرِده أن يسمى <code>serverfix</code> في المستودع البعيد، فنفّذ <code>git push origin serverfix:awesomebranch</code>، فهذا يدفع فرعك المحلي <code>serverfix</code> إلى فرع <code>awesomebranch</code> في المستودع البعيد.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">لا تكتب كلمة مرورك كل مرة</div>
+<div class="paragraph">
+<p>إذا كنت تستعمل رابط HTTPS للدفع، فإن خادوم جت سيسألك عن اسم مستخدمك وكلمة مرورك للاستيثاق.
+المعتاد أن عميل جت سيسألك عن هذا في الطرفية حتى يعرف الخادوم إذا ما كان مسموحا لك بالدفع.</p>
+</div>
+<div class="paragraph">
+<p>إذا لم تشأ أن تكتب كلمة مرورك في كل مرة تدفع فيها، فعليك إعداد «تذكُّر مؤقت للاستيثاق» (‪&#8220;credential cache&#8221;‬).
+أسهل خيار هو جعله في ذاكرة الحاسوب لعدة دقائق، والذي يمكنك إعداده بالأمر <code>git config --global credential.helper cache</code>.</p>
+</div>
+<div class="paragraph">
+<p>لمعلومات أكثر عن خيارات تذكر الاستيثاق المتاحة، انظر <s>Credential Storage</s>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>وفي المرة التالية التي يستحضر أحد زملائك من الخادوم، سيحصل على إشارة إلى حيث يشير فرع <code>serverfix</code> على الخادوم؛ سيجدها عنده في الفرع البعيد <code>origin/serverfix</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git fetch origin
+remote: Counting objects: 7, done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 3 (delta 0)
+Unpacking objects: 100% (3/3), done.
+From https://github.com/schacon/simplegit
+ * [new branch]      serverfix    -&gt; origin/serverfix</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>من المهم ملاحظة أنك عندما تستحضر، يجلب لك هذا فروعًا جديدة متعقبة للبعيد، أي أنك لا تحصل تلقائيًّا على نسخ محلية منها يمكنك تعديلها.
+بلفظ آخر، لا تحصل آليًّا على فرع <code>serverfix</code> جديد في هذه الحالة: لم تُعطَ إلا إشارة <code>origin/serverfix</code> التي لا يمكنك التعديل فيها.</p>
+</div>
+<div class="paragraph">
+<p>لدمج هذا العمل في فرعك الحالي، يمكنك تنفيذ <code>git merge origin/serverfix</code>.
+وإذا أردت فرع <code>serverfix</code> خاصًا بك تستطيع العمل فيه، يمكنك تفريعه من الفرع المتعقب للبعيد:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout -b serverfix origin/serverfix
+Branch serverfix set up to track remote branch serverfix from origin.
+Switched to a new branch 'serverfix'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يعطيك هذا فرعًا محليًا يمكنك العمل فيه، والذي يبدأ من حيث يقف <code>origin/serverfix</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_tracking_branches">تعقب الفروع</h4>
+<div class="paragraph">
+<p>
+إن سحب فرع محلي من فرع متعقب للبعيد ينشئ آليًّا ما يسمى «فرع متعقِّب» (والفرع الذي يتعقبه يسمى «الفرع المنبع»).
+الفروع المتعقبة هي فروع محلية ذات علاقة مباشرة بفرع بعيد.
+فإذا كنت في فرع متعقب وكتبت <code>git pull</code>، فسيعرف جت تلقائيا أي مستودع بعيد يستحضر منه وأي فرع يدمج فيه.</p>
+</div>
+<div class="paragraph">
+<p>عندما تستنسخ مستودعًا، ينشئ جت فرعًا باسم الفرع المبدئي فيه (مثل <code>master</code>) ويجعله يتعقب الفرع المبدئي في المستودع الأصل (<code>origin/master</code>).
+ولكن يمكنك إعداد فروع متعقبة أخرى إذا أردت، لتعقب مستودعات بعيدة أخرى، أو لتعقب فرع غير الرئيس.
+أيسر حالة مثلما رأيتَ آنفًا، عند اتحاد اسم الفرع المحلي والبعيد، أيْ <code>git checkout -b &lt;branch&gt; &lt;remote&gt;/&lt;branch&gt;</code>.
+وهذه العملية شائعة بما يكفي أن جت يتيح اختصارها بالخيار <code>--track</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout --track origin/serverfix
+Branch serverfix set up to track remote branch serverfix from origin.
+Switched to a new branch 'serverfix'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وفي الحقيقة أن هذا شائع جدا حتى إن جت يتيح اختصارا لهذا الاختصار.
+فإذا كان اسم الفرع الذي تريد سحبه، أولا غير موجود محليًّا بالفعل، وثانيا يطابق تماما اسما في مستودع بعيد واحد، فسينشئ لك جت فرعا متعقِّبا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout serverfix
+Branch serverfix set up to track remote branch serverfix from origin.
+Switched to a new branch 'serverfix'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ولإعداد فرع محلي باسم مختلف عن الفرع البعيد، فسهلٌ استعمال الصيغة الأولى مع اسم فرع محلي مختلف:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout -b sf origin/serverfix
+Branch sf set up to track remote branch serverfix from origin.
+Switched to a new branch 'sf'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>الآن، فرعك المحلي <code>sf</code> سيجذب آليًّا من <code>origin/serverfix</code>.</p>
+</div>
+<div class="paragraph">
+<p>إذا كان لديك بالفعل فرعا محليا وتريد ضبطه ليجذب من فرع بعيد جذبته للتو، أو تريد تغيير الفرع المنبع الذي تتعقبه، استعمل الخيار <code>-u</code> أو <code>--set-upstream-to</code> مع أمر التفريع <code>git branch</code> لضبطه بأمر صريح في أي وقت.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch -u origin/serverfix
+Branch serverfix set up to track remote branch serverfix from origin.</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">الاسم المختصر للمنبع</div>
+<div class="paragraph">
+<p>عندما يكون لديك فرع متعقب مضبوط، يمكنك الإشارة إلى فرعه المنبع بالاختصار <code>@{upstream}</code> أو <code>@{u}</code>.
+فإذا كنت في <code>master</code> وكان يتعقب <code>origin/master</code>، يمكنك تنفيذ أمر مثل <code>git merge @{u}</code> بدلا من <code>git merge origin/master</code> إن أردت.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>لرؤية الفروع المتعقِّبة التي ضبطتها، استعمل الخيار <code>-vv</code> مع أمر التفريع <code>git branch</code>،
+ليسرد لك فروعك المحلية مع معلومات مزيدة فيها ما يتعقبه كل فرع وإذا كان فرعك متقدما عنه (<code>ahead</code>) أو متأخرا (<code>behind</code>) أو كليهما.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch -vv
+  iss53     7e424c3 [origin/iss53: ahead 2] Add forgotten brackets
+  master    1ae2a45 [origin/master] Deploy index fix
+* serverfix f8674d9 [teamone/server-fix-good: ahead 3, behind 1] This should do it
+  testing   5ea463a Try something new</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فنرى هنا أن فرع <code>iss53</code> يتعقب <code>origin/iss53</code> وأنه «متقدم» (<code>ahead</code>) باثنين، أي أن لدينا إيداعين محليين ولم ندفعهما إلى الخادوم بعد.
+ونرى أيضا أن فرع <code>master</code> يتعقب <code>origin/master</code> وأنه محدَّث.
+ثم نرى بعدهما أن فرع <code>serverfix</code> يتعقب فرع <code>server-fix-good</code> على خادوم <code>teamone</code> وأنه متقدم عنه بثلاثة ومتأخر بواحد، أي أن لدى الخادوم إيداعا لم ندمجه في فرعنا بعد، وأن لدينا ثلاثة إيداعات محلية لم ندفعها إليه.
+ثم نرى في النهاية أن فرع <code>testing</code> لا يتعقب أي فرع بعيد.</p>
+</div>
+<div class="paragraph">
+<p>مهم ملاحظة أن هذه الأعداد ليست إلا منذ آخر استحضار (<code>fetch</code>) من كل خادوم نتعقبه.
+فلا يحاول هذا الأمر الاتصال بالخواديم؛ إنما يخبرك بما يحفظه على حاسوبك عما فيها.
+فإذا أردت من أعداد التقدم والتأخر أن تكون أحدث ما يكون، فعليك الاستحضار من جميع خواديمك البعيدة قبل تنفيذ هذا الأمر مباشرةً.
+ويمكنك فعل ذلك هكذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git fetch --all; git branch -vv</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_الجذب">الجذب</h4>
+<div class="paragraph">
+<p>
+نعلم أن أمر الاستحضار <code>git fetch</code> يستحضر التعديلات التي في المستودع البعيد وليست لديك بعد، ولكنه لا يعدّل مجلد عملك إطلاقا؛
+إنما يجلب البيانات لك ويتركك تدمجها بنفسك.
+ولكن لدى جت أمر يسمى أمر الجذب <code>git pull</code>، وهذا الأمر عمليًّا يكافئ استحضارًا <code>git fetch</code> متبوعًا مباشرةً بدمج <code>git merge</code>، في معظم الحالات.
+فإذا كان لديك فرع متعقِّب مضبوط كما في الفصل السابق، إما بضبطه صراحةً وإما بأن يضبطه لك أمر الاستنساخ <code>git clone</code> أو أمر السحب <code>git checkout</code>، فإن أمر الجذب <code>git pull</code> سينظر أيّ مستودع وأيّ فرع يتعقبهما فرعك الحالي، ويستحضر ما في المستودع البعيد ويحاول دمجه في فرعك.</p>
+</div>
+<div class="paragraph">
+<p>الأفضل عمومًا هو الاستخدام الصريح لأمرَي الاستحضار <code>fetch</code> والدمج <code>merge</code>، فالسحر الذي يقوم به أمر الجذب كثيرًا ما يكون مُلغِزًا.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_delete_branches">حذف فروع بعيدة</h4>
+<div class="paragraph">
+<p>
+لنقُل إنك قضيت ما تريد من فرع بعيد، مثلا انتهيت أنت وزملاؤك من إضافة ميزة جديدة ودمجتموها في الفرع الرئيس.
+يمكنك حذف فرع بعيد بالخيار <code>--delete</code> مع أمر الدفع <code>git push</code>.
+فإذا أردت حذف فرع <code>serverfix</code> من الخادوم، يمكنك تنفيذ الأمر التالي:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git push origin --delete serverfix
+To https://github.com/schacon/simplegit
+ - [deleted]         serverfix</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لا يفعل هذا الأمر سوى أنه يحذف الإشارة من على الخادوم.
+ولكن خواديم جت عمومًا تبقى البيانات موجودة وقتًا، حتى يعمل جامع المهملات، مما يعني أنك إذا حذفته بالخطأ، فغالبًا ستستطيع استعادته بسَهولة.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rebasing">إعادة التأسيس</h3>
+<div class="paragraph">
+<p>
+توجد طريقتان في جت لضم التعديلات من فرع إلى آخر: الدمج <code>merge</code> وإعادة التأسيس <code>rebase</code>.
+سنتعلم في هذا الفصل ما هي إعادة التأسيس، وكيف نفعلها، ولماذا هي أداة مذهلة فعلا، ومتى لن تود استخدامها.</p>
+</div>
+<div class="sect3">
+<h4 id="_أسس_إعادة_التأسيس">أسس إعادة التأسيس</h4>
+<div class="paragraph">
+<p>إذا عدت إلى مثال سابق في <a href="ch03-git-branching.html#_basic_merging">أسس الدمج</a>، ستجد أن عملك افترق إلى إيداعات في فرعين مختلفين.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/basic-rebase-1.png" alt="تاريخ بسيط مفترق">
+</div>
+<div class="title">شكل ٣٥. تاريخ بسيط مفترق</div></div>
+<div class="paragraph">
+<p>أسهل طريقة لضم الفرعين، كما ناقشنا بالفعل، هي أمر الدمج <code>merge</code>،
+والذي يقوم بدمج ثلاثي بين آخر لقطتين في الفرعين (<code>C3</code> و <code>C4</code>) وآخر سلف مشترك لهما (<code>C2</code>)، وينشئ لقطة جديدة (وإيداعًا).</p>
+</div>
+<div id="rebasing-merging-example" class="imageblock">
+<div class="content">
+<img src="images/basic-rebase-2.png" alt="الدمج لضم تاريخ العمل المفترق">
+</div>
+<div class="title">شكل ٣٦. الدمج لضم تاريخ العمل المفترق</div></div>
+<div class="paragraph">
+<p>لكن توجد طريقة أخرى: يمكنك أخذ رُقعة التعديلات (‪&#8220;patch&#8221;‬) التي صنعتها في هذا الإيداع (<code>C4</code>) وإعادة تطبيقها على الإيداع الآخر (<code>C3</code>).
+هذه ما نسميها «إعادة التأسيس» (‪&#8220;rebasing&#8221;‬) في جت.
+فبأمر إعادة التأسيس <code>rebase</code> يمكنك أخذ جميع التعديلات التي أودعتها في فرعٍ ما، وإعادة صنعها في فرع آخر.</p>
+</div>
+<div class="paragraph">
+<p>في هذا المثال سنسحب فرع <code>experiment</code>، ثم نعيد تأسيسه على الفرع الرئيس <code>master</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout experiment
+$ git rebase master
+First, rewinding head to replay your work on top of it...
+Applying: added staged command</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>تتم هذه العملية بالذهاب إلى السلف المشترك للفرعين (الفرع الحالي الذي تقف فيه وتريد إعادة تأسيسه، والفرع الذي تريد إعادة التأسيس عليه)،
+وحساب التعديلات التي تمت في كل إيداع في الفرع الحالي وحفظها في ملفات مؤقتة،
+ثم ضبط الفرع الحالي إلى الإيداع الذي عنده الفرع الذي تريد إعادة التأسيس عليه،
+وأخيرا تطبيق كل تعديل عليه بالترتيب.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/basic-rebase-3.png" alt="إعادة تأسيس تعديلات `C4` على `C3`">
+</div>
+<div class="title">شكل ٣٧. إعادة تأسيس تعديلات <code>C4</code> على <code>C3</code></div></div>
+<div class="paragraph">
+<p>يمكنك الآن العودة إلى الفرع الرئيس وعمل دمج تسريع (‪&#8220;fast-forward&#8221;‬).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout master
+$ git merge experiment</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/basic-rebase-4.png" alt="تسريع فرع `master`">
+</div>
+<div class="title">شكل ٣٨. تسريع فرع <code>master</code></div></div>
+<div class="paragraph">
+<p>اللقطة التي يشير إليها إيداع <code>C4'</code> الآن مطابقة تماما لتلك التي كان يشير إليها <code>C5</code> في <a href="ch03-git-branching.html#rebasing-merging-example">مثال الدمج</a>.
+لا فرق في الناتج النهائي، ولكن تعطينا إعادة التأسيس تاريخًا أنظف.
+فإذا نظرت إلى سجل فرع مُعاد تأسيسه، ستجده تاريخًا خطيًّا: يبدو أن كل العمل تم على التوالي، ولو أنه في الأصل قد تم على التوازي.</p>
+</div>
+<div class="paragraph">
+<p>غالبا ستفعل هذا لضمان أن إيداعاتك ستُطبّق بنظافة على فرعٍ بعيد&#8201;&#8212;&#8201;مثلا في مشروع تريد المشاركة فيه لكنك لست مطورًا فيه.
+فستعمل في هذه الحالة في فرع، ثم تعيد تأسيسه على <code>origin/master</code> عندما تكون جاهزًا لتسليم رُقعتك إليهم.
+فهكذا لن يُجهد المطورون ضم عملك، فما الأمر إلا تسريعا، أو تطبيقا نظيفا للرقعة.</p>
+</div>
+<div class="paragraph">
+<p>لاحظ أن اللقطة التي يشير إليها الإيداع النهائي، سواء كان آخر الإيداعات المعاد تأسيسها أو كان الإيداع النهائي لدمج، فهي اللقطة نفسها؛ ليس الاختلاف إلا في التاريخ.
+فإعادة التأسيس تعيد صنع تعديلات تاريخ عمل في تاريخ عمل آخر بترتيبها نفسه، لكن الدمج يدمج آخر نقطتين معًا.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_إعادات_تأسيس_شيقة_أكثر">إعادات تأسيس شيقة أكثر</h4>
+<div class="paragraph">
+<p>يمكنك أيضا جعل إعادة التأسيس تطبّق التعديلات على فرع غير «الفرع المستهدف».
+لنرَ مثلا تاريخا مثل «<a href="ch03-git-branching.html#rbdiag_e">تاريخ فيه فرع موضوع متفرع من فرع موضوع آخر</a>».
+لقد أنشأت فرع موضوع (<code>server</code>) لإضافة ميزات في جزء الخادوم في مشروعك، وصنعت إيداعا.
+بعدئذٍ أنشأت فرعا من هذا الفرع لعمل تعديلات في جزء العميل (<code>client</code>) وصنعت بضعة إيداعات.
+ثم في آخر الأمر عدت إلى فرع <code>server</code> وصنعت بضعة إيداعات أخرى.</p>
+</div>
+<div id="rbdiag_e" class="imageblock">
+<div class="content">
+<img src="images/interesting-rebase-1.png" alt="تاريخ فيه فرع موضوع متفرع من فرع موضوع آخر">
+</div>
+<div class="title">شكل ٣٩. تاريخ فيه فرع موضوع متفرع من فرع موضوع آخر</div></div>
+<div class="paragraph">
+<p>لنقُل إنك قررت أنك تريد دمج تعديلاتك الخاصة بجزء العميل في المسار الرئيس لكي تصدرها، ولكنك تريد الإبقاء على تعديلات جزء الخادوم حتى تختبرها أكثر.
+إن التعديلات التي في <code>client</code> وليست في <code>server</code> (وهي <code>C8</code> و <code>C9</code>) تستطيع إعادة تطبيقها على فرع <code>master</code> بالخيار <code>--onto</code> مع أمر <code>git rebase</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git rebase --onto master server client</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>إنما يقول هذا: «احسب فروقات فرع <code>client</code> (التعديلات التي سُجّلت فيه) منذ أن افترق عن فرع <code>server</code>، ثم أعد تطبيقها في فرع <code>client</code> كأنه قد تفرّع من فرع <code>master</code> وليس من <code>server</code>.»
+صعبة قليلا، لكن النتيجة عظيمة.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/interesting-rebase-2.png" alt="إعادة تأسيس فرع موضوع على فرع موضوع آخر">
+</div>
+<div class="title">شكل ٤٠. إعادة تأسيس فرع موضوع على فرع موضوع آخر</div></div>
+<div class="paragraph">
+<p>عندئذٍ يمكنك تسريع الفرع الرئيس <code>master</code> (انظر «<a href="ch03-git-branching.html#rbdiag_g">تسريع الفرع الرئيس لضم تعديلات فرع <code>client</code></a>»):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout master
+$ git merge client</code></pre>
+</div>
+</div>
+<div id="rbdiag_g" class="imageblock">
+<div class="content">
+<img src="images/interesting-rebase-3.png" alt="تسريع الفرع الرئيس لضم تعديلات فرع `client`">
+</div>
+<div class="title">شكل ٤١. تسريع الفرع الرئيس لضم تعديلات فرع <code>client</code></div></div>
+<div class="paragraph">
+<p>لنقُل إنك قررت جذب فرع <code>server</code> كذلك.
+يمكنك إعادة تأسيس فرع <code>server</code> على الفرع الرئيس بلا حاجة إلى سحبه أولا، بالأمر <code>git rebase &lt;basebranch&gt; &lt;topicbranch&gt;</code> (أي الفرع الأساس ثم فرع الموضوع)، وهذا يسحب لك فرع الموضوع (<code>server</code> في حالتنا) ويعيد تطبيق ما فيه من عمل على الفرع الأساس (<code>master</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git rebase master server</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هذا يُعيد تطبيق العمل الذي في فرع الخادوم <code>server</code> على العمل الذي في الفرع الرئيس <code>master</code>، كما يظهر في «<a href="ch03-git-branching.html#rbdiag_h">إعادة تأسيس فرع <code>server</code> على الفرع الرئيس</a>».</p>
+</div>
+<div id="rbdiag_h" class="imageblock">
+<div class="content">
+<img src="images/interesting-rebase-4.png" alt="إعادة تأسيس فرع `server` على الفرع الرئيس">
+</div>
+<div class="title">شكل ٤٢. إعادة تأسيس فرع <code>server</code> على الفرع الرئيس</div></div>
+<div class="paragraph">
+<p>عندئذٍ يمكنك تسريع الفرع الأساس (<code>master</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout master
+$ git merge server</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ثم تستطيع حذف الفرعين <code>client</code> و <code>server</code> لأن كل ما فيهما قد ضُمَّ بالفعل ولم تعد بحاجة إليهما، مما يجعل تاريخك في نهاية هذه العملية كما في «<a href="ch03-git-branching.html#rbdiag_i">تاريخ الإيداعات في النهاية</a>»:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch -d client
+$ git branch -d server</code></pre>
+</div>
+</div>
+<div id="rbdiag_i" class="imageblock">
+<div class="content">
+<img src="images/interesting-rebase-5.png" alt="تاريخ الإيداعات في النهاية">
+</div>
+<div class="title">شكل ٤٣. تاريخ الإيداعات في النهاية</div></div>
+</div>
+<div class="sect3">
+<h4 id="_rebase_peril">محذورات إعادة التأسيس</h4>
+<div class="paragraph">
+<p>
+ولكن… نعيم إعادة التأسيس ليس بغير عيوب، والتي يمكن اختصارها في سطر واحد:</p>
+</div>
+<div class="paragraph">
+<p><strong>لا تعد تأسيس إيداعات لها وجود خارج مستودعك فربما قد بنى الناس عليها عملا.</strong></p>
+</div>
+<div class="paragraph">
+<p>إذا اتبعت هذه النصيحة الإرشادية، فستكون بخير.
+وإن لم تفعل، فسيكرهك الناس ويحتقرك الأهل والأصحاب.</p>
+</div>
+<div class="paragraph">
+<p>فعندما تعيد التأسيس، فإنك تهجر الإيداعات الموجودة وتصنع إيداعات جديدة شبيهة بالقديمة لكن مختلفة عنها.
+وإذا دفعت هذه الإيداعات إلى مستودعٍ ما وجذبها الآخرون وبنوا عليها أعمالا، ثم جئت فأعدت ك‍تابة هذه الإيداعات بأمر <code>git rebase</code> ثم دفعتها من جديد، فسيضطر زملاؤك إلى إعادة دمج أعمالهم، وستؤول الأمور إلى فوضى عندما تحاول جذب أعمالهم إلى عملك.</p>
+</div>
+<div class="paragraph">
+<p>لنرَ كيف يمكن لإعادة تأسيس عملٍ منشور أن تسبب مشاكل.
+لنقُل إنك استنسخت من خادوم مركزي، ثم بنيت عليه عملا.
+سيبدو تاريخ إيداعك مثل هذا:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/perils-of-rebasing-1.png" alt="استنسخ مستودعا، وابنِ عملا عليه">
+</div>
+<div class="title">شكل ٤٤. استنسخ مستودعا، وابنِ عملا عليه</div></div>
+<div class="paragraph">
+<p>ثم جاء شخصٌ آخر وصنع المزيد من الإيداعات، والتي شملت دمجًا، ثم دفعها إلى الخادوم المركزي.
+فقمت باستحضار (<code>fetch</code>) الفرع البعيد الجديد ودمجه في عملك، فصار تاريخك مثل الآتي:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/perils-of-rebasing-2.png" alt="استحضر المزيد من الإيداعات، وادمجها في عملك">
+</div>
+<div class="title">شكل ٤٥. استحضر المزيد من الإيداعات، وادمجها في عملك</div></div>
+<div class="paragraph">
+<p>بعدئذ، قرر الذي دفع العمل المدموج أن يتراجع ويعيد تأسيس عمله بدل دمجه، فدفع بالقوة (<code>git push --force</code>) لإعادة ك‍تابة التاريخ على الخادوم.
+ثم استحضرت (<code>fetch</code>) من هذا الخادوم، جالبًا الإيداعات الجديدة.</p>
+</div>
+<div id="_pre_merge_rebase_work" class="imageblock">
+<div class="content">
+<img src="images/perils-of-rebasing-3.png" alt="شخصٌ يدفع إيداعات معاد تأسيسها، هاجرًا بذلك الإيداعات التي بنيت عليها عملك">
+</div>
+<div class="title">شكل ٤٦. شخصٌ يدفع إيداعات معاد تأسيسها، هاجرًا بذلك الإيداعات التي بنيت عليها عملك</div></div>
+<div class="paragraph">
+<p>كلاكما الآن في مأزق.
+فإذا جذبت، ستصنع إيداع دمج يضم كلا التاريخين، وسيبدو مستودعك مثل هذا:</p>
+</div>
+<div id="_merge_rebase_work" class="imageblock">
+<div class="content">
+<img src="images/perils-of-rebasing-4.png" alt="عندما تدمج العمل نفسه مجددا في إيداع دمج جديد">
+</div>
+<div class="title">شكل ٤٧. عندما تدمج العمل نفسه مجددا في إيداع دمج جديد</div></div>
+<div class="paragraph">
+<p>فإذا نظرت في السجل <code>git log</code> عندما يصير تاريخك كهذا، فسترى إيداعين لهما نفس المؤلف والتاريخ والرسالة، مما يسبّب اللَبس.
+وأضف إلى ذلك أنك إذا دفعت هذا التاريخ إلى الخادوم، فستعيد تقديم كل هذه الإيداعات المعاد تأسيسها إلى الخادوم المركزي من جديد، والذي سيسبّب لبسًا لأكثر للناس.
+يمكننا الافتراض أن المطور الآخر لا يريد الإيداعين <code>C4</code> و <code>C6</code> في التاريخ، ولذا أعاد تأسيسهما.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_rebase_rebase">أعد التأسيس عندما تعيد التأسيس</h4>
+<div class="paragraph">
+<p>إذا <strong>وجدت</strong> نفسك في مثل هذا الموقف، فلدى جت وسائل سحرية أخرى قد تساعدك.
+فلو أن زميلك دفع بالقوة تعديلاتٍ تعيد ك‍تابة عمل بنيتَ عليه، فالتحدي هو أن تعرف ما هو عملك وما الذي أعاد ك‍تابته ذاك الشخص.</p>
+</div>
+<div class="paragraph">
+<p>الخبر الجميل أن جت لا يحسب للإيداع وحده بصمة SHA-1، ولكن يحسبها أيضا للرُقعة (الفروقات) التي صنعها ذلك الإيداع.
+وهذه البصمة تسمى «معرِّف الرقعة» (‪&#8220;patch-id&#8221;‬).</p>
+</div>
+<div class="paragraph">
+<p>فإذا جذبت عملا معاد ك‍تابته وأعدت تأسيسه على الإيداعات الجديدة من زميلك، فغالبا سينجح جت في تمييز ما هو عملك الفريد ويطبّقه على الفرع الجديد.</p>
+</div>
+<div class="paragraph">
+<p>فمثلا في الموقف الافتراضي السابق، لو أننا أعدنا التأسيس (بالأمر <code>git rebase teamone/master</code>)، بدل الدمج عندما كنا في خطوة «<a href="ch03-git-branching.html#_pre_merge_rebase_work">شخصٌ يدفع إيداعات معاد تأسيسها، هاجرًا بذلك الإيداعات التي بنيت عليها عملك</a>»، فإن جت سوف:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>يحدد العمل الذي تفرّد به فرعنا (<code>C2</code>،&#x200f; <code>C3</code>،&#x200f; <code>C4</code>،&#x200f; <code>C6</code>،&#x200f; <code>C7</code>)</p>
+</li>
+<li>
+<p>يحدد ما الذي ليس بإيداعات دمج (<code>C2</code>،&#x200f; <code>C3</code>،&#x200f; <code>C4</code>)</p>
+</li>
+<li>
+<p>يحدد ما الذي لم تُعد ك‍تابته في الفرع المستهدف (فقط <code>C2</code> و <code>C3</code>، لأن <code>C4</code> له رقعة <code>C4'</code> نفسها)</p>
+</li>
+<li>
+<p>يطبّق هذه الإيداعات على فرع <code>teamone/master</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>فبدلا مما رأينا في «<a href="ch03-git-branching.html#_merge_rebase_work">عندما تدمج العمل نفسه مجددا في إيداع دمج جديد</a>»، سنحصل على نتيجة مثل «<a href="ch03-git-branching.html#_rebase_rebase_work">أعد التأسيس على عمل معاد تأسيسه ومدفوع بالقوة</a>».</p>
+</div>
+<div id="_rebase_rebase_work" class="imageblock">
+<div class="content">
+<img src="images/perils-of-rebasing-5.png" alt="أعد التأسيس على عمل معاد تأسيسه ومدفوع بالقوة">
+</div>
+<div class="title">شكل ٤٨. أعد التأسيس على عمل معاد تأسيسه ومدفوع بالقوة</div></div>
+<div class="paragraph">
+<p>لن ينجح هذا إلا إذا كان الإيداعان <code>C4</code> و <code>C4'</code> اللذين صنعهما زميلك لهما الرقعة نفسها تقريبا،
+وإلا فلن يعرف جت عندما يعيد التأسيس أنهما متطابقين وسيضيف رقعة أخرى شبيهة بالإيداع <code>C4</code> (والتي غالبا ستفشل في أن تُطبَّق بنظافة، لأن تعديلاتها ستكون مطبقة بالفعل ولو جزئيا).</p>
+</div>
+<div class="paragraph">
+<p>ويمكنك أن تختصر هذا باستعمال خيار إعادة التأسيس <code>--rebase</code> مع أمر الجذب، أي تنفيذ <code>git pull --rebase</code> بدلا من <code>git pull</code> المجرد.
+أو يمكنك فعل ذلك يدويا بالاستحضار <code>git fetch</code> ثم إعادة التأسيس، أي تنفيذ <code>git rebase teamone/master</code> في هذه الحالة.</p>
+</div>
+<div class="paragraph">
+<p>وإذا كنت تستخدم <code>git pull</code> وتريد جعل خيار <code>--rebase</code> خيارًا مفترضًا دومًا، يمكنك تفعيل قيمة التهيئة <code>pull.rebase</code> بأمر مثل <code>git config --global pull.rebase true</code>.</p>
+</div>
+<div class="paragraph">
+<p>إذا كنت أبدا لا تعيد تأسيس إلا الإيداعات التي لم تغادر حاسوبك، فستكون بخير.
+وإن كنت تعيد تأسيس إيداعات قد دفعتها، ولكن لم يبنِ عليها أحدٌ آخر إيداعاتٍ، فستكون بخير أيضا.
+أما إن كنت تعيد تأسيس إيداعات قد دفعتها إلى العالَم وربما بنى عليها الناس أعمالا، فقد تجد نفسك في ورطة مُغيظة منهِكة، ثم ازدراء زملائك لك.</p>
+</div>
+<div class="paragraph">
+<p>إن وجدت أنت أو زميلٌ لك أن ذلك ضروري يومًا ما، تأكد أن الجميع يعرفون استخدام <code>git pull --rebase</code>، لكي تحاول جعل معاناة ما بعد الحادثة أقل سوءًا ولو قليلا.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_بين_إعادة_التأسيس_والدمج">بين إعادة التأسيس والدمج</h4>
+<div class="paragraph">
+<p>
+الآن وقد رأيت إعادة التأسيس والدمج عمليًّا، قد تتساءل أيهما أفضل.
+قبل أن نستطيع الإجابة عن هذا السؤال، لنرجع إلى الوراء قليلا ونتحدث عن معنى التاريخ.</p>
+</div>
+<div class="paragraph">
+<p>إحدى وجهتَي النظر أن تاريخ إيداعات مستودعك هي <strong>سجل لما حدث فعلا.</strong>
+أي أنها وثيقة تاريخية، ولها قيمة في ذاتها، ويجب ألا يُعبث بها.
+فمن هذا المنظور، يكاد يُعدّ تغيير تاريخ الإيداعات استهزاءً ومسبّة، لأنك <em>تكذب</em> بشأن ما حدث فعلا.
+إذًا ماذا لو كانت لدينا فوضى من إيداعات الدمج؟
+هكذا جرت الأمور، ويجب أن يحتفظ بها المستودع من أجل الأجيال القادمة.</p>
+</div>
+<div class="paragraph">
+<p>وجهة النظر المقابلة هي أن تاريخ الإيداعات هو <strong>قصة صناعة مشروعك.</strong>
+ولأنك لا تنشر المسودة الأولى من ك‍تاب، فلم إذًا تنشر عملًا أشعث أغبر؟
+ففي أثناء عملك على مشروع، قد تحتاج سجلا لجميع عثراتك وطرقك المسدودة. ولكن عندما يحين وقت إظهار عملك إلى العالم، فقد تود أن تحكي قصةً متماسكة عن كيفية الوصول من «أ» إلى «ب».
+ولذلك يستخدم أصحاب هذا المذهب أدوات مثل إعادة التأسيس وتصفية الفروع لإعادة ك‍تابة إيداعاتهم قبل دمجها في الفرع الرئيس،
+يستخدمون <code>rebase</code> و <code>filter-branch</code> ليحكون القصة بالطريقة الأنسب للقراء في المستقبل.</p>
+</div>
+<div class="paragraph">
+<p>لنعد الآن إلى السؤال عن التفضيل بين الدمج وإعادة التأسيس: لعلك وجدت أنه أعقد من أن تكون له إجابة يسيرة.
+فإن جت أداةٌ قوية، ويتيح لك فعل الكثير بتاريخ مستودعك، ولكن كل فريق وكل مشروع هو حالة خاصة.
+الآن وقد علمت الأسلوبين وطريقة عملهما، عليك أن تقرر بنفسك ما الأنسب لحالتك الخاصة.</p>
+</div>
+<div class="paragraph">
+<p>ويمكنك الجمع بين ميزات كليهما: أعد تأسيس التعديلات المحلية قبل دفعها حتى تنظف عملك، ولكن لا تعد أبدًا تأسيس أي شيء دفعته إلى مستودعٍ ما.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_الخلاصة_3">الخلاصة</h3>
+<div class="paragraph">
+<p>تناولنا أسس التفريع والدمج في جت.
+ينبغي أن يَسهُل عليك الآن إنشاء فروع جديدة والانتقال إليها والانتقال بين الفروع ودمج فروع محلية معًا.
+ستقدر أيضا على مشاركة فروعك بدفعها إلى مستودع مشترك، وعلى العمل مع آخرين على فروع مشتركة، وعلى إعادة تأسيس فروعك قبل مشاركتها.
+التالي: سنتحدث عما تحتاج لتشغيل خادومك الخاص بك لاستضافة مستودعات جت.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ السابق: <a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a> | ↑ البداية: <a href="index.html">احترف Git</a> | التالي: <a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-03-01 20:13:25 +0000
+</div>
+</div>
+</div></body></html>

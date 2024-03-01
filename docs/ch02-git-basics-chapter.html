@@ -1,0 +1,2470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.21">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/favicon-72x72.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/favicon-16x16.png">
+<title>الباب الثاني: أسس جت | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="ch02-git-basics-chapter" class="book">
+<div id="body"><div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.421,</span>
+<span id="revdate">2024-03-01</span>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle">فهرس المحتويات</div>
+<p><span class="toc-root"><a href="index.html">احترف Git</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html"><span class="toc-current">الباب الثاني: أسس جت</span></a>
+<ul class="sectlevel2">
+<li><a href="ch02-git-basics-chapter.html#_getting_a_repo">الحصول على مستودع جت</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html#_تسجيل_التعديلات_في_المستودع">تسجيل التعديلات في المستودع</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html#_viewing_history">رؤية تاريخ الإيداعات</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html#_undoing">التراجع عن الأفعال</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html#_remote_repos">التعامل مع المستودعات البعيدة</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html#_git_tagging">الوسوم</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html#_git_aliases">كُنيات جت</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html#_الخلاصة_2">الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><s>الباب الرابع: جت على الخادوم</s>
+</li>
+<li><s>الباب الخامس: جت الموزع</s>
+</li>
+<li><s>الباب السادس: GitHub</s>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><s>الباب الثامن: تخصيص جت</s>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><s>الملحق الأول: جت في البيئات الأخرى</s>
+</li>
+<li><s>الملحق الثاني: تضمين جت في تطبيقاتك</s>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="ch02-git-basics-chapter">الباب الثاني: أسس جت</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>لو لم تكن ستقرأ إلا بابًا واحدًا لتنطلق مع جت، فهذا هو.
+يشرح هذا الباب جميع الأوامر الأساسية التي تحتاجها لعمل الغالبية العظمى من الأشياء التي ستقضي أغلب وقتك مع جت تفعلها بعد ذلك.
+بنهاية هذا الباب ستكون قادرًا على تهيئة مستودع وابتدائه، وبدء تعقب ملفات وإيقافه، وتأهيل تعديلات وإيداعها.
+سنريك أيضا كيف تضبط جت ليتجاهل ملفات معينة وأنماط معينة من الملفات، وكيف تتراجع عن الأخطاء بسرعة وسَهولة، وكيف تتصفح تاريخ مشروعك، وكيف ترى التعديلات بين الإيداعات، وكيف تدفع إلى المستودعات البعيدة وتجذب منها.</p>
+</div>
+<div class="sect2">
+<h3 id="_getting_a_repo">الحصول على مستودع جت</h3>
+<div class="paragraph">
+<p>في المعتاد تحصل على مستودع جت بإحدى طريقتين:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>تأتي مجلدًا محليًّا ليس تحت إدارة نُسخ، وتحوله إلى مستودع جت،</p>
+</li>
+<li>
+<p>أو <em>تستنسخ</em> مستودع جت موجودا بالفعل.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>في كلتا الحالتين، سيصير معك مستودع جت على حاسوبك المحلي وجاهز للعمل.</p>
+</div>
+<div class="sect3">
+<h4 id="_ابتداء_مستودع_في_مجلد_موجود">ابتداء مستودع في مجلد موجود</h4>
+<div class="paragraph">
+<p>إذا كان لديك مجلد مشروع ليس تحت إدارة نسخ حاليا، وتريد أن تبدأ في إدارته باستخدام جت، تحتاج أولا إلى الذهاب إلى ذلك المجلد.
+إن لم تفعل هذا من قبل، فهذا قد يختلف قليلا حسب نظامك:</p>
+</div>
+<div class="paragraph">
+<p>للينكس:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cd /home/user/my_project</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لماك أو إس:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cd /Users/user/my_project</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لويندوز:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cd C:/Users/user/my_project</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ثم اكتب:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git init</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هذا ينشئ لك مجلد فرعيا جديدا يُسمى <code>.git</code> (يبدأ اسمه بنقطة، والتي تجعله مجلدا مخفيا) والذي يحتوى كل الملفات الضرورية لمستودعك&#8201;&#8212;&#8201;أيْ هيكل مستودع جت.
+حتى الآن، لا شيء في مشروعك متعقَّب بعد.
+انظر <s>دواخل جت</s>  للمزيد من المعلومات عن تفاصيل الملفات التي في مجلد <code>.git</code> الذي أنشأته للتو.</p>
+</div>
+<div class="paragraph">
+<p>إذا أردت أن تبدأ في إدارة نسخ ملفات موجودة (وليس مجلدا فارغا)، فعليك بدء تعقب هذه الملفات وصنع إيداع مبدئي.
+يمكنك تحقيق هذا ببعض أوامر الإضافة، <code>git add</code>، والتي تحدد الملفات التي تريد تعقبها، ثم أمر الإيداع، <code>git commit</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git add *.c
+$ git add LICENSE
+$ git commit -m 'Initial project version'  # إيداع «النسخة المبدئية من المشروع»‏</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>سنعرف ماذا تفعل هذه الأوامر خلال لحظات.
+لكن الآن، لديك مستودع جت به ملفات متعقبة وإيداع مبدئي.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_git_cloning">استنساخ مستودع موجود</h4>
+<div class="paragraph">
+<p>إذا كنت تريد الحصول على نسخة من مستودع جت موجود&#8201;&#8212;&#8201;مثلا مشروع تحب المشاركة فيه&#8201;&#8212;&#8201;فإن الأمر الذي تريده هو أمر الاستنساخ، <code>git clone</code>.
+إذا كنت تعرف أنظمة أخرى لإدارة النسخ مثل Subversion، ستلاحظ أن الأمر هو <code>clone</code> (استنساخ) وليس <code>checkout</code> (سحب).
+هذا فرق مهم؛ فبدلا من جلب مجرد نسخة للعمل عليها، يحضر لك جت تقريبا كل شيء لدى الخادوم؛
+كل نسخة من كل ملف عبر تاريخ المشروع، يجذبها جت إليك عندما تكتب <code>git clone</code>.
+في الحقيقة، إذا تلف قرص الخادوم، يمكنك في الغالب استخدام ربما أي استنساخ من أي عميل لإرجاع الخادوم إلى حالته عندما اُستنسخ (قد تفقد بعض الخطاطيف الخاصة بالخادوم وأشياء من هذا القبيل، لكن جميع البيانات التي تحت إدارة النسخ ستكون موجودة&#8201;&#8212;&#8201;انظر <s>تثبيت جت على خادوم</s> للمزيد من التفاصيل).</p>
+</div>
+<div class="paragraph">
+<p>استنسخ مستودعًا بالأمر <code>git clone &lt;رابط&gt;</code>.
+مثلا إذا أردت استنساخ مكتبة جت القابلة للربط المسماة <code>libgit2</code>، يمكنك فعل ذلك هكذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git clone https://github.com/libgit2/libgit2</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هذا ينشئ مجلدًا اسمه <code>libgit2</code>، ويبتدئ مجلد <code>.git</code> فيه، ويجذب جميع بيانات هذا المستودع، ويسحب نسخة عمل من النسخة الأخيرة منه.
+فإذا ذهبت إلى داخل مجلد <code>libgit2</code> الجديد الذي أُنشئ آنفا، فستجد فيه ملفات المشروع تنتظرك للعمل عليها أو استخدامها.</p>
+</div>
+<div class="paragraph">
+<p>إذا أردت استنساخ المستودع إلى مجلد باسم غير <code>libgit2</code>، يمكنك تعيين هذا الاسم الجديد بإضافته إلى معاملات الأمر:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git clone https://github.com/libgit2/libgit2 mylibgit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هذا الأمر يفعل الشيء نفسه الذي يفعله الأمر السابق، لكن اختلف المجلد الهدف فصار <code>mylibgit</code>.</p>
+</div>
+<div class="paragraph">
+<p>يستطيع جت التعامل مع عدد من موافيق (بروتوكولات) النقل المختلفة.
+استخدم المثال السابق ميفاق <code>https://</code>، ولكنك قد ترى أيضا <code>git://</code>، أو <code>user@server:path/to/repo.git</code> الذي يستخدم ميفاق SSH.
+يخبرك <s>تثبيت جت على خادوم</s> بجميع الخيارات التي يستطيع الخادوم إعدادها حتى يمكنك الوصول إلى مستودع جت الخاص بك، ومزايا وعيوب كلٍ منها.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_تسجيل_التعديلات_في_المستودع">تسجيل التعديلات في المستودع</h3>
+<div class="paragraph">
+<p>الآن لديك مستودع جت أصيل على حاسوبك، وأمامك نسخة مسحوبة من جميع ملفاته، أي «نسخة عمل».
+غالبا ستود البدء بعمل تعديلات وإيداع لقطات من هذه التعديلات في مستودعك كل مرة يصل مشروعك إلى مرحلة تريد تسجيلها.</p>
+</div>
+<div class="paragraph">
+<p>تذكر أن كل ملف في مجلد العمل لديك يمكن أن يكون في حالة من اثنتين: <em>متعقَّب</em> أو <em>غير متعقَّب</em>.
+الملفات المتعقبة هي الملفات التي كانت في اللقطة الأخيرة أو أي ملف أُهِّل حديثًا. ويمكن أن تكون غير معدَّلة، أو معدلة، أو مؤهلة.
+باختصار، الملفات المتعقبة هي الملفات التي يعرفها جت.</p>
+</div>
+<div class="paragraph">
+<p>الملفات غير المتعقبة هي كل شيء آخر: أيّ ملفات في مجلد عملك لم تكن ضمن لقطتك الأخيرة وليست في منطقة التأهيل.
+عندما تستنسخ مستودعا أول مرة، تكون جميع ملفاتك متعقبة وغير معدلة، لأن جت سَحَبها لك للتو ولم تعدّل فيها شيئا بعد.</p>
+</div>
+<div class="paragraph">
+<p>وعندما تبدأ في تعديل الملفات، سيراها جت معدلة، لأنك غيّرتها عما كانت عليه في إيداعك الأخير.
+وعندما تشرع في العمل، ستنتقي من هذه الملفات ما تؤهله ثم تودِع هذه التعديلات المؤهلة، ثم تعيد الكَرَّة.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/lifecycle-AR.png" alt="دورة حياة حالة ملفاتك">
+</div>
+<div class="title">شكل ٨. دورة حياة حالة ملفاتك</div></div>
+<div class="sect3">
+<h4 id="_checking_status">فحص حالة ملفاتك</h4>
+<div class="paragraph">
+<p>الأداة الرئيسية التي تستعملها لتحديد أي الملفات في أي حالة هي أمر الحالة، <code>git status</code>.
+إذا نفّذت هذا الأمر مباشرةً بعد استنساخ، سترى شيئا مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+nothing to commit, working tree clean</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هذا يعني أن لديك مجلد عمل نظيف؛ أي أن لا ملف من ملفاتك المتعقبة معدل.
+وأيضا لا يرى جت أي ملفات غير متعقبة، وإلا لَسَرَدها هنا.
+وأخيرا، يخبرك هذا الأمر أي فرع أنت فيه، ويعلِمك أنه لم يختلف عن أخيه الفرع الذي في المستودع البعيد.
+ذلك الفرع حتى الآن هو دائما <code>master</code>، وهو المبدئي؛ لا تحتاج أن تقلق بشأنه هنا.
+سيناقش <a href="ch03-git-branching.html">التفريع في جت</a> الفروع والإشارات بالتفصيل.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>غيّرت شركة جت‌هب (GitHub) اسم المستودع المبدئي من <code>master</code> إلى <code>main</code> في منتصف عام ٢٠٢٠، ثم تبعتها خدمات استضافة جت الأخرى.
+لذلك قد تجد أن اسم الفرع المبدئي هو <code>main</code> في المستودعات التي أُنشئت حديثًا، وليس <code>master</code>.
+وأيضا يمكنك تغيير اسم الفرع المبدئي (كما رأيت في <a href="ch01-getting-started.html#_new_default_branch">اسم الفرع المبدئي</a>)، فربما ترى اسمًا آخر للفرع المبدئي.</p>
+</div>
+<div class="paragraph">
+<p>ولكن ما زال جت نفسه يستعمل <code>master</code> اسمًا للفرع المبدئي، لذلك فهذا ما سنستعمل خلال الك‍تاب.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>لنقُل أنك أضفت ملفًا جديدًا إلى مشروعك، مثلا ملف <code>README</code> («اقرأني») صغير.
+إذا لم يكن هذا الملف موجودًا من قبل، ونفّذت أمر الحالة <code>git status</code>، فسترى ملفك غير المتعقب هكذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ echo 'My Project' &gt; README
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+
+    README
+
+nothing added to commit but untracked files present (use "git add" to track)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>نرى أن ملفك الجديد غير متعقب، لأنه تحت عنوان ‪&#8220;Untracked files&#8221;‬ («ملفات غير متعقبة») في ناتج الحالة.
+«غير متعقب» لا يعني إلا أن جت يرى ملفًا لم يكن في اللقطة السابقة (الإيداع الأخير)، ولم تؤهله بعد. ولن يبدأ جت في ضمه إلى لقطات الإيداعات إلا بعد أن تخبره بذلك بأمر صريح.
+إنه لا يفعل ذلك لكيلا تضم بالخطأ ملفات رقمية مولدة أو ملفات أخرى لم تشأ ضمها أصلا.
+ولكنك تريد ضم <code>README</code>، فهيا بنا نبدأ تعقب هذا الملف.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_tracking_files">تعقب ملفات جديدة</h4>
+<div class="paragraph">
+<p>لبدء تعقب ملف جديد، استخدم أمر الإضافة <code>git add</code>.
+مثلا لبدء تعقب ملف <code>README</code>، نفّذ هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git add README</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>إذا نفذت أمر الحالة مجددا، سترى ملف <code>README</code> قد صار متعقبا ومؤهلا للإيداع:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git restore --staged &lt;file&gt;..." to unstage)
+
+    new file:   README</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>نعرف أنه مؤهلٌ لأنه تحت عنوان ‪&#8220;Changes to be committed&#8221;‬ («تعديلات ستُودَع»).
+إذا أودعت الآن، فإن نسخة الملف وقت تنفيذ أمر الإضافة <code>git add</code> هي التي ستكون في اللقطة التاريخية التالية.
+تذكر أنك عندما نفذت أمر الابتداء <code>git init</code> سابقا، أتبعته بأمر الإضافة <code>git add &lt;ملفات&gt;</code> والذي بدأ تعقب الملفات التي في مجلدك.
+أمر الإضافة <code>git add</code> يأخذ مسار ملف أو مجلد. فإن كان مجلدًا فإنه يضيف جميع الملفات التي فيه وفي أي مجلد فرعي فيه.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_تأهيل_ملفات_معدلة">تأهيل ملفات معدلة</h4>
+<div class="paragraph">
+<p>لنعدّل ملفًا جعلناه متعقبًا بالفعل.
+إذا عدّلت الملف المتعقب <code>CONTRIBUTING.md</code> ونفذت أمر الحالة مجددًا، فترى ما يشبه هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    new file:   README
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   CONTRIBUTING.md</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يظهر اسم الملف <code>CONTRIBUTING.md</code> تحت عنوان ‪&#8220;Changes not staged for commit&#8221;‬ («تعديلات غير مؤهلة للإيداع»)&#8201;&#8212;&#8201;والذي يعني أن ملفًا متعقبًا قد تغيّر في مجلد العمل، ولكنه لم يؤهل بعد.
+لتأهيله، نفذ أمر الإضافة <code>git add</code>.
+يُستخدم أمر الإضافة لأغراض عديدة: لبدء تعقب ملفات جديدة، ولتأهيل الملفات، ولأفعال أخرى مثل إعلان حل الملفات في نزاعات الدمج.
+ربما من المفيد أن تعتبرها بمعنى «أضف تحديدا هذا المحتوى إلى الإيداع التالي» بدلا من «أضف هذا الملف إلى المشروع».
+لننفذ <code>git add</code> الآن لتأهيل ملف <code>CONTRIBUTING.md</code> ثم ننفذ <code>git status</code> مجددا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git add CONTRIBUTING.md
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    new file:   README
+    modified:   CONTRIBUTING.md</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>كلا الملفين مؤهلان وسيكونان في إيداعك التالي.
+لنقُل أنك تذكرت الآن تعديلًا طفيفًا أردته في ملف <code>CONTRIBUTING.md</code> قبل إيداعه.
+ستفتح الملف مجددا، وتصنع تعديلك، وتحفظه وتغلقه. الآن أنت جاهز للإيداع.
+ولكن، لننفذ <code>git status</code> مرة أخرى:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ vim CONTRIBUTING.md
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    new file:   README
+    modified:   CONTRIBUTING.md
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   CONTRIBUTING.md</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يا للهول!
+لقد صار <code>CONTRIBUTING.md</code> مسرودًا أنه مؤهلا <em>وكذلك</em> غير مؤهل.
+كيف يُعقل هذا؟
+يتضح أن جت يؤهل الملف تماما كما هو عندما تنفذ <code>git add</code>.
+فإذا أودعت الآن، فإن ما سيودع هو نسخة <code>CONTRIBUTING.md</code> التي كانت موجودة عندما نفذت أمر الإضافة <code>git add</code> آخر مرة، وليس نسخة الملف الظاهرة لديك في مجلد العمل عندما تنفذ أمر الإيداع <code>git commit</code>.
+فإن عدّلت ملفًا بعد تنفيذ أمر الإضافة، فتحتاج إلى تنفيذه مرة أخرى لتأهيل النسخة الأخيرة من الملف:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git add CONTRIBUTING.md
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    new file:   README
+    modified:   CONTRIBUTING.md</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_الحالة_الموجزة">الحالة الموجزة</h4>
+<div class="paragraph">
+<p>مع كون ناتج أمر الحالة <code>git status</code> شاملًا، إلا أنه كثير الكلام.
+يتيح جت أيضا خيارا للحالة الموجزة، مما يتيح لك رؤية تعديلاتك بإيجاز:
+إذا نفذت <code>git status -s</code> أو <code>git status --short</code>، فسيعطيك الأمر ناتجًا أقصر كثيرا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git status -s
+ M README
+MM Rakefile
+A  lib/git.rb
+M  lib/simplegit.rb
+?? LICENSE.txt</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>أمام الملفات الجديدة التي لم تُتعقب علامتا <code>??</code>. والملفات الجديدة المؤهلة أمامها <code>A</code> (اختصار «أضيف»). والملفات المعدّلة أمامها <code>M</code> (اختصار «معدّل»). وهكذا.
+ويوجد عمودان في الناتج أمام أسماء الملفات: العمود الأيسر يوضّح حالته في منطقة التأهيل، والعمود الأيمن يوضّح حالته في شجرة العمل.
+لذا ففي ناتج مثالنا هذا، ملف <code>README</code> معدّل في مجلد العمل ولكنه ليس مؤهلا بعد، ولكن ملف <code>lib/simplegit.rb</code> معدّل ومؤهل.
+وملف <code>Rakefile</code> معدّل ومؤهل ثم معدّل مرة أخرى، ففيه تعديلات مؤهلة وتعديلات غير مؤهلة.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ignoring">تجاهل ملفات</h4>
+<div class="paragraph">
+<p>سيكون لديك غالبا فئة من الملفات التي لا تريد من جت أن يضيفها آليًا ولا حتى أن يخبرك أنها غير متعقبة.
+هذه غالبا ملفات موّلدة آليًا مثل ملفات السجلات أو ملفات مبنية.
+يمكنك في مثل هذه الحالات إنشاء ملف يسمى <code>.gitignore</code> (يبدأ بنقطة، لجعله مخفيا) والذي يسرد أنماط أسماء هذه الملفات ليتجاهلها.
+هذا مثال على ملف <code>.gitignore</code> :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cat .gitignore
+*.[oa]
+*~</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يطلب السطر الأول من جت أن يتجاهل أي ملفات ينتهي اسمها بـ ‪&#8220;.o&#8221;‬ أو ‪&#8220;.a&#8221;‬&#8201;&#8212;&#8201;ملفات الكائنات وملفات المكتبات المضغوطة التي قد تُنتج أثناء بناء مصدرك البرمجي.
+ويطلب السطر الثاني من جت أن يتجاهل جميع الملفات التي ينتهي اسمها بعلامة التلدة (<code>~</code>)، التي تستعملها محررات نصوص عديدة مثل Emacs لتمييز الملفات المؤقتة.
+يمكنك أيضا إضافة مجلد <code>log</code> أو <code>tmp</code> أو <code>pid</code>، أو الوثائق المولدة آليًا، إلخ.
+إعداد ملف التجاهل <code>.gitignore</code> لمستودعك الجديد قبل الانطلاق في المشروع هو تفكير حسن عموما، لكيلا تودع بالخطأ ملفات يقينا لا تريدها في مستودعك.</p>
+</div>
+<div class="paragraph">
+<p>إليك قواعد الأنماط التي تستطيع استعمالها في ملف التجاهل:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>تُهمل الأسطر الفارغة أو الأسطر البادئة بعلامة <code>#</code>.</p>
+</li>
+<li>
+<p>يمكن استعمال أنماط توسيع المسارات (glob) المعتادة (ستُوّضح بالتفصيل)، وستُطبق في جميع مجلدات شجرة العمل.</p>
+</li>
+<li>
+<p>يمكنك بدء الأنماط بفاصلة مائلة (<code>/</code>) لمطابقة الملفات أو المجلدات في المجلد الحالي فقط، وليس أي مجلد فرعي.</p>
+</li>
+<li>
+<p>يمكنك إنهاء الأنماط بفاصلة مائلة (<code>/</code>) لتحديد مجلد.</p>
+</li>
+<li>
+<p>يمكنك نفي نمط ببدئه بعلامة تعجب (<code>!</code>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>تشبه أنماط glob نسخة مُيسَّرة من «التعابير النمطية»، وتستعملها الصدفات.
+فتُطابق النجمة (<code>*</code>) صفر أو أكثر من المحارف؛ ويُطابق <code>[abc]</code> أي حرف داخل القوسين المربعين (أي <code>a</code> أو <code>b</code> أو <code>c</code> في هذه الحالة)؛ وتُطابق علامة الاستفهام الغربية (<code>?</code>) مِحرَفًا واحدًا؛ ولمطابقة مدًى من المحارف، نكتب أول مِحرف وآخر مِحرف (بترتيبهما في Unicode) داخل قوسين مربعين وبينهما شرطة، فمثلا لمطابقة رقمًا من الأرقام المغربية (من <code>0</code> إلى <code>9</code>) نكتب <code>[0-9]</code>.
+يمكنك أيضا استخدام نجمتين لمطابقة أي عدد من المجلدات الفرعية، فمثلا يطابق النمط <code>a/**/z</code> كلًا من <code>a/z</code> و <code>a/b/z</code> و <code>a/b/c/z</code> وهكذا.</p>
+</div>
+<div class="paragraph">
+<p>إليك مثال آخر على ملف <code>.gitignore</code> :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>&#x202b;<span class="comment-in-code">#⭅ تجاهل كل الملفات ذات الامتداد a #&#x202c;</span>
+*.a
+
+&#x202b;<span class="comment-in-code">#⭅ لكن تعقب lib.a، حتى لو كنت تتجاهل جميع ملفات a بالأعلى #&#x202c;</span>
+!lib.a
+
+&#x202b;<span class="comment-in-code">#⭅ تجاهل فقط TODO في المجلد الحالي، وليس subdir/TODO مثلا #&#x202c;</span>
+/TODO
+
+&#x202b;<span class="comment-in-code">#⭅ تجاهل أي مجلد اسمه build وكل شيء داخله #&#x202c;</span>
+build/
+
+&#x202b;<span class="comment-in-code">#⭅ تجاهل doc/notes.txt، وليس doc/server/arch.txt #&#x202c;</span>
+doc/*.txt
+
+&#x202b;<span class="comment-in-code">#⭅ تجاهل جميع pdf في مجلد doc أو أي مجلد فرعي فيه #&#x202c;</span>
+doc/**/*.pdf</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>إذا أردت نقطة بداية لمشروعك، فإن جت‌هب يرعى قائمةً شاملة نسبيًا من أمثلة ملفات التجاهل الحسنة لعشرات المشروعات واللغات في <a href="https://github.com/github/gitignore" class="bare" target="_blank" rel="noopener">https://github.com/github/gitignore</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>قد يكون لدى المستودع في الحالات البسيطة ملف تجاهل واحد في مجلد الجذر، والذي يطبق على المستودع بجميع مجلداته الفرعية.
+ولكن ممكن كذلك وجود ملفات تجاهل أخرى في مجلدات فرعية.
+وملفات التجاهل الداخلية هذه لا تطبق قواعدها إلا على الملفات التي في مجلداتها.
+ومثلا لدى مستودع نواة لينكس ٢٠٦ ملف تجاهل.</p>
+</div>
+<div class="paragraph">
+<p>يخرج عن نطاق الك‍تاب الغوص في تفاصيل ملفات التجاهل المتعددة؛ انظر <code>man gitignore</code> للتفاصيل.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_git_diff_staged">رؤية تعديلاتك المؤهلة وغير المؤهلة</h4>
+<div class="paragraph">
+<p>إذا كنت تجد ناتج أمر الحالة <code>git status</code> شديد الغموض&#8201;&#8212;&#8201;تريد معرفة ما الذي عدّلته على وجه التحديد، وليس مجرد أسماء الملفات التي تعدّلت&#8201;&#8212;&#8201;فيمكنك استخدام أمر الفرق <code>git diff</code>.
+نتناوله بالتفصيل فيما بعد، لكنك في الغالب تستخدمه لإجابة أحد التساؤلين: ما الذي عدّلته ولم تؤهله بعد؟
+وما الذي أهّلته وعلى وشك إيداعه؟
+وبالرغم من أن أمر الحالة <code>git status</code> يجيبهما إجابةً عامة جدا بسرد أسماء الملفات، إلا أن أمر الفرق <code>git diff</code> يُظهر لك بالتحديد السطور المضافة والمزالة: الرُقعة، إن جاز التعبير.</p>
+</div>
+<div class="paragraph">
+<p>لنقُل أنك عدّلت ملف <code>README</code> مجددا وأهّلته، ثم عدّلت ملف <code>CONTRIBUTING.md</code> من غير تأهيله.
+إذا نفذت أمر الحالة، سترى من جديد شيئا مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    modified:   README
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   CONTRIBUTING.md</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لرؤية ما الذي عدّلته ولم تؤهله بعد، اكتب <code>git diff</code> من غير أي معاملات أخرى:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git diff
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index 8ebb991..643e24f 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -65,7 +65,8 @@ branch directly, things can get messy.
+ Please include a nice description of your changes when you submit your PR;
+ if we have to read the whole diff to figure out why you're contributing
+ in the first place, you're less likely to get feedback and have your change
+-merged in.
++merged in. Also, split your changes into comprehensive chunks if your patch is
++longer than a dozen lines.
+
+ If you are starting to work on a particular area, feel free to submit a PR
+ that highlights your work in progress (and note in the PR title that it's</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يقارن هذا الأمر بين محتويات مجلد العمل ومنطقة التأهيل،
+ويُخبرك الناتج بما عدّلته ولم تؤهله بعد.</p>
+</div>
+<div class="paragraph">
+<p>إذا أردت رؤية ما الذي أهّلته ليكون في الإيداع التالي، يمكنك استخدام <code>git diff --staged</code>.
+يقارن هذا الأمر بين تعديلاتك المؤهلة وإيداعك الأخير:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git diff --staged
+diff --git a/README b/README
+new file mode 100644
+index 0000000..03902a1
+--- /dev/null
++++ b/README
+@@ -0,0 +1 @@
++My Project</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>مهمٌ ملاحظة أن <code>git diff</code> وحده لا يُظهر جميع التعديلات التي تمت بعد الإيداع الأخير&#8201;&#8212;&#8201;إنما التعديلات غير المؤهلة فقط.
+فإذا أهّلت جميع تعديلاتك، فلن يعطيك <code>git diff</code> أي ناتج.</p>
+</div>
+<div class="paragraph">
+<p>مثالٌ آخر: إذا أهّلت ملف <code>CONTRIBUTING.md</code> ثم عدّلته، يمكنك استخدام أمر الفرق لمعرفة التعديلات على الملف التي أُهّلِت والتعديلات التي لم تؤهل.
+فإذا كانت بيئتنا تبدو هكذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git add CONTRIBUTING.md
+$ echo '# test line' &gt;&gt; CONTRIBUTING.md
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    modified:   CONTRIBUTING.md
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   CONTRIBUTING.md</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يمكننا إذًا استخدام <code>git diff</code> لرؤية ما الذي لم يؤهل بعد:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git diff
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index 643e24f..87f08c8 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -119,3 +119,4 @@ at the
+ ## Starter Projects
+
+ See our [projects list](https://github.com/libgit2/libgit2/blob/development/PROJECTS.md).
++# test line</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>واستخدام <code>git diff --cached</code> لرؤية ما الذي أهّلته حتى الآن (الخياران <code>--staged</code> و <code>--cached</code> مترادفان):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git diff --cached
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index 8ebb991..643e24f 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -65,7 +65,8 @@ branch directly, things can get messy.
+ Please include a nice description of your changes when you submit your PR;
+ if we have to read the whole diff to figure out why you're contributing
+ in the first place, you're less likely to get feedback and have your change
+-merged in.
++merged in. Also, split your changes into comprehensive chunks if your patch is
++longer than a dozen lines.
+
+ If you are starting to work on a particular area, feel free to submit a PR
+ that highlights your work in progress (and note in the PR title that it's</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">فروقات جت باستخدام أداة خارجية</div>
+<div class="paragraph">
+<p>سنستمر في استخدام أمر الفرق <code>git diff</code> بطرائق متنوعة خلال الك‍تاب.
+ولكن توجد طريقة أخرى لرؤية هذه الفروقات إذا كنت تفضل برنامج عرض فروقات خارجي أو رسومي.
+يمكنك باستخدام <code>git difftool</code> بدلا من <code>git diff</code> أن ترى هذه الفروقات في برنامج مثل emerge أو vimdiff أو برامج كثيرة أخرى (بما فيها البرامج التجارية).
+نفذ <code>git difftool --tool-help</code> لترى ما المتاح على نظامك.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_committing_changes">إيداع تعديلاتك</h4>
+<div class="paragraph">
+<p>الآن وقد هيّأت منطقة تأهيلك كما تحب، يمكنك أن تودع تعديلاتك.
+تذكر أنه لن يُحفظ في هذا الإيداع أي شي ما زال غير مؤهل&#8201;&#8212;&#8201;أيْ أيّ ملفات أنشأتها أو عدّلتها ولم تنفذ <code>git add</code> عليها بعدما عدلتها؛
+بل ستبقى ملفات معدلة على القرص.
+لنقُل أنك عندما نفذت أمر <code>git status</code> رأيت أن كل شيء مؤهل، لذا فأنت الآن مستعد لإيداع تعديلاتك.
+أسهل طريقة للإيداع هي ك‍تابة <code>git commit</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git commit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فعل هذا يفتح محررك المختار.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>يعيّن «محررَك المختار» متغيرُ بيئة المحرر، <code>EDITOR</code>، في صدفتك، والذي غالبا يكون <code>vim</code> أو <code>emacs</code>. مع أنك تستطيع جعله أي شيء تريده بالأمر <code>git config --global core.editor</code> كما رأيت في <a href="ch01-getting-started.html">البدء</a></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>يُظهر المحرر النصَ التالي (المثال من Vim):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code># Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	new file:   README
+#	modified:   CONTRIBUTING.md
+#
+~
+~
+~
+".git/COMMIT_EDITMSG" 9L, 283C</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>والتي يترجم أولها إلى: «أدخل رسالة الإيداع لتعديلاتك. الأسطر البادئة بعلامة <code>#</code> ستُهمل، ورسالة فارغة ستلغي الإيداع.»</p>
+</div>
+<div class="paragraph">
+<p>نرى أن رسالة الإيداع المبدئية تشمل ناتج أمر الحالة الأحدث في صورة تعليق، وأن بها سطر فارغ في أولها.
+يمكنك إزالة هذه التعليقات وك‍تابة رسالة إيداعك، أو تركها في مكانها لتتذكر ماذا تودع.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>إذا احتجت تذكيرًا أشد تفصيلًا بما عدّلت، يمكنك إمرار الخيار <code>-v</code> لأمر الإيداع، <code>git commit</code>.
+يضع هذا فروقات تعديلاتك في المحرر، كي ترى بالتحديد ما التعديلات الذاهبة للإيداع.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>عندما تحفظ وتغلق المحرر، سيصنع جت إيداعك بالرسالة التي كتبتها (باستثناء الفروقات والتعليقات، أي الأسطر البادئة بعلامة <code>#</code>).</p>
+</div>
+<div class="paragraph">
+<p>يمكنك عوضًا عن ذلك ك‍تابة رسالة إيداعك في أمر الإيداع نفسه، بالخيار <code>-m</code>، مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git commit -m "Story 182: fix benchmarks for speed"
+[master 463dc4f] Story 182: fix benchmarks for speed
+ 2 files changed, 2 insertions(+)
+ create mode 100644 README</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>الآن قد صنعت إيداعك الأول!
+نرى أن الإيداع أعطاك بعض المعلومات عن نفسه، مثل الفرع الذي أودعت فيه (<code>master</code>)، وبصمة الإيداع (<code>463dc4f</code>)، وعدد الملفات المعدّلة (<code>2 files changed</code>)، وإحصاءات عن السطور المضافة والمزالة في هذا الإيداع (<code>2 insertion(+)</code>).</p>
+</div>
+<div class="paragraph">
+<p>تذكر أن هذا الإيداع يسجل اللقطة التي أعددتها في منطقة تأهيلك.
+أيّ شيء عدّلته ولم تؤهله سيظل جالسًا في مجلد العمل وهو معدَّل؛ يمكنك صنع إيداع آخر لإضافته إلى تاريخ مشروعك.
+في كل مرة تصنع إيداعًا، تسجل من مشروعك لقطة يمكنك إرجاع مشروعك إليها أو المقارنة معها فيما بعد.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_تخطي_منطقة_التأهيل">تخطي منطقة التأهيل</h4>
+<div class="paragraph">
+<p>
+مع أن منطقة التأهيل مفيدة لدرجة مدهشة في صياغة الإيداعات كما تشاء بالضبط، إلا أنها أحيانا أعقد مما تحتاج في سير عملك.
+يوفر لك جت اختصار سهلًا متى أردت تخطي منطقة التأهيل:
+إضافة الخيار <code>-a</code> إلى أمر <code>git commit</code> يجعل جت يؤهل من تلقاء نفسه كل ملف متعقب قبل هذا الإيداع، مما يتيح لك تخطي مرحلة الإضافة:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   CONTRIBUTING.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+$ git commit -a -m 'Add new benchmarks'
+[master 83e38c7] Add new benchmarks
+ 1 file changed, 5 insertions(+), 0 deletions(-)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لاحظ أنك لم تحتجْ إلى تنفيذ <code>git add</code> على ملف <code>CONTRIBUTING.md</code> في هذه الحالة قبل الإيداع،
+لأن خيار <code>-a</code> يضم جميع الملفات المعدلة.
+هذا مريح، لكن احذر: قد يضم هذا الخيار تعديلات غير مرغوب فيها.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_removing_files">إزالة ملفات</h4>
+<div class="paragraph">
+<p>
+لإزالة ملف من جت، عليك أن تزيله من ملفاتك المتعقبة (أو بتعبير أدق، من منطقة تأهيلك)، ثم تودع.
+يفعل أمر الإزالة <code>git rm</code> هذا، وأيضا يزيل الملف من مجلد عملك حتى لا تراه ملفًا غير متعقب في المرة القادمة.</p>
+</div>
+<div class="paragraph">
+<p>إذا أزلت الملف من مجلد عملك فقط، سيظهر تحت عنوان ‪&#8220;Changes not staged for commit&#8221;‬ («تعديلات غير مؤهلة للإيداع») في ناتج أمر الحالة:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ rm PROJECTS.md
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes not staged for commit:
+  (use "git add/rm &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+        deleted:    PROJECTS.md
+
+no changes added to commit (use "git add" and/or "git commit -a")</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>عندئذٍ تنفيذك أمر <code>git rm</code> يؤهل إزالة الملف:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git rm PROJECTS.md
+rm 'PROJECTS.md'
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    deleted:    PROJECTS.md</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>عندما تودع في المرة القادمة ستجد أن الملف قد ذهب ولم يعد متعقبًا.
+وإذا كنت قد عدّلت الملف أو كنت قد أضفته بالفعل إلى منطقة التأهيل، فعليك فرض الإزالة بالخيار <code>-f</code>.
+هذه ميزة أمان لكيلا تزيل بالخطأ بيانات لم تسجلها بعد في لقطة ولا يمكن استردادها من جت.</p>
+</div>
+<div class="paragraph">
+<p>أمرٌ آخر مفيد قد تود فعله هو إبقاء الملف في شجرة عملك لكن إزالته من منطقة تأهيلك.
+بلفظ آخر، تريد أن ينسى جت وجوده ولا يتعقبه ولكن يبقيه لك على قرصك.
+هذا مفيد خصوصا إن نسيت إضافة شيء إلى ملف التجاهل <code>.gitignore</code> ثم أهّلته بالخطأ، مثل ملف سجل كبير أو مجموعة من الملفات المبنية.
+استعمل الخيار <code>--cached</code> لهذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git rm --cached README</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يمكنك إعطاء الأمر أسماء ملفات أو مجلدات أو أنماط توسيع المسارات (glob).
+يعني هذا أن بإمكانك فعل أشياء مثل:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git rm log/\*.log</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لاحظ الشرطة المائلة الخلفية (<code>\</code>) قبل النجمة <code>*</code>؛
+هذا ضروري، لأن جت يقوم بنفسه بتوسيع أسماء الملفات بعد أن تقوم صدفتك بتوسيعها. فبغير النجمة ستوسع الصدفة أسماء الملفات قبل أن يراها جت.
+يحذف هذا الأمر جميع الملفات ذات الامتداد <code>.log</code> في مجلد <code>log/</code>.
+أو يمكنك فعل شيء مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git rm \*~</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يحذف هذا الأمر جميع الملفات المنتهي اسمها بعلامة التلدة (<code>~</code>).</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_git_mv">نقل ملفات</h4>
+<div class="paragraph">
+<p>
+لا يتعقب جت حركة الملفات تعقبًا صريحًا، خلافا لكثير من أنظمة إدارة النسخ الأخرى.
+فإذا غيّرت اسم ملف في جت، لا يخزن جت بيانات وصفية تخبره أنك غيرته.
+لكن جت ذكي جدا في تخمين ذلك وهو أمام الأمر الواقع&#8201;&#8212;&#8201;سنتعامل مع اكتشاف نقل الملفات بعد قليل.</p>
+</div>
+<div class="paragraph">
+<p>لذا فقد تجد أنه من المحيّر وجود أمر «نقل» (<code>mv</code>) في جت.
+فإذا أردت تغيير اسم ملف في جت، يمكنك طلبه هكذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git mv file_from file_to</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وسيعمل كما ينبغي.
+وفي الحقيقة، إذا نفذت أم‍را مثل هذا، ونظرت إلى الحالة، سترى أن جت يعتبره تغيير اسم ملف:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git mv README.md README
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    renamed:    README.md -&gt; README</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ولكن هذا مكافئ لتنفيذ شيء مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ mv README.md README
+$ git rm README.md
+$ git add README</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يخمن جت في سِرِّه أن الاسم قد تغير، لذا فلا يهم إن غيّرت اسمه بهذه الطريقة أو عبر نظام التشغيل أو مدير الملفات (مثلا بأمر النظام <code>mv</code>).
+الفرق الحقيقي الوحيد هو أن <code>git mv</code> أمر واحد وليس ثلاثة؛ إنه وسيلة راحة.
+والأهم أنك تستطيع استخدام أي أداة تريدها لتغيير أسماء الملفات، ثم تتعامل مع الإضافة والإزالة في جت فيما بعد، قبل الإيداع.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_viewing_history">رؤية تاريخ الإيداعات</h3>
+<div class="paragraph">
+<p>بعدما صنعت عددًا من الإيداعات، أو استنسخت مستودعًا ذا تاريخ من الإيداعات بالفعل، قد تود الالتفات إلى الماضي ورؤية ماذا حدث.
+أسهل وأقوى أداة لفعل هذا هي أمر السجل، <code>git log</code>:</p>
+</div>
+<div class="paragraph">
+<p>تستعمل هذه الأمثلة مشروعًا صغيرا جدا يسمى ‪&#8220;simplegit&#8221;‬.
+للحصول على المشروع، نفذ:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git clone https://github.com/schacon/simplegit-progit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>عندما تنفذ <code>git log</code> داخل هذا المشروع، ترى شيئا مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    Change version number
+
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 16:40:33 2008 -0700
+
+    Remove unnecessary test
+
+commit a11bef06a3f659402fe7563abf99ad00de2209e6
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 10:31:28 2008 -0700
+
+    Initial commit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>عندما تنادي أمر السجل بلا مُعامِلات، أيْ <code>git log</code> فقط، فإنه افتراضيًا يسرد لك الإيداعات التي في هذا المستودع بترتيب زمني عكسي؛ أيْ أن الإيداع الأحدث يظهر أولًا.
+يسرد هذا الأمر كما ترى كل إيداع مع بصمته واسم مؤلفه وبريده وتاريخ الإيداع ورسالته.</p>
+</div>
+<div class="paragraph">
+<p>يتيح أمر السجل عددًا عظيمًا متنوعًا من الخيارات لتُظهر بالضبط ما تريد.
+سنعرض لك هنا بعضًا من أشهرها.</p>
+</div>
+<div class="paragraph">
+<p>واحد من أكثر الخيارات إفادةً هو <code>-p</code> أو <code>--patch</code> («رُقعة»)، والذي يظهر لك الفرق (أي <em>الرقعة</em>) الذي أتى به كل إيداع.
+يمكنك أيضا تقييد عدد السجلات المعروضة، مثلا بالخيار <code>-2</code> لإظهار آخر بيانَيْن فقط.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log -p -2
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    Change version number
+
+diff --git a/Rakefile b/Rakefile
+index a874b73..8f94139 100644
+--- a/Rakefile
++++ b/Rakefile
+@@ -5,7 +5,7 @@ require 'rake/gempackagetask'
+ spec = Gem::Specification.new do |s|
+     s.platform  =   Gem::Platform::RUBY
+     s.name      =   "simplegit"
+-    s.version   =   "0.1.0"
++    s.version   =   "0.1.1"
+     s.author    =   "Scott Chacon"
+     s.email     =   "schacon@gee-mail.com"
+     s.summary   =   "A simple gem for using Git in Ruby code."
+
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 16:40:33 2008 -0700
+
+    Remove unnecessary test
+
+diff --git a/lib/simplegit.rb b/lib/simplegit.rb
+index a0a60ae..47c6340 100644
+--- a/lib/simplegit.rb
++++ b/lib/simplegit.rb
+@@ -18,8 +18,3 @@ class SimpleGit
+     end
+
+ end
+-
+-if $0 == __FILE__
+-  git = SimpleGit.new
+-  puts git.show
+-end</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يعرض هذا الخيار المعلومات نفسها أيضا ولكن مع إتباع كل بيان بالفروقات.
+هذا مفيد جدا لمراجعة الأكواد (code review) أو للنظر السريع فيما حدث في سلسلة من الإيداعات التي أضافها زميل.
+ولدى أمر السجل كذلك عددًا من خيارات التلخيص.
+فمثلا إذا أردت رؤية إحصاءات مختصرة عن كل إيداع، جرّب خيار الإحصاء <code>--stat</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log --stat
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    Change version number
+
+ Rakefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 16:40:33 2008 -0700
+
+    Remove unnecessary test
+
+ lib/simplegit.rb | 5 -----
+ 1 file changed, 5 deletions(-)
+
+commit a11bef06a3f659402fe7563abf99ad00de2209e6
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 10:31:28 2008 -0700
+
+    Initial commit
+
+ README           |  6 ++++++
+ Rakefile         | 23 +++++++++++++++++++++++
+ lib/simplegit.rb | 25 +++++++++++++++++++++++++
+ 3 files changed, 54 insertions(+)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فخيار <code>--stat</code> كما ترى يطبع لك تحت بيان كل إيداع قائمة بالملفات المعدلة وعددها وعدد السطور المضافة والمزالة في هذه الملفات.
+ثم يضع تلخيصًا لهذه المعلومات في النهاية.</p>
+</div>
+<div class="paragraph">
+<p>وخيار آخر مفيد جدًا هو <code>--pretty</code> («جميل»).
+والذي يغيّر ناتج السجل إلى صيغ أخرى غير الصيغة المبدئية.
+تأتي مع جت بعض القيم التي يمكن استعمالها مع هذا الخيار.
+قيمة <code>oneline</code> («سطر واحد») تطبع كل إيداع على سطر وحيد، والذي يفيد عندما تكون ناظرًا إلى إيداعات كثيرة.
+وكذلك، القيم <code>short</code> («قصير») و <code>full</code> («كامل») و <code>fuller</code> («أكمل») تُظهر لك ناتجًا مثل المبدئي مع زيادة أو نقصان في بعض المعلومات.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log --pretty=oneline
+ca82a6dff817ec66f44342007202690a93763949 Change version number
+085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 Remove unnecessary test
+a11bef06a3f659402fe7563abf99ad00de2209e6 Initial commit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>القيمة الأكثر إمتاعًا هي <code>format</code> («صياغة»)، والتي تتيح لك تحديد صيغة ناتج السجل التي تفضلها.
+هذا مفيد خصوصًا عندما تقوم بتوليد ناتج لكي يقرؤه ويحلله برنامج أو بُريمج (script)&#8201;&#8212;&#8201;فلأنك تحدد الصيغة بصراحة ووضوح، فإنك تطمئن أنها لن تتغيّر مع تحديث جت.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log --pretty=format:"%h - %an, %ar : %s"
+ca82a6d - Scott Chacon, 6 years ago : Change version number
+085bb3b - Scott Chacon, 6 years ago : Remove unnecessary test
+a11bef0 - Scott Chacon, 6 years ago : Initial commit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يسرد <a href="ch02-git-basics-chapter.html#pretty_format">متغيرات مفيدة لصياغة السجلات باستخدام <code>git log --pretty=format</code></a> بعض المتغيرات المفيدة التي تفهمها <code>format</code>:</p>
+</div>
+<table id="pretty_format" class="tableblock frame-all grid-all stretch">
+<caption class="title">جدول ١. متغيرات مفيدة لصياغة السجلات باستخدام <code>git log --pretty=format</code></caption><colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">المتغير</th>
+<th class="tableblock halign-right valign-top">وصف الناتج</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%H</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بصمة الإيداع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%h</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بصمة الإيداع المختصرة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%T</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بصمة الشجرة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%t</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بصمة الشجرة المختصرة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%P</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بصمات الآباء</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%p</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بصمات الآباء المختصرة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%an</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اسم المؤلف</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%ae</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بريد المؤلف</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%ad</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تاريخ التأليف (الصيغة تتبع <code>--date=option</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%ar</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تاريخ التأليف، نسبي</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%cn</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اسم المودِع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%ce</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بريد المودِع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%cd</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تاريخ الإيداع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%cr</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تاريخ الإيداع، نسبي</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%s</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">الموضوع</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>ربما تتساءل عن الفرق بين <em>المؤلف</em> و<em>المودِع</em>.
+المؤلف هو من كتب العمل في الأصل، بينما المودِع هو من طبّق العمل في النهاية.
+فمثلا إذا أرسلت رقعة إلى مشروع، وطبّقها أحد الأعضاء الأساسيين، فيجب الاعتراف بالفضل لكليكما&#8201;&#8212;&#8201;أنت مؤلفًا، والعضو الأساسي مودِعًا.
+سنتناول هذا التمييز بالتفصيل في <s>جت الموزع</s>.</p>
+</div>
+<div class="paragraph">
+<p>القيمتان <code>oneline</code> و <code>format</code> مفيدتان خصوصًا مع خيار آخر لأمر السجل يسمى <code>--graph</code> («رسم»).
+يضيف هذا الخيار رسمًا لطيفًا بالمحارف لإظهار تاريخ التفريع والدمج.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log --pretty=format:"%h %s" --graph
+* 2d3acf9 Ignore errors from SIGCHLD on trap
+*  5e3ee11 Merge branch 'master' of https://github.com/dustin/grit.git
+|\
+| * 420eac9 Add method for getting the current branch
+* | 30e367c Timeout code and tests
+* | 5a09431 Add timeout protection to grit
+* | e1193f8 Support for heads with slashes in them
+|/
+* d6016bc Require time for xmlschema
+*  11d191e Merge branch 'defunkt' into local</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>سيصير هذا النوع من الناتج ممتعًا أكثر أثناء تناولنا التفريع والدمج في الباب التالي.</p>
+</div>
+<div class="paragraph">
+<p>هذه فقط بعض خيارات تنسيق الناتج اليسيرة المتاحة في <code>git log</code>&#8201;&#8212;&#8201;متاح عدد أكبر من ذلك كثيرا.
+يسرد <a href="ch02-git-basics-chapter.html#log_options">خيارات شائعة لأمر السجل</a> الخيارات التي تناولناها حتى الآن، وكذلك بعض خيارات التنسيق الشائعة الأخرى التي قد تفيد، إضافةً إلى كيفية تعديل ناتج أمر السجل.</p>
+</div>
+<table id="log_options" class="tableblock frame-all grid-all stretch">
+<caption class="title">جدول ٢. خيارات شائعة لأمر السجل</caption><colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">الخيار</th>
+<th class="tableblock halign-right valign-top">الوصف</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-p</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">أظهر الرقعة التي أتى بها كل إيداع.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--stat</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">أظهر إحصاءات الملفات المعدّلة في كل إيداع.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--shortstat</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اعرض فقط سطر التعديلات/الإضافات/الإزالات من أمر <code>--stat</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--name-only</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اسرد أسماء الملفات المعدلة بعد كل إيداع.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--name-status</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اسرد أسماء الملفات مرفقة بحالتها: معدّل/مضاف/مزال.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--abbrev-commit</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">أظهر فقط الحروف القليلة الأولى من البصمة، بدلًا من الأربعين جميعًا.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--relative-date</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اعرض التاريخ بصيغة نسبية (مثلا ‪&#8220;2 weeks ago&#8221;‬) بدلا من صيغة التاريخ الكاملة.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--graph</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اعرض رسمًا بالمحارف لتاريخ التفريع والدمج بجانب ناتج السجل.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--pretty</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اعرض الإيداعات بصيغة أخرى. قيم الخيار المتاحة تشمل <code>oneline</code> و <code>short</code> و <code>full</code> و <code>fuller</code> و <code>format</code> (والتي تتيح لك تحديد صياغتك المخصوصة).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--oneline</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اختصار لاستخدام <code>--pretty=oneline --abbrev-commit</code> معًا.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect3">
+<h4 id="_تقييد_ناتج_السجل">تقييد ناتج السجل</h4>
+<div class="paragraph">
+<p>إضافةً إلى خيارات صياغة الناتج، يتيح أمر السجل عددًا من خيارات تقييد الناتج؛ أيْ خيارات تتيح لك إظهار جزء من الإيداعات فقط.
+لقد رأيت أحد هذه الخيارات بالفعل&#8201;&#8212;&#8201;خيار <code>-2</code> الذي يُظهر آخر إيداعين فقط.
+الحقيقة أن استخدام <code>-&lt;ن&gt;</code>، حيث <code>ن</code> هو أي عدد صحيح موجب، يُظهر لك آخر <code>ن</code> إيداعًا.
+لن تستخدم هذا كثيرا في الواقع، لأن جت بطبيعته يمرر الناتج كله إلى برنامج عرض (‪&#8220;pager&#8221;‬ مثل <code>less</code>) حتى ترى ناتج السجل صفحةً صفحة.</p>
+</div>
+<div class="paragraph">
+<p>لكن خيارات التقييد بالزمن مثل <code>--since</code> («منذ») و <code>--until</code> («حتى») مفيدة جدا.
+مثلا، هذا الأمر يسرد الإيداعات التي تمت خلال الأسبوعين السابقين:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log --since=2.weeks</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يعمل هذا الأمر مع العديد من الصيغ&#8201;&#8212;&#8201;يمكنك تحديد تاريخ محدد مثل <code>"2008-01-15"</code> أو تاريخ نسبي مثل <code>"2 years 1 day 3 minutes ago"</code>.</p>
+</div>
+<div class="paragraph">
+<p>يمكنك أيضا سرد الإيداعات المطابقة لمعايير بحث معينة.
+مثلا خيار <code>--author</code> يتيح لك سرد إيداعات مؤلف معين فقط، و <code>--grep</code> يتيح لك البحث عن كلمات معينة في رسائل الإيداعات.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>يمكنك استخدام <code>--author</code> أو <code>--grep</code> أكثر من مرة في المرة، والذي يسرد الإيداعات التي توافق <em>أي</em> نمط <code>--author</code> معطى وتوافق <em>أي</em> نمط <code>--grep</code> معطى؛ ولكن إضافة خيار <code>--all-match</code> يقيّد الناتج إلى الإيداعات الموافقة <em>لجميع</em> أنماط <code>--grep</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>مصفاة مفيدة جدا أخرى هي خيار <code>-S</code> (والمعروف بالاسم الدارج: خيار «فأس» جت)، والذي يأخذ سلسلة نصية ولا يظهر إلا الإيداعات التي عدّلت عدد تواجداتها.
+مثلا، إذا أردت إظهار آخر إيداع أضاف أو أزال إشارة إلى دالة معينة، يمكنك تنفيذ:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log -S function_name</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>آخر خيار تصفية مفيد جدا لأمر السجل هو إعطاؤه مسار.
+فإذا أعطيته مجلدًا أو ملفًا، فإنه يقيّد ناتج السجل إلى الإيداعات التي عدّلت هذه الملفات.
+يكون هذا دائما آخر خيار وفي الغالب يُسبق بشرطتين (<code>--</code>) لفصل المسارات عن الخيارات:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log -- path/to/file</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>نسرد في <a href="ch02-git-basics-chapter.html#limit_options">خيارات تقييد ناتج أمر السجل</a> هذه الخيارات وبعض الخيارات الأخرى حتى تكون مرجعًا لك.</p>
+</div>
+<table id="limit_options" class="tableblock frame-all grid-all stretch">
+<caption class="title">جدول ٣. خيارات تقييد ناتج أمر السجل</caption><colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">الخيار</th>
+<th class="tableblock halign-right valign-top">الوصف</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-&lt;ن&gt;</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">أظهر فقط آخر <code>ن</code> إيداعًا.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--since</code> أو <code>--after</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">قيّد الناتج إلى الإيداعات التي تمت بعد التاريخ المعطى.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--until</code> أو <code>--before</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">قيّد الناتج إلى الإيداعات التي تمت قبل التاريخ المعطى.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--author</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">لا تظهر إلا الإيداعات التي يطابق اسم مؤلفها السلسلة النصية المعطاة.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--committer</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">لا تظهر إلا الإيداعات التي يطابق اسم مودِعها السلسلة النصية المعطاة.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--grep</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">لا تظهر إلا الإيداعات التي تشتمل رسالتها على السلسلة النصية المعطاة.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-S</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">لا تظهر إلا الإيداعات التي أضافت أو أزالت سطورًا برمجية فيها السلسلة النصية المعطاة.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>مثلا، إذا أردت رؤية أيِّ الإيداعات عدّلت ملفات الاختبارات في مصدر جت والتي أودعها Junio Hamano في شهر أكتوبر عام ٢٠٠٨، وليست إيداعات دمج، يمكنك فعل شيء مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log --pretty="%h - %s" --author='Junio C Hamano' --since="2008-10-01" \
+   --before="2008-11-01" --no-merges -- t/
+5610e3b - Fix testcase failure when extended attributes are in use
+acd3b9e - Enhance hold_lock_file_for_{update,append}() API
+f563754 - demonstrate breakage of detached checkout with symbolic link HEAD
+d1a43f2 - reset --hard/read-tree --reset -u: remove unmerged new paths
+51a94af - Fix "checkout --track -b newbranch" on detached HEAD
+b0ad11e - pull: allow "git pull origin $something:$current_branch" into an unborn branch</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>حوالي أربعين ألف إيداع في تاريخ مصدر جت، وهذا الأمر لا يُظهر منها إلا الإيداعات الستة المطابقة لتلك المعايير.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="title">منع عرض إيداعات الدمج</div>
+<div class="paragraph">
+<p>حسب أسلوب سير العمل في مستودعك، قد يكون عدد ضخم من الإيداعات في تاريخ سجلك مجرد إيداعات دمج، وهي لا تفيد كثيرًا.
+لمنع عرضها وإزحامها تاريخ سجلك، أضف إلى أمر السجل خيار <code>--no-merges</code> («لا دمج»).</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_undoing">التراجع عن الأفعال</h3>
+<div class="paragraph">
+<p>قد تحتاج في أي مرحلة إلى التراجع عن فعلٍ ما.
+سنرى هنا بعض الأدوات الأساسية للتراجع عن تعديلاتك.
+كن حذرًا، لأن بعض هذه التراجعات لا يمكن التراجع عنها فيما بعد.
+هذه من المناطق القليلة في جت التي يمكنك أن تفقد فيها شيئا من عملك إذا فعلت شيئا خطأ.</p>
+</div>
+<div class="paragraph">
+<p>واحد من أشهر التراجعات هو عندما تودع قبل الأوان وتنسى إضافة ملفات أو تخطئ في رسالة إيداعك.
+إذا أردت إعادة هذا الإيداع، فقم بالتعديلات التي نسيتها، وأهّلها، ثم أودع مجددا مع خيار التصحيح <code>--amend</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git commit --amend</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يأخذ هذا الأمر منطقة تأهيلك ويستخدمها للإيداع.
+وإذا لم تقم بأي تعديلات منذ إيداعك الأخير (مثلا نفذت هذا الأمر مباشرةً بعد إيداعك السابق)، فإن لقطتك ستتطابق تمامًا بلا اختلاف، ولن تتغيّر سوى رسالة الإيداع.</p>
+</div>
+<div class="paragraph">
+<p>سيظهر لك محرر رسالة الإيداع، ولكنك ستجد فيه رسالة الإيداع السابقة
+في انتظارك لتعدّلها إن شئت أو تغيّرها تمامًا.</p>
+</div>
+<div class="paragraph">
+<p>مثلا، إذا أودعت ثم أدركت أنك نسيت تأهيل تعديلات على ملف تريدها في هذا الإيداع، يمكنك فعل شيء مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git commit -m 'Initial commit'
+$ git add forgotten_file
+$ git commit --amend</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ستجد في النهاية إيداعًا واحدًا؛ فالإيداع الثاني يحل محل الأول.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>مهمٌ فهم أنك عندما تصحح إيداعك الأخير، فإنك لا تصلحه ولكن <em>تستبدله</em> برُمّتِه وتضع مكانه إيداعًا جديدًا محسَّنًا وتزيح القديم عن الطريق.
+في الحقيقة، هذا كأن الإيداع السابق لم يحدث أصلًا، ولن يظهر في تاريخ مستودعك.</p>
+</div>
+<div class="paragraph">
+<p>الفائدة الواضحة لتصحيح الإيداعات هو التحسينات الطفيفة للإيداع الأخير، بغير إزحام تاريخ مستودعك برسائل إيداعات من نوعية «عذرا، نسيت إضافة ملف» أو «سحقا، خطأ مطبعي في الإيداع السابق، أصلحته».</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>لا تصحح إلا الإيدعات التي لا تزال محلية ولم تُدفع بعد إلى أي مكان آخر.
+فتصحيح إيداع قد دُفع بالفعل ثم فرض الدفع (<code>git push --force</code>) سيسبب مشاكل للمتعاونين معك.
+لمعرفة ما سيحدث إن فعلت هذا وكيف تتعافي إذا كنت الطرف المتلقي، اقرأ <a href="ch03-git-branching.html#_rebase_peril">محذورات إعادة التأسيس</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_unstaging">إلغاء تأهيل ملف مؤهل</h4>
+<div class="paragraph">
+<p>سيوضح الفصلان التاليان كيف تتعامل مع التعديلات في منطقة تأهيلك ومجلد عملك.
+الجميل أن الأمر الذي تستخدمه لمعرفة حالة إحدى هاتين المنطقتين يذكّرك أيضا بكيفية التراجع عن تعديلاتهما.
+لنقُل مثلا أنك عدّلت ملفين وأردت إيداع كلٍ منهما في إيداع منفصل، ولكنك كتبت خطأً <code>git add *</code> فأهّلت كليهما.
+كيف يمكنك إلغاء تأهيل أحدهما؟
+أمر الحالة يذكّرك:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git add *
+$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    renamed:    README.md -&gt; README
+    modified:   CONTRIBUTING.md</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>مباشرةً تحت ‪&#8220;Changes to be committed&#8221;‬ («تعديلات ستُودَع») تجده يقول استخدم <code>git reset HEAD &lt;ملفات&gt;</code> لإلغاء التأهيل.
+فلنعمل بهذه النصيحة إذًا، لإلغاء تأهيل ملف <code>CONTRIBUTING.md</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git reset HEAD CONTRIBUTING.md
+Unstaged changes after reset:
+M	CONTRIBUTING.md
+$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    renamed:    README.md -&gt; README
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   CONTRIBUTING.md</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هذا الأمر غريب قليلًا، لكنه يعمل.
+ملف <code>CONTRIBUTING.md</code> معدّل لكنه عاد من جديد غير مؤهل.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>صدقًا إن <code>git reset</code> أمر خطير، خصوصا مع الخيار <code>--hard</code>.
+مع ذلك، فإن الملف الذي في مجلد عملك لم يُمس في الموقف الموضح بالأعلى، لذا فهذا الأمر آمن نسبيا في مثل هذا الموقف.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>هذا الأمر السحري هو كل ما تحتاج معرفته الآن عن أمر الإرجاع <code>git reset</code>.
+سنغوص في <s>Reset Demystified</s> في تفاصيل أعمق كثيرا عن أمر الإرجاع وماذا يفعل وكيف تتقنه لتفعل أفعالا شيقة وممتعة جدا.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_إعادة_ملف_معدل_إلى_حالته_قبل_التعديل">إعادة ملف معدل إلى حالته قبل التعديل</h4>
+<div class="paragraph">
+<p>ماذا لو أدركت أنك لم تعد تريد تعديل ملف <code>CONTRIBUTING.md</code> من الأساس؟
+كيف يمكنك إرجاعه إلى حالته عند الإيداع الأخير (أو الاستنساخ الأول، أو كيفما حصلت عليه في مجلد عملك)؟
+لحسن الحظ، يخبرك أمر الحالة بهذا أيضا.
+في ناتج المثال الأخير، كان جزء التعديلات غير المؤهلة هكذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   CONTRIBUTING.md</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فيخبرك أن تستخدم الأمر <code>git checkout -- &lt;ملفات&gt;</code> لتجاهل التعديلات التي في مجلد عملك.
+لنفعل ما يخبرنا به:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout -- CONTRIBUTING.md
+$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    renamed:    README.md -&gt; README</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>كما ترى، أُلغيت التعديلات.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>من المهم جدا فهم أن <code>git checkout -- &lt;ملفات&gt;</code> أمر خطير؛
+أي تعديلات محلية قمت بها على هذا الملف قد ضاعت، فقد أزال جت للتو هذا الملف ووضع مكانه آخر نسخة مؤهلة أو مودعة منه.
+إياك أبدا أن تستعمل هذا الأمر، إلا أن تكون واعيا أشد الوعي أنك لا تريد هذه التعديلات المحلية غير المحفوظة.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>إذا أردت الإبقاء على تعديلاتك على هذا الملف لكنك لا تزال تريد إزاحته جانبًا الآن، فسنشرح التخبئة والتفريع في <a href="ch03-git-branching.html">التفريع في جت</a>؛ هاتان الطريقتان في العموم أفضل.</p>
+</div>
+<div class="paragraph">
+<p>تذكر أن أي شيء تودعه في جت يمكن شِبه دائمًا استعادته.
+حتى الإيداعات في الفروع المحذوفة أو الإيداعات المبدلة بخيار التصحيح (<code>--amend</code>) يمكن استعادتها (انظر <s>استرجاع البيانات</s> لاستعادة البيانات).
+مع ذلك، أي شيء تفقده لم يكن مودعًا، صعب أن تراه مرة أخرى.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="undoing_git_restore">التراجع بأمر الاستعادة git restore</h4>
+<div class="paragraph">
+<p>أضافت النسخة 2.23.0 من جت أمرًا جديدًا: <code>git restore</code>.
+هذا في الأصل بديل لأمر الإرجاع <code>git reset</code> الذي ناقشناه للتو.
+ابتداءً من النسخة 2.23.0 من جت، سيستخدم جت أمر الاستعادة <code>git restore</code> بدلا من أمر الإرجاع <code>git reset</code> في الكثير من عمليات التراجع.</p>
+</div>
+<div class="paragraph">
+<p>لنرتد على آثارنا قَصصًا ونعيد الكرّة ونتراجع بأمر الاستعادة <code>git restore</code> بدلًا من أمر الإرجاع <code>git reset</code>.</p>
+</div>
+<div class="sect4">
+<h5 id="_إلغاء_تأهيل_ملف_مؤهل_بأمر_الاستعادة">إلغاء تأهيل ملف مؤهل بأمر الاستعادة</h5>
+<div class="paragraph">
+<p>سيوضح الفصلان التاليان كيف تتعامل مع التعديلات في منطقة تأهيلك ومجلد عملك بأمر الاستعادة <code>git restore</code>.
+الجميل أن الأمر الذي تستخدمه لمعرفة حالة إحدى هاتين المنطقتين يذكّرك أيضا بكيفية التراجع عن تعديلاتهما.
+لنقُل مثلا أنك عدّلت ملفين وأردت إيداع كلٍ منهما في إيداع منفصل، ولكنك كتبت خطأً <code>git add *</code> فأهّلت كليهما.
+كيف يمكنك إلغاء تأهيل أحدهما؟
+أمر الحالة يذكّرك:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git add *
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged &lt;file&gt;..." to unstage)
+	modified:   CONTRIBUTING.md
+	renamed:    README.md -&gt; README</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>مباشرةً تحت ‪&#8220;Changes to be committed&#8221;‬ («تعديلات ستُودَع») تجده يقول استخدم <code>git restore --staged &lt;ملفات&gt;</code> لإلغاء التأهيل.
+فلنعمل بهذه النصيحة إذًا، لإلغاء تأهيل ملف <code>CONTRIBUTING.md</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git restore --staged CONTRIBUTING.md
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged &lt;file&gt;..." to unstage)
+	renamed:    README.md -&gt; README
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git restore &lt;file&gt;..." to discard changes in working directory)
+	modified:   CONTRIBUTING.md</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ملف <code>CONTRIBUTING.md</code> معدّل لكنه عاد من جديد غير مؤهل.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_إعادة_ملف_معدل_إلى_حالته_قبل_التعديل_بأمر_الاستعادة">إعادة ملف معدل إلى حالته قبل التعديل بأمر الاستعادة</h5>
+<div class="paragraph">
+<p>ماذا لو أدركت أنك لم تعد تريد تعديل ملف <code>CONTRIBUTING.md</code> من الأساس؟
+كيف يمكنك إرجاعه إلى حالته عند الإيداع الأخير (أو الاستنساخ الأول، أو كيفما حصلت عليه في مجلد عملك)؟
+لحسن الحظ، يخبرك أمر الحالة بهذا أيضا.
+في ناتج المثال الأخير، كان جزء التعديلات غير المؤهلة هكذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git restore &lt;file&gt;..." to discard changes in working directory)
+	modified:   CONTRIBUTING.md</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فيخبرك أن تستخدم الأمر <code>git restore &lt;ملفات&gt;</code> لتجاهل التعديلات التي في مجلد عملك.
+لنفعل ما يخبرنا به:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git restore CONTRIBUTING.md
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged &lt;file&gt;..." to unstage)
+	renamed:    README.md -&gt; README</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>من المهم جدا فهم أن <code>git restore &lt;ملفات&gt;</code> أمر خطير؛
+أي تعديلات محلية قمت بها على هذا الملف قد ضاعت، فقد أزال جت للتو هذا الملف ووضع مكانه آخر نسخة مؤهلة أو مودعة منه.
+إياك أبدا أن تستعمل هذا الأمر، إلا أن تكون واعيا أشد الوعي أنك لا تريد هذه التعديلات المحلية غير المحفوظة.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_remote_repos">التعامل مع المستودعات البعيدة</h3>
+<div class="paragraph">
+<p>حتى تستطيع التعاون في أي مشروع يستخدم جت، تحتاج إلى معرفة كيف تدير مستودعاتك البعيدة.
+المستودعات البعيدة هي نُسخ من مشروعك، وهذه النسخ مستضافة على الإنترنت أو على شبكة داخلية.
+يمكن أن يكون لديك عددًا منها، وكل واحد منها غالبًا يسمح لك إما بالقراءة فحسب («القراءة فقط»)، وإما بالتحرير كذلك («القراءة والك‍تابة»).
+والتعاون مع الآخرين يشمل إدارة هذه المستودعات البعيدة ودفع البيانات إليها وجذبها منها عندما تحتاج إلى مشاركة العمل.
+وإدارة المستودعات البعيدة تشمل معرفة كيف تضيفها في مستودعك وكيف تزيلها إن لم تعد صالحة وكيف تدير العديد من الفروع البعيدة وكيف تجعل الفروع البعيدة متعقَّبة أو غير متعقَّبة، وغير ذلك.
+سنتناول في هذا الفصل بعضًا من مهارات الإدارة هذه.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">المستودعات البعيدة قد تكون على جهازك المحلي</div>
+<div class="paragraph">
+<p>من الممكن جدا أن تعمل مع مستودع «بعيد» (‪&#8220;remote&#8221;‬)، ولكنه في الحقيقة على الجهاز الذي تستخدمه نفسه.
+كلمة «بعيد» لا تعني بالضرورة أن المستودع في مكانٍ ما آخر على الشبكة أو الإنترنت، ولكنها تعني فقط أنه في مكان آخر.
+فالعمل مع مستودع بعيد مثل هذا ما زال يحتاج جميع عمليات الدفع والجذب والاستحضار المعتادة مثل أي مستودع بعيد آخر.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_سرد_مستودعاتك_البعيدة">سرد مستودعاتك البعيدة</h4>
+<div class="paragraph">
+<p>لسرد المستودعات البعيدة التي هيأتها، استخدم أمر البعيد <code>git remote</code>.
+فإنه يُظهر لك الاسم المختصر لكل بعيد في مستودعك.
+وإذا استنسخت مستودعا، فإنك على الأقل سترى <code>origin</code> («الأصل»)، وهو الاسم الذي يعطيه جت للمستودع الذي استنسخت منه:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git clone https://github.com/schacon/ticgit
+Cloning into 'ticgit'...
+remote: Reusing existing pack: 1857, done.
+remote: Total 1857 (delta 0), reused 0 (delta 0)
+Receiving objects: 100% (1857/1857), 374.35 KiB | 268.00 KiB/s, done.
+Resolving deltas: 100% (772/772), done.
+Checking connectivity... done.
+$ cd ticgit
+$ git remote
+origin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يمكنك أيضا استخدام الخيار <code>-v</code> («إطناب»)، والذي يُظهر لك الروابط التي خزنها جت للأسماء المختصرة للمستودعات البعيدة ليستعملها لقراءة ذلك المستودع البعيد ولتحريره:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git remote -v
+origin	https://github.com/schacon/ticgit (fetch)
+origin	https://github.com/schacon/ticgit (push)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>إذا كان لديك أكثر من مستودع بعيد واحد، فإن هذا الأمر سيسردهم جميعًا.
+مثلا، قد يبدو مستودع مرتبط بعدد من المستودعات البعيدة للعمل مع رهط من المتعاونين هكذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cd grit
+$ git remote -v
+bakkdoor  https://github.com/bakkdoor/grit (fetch)
+bakkdoor  https://github.com/bakkdoor/grit (push)
+cho45     https://github.com/cho45/grit (fetch)
+cho45     https://github.com/cho45/grit (push)
+defunkt   https://github.com/defunkt/grit (fetch)
+defunkt   https://github.com/defunkt/grit (push)
+koke      git://github.com/koke/grit.git (fetch)
+koke      git://github.com/koke/grit.git (push)
+origin    git@github.com:mojombo/grit.git (fetch)
+origin    git@github.com:mojombo/grit.git (push)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هذا يعني أننا نستطيع جذب المساهمات من أيٍّ من هؤلاء المستخدمين بسهولة.
+وقد يكون لدينا إذن الدفع إلى واحد أو أكثر منهم، ولكن لا نستطيع معرفة هذا من هنا.</p>
+</div>
+<div class="paragraph">
+<p>لاحظ أن هذه المستودعات البعيدة تستخدم موافيق (بروتوكولات) متنوعة؛ سنتحدث عن هذا في <s>تثبيت جت على خادوم</s>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_إضافة_مستودعات_بعيدة">إضافة مستودعات بعيدة</h4>
+<div class="paragraph">
+<p>ذكرنا أن أمر الاستنساخ <code>git clone</code> يضيف لك من تلقاء نفسه الأصل البعيد <code>origin</code>، ورأيت مثالين على ذلك.
+إليك الآن معرفة كيف تضيف مستودعا بعيدا بأمر صريح.
+لإضافة مستودع جت بعيد جديد وإعطائه اسمًا مختصرًا للإشارة إليه به بسهولة فيما بعد، نفذ <code>git remote add &lt;shortname&gt; &lt;url&gt;</code>، أي الاسم المختصر ثم الرابط:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git remote
+origin
+$ git remote add pb https://github.com/paulboone/ticgit
+$ git remote -v
+origin	https://github.com/schacon/ticgit (fetch)
+origin	https://github.com/schacon/ticgit (push)
+pb	https://github.com/paulboone/ticgit (fetch)
+pb	https://github.com/paulboone/ticgit (push)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يمكنك الآن استخدام الاسم <code>pb</code> في سطر الأوامر، بدلا من الرابط بكامله.
+مثلا إذا أردت استحضار جميع المعلومات التي لدي پول ولكن ليست لديك في مستودعك بعد، يمكنك استخدام أمر الاستحضار معه، أي <code>git fetch pb</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git fetch pb
+remote: Counting objects: 43, done.
+remote: Compressing objects: 100% (36/36), done.
+remote: Total 43 (delta 10), reused 31 (delta 5)
+Unpacking objects: 100% (43/43), done.
+From https://github.com/paulboone/ticgit
+ * [new branch]      master     -&gt; pb/master
+ * [new branch]      ticgit     -&gt; pb/ticgit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>الآن صار فرع <code>master</code> من مستودع پول متاحا محليًا بالاسم <code>pb/master</code>؛ يمكنك دمجه في أحد فروعك، أو سحب إيداعه الأخير إلى فرع محلي إذا أردت تفقّده.
+سنتناول ما هي الفروع وكيف نستعملها بتفصيل عميق في <a href="ch03-git-branching.html">التفريع في جت</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_fetching_and_pulling">الاستحضار والجذب من مستودعاتك البعيدة</h4>
+<div class="paragraph">
+<p>كما رأيت للتو، للحصول على بيانات من مستودعاتك البعيدة، يمكنك تنفيذ:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git fetch &lt;البعيد&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يذهب هذا الأمر إلى المستودع البعيد ويجذب منه كل البيانات التي لديه وليست لديك بعد.
+بعد أن تفعل هذا، ستجد لديك إشارات لجميع الفروع التي لدى هذا البعيد، فيمكنك دمجها أو فحصها في أي وقت.</p>
+</div>
+<div class="paragraph">
+<p>إذا استنسخت مستودعًا، فإن أمر الاستنساخ يضيف آليًّا هذا المستودع البعيد بالاسم ‪&#8220;origin&#8221;‬.
+لذا فإن <code>git fetch origin</code> يستحضر أي عمل قد دُفع إلى هذا المستودع بعدما استنسخته (أو استحضرت منه) آخر مرة.
+مهمٌ ملاحظة أن أمر الاستحضار ينزّل فقط البيانات إلى مستودعك المحلي؛ ولكنه لا يدمجها مع عملك ولا يعدّل أي شيء تعمل عليه.
+عليك دمجها يدويًا مع عملك عندما تكون مستعدًا لذلك.</p>
+</div>
+<div class="paragraph">
+<p>إذا كان الفرع الحالي مضبوطًا ليتعقب فرعًا بعيدًا (انظر الفصل التالي و <a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a> للمزيد من المعلومات)، فيمكنك استخدام أمر الجذب <code>git pull</code> ليستحضر آليًّا هذا الفرع البعيد ثم يدمجه في الفرع الحالي.
+هذا قد يكون أسهل أو أريح لك. وأمر الاستنساخ بطبيعة الحال يضبط لك آليًّا الفرع المبدئي المحلي ليتعقب الفرع المبدئي البعيد (<code>master</code> أو <code>main</code> أو أيًّا كان اسمه) في المستودع الذي استنسخت منه.
+يستحضر أمر الجذب البيانات من المستودع الذي استنسخت منه في الأصل عادةً ثم يحاول دمجها آليًّا في الفرع الذي تعمل فيه حاليا.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>ابتداءً من النسخة 2.27 من جت، سيحذرك أمر الجذب <code>git pull</code> إن لم يكن متغير <code>pull.rebase</code> مضبوطًا.
+وسيبقى يحذرك حتى تعيّن له قيمة.</p>
+</div>
+<div class="paragraph">
+<p>إن أردت سلوك جت المبدئي (التسريع متى أمكن، وإلا فإنشاء إيداع دمج)، فنفذ:<br>
+<code>git config --global pull.rebase "false"</code></p>
+</div>
+<div class="paragraph">
+<p>وإذا أردت إعادة التأسيس عند الجذب، فنفذ:<br>
+<code>git config --global pull.rebase "true"</code></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_pushing_remotes">الدفع إلى مستودعاتك البعيدة</h4>
+<div class="paragraph">
+<p>عندما يكون مشروعك في مرحلة تود مشاركتها، عليك دفعه إلى المنبع.
+الأمر الذي يفعل هذا يسير: <code>git push &lt;remote&gt; &lt;branch&gt;</code>، أي اسم المستودع البعيد ثم الفرع:
+فإذا أردت دفع فرع <code>master</code> الخاص بك إلى المستودع الأصل <code>origin</code> (غالبا يضبط لك الاستنساخ هذين الاسمين آليًّا)، فتنفيذ هذا الأمر يدفع أي إيداعات صنعتها إلى الخادوم:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git push origin master</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يعمل هذا الأمر فقط إذا استنسخت من مستودع لديك إذن تحريره، ولم يدفع أي شخص آخر إليه في هذه الأثناء.
+أما إذا استنسخت أنت وشخص آخر في وقت واحد، ودفع هو إلى المنبع، ثم أردت أنت الدفع إلى المنبع، فإن دفعك سيُرفض عن حق.
+وسيتوجب عليك عندئذٍ استحضار عمله أولا وضمه إلى عملك قبل أن يُسمح لك بالدفع.
+انظر <a href="ch03-git-branching.html">التفريع في جت</a> لمعلومات أشد تفصيلا عن الدفع إلى مستودعات بعيدة.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_inspecting_remote">فحص مستودع بعيد</h4>
+<div class="paragraph">
+<p>إذا أردت رؤية معلومات أكثر عن بعيد معين، فاستخدم الأمر <code>git remote show &lt;البعيد&gt;</code>.
+إذا نفذت هذا الأمر مع اسم مختصر معين، مثل <code>origin</code>، فسترى شيئا مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git remote show origin
+* remote origin
+  Fetch URL: https://github.com/schacon/ticgit
+  Push  URL: https://github.com/schacon/ticgit
+  HEAD branch: master
+  Remote branches:
+    master                               tracked
+    dev-branch                           tracked
+  Local branch configured for 'git pull':
+    master merges with remote master
+  Local ref configured for 'git push':
+    master pushes to master (up to date)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>إنه يسرد لك رابط المستودع البعيد إضافةً إلى معلومات تعقب الفروع.
+وللإفادة يخبرك كذلك بأنك إذا كنت في فرع <code>master</code> واستخدمت أمر الجذب <code>git pull</code> فإنه تلقائيا سيدمج فرع <code>master</code> البعيد في الفرع المحلي بعد استحضاره.
+ويسرد لك أيضا جميع الإشارت البعيدة التي جذبها إليك.</p>
+</div>
+<div class="paragraph">
+<p>هذا مثال يسير غالبا ستقابله.
+ولكن عندما تستخدم جت بكثرة، فسيعطيك <code>git remote show</code> معلومات أكثر كثيرًا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git remote show origin
+* remote origin
+  URL: https://github.com/my-org/complex-project
+  Fetch URL: https://github.com/my-org/complex-project
+  Push  URL: https://github.com/my-org/complex-project
+  HEAD branch: master
+  Remote branches:
+    master                           tracked
+    dev-branch                       tracked
+    markdown-strip                   tracked
+    issue-43                         new (next fetch will store in remotes/origin)
+    issue-45                         new (next fetch will store in remotes/origin)
+    refs/remotes/origin/issue-11     stale (use 'git remote prune' to remove)
+  Local branches configured for 'git pull':
+    dev-branch merges with remote dev-branch
+    master     merges with remote master
+  Local refs configured for 'git push':
+    dev-branch                     pushes to dev-branch                     (up to date)
+    markdown-strip                 pushes to markdown-strip                 (up to date)
+    master                         pushes to master                         (up to date)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يُظهر لك هذا الأمر ما الفرع الذي يجذب جت إليه تلقائيا عندما تنفذ <code>git push</code> وأنت في فرع معين.
+ويُظهر لك كذلك ما فروع المستودع البعيد التي ليست لديك بعد، وما الفروع البعيدة التي لديك وحُذفت من البعيد، وما الفروع المحلية التي يمكن الدمج تلقائيا في فروعها المتعقِبة للبعيد عندما تنفذ <code>git pull</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_تغيير_اسم_بعيد_أو_حذفه">تغيير اسم بعيد أو حذفه</h4>
+<div class="paragraph">
+<p>يمكنك استعمال <code>git remote rename</code> لتغيير الاسم المختصر لمستودع بعيد.
+مثلا، لتغيير اسم <code>pb</code> إلى <code>paul</code>، نفّذ:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git remote rename pb paul
+$ git remote
+origin
+paul</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>مهم ملاحظة أن هذا يغيّر أسماء فروعك المتعقِبة للبعيد أيضا.
+فالذي كان يسمى <code>pb/master</code> صار <code>paul/master</code>.</p>
+</div>
+<div class="paragraph">
+<p>وإذا أردت حذف بعيد لسبب ما&#8201;&#8212;&#8201;نقلت المستودع، أو لم تعد تستخدم خادوم مرآة معين، أو ربما مساهم لم يعد يساهم&#8201;&#8212;&#8201;يمكنك استخدام إما <code>git remote remove</code> وإما <code>git remote rm</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git remote remove paul
+$ git remote
+origin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وما إن تحذف الإشارة إلى بعيدٍ هكذا، فإن جميع الفروع المتعقِبة له وجميع إعدادات التهيئة المرتبطة به ستُحذف كذلك.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_git_tagging">الوسوم</h3>
+<div class="paragraph">
+<p>
+مثل معظم أنظمة إدارة النسخ، يستطيع جت وسم المراحل المهمة في تاريخ المشروع.
+يستعمل الناس هذه الآلية في الغالب لتمييز الإصدارات (<code>v1.0</code> و <code>v2.0</code> وهكذا).
+سنتعلم في هذا الفصل كيف نسرد الوسوم الموجودة وكيف ننشئ وسومًا ونحذفها وما أنواع الوسوم المختلفة.</p>
+</div>
+<div class="sect3">
+<h4 id="_سرد_وسومك">سرد وسومك</h4>
+<div class="paragraph">
+<p>سرد الوسوم الموجودة في مستودع جت سهل جدا؛
+فقط اكتب <code>git tag</code> (اختياريًا مع <code>-l</code> أو <code>--list</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git tag
+v1.0
+v2.0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يسرد لك هذا الأمر الوسوم بترتيب أبجدي؛ أي أن ترتيب عرضها ليس له أهمية حقيقية.</p>
+</div>
+<div class="paragraph">
+<p>يمكنك أيضا البحث عن الوسوم التي تطابق نمطًا معينًا.
+يحتوي مستودع مصدر جت مثلا على أكثر من خمسمئة وسم.
+فإذا كنت مهتمًا برؤية سلسلة 1.8.5 فقط، فنفذ هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git tag -l "v1.8.5*"
+v1.8.5
+v1.8.5-rc0
+v1.8.5-rc1
+v1.8.5-rc2
+v1.8.5-rc3
+v1.8.5.1
+v1.8.5.2
+v1.8.5.3
+v1.8.5.4
+v1.8.5.5</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">سرد الوسوم بأنماط يحتاج الخيار <code>-l</code> أو <code>--list</code></div>
+<div class="paragraph">
+<p>إذا لم تُرِد إلا قائمة الوسوم بكاملها، فتنفيذ <code>git tag</code> يفترض أنك تريد سرد الوسوم فيعطيك إياه؛ استخدام <code>-l</code> أو <code>--list</code> في هذه الحالة اختياري.</p>
+</div>
+<div class="paragraph">
+<p>لكن إذا أعطيته نمطًا لمطابقة وسوم عديدة، فيجب عليك استخدام خيار السرد: <code>-l</code> أو <code>--list</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_إنشاء_وسوم">إنشاء وسوم</h4>
+<div class="paragraph">
+<p>يدعم جت نوعين من الوسوم: <em>خفيفة</em>، و<em>معنونة</em>.</p>
+</div>
+<div class="paragraph">
+<p>الوسم الخفيف كأنه فرع لا يتغيّر: مجرد إشارة إلى إيداع معين.</p>
+</div>
+<div class="paragraph">
+<p>لكن على النقيض، الوسوم المعنونة هي كائنات كاملة في قاعدة بيانات جت؛
+يحسب جت بصمتها، ويسجل معها اسم الواسم، وبريده، وتاريخ الوسم، ورسالته، ويمكن توقيعها وتوثيقها باستعمال GNU Privacy Guard&lrm; (GPG).
+من الأفضل في العموم إنشاء وسوم معنونة حتى تتمتع بكل هذه المعلومات، لكن إذا أردت وسمًا مؤقتًا أو لسبب ما لم تشأ الاحتفاظ بكل هذه المعلومات، فلا تزال الوسوم الخفيفة متاحة.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_annotated_tags">الوسوم المعنونة</h4>
+<div class="paragraph">
+<p>
+إنشاء الوسوم المعنونة في جت يسير.
+الطريقة الأسهل هي إضافة <code>-a</code> إلى أمر الوسم:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git tag -a v1.4 -m "my version 1.4"
+$ git tag
+v0.1
+v1.3
+v1.4</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>والخيار <code>-m</code> يعيّن رسالة الوسم، التي تخزّن معه.
+وإذا لم تعيّن رسالة للوسم المعنون، فإن جت سيفتح لك محررك حتى تكتبها فيه.</p>
+</div>
+<div class="paragraph">
+<p>يمكنك أيضا رؤية تاريخ الوسم مع الإيداع الموسوم بأمر الإظهار <code>git show</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git show v1.4
+tag v1.4
+Tagger: Ben Straub &lt;ben@straub.cc&gt;
+Date:   Sat May 3 20:19:12 2014 -0700
+
+my version 1.4
+
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    Change version number</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يُظهر لك هذا معلومات الواسم وتاريخ وسم الإيداع ورسالة الوسم، ثم معلومات الإيداع نفسه.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_الوسوم_الخفيفة">الوسوم الخفيفة</h4>
+<div class="paragraph">
+<p>
+طريقة أخرى لوسم الإيداعات هي باستعمال الوسوم الخفيفة.
+هذا يعني تخزين بصمة الإيداع في ملف؛ لا معلومات أخرى تُخزّن.
+لإنشاء وسم خفيف، لا تعطِ أمر الوسم أيًّا من الخيارات <code>-a</code> أو <code>-s</code> أو <code>-m</code>؛ أعطه فقط اسم الوسم:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git tag v1.4-lw
+$ git tag
+v0.1
+v1.3
+v1.4
+v1.4-lw
+v1.5</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>تنفيذ <code>git show</code> على مثل هذا الوسم لن يعطيك معلومات الوسم الإضافية،
+بل يُظهر فقط معلومات الإيداع:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git show v1.4-lw
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    Change version number</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_الوسم_لاحقًا">الوسم لاحقًا</h4>
+<div class="paragraph">
+<p>يمكنك أيضا وسم إيداعات قديمة تخطيتها.
+لنفترض مثلا أن تاريخ إيداعاتك يبدو هكذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log --pretty=oneline
+15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
+a6b4c97498bd301d84096da251c98a07c7723e65 Create write support
+0d52aaab4479697da7686c15f77a3d64d9165190 One more thing
+6d52a271eda8725415634dd79daabbc4d9b6008e Merge branch 'experiment'
+0b7434d86859cc7b8c3d5e1dddfed66ff742fcbc Add commit function
+4682c3261057305bdd616e23b64b0857d832627b Add todo file
+166ae0c4d3f420721acbb115cc33848dfcc2121a Create write support
+9fceb02d0ae598e95dc970b74767f19372d61af8 Update rakefile
+964f16d36dfccde844893cac5b347e7b3d44abbc Commit the todo
+8a5cbc430f1a9c3d00faaeffd07798508422908a Update readme</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>الآن لنفترض أنك نسيت وسم المشروع عند <code>v1.2</code>، والتي كانت عند إيداع ‪&#8220;Update rakefile&#8221;‬.
+يمكنك فعل هذا بعدما حدث ما حدث.
+لوسم ذلك الإيداع، اكتب في نهاية أمر الوسم بصمةَ الإيداع (أو جزءًا من أولها):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git tag -a v1.2 9fceb02</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>والآن ستجد أنك قد وسمت الإيداع:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git tag
+v0.1
+v1.2
+v1.3
+v1.4
+v1.4-lw
+v1.5
+
+$ git show v1.2
+tag v1.2
+Tagger: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Feb 9 15:32:16 2009 -0800
+
+version 1.2
+commit 9fceb02d0ae598e95dc970b74767f19372d61af8
+Author: Magnus Chacon &lt;mchacon@gee-mail.com&gt;
+Date:   Sun Apr 27 20:43:35 2008 -0700
+
+    Update rakefile
+...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sharing_tags">مشاركة الوسوم</h4>
+<div class="paragraph">
+<p>لا ينقل أمر الدفع، بطبيعته، الوسومَ إلى المستودعات البعيدة.
+فعليك دفعها بأمر صريح بعد إنشائها.
+تشبه هذه العملية كثيرًا عملية مشاركة الفروع البعيدة&#8201;&#8212;&#8201;نفّذ <code>git push origin &lt;اسم&zwnj;الوسم&gt;</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git push origin v1.5
+Counting objects: 14, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (12/12), done.
+Writing objects: 100% (14/14), 2.05 KiB | 0 bytes/s, done.
+Total 14 (delta 3), reused 0 (delta 0)
+To git@github.com:schacon/simplegit.git
+ * [new tag]         v1.5 -&gt; v1.5</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وإذا كانت لديك العديد من الوسوم التي تريد دفعها جملةً واحدة، فيمكنك إضافة خيار الوسوم <code>--tags</code> إلى أمر الدفع <code>git push</code>،
+لينقل إلى المستودع البعيد جميع وسومك التي ليست هناك بالفعل.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git push origin --tags
+Counting objects: 1, done.
+Writing objects: 100% (1/1), 160 bytes | 0 bytes/s, done.
+Total 1 (delta 0), reused 0 (delta 0)
+To git@github.com:schacon/simplegit.git
+ * [new tag]         v1.4 -&gt; v1.4
+ * [new tag]         v1.4-lw -&gt; v1.4-lw</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>والآن، عندما يستنسخ أحدهم مستودعك أو يجذب منه، فسيحصل على جميع وسومك أيضا.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">يدفع أمر الدفع كلا النوعين من الوسوم</div>
+<div class="paragraph">
+<p>سيدفع <code>git push &lt;البعيد&gt; --tags</code> الوسوم الخفيفة والوسوم المعنونة.
+لا يوجد حاليا خيار لدفع الوسوم الخفيفة فقط، لكن الأمر <code>git push &lt;البعيد&gt; --follow-tags</code> سيدفع الوسوم المعنونة فقط إلى الخادوم البعيد.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_حذف_الوسوم">حذف الوسوم</h4>
+<div class="paragraph">
+<p>لحذف وسم من مستودعك المحلي، نفذ <code>git tag -d &lt;اسم&zwnj;الوسم&gt;</code>.
+مثلا، يمكننا حذف الوسم الخفيف الذي أنشأناه سابقًا كالتالي:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git tag -d v1.4-lw
+Deleted tag 'v1.4-lw' (was e7d5add)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لاحظ أن هذا لا يحذف الوسم من أي مستودع بعيد.
+توجد طريقتان شائعتان لحذف وسم ما من مستودع بعيد:</p>
+</div>
+<div class="paragraph">
+<p>الطريقة الأولى هي <code>git push &lt;البعيد&gt; :refs/tags/&lt;اسم&zwnj;الوسم&gt;</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git push origin :refs/tags/v1.4-lw
+To /git@github.com:schacon/simplegit.git
+ - [deleted]         v1.4-lw</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لاستيعاب ما تفعله هذه الطريقة يمكن ترى أنها تدفع القيمة الفارغة التي قبل النقطتين الرأسيتين إلى اسم الوسم على المستودع البعيد، فعمليًّا تحذفه.</p>
+</div>
+<div class="paragraph">
+<p>الطريقة الأخرى (والبديهية أكثر) لحذف وسم من مستودع بعيد، هي:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git push origin --delete &lt;اسم‌الوسم&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_سحب_الوسوم">سحب الوسوم</h4>
+<div class="paragraph">
+<p>إذا أردت رؤية نُسخ الملفات التي يشير إليها وسمٌ ما، يمكنك سحب هذا الوسم بأمر <code>git checkout</code>، مع إن هذا يضع مستودعك في حالة ‪&#8220;detached HEAD&#8221;‬، والتي لها بعض الآثار الجانبية السيئة:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout v2.0.0
+Note: switching to 'v2.0.0'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c &lt;new-branch-name&gt;
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at 99ada87... Merge pull request #89 from schacon/appendix-final
+
+$ git checkout v2.0-beta-0.1
+Previous HEAD position was 99ada87... Merge pull request #89 from schacon/appendix-final
+HEAD is now at df3f601... Add atlas.json and cover image</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>في حالة ‪&#8220;detached HEAD&#8221;‬، إذا أجريت تعديلات وصنعت إيداعًا، فإن الوسم سيبقى كما هو، وإيداعك الجديد لن ينتمي إلى أي فرع ولن يمكن الوصول إليه أبدا، إلا ببصمته.
+لذا، فإن احتجت إجراء تعديلات&#8201;&#8212;&#8201;مثلا لإصلاح علة في نسخة قديمة&#8201;&#8212;&#8201;فغالبا ستحتاج إلى إنشاء فرع:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout -b version2 v2.0.0
+Switched to a new branch 'version2'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>إذا فعلت هذا ثم صنعت إيداعًا، فإن فرع <code>version2</code> سيكون مختلفًا عن وسم <code>v2.0.0</code> لأنه سيكون متقدمًا عنه بتعديلاتك، لذا كن حذرًا.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_git_aliases">كُنيات جت</h3>
+<div class="paragraph">
+<p>
+قبل أن نتقدم إلى الباب التالي، نود أن نعرّفك ميزة في جت ستجعل استعمالك أسهل وأريح وأكثر ألفة: الكُنيات.
+لن نستعملها في أي موضع آخر في هذا الك‍تاب للوضوح، لكنك إذا كنت تنوي استعمال جت باستمرار، فيجب أن تعرف الكُنيات.</p>
+</div>
+<div class="paragraph">
+<p>لا يُخمّن جت الأمر الذي تريده إذا كتبت جزءًا منه.
+فإذا لم تشأ ك‍تابة كل أمر بكامله، فيمكنك ضبط كُنية لكل أمر تريده بسهولة بأمر التهيئة <code>git config</code>.
+هذه أمثلة ربما تحب إعدادها:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git config --global alias.co checkout
+$ git config --global alias.br branch
+$ git config --global alias.ci commit
+$ git config --global alias.st status</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هذا يعني أن يمكنك ك‍تابة <code>git ci</code> مثلا بدلا من أن تكتب <code>git commit</code>.
+وبالاستمرار مع جت، ستجد أوامر أخرى تستعملها كثيرا؛ لا تتردد في إنشاء كُنيات لها.</p>
+</div>
+<div class="paragraph">
+<p>هذه الطريقة تصلح كذلك لإنشاء الأوامر التي تظن أنها يجب أن توجد.
+مثلا، لتصحيح صعوبة الاستخدام التي واجهتها عند إلغاء تأهيل ملف، يمكنك إضافة كُنية خاصة بك لإلغاء التأهيل <code>unstage</code> إلى جت:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git config --global alias.unstage 'reset HEAD --'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يجعل هذا الأمرين التاليين متكافئين:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git unstage fileA
+$ git reset HEAD -- fileA</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هذا أسهل وأوضح.
+وكذلك من الشائع إضافة أمر <code>last</code> «الأخير»، مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git config --global alias.last 'log -1 HEAD'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فيمكنك عندئذٍ رؤية إيداعك الأخير بسهولة:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git last
+commit 66938dae3329c7aebe598c2246a8e6af90d04646
+Author: Josh Goebel &lt;dreamer3@example.com&gt;
+Date:   Tue Aug 26 19:48:51 2008 +0800
+
+    Test for current head
+
+    Signed-off-by: Scott Chacon &lt;schacon@example.com&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وكما يمكنك أن تخمن، إنما يترجم جت الأمر الجديد إلى ما جعلته كُنيةً له.
+ولكنك أحيانا قد تريد تنفيذ أمر خارجي، بدلا من أمر فرعي في جت.
+في هذه الحالة تبدأ الأمر بعلامة تعجب: <code>!</code>.
+يفيد هذا عندما تكتب أدواتك الخاصة التي تعمل مع مستودع جت.
+نوضّح ذلك بعمل الكُنية <code>git visual</code> لتشغيل <code>gitk</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git config --global alias.visual '!gitk'</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_الخلاصة_2">الخلاصة</h3>
+<div class="paragraph">
+<p>الآن تستطيع فعل جميع عمليات جت المحلية الأساسية: إنشاء مستودع أو استنساخه، وعمل تعديلات، وتأهيلها وإيداعها، وعرض تاريخ جميع التعديلات التي مر بها المستودع.
+التالي: سنشرح  ميزة جت القاتلة للمنافسة: نموذج التفريع.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ السابق: <a href="ch01-getting-started.html">الباب الأول: البدء</a> | ↑ البداية: <a href="index.html">احترف Git</a> | التالي: <a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-03-01 20:13:25 +0000
+</div>
+</div>
+</div></body></html>
