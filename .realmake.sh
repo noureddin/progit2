@@ -13,7 +13,9 @@ perl='perl -CDAS -Mutf8'
 $perl -pe '
   # copy figures titles to their alt-text
   if (/^\.(\S.*)$/) {
-    $potenially_title = $1;
+    $potenially_title = $1
+      =~ s/"`/“/gr =~ s/`"/”/gr;
+      # not processed by asciidocter in the alt-text
     $i = 0;
   }
   elsif (/^image::/ && $potenially_title && $i == 1) {
@@ -23,8 +25,11 @@ $perl -pe '
   else {
     ++$i;
   }
-  # break the كتا and كتل ligature in Amiri
+  # break the كتا and كتل ligatures in Amiri
   s X ك(ت[ال]) X ك\N{ZERO WIDTH JOINER}$1 Xgx;
+  # process NBSP & NNBSP
+  s/\Q{مس}\E/\N{NO-BREAK SPACE}/g;
+  s/\Q{مسر}\E/\N{NARROW NO-BREAK SPACE}/g;
 ' -i **/*.asc
 
 # update arabic names of git commands
@@ -52,10 +57,9 @@ else
   mkdir -p $OUT
 fi
 
-# update resources
+# update resources (except pdf)
 mkdir -p $OUT/res; cp --link res/* $OUT/res/
 mkdir -p $OUT/images; cp --link images/*.png $OUT/images/
-cp --link Pro.ico $OUT/
 
 # build the single-page book, or the contributors list only
 if $PROD; then
@@ -64,6 +68,13 @@ if $PROD; then
 else
   bundle exec rake book/contributors.txt
   SINGLE=
+fi
+
+# the pdf books
+if [ -e progit2-ar-a4.pdf ] && [ -e progit2-ar-a5.pdf ]; then
+  cp --link progit2-ar-a[45].pdf $OUT/
+else
+  printf '\e[1;93mWarning: the PDF books do not exist\e[m\n'
 fi
 
 # build the multipage book
@@ -131,10 +142,10 @@ for htmlfile in $SINGLE $OUT/*.html; do
     ##
     ## fix appendices titles, and numbers, and number the chapters
     BEGIN { @n = qw[ الأول الثاني الثالث الرابع الخامس السادس السابع الثامن التاسع العاشر ] }
-    s,(<h2 id="ch([0-9]{2})-[^<>]*>|href="#?ch([0-9]{2})-[^#"_]*">(?:<span[^>]*>)?),$1الباب $n[($2 // $3) - 1]: ,g;
-    s,(<h2 id="([A-Z])-[^<>]*>|href="#?([A-Z])-[^#"]*">(?:<span[^>]*>)?)Appendix .:,$1الملحق $n[ord($2 // $3) - ord("A")]:,g;
+    s,((?:<h2 id="ch([0-9]{2})-[^<>]*>|href="#?ch([0-9]{2})-[^#"_]*">(?:<span[^>]*>)?)(?:[➖❌✋⏳✨✅⛲] )?),$1الباب $n[($2 // $3) - 1]: ,g;
+    s,(<h2 id="([A-Z])-[^<>]*>|href="#?([A-Z])-[^#"]*">(?:<span[^>]*>)?)Appendix .: ((?:[➖❌✋⏳✨✅⛲] )?),$1$4الملحق $n[ord($2 // $3) - ord("A")]: ,g;
     # s, (<a[^<>]*>)ال(باب|ملحق) \S+: , $2 $1,g;  # simplify chapters titles in body text (that initial space excludes toc & nav)
-    s, (<a[^<>]*>)ال(باب|ملحق) \S+: , $1,g;  # actually, remove additions in body links; they only affect h2 not sections or figures
+    s, (<a[^<>]*>)(?:[➖❌✋⏳✨✅⛲] )?ال(باب|ملحق) \S+: , $1,g;  # actually, remove additions in body links; they only affect h2 not sections or figures
     if ($PROD) {
       ## remove incomplete chapters, part one
       # warn "$htmlfile: $_\n" if m|<h2[^<>]*>[^✨✅⛲<>]+<|;
@@ -160,20 +171,13 @@ for htmlfile in $SINGLE $OUT/*.html; do
         s{( <h[23][^<>]*>             # a chapter/section header
           | <a[ ]href="[^":]*">       # or a link to a chapter/section
           )                           # $1
-          (?= [^❌✋⏳✨✅⛲<>]+< )   # make sure it has no status
-          ((?: (?: الباب | الملحق ) [ ] \w+: [ ]) | )
-                                      # $2: match ch/A prefix if any
-          ([^❌✋⏳✨✅⛲<>]+<)       # $3: the title
-        }{$1$2➖ $3}gx
+          ([^❌✋⏳✨✅⛲<>]+<)       # $2: the title
+        }{$1➖ $2}gx
       }
       else {
         ## remove status icons from all links except the toc & nav
         next if /^<li><a|^<p>→/;
-        s{(<a[ ]href="[^"]*">
-           [^➖❌✋⏳✨✅⛲<>]*)
-           [➖❌✋⏳✨✅⛲] [ ]
-          ([^➖❌✋⏳✨✅⛲<>]*<)
-         }{$1$2}gx;
+        s{(<a href="[^"]*">)[➖❌✋⏳✨✅⛲] }{$1}g;
       }
     }
     ' -i "$htmlfile"
@@ -306,9 +310,11 @@ done
 date="$(date --utc -Is)"
 date="${date/T/ }"
 date="${date/+00:00/ +0000}"
+date="2024-08-16 12:00:00 +0000"  # slow down the change in time, to reduce the diffs
 dateonly="${date%% *}"
-favicon='<link rel="icon" type="image/png" sizes="72x72" href="res/favicon-72x72.png">'
-favicon="$favicon\n${favicon//72/16}"
+# favicon='<link rel="icon" type="image/png" sizes="72x72" href="res/favicon-72x72.png">'
+# favicon="$favicon\n${favicon//72/16}"
+favicon='<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">'
 $perl -pe '
 s{^<title>}{'"$favicon"'\n$&};
 s{^<span id="revdate">.*?</span>$}
@@ -362,3 +368,14 @@ else
 fi
 
 fi  # if $PROD, for live reloading
+
+for i in $OUT/*.html; do
+cat <<'END_OF_TEXT' >> "$i"
+<script>onbeforeprint = function () {
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+}</script>
+END_OF_TEXT
+done
+

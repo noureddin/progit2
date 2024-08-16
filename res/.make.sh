@@ -15,7 +15,9 @@ convert_font() {
   pyftsubset "$input" --output-file="${input%.*}".woff  --layout-features=* --flavor=woff  --unicodes=$range --with-zopfli
 }
 
-if [[ ! -e Amiri-Regular.woff2 ]]; then
+check_all() { [ -e "$1.woff" ] && [ -e "$1.woff2" ]; }
+
+if ! check_all Amiri-Regular; then
   tmp="$(mktemp -d)"; cd "$tmp"
   $get https://github.com/aliftype/amiri/releases/download/1.000/Amiri-1.000.zip
   unzip -q Amiri-1.000.zip
@@ -27,12 +29,25 @@ fi
 
 get_and_convert() { $get "$1/$2" -O "$2" && convert_font "$2" "$3" && rm -f "$2"; }
 
-GF=https://github.com/googlefonts
-NOTO=$GF/noto-fonts/raw/main/hinted/ttf
+check_or_get_font() {
+  base="$1"; shift
+  if ! check_all "$base"; then
+    "$@"
+  fi
+}
 
-[[ ! -e NotoSans-Regular.woff2      ]] && get_and_convert "$NOTO/NotoSans" NotoSans-Regular.ttf $UNI_ASC
-[[ ! -e NotoKufiArabic-Medium.woff2 ]] && get_and_convert "$NOTO/NotoKufiArabic" NotoKufiArabic-Medium.ttf $UNI_ALL
-[[ ! -e Tajawal-Bold.woff2          ]] && get_and_convert "$GF/tajawal/raw/main/fonts/ttf" Tajawal-Bold.ttf $UNI_ALL
+H=https://github.com
+NOTO=$H/googlefonts/noto-fonts/raw/main/hinted/ttf
+
+check_or_get_font NotoSans-Regular       get_and_convert "$NOTO/NotoSans" NotoSans-Regular.ttf $UNI_ASC
+check_or_get_font NotoKufiArabic-Medium  get_and_convert "$NOTO/NotoKufiArabic" NotoKufiArabic-Medium.ttf $UNI_ALL
+# check_or_get_font Tajawal-Bold           get_and_convert "$H/googlefonts/tajawal/raw/main/fonts/ttf" Tajawal-Bold.ttf $UNI_ALL
+check_or_get_font ReadexPro-bold         get_and_convert "$H/ThomasJockin/readexpro/raw/master/fonts/ttf" ReadexPro-bold.ttf $UNI_ALL
+
+# check_or_get_font ae_Furat  convert_font ae_Furat.ttf $UNI_ALL  # the .ttf must exist; find it somewhere on the web
+
+
+# todo: sourcecodepro woff
 
 if [[ ! -e SourceCodePro-Regular.ttf.woff2 ]] ||
    [[ ! -e SourceCodePro-Bold.ttf.woff2 ]]

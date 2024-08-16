@@ -1,20 +1,26 @@
 #!/bin/bash
 
-__g__() {
+__g() {
   grep --color=always -i "$@" [ABC]-*.asc ch*.asc book/*[!r].asc book/*/sections/*.asc | less -R
   # grep "$@" -i `find -name '*.asc'`
 }
 
-__g()   { __g__        --     "$*"; }
-__gg()  { __g__ -B1    -- "//.*$*"; }
-__ggg() { __g__ -B1 -h -- "//.*$*"; }
+__G() {
+  # color only the filename part, but not the matching pattern
+  shopt -s globstar
+  GREP_COLORS='ms=:mc=:sl=:cx=:fn=35:ln=32:bn=32:se=36' \
+  grep "$@" **/*.asc
+}
 
 __wc() {
   git diff | grep ^'+//' | wc -w  # count the words of only the lines that have been translated
 }
 
 __help() {
-  >&2 echo 'unknown command; expected `g`, `gg`, `ggg`, or `wc`'
+  perl -nle '
+    /^\h*([^#*)]+)\)/ && push @c, "`$1`" if /^case/../^esac/;
+    END { print STDERR "unknown command; expected ", join ", ", @c }
+  ' "${BASH_SOURCE[0]}"
 }
 
 __a() {
@@ -26,26 +32,34 @@ __t() {
   < "$@" perl -ne 'print unless /^----$/.../^----$/' | grep -v '^\[.*\]$' | sed 's/<<[^>]\+>>//g; s/(((\+[^)]\+)))\+//g; s/\([^"'\'']\)`\([^"'\'']\)[^`]\+\([^"'\'']\)`\([^"'\'']\)/$1$4/g' | grep -Po '\p{Latin}+' | wc -l
 }
 
-
 case "$1" in
   # editor's helpers (word counters)
   a) __a "$2" ;;  # how many Arabic words are there in the file
   t) __t "$2" ;;  # how many translatable words (except code, links, index entries) in the file (regradless of whether translated or not)
   # user word counter (how many words were translated)
-  wc)  __wc  "${*:2}" ;;  # count translated words (from the source language)
+  wc) __wc  "${*:2}" ;;  # count translated words (from the source language)
   # various greppers
-  g)   __g   "${*:2}" ;;  # grep any string in the book (bring your own pattern)
-  gg)  __gg  "${*:2}" ;;  # grep translated lines (by English)
-  ggg) __ggg "${*:2}" ;;  # same as `gg` but w/o file names
-  ## Actually, I stopped using these and now I just use `grep OPTIONS PATTERN **/*.asc`,
-  ## with `globstar` enabled in my shell; I have the following line in my .bashrc:
-  ##     shopt -s globstar  # expand /**/ to any number of dirs
-  ## Starting the pattern with '^// ' greps a translated line. Use -B1 to get its translation too.
-  ## You may prefer ripgrep, ack, ag, or another grep-replacement.
-  # etc
+  g)   __g        --     "${*:2}" ;;  # grep any string in the book (bring your own pattern)
+  gg)  __g -B1    -- "//.*${*:2}" ;;  # grep translated lines (by English)
+  ggg) __g -B1 -h -- "//.*${*:2}" ;;  # same as `gg` but w/o file names
+    ## Most of the time, `grep PATTERN **/*.asc` with 'shopt -s globstar' is enough.
+    ## Starting the pattern with '^// ' greps a translated line. Use -B1 to get its translation too.
+    ## You may prefer ripgrep, ack, ag, or another grep-replacement.
+  G)  __G "${@:2}" ;;  # bring your own pattern and options
+  GG) __G -i -B1 "^//.*${*:2}" ;;  # search translated text by a pattern in the source
+  # editor
   -)  (python3 editor.py light "${@:2}" &> /dev/null &) &> /dev/null ;;
   --) (python3 editor.py       "${@:2}" &> /dev/null &) &> /dev/null ;;
-  *)   __help ;;
+  # commands specific to the primary translator
+  d) ml git\ diff\\n ;;
+    ## To use, put these in the shell initialization:
+      # quiet() { ( "$@" &> /dev/null & ) &> /dev/null; }
+      # ml() { quiet mlterm -# 'PS1=$\\ ;clear\n'"$1"; }
+    ## And do this only once:
+      # mkdir -p ~/.mlterm; printf '%s\n' 'bg_color = black' 'fg_color = white' 'fontsize = 22' > ~/.mlterm/main 
+    ## You may want to use github.com/dandavison/delta or some other fancy git-diff viewer.
+  # otherwise
+  *) __help ;;
 esac
 
 

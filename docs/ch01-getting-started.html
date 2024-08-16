@@ -6,8 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.21">
 <meta name="author" content="Scott Chacon, Ben Straub">
-<link rel="icon" type="image/png" sizes="72x72" href="res/favicon-72x72.png">
-<link rel="icon" type="image/png" sizes="16x16" href="res/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
 <title>الباب الأول: البدء | احترف جت</title>
 <link rel=stylesheet type=text/css href="res/style.css">
 </head>
@@ -18,7 +17,7 @@
 <span id="author" class="author">Scott Chacon</span><br>
 <span id="author2" class="author">Ben Straub</span><br>
 <span id="revnumber">version 2.1.421,</span>
-<span id="revdate">2024-03-01</span>
+<span id="revdate">2024-08-16</span>
 </div>
 <div id="toc" class="toc">
 <div id="toctitle">فهرس المحتويات</div>
@@ -51,7 +50,7 @@
 </li>
 <li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
 </li>
-<li><s>الباب الرابع: جت على الخادوم</s>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
 </li>
 <li><s>الباب الخامس: جت الموزع</s>
 </li>
@@ -96,7 +95,7 @@
 نستخدم في أمثلة هذا الك‍تاب ملفات مصادر برمجية لإدارة نُسخها، ولو أن في الحقيقة يمكنك فعل ذلك مع أكثر أنواع الملفات الحاسوبية.</p>
 </div>
 <div class="paragraph">
-<p>إذا كنت مصمم رسوميات أو وب وتريد الإبقاء على جميع نسخ صورة أو تخطيط (والذي هو شيء يُفترض أنك تريد فعله بالتأكيد)، فإن استخدام نظام إدارة نسخ (VCS) لهو قرار حكيم جدا.
+<p>إذا كنت مصمم رسوميات أو وب وتريد الإبقاء على جميع نسخ صورة أو تخطيط (وهذا شيء يُفترض أنك تريد فعله بالتأكيد)، فإن استخدام نظام إدارة نسخ (VCS) لهو قرار حكيم جدا.
 فهو يسمح لك بإرجاع ملف محدد إلى حالة سابقة، أو إرجاع المشروع كله إلى حالة سابقة، أو مقارنة التعديلات عبر الزمان، أو معرفة مَن آخر من عدّل شيئا قد يكون سبّب مشكلة، أو مَن تسبب في إحداث علّة، وغير ذلك.
 استخدام نظام إدارة نسخ أيضا يعني في العموم أنك إذا دمّرت أشياء أو فقدت ملفات، فإنك تستطيع استرداد الأمور بسَهولة.
 وكل هذا تحصل عليه مقابل عبء ضليل جدا.</p>
@@ -107,7 +106,7 @@
 <p>
 طريقة إدارة النسخ عند الكثيرين هي نسخ الملفات إلى مجلد آخر (ربما بختم زمني، إذا كان المستخدم بارعا).
 هذه الطريقة شائعة جدا لأنها سهلة جدا، لكنها أيضا خطّاءة جدا جدا.
-فسهل جدا أن تنسى أي مجلد أنت فيه وأن تكتب على الملف الخاطئ أو تنسخ على ملفات لم ترد إبدالها.</p>
+فسهل جدا أن تنسى أي مجلد أنت فيه وتغيّر في الملف الخاطئ أو تنسخ على ملفات لم ترد إبدالها.</p>
 </div>
 <div class="paragraph">
 <p>لحل هذه القضية، طوّر المبرمجون منذ زمن بعيد «أنظمة محلية لإدارة النسخ» ذات قاعدة بيانات بسيطة تحفظ جميع التعديلات على الملفات المراد التحكم في نُسخها.</p>
@@ -184,8 +183,8 @@
 دفع هذا مجتمع تطوير لينكس (وبالأخص Linus Torvalds، مؤسس لينكس) إلى تطوير أداتهم الخاصة بناءً على بعض ما تعلموه في أثناء استخدامهم BitKeeper.
 وكانت من أهداف النظام الجديد ما يلي:</p>
 </div>
-<div class="ulist">
-<ul>
+<div class="ulist tight">
+<ul class="tight">
 <li>
 <p>السرعة</p>
 </li>
@@ -827,7 +826,11 @@ usage: git add [&lt;options&gt;] [--] &lt;pathspec&gt;...
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-03-01 20:13:25 +0000
+Last updated 2024-08-16 12:00:00 +0000
 </div>
 </div>
-</div></body></html>
+</div></body></html><script>onbeforeprint = function () {
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+}</script>

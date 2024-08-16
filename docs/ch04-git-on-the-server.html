@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.21">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<title>الباب الرابع: جت على الخادوم | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="ch04-git-on-the-server" class="book">
+<div id="body"><div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.421,</span>
+<span id="revdate">2024-08-16</span>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle">فهرس المحتويات</div>
+<p><span class="toc-root"><a href="index.html">احترف Git</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html"><span class="toc-current">الباب الرابع: جت على الخادوم</span></a>
+<ul class="sectlevel2">
+<li><a href="ch04-git-on-the-server.html#_الموافيق_البروتوكولات">الموافيق (البروتوكولات)</a>
+</li>
+<li><a href="ch04-git-on-the-server.html#_getting_git_on_a_server">تثبيت جت على خادوم</a>
+</li>
+<li><a href="ch04-git-on-the-server.html#_generate_ssh_key">توليد مفتاح SSH عمومي لك</a>
+</li>
+<li><a href="ch04-git-on-the-server.html#_setting_up_server">إعداد الخادوم</a>
+</li>
+<li><a href="ch04-git-on-the-server.html#_عفريت_جت">عفريت جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html#_ميفاق_http_الذكي_2">ميفاق HTTP الذكي</a>
+</li>
+<li><a href="ch04-git-on-the-server.html#_gitweb">GitWeb</a>
+</li>
+<li><a href="ch04-git-on-the-server.html#_gitlab">GitLab</a>
+</li>
+<li><a href="ch04-git-on-the-server.html#_خيارات_الاستضافة_الخارجية">خيارات الاستضافة الخارجية</a>
+</li>
+<li><a href="ch04-git-on-the-server.html#_الخلاصة_4">الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><s>الباب الخامس: جت الموزع</s>
+</li>
+<li><s>الباب السادس: GitHub</s>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><s>الباب الثامن: تخصيص جت</s>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><s>الملحق الأول: جت في البيئات الأخرى</s>
+</li>
+<li><s>الملحق الثاني: تضمين جت في تطبيقاتك</s>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="ch04-git-on-the-server">الباب الرابع: جت على الخادوم</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>
+تستطيع الآن فعل معظم مهامك اليومية التي تستخدم فيها جت.
+ولكن عليك استعمال مستودع بعيد لأي عمل تعاوني به.
+ومع أنك نظريا تستطيع دفع التعديلات إلى مستودعات الآخرين الشخصية المحلية والجذب منها، إلا أن فعل هذا متجنَّب لأن من السهل التسبب في خلط الأمور ومَن يعمل على ماذا، إن لم تكن حذرا.
+وكذلك إذا أردت أن يصل زملاؤك إلى مستودعك حتى عندما يكون حاسوبك مغلقًا أو غير متصل بالشبكة؛ فكثيرا ما يفيد وجود مستودع مشترك مضمون.
+لذا فالمستحب للتعاون مع غيرك أن تعدّ مستودعًا وسيطًا يستطيع كلاكما الوصول إليه، وتجذبا منه وتدفعا إليه.</p>
+</div>
+<div class="paragraph">
+<p>تشغيل خادوم جت عملية يسيرة.
+أولًا تحدد الموافيق (البروتوكولات) التي تريد منه دعمها.
+وسيتناول الفصل الأول من هذا الباب الموافيق المتاحة ومزايا وعيوب كل منها.
+ثم تشرح الفصول التالية بعض الترتيبات المعتادة العاملة بهذه الموافيق وكيف تشغّل خادومك بها.
+وأخيرا سنرى بعض الخيارات المستضافة، إذا لم تمانع استضافة مشاريعك البرمجية على خواديم الآخرين وكنت لا تريد المعاناة بإعداد خادومك الخاص ورعايته.</p>
+</div>
+<div class="paragraph">
+<p>إن لم تكن مهتمًا بتشغيل خادومك الخاص، فيمكنك تخطي هذه الفصول والانتقال إلى الفصل الأخير من هذا الباب، الذي يريك بعض الخيارات لإعداد حساب مستضاف، ثم انتقل إلى الباب التالي، الذي نناقش فيه التفاصيل الدقيقة المختلفة للعمل في بيئة إدارة موزعة للنسخ.</p>
+</div>
+<div class="paragraph">
+<p>المستودع البعيد هو عموما مستودع <em>مجرد</em>، أيْ مستودع جت ليس له مجلد عمل.
+ولأن المستودع لا يُستعمل إلا ملتقًى للتعاون، فلا داعي إلى سحب لقطة منه على الحاسوب؛ إنما هو لبيانات جت وحدها.
+أي بأيسر الكلمات: المستودع المجرد هو محتويات مجلد <code>.git</code> الخاص بمشروعك، ولا شيء غير ذلك.</p>
+</div>
+<div class="sect2">
+<h3 id="_الموافيق_البروتوكولات">الموافيق (البروتوكولات)</h3>
+<div class="paragraph">
+<p>يتيح جت أربعة موافيق مختلفة لنقل البيانات: المحلي، و HTTP، و SSH (أي Secure Shell)، و Git.
+سنناقش ما هم وما الظروف التي فيها ستود (أو لا تود) استعمالهم.</p>
+</div>
+<div class="sect3">
+<h4 id="_الميفاق_المحلي">الميفاق المحلي</h4>
+<div class="paragraph">
+<p>
+الأكثر بدائية هو <em>الميفاق المحلي</em> (‪&#8220;Local protocol&#8221;‬)، الذي يكون المستودع البعيد فيه هو مجلد آخر على الحاسوب نفسه.
+ويُستعمل غالبا إذا كان كل مَن في فريقك لديه وصول إلى نظام ملفات مشترك مثل <a href="https://en.wikipedia.org/wiki/Network_File_System" target="_blank" rel="noopener">NFS</a> مضموم (mounted)، أو في الحالة الأندر أن يكون كل شخص مستخدما لحاسوب واحد.
+ولكن تلك الأخيرة ليست حالة مثالية لأن وقتئذٍ ستبيت كل مشاريعك البرمجية على جهاز واحد، وهذا يُزيد احتمال فقد البيانات فقدا كارثيا.</p>
+</div>
+<div class="paragraph">
+<p>إذا كان لديك نظام ملفات مشترك مضموم، فيمكنك إذًا استنساخ مستودع محلي مكوَّن من ملفات عادية، والدفع إليه، والجذب منه.
+فلاستنساخ مستودع مثل هذا، أو لإضافته مستودعًا بعيدًا في مشروع موجود بالفعل، فاستعمل مسار المستودع كأنه رابط URL.
+مثلا، لاستنساخ مستودع محلي، يمكنك فعل شيء مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git clone /srv/git/project.git</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>أو مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git clone file:///srv/git/project.git</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ولكن تصرف جت يختلف قليلا إذا بدأت العنوان بالميفاق <code>file://</code> صريحا.
+فإذا كتبت المسار فقط، فإن جت يحاول صنع روابط صلبة (hardlinks) أو نسخ الملفات التي يحتاجها مباشرةً.
+أما إذا كتبت <code>file://</code>، فإن جت ينفّذ العمليات التي يستعملها في المعتاد لنقل الملفات عبر الشبكة، ويكون هذا في الغالب أقل كثيرا في الكفاءة.
+السبب الرئيسي لك‍تابة البادئة <code>file://</code> هي إذا كنت تريد نسخة نظيفة من المستودع بغير الإشارات أو الكائنات الإضافية&#8201;&#8212;&#8201;وغالبا ما يكون ذلك بعد الاستيراد من نظام إدارة نسخ آخر أو أمر شبيه (انظر <s>دواخل جت</s> لعمليات الصيانة).
+سنستعمل المسار العادي هنا لأنه أسرع في أغلب الأحيان.</p>
+</div>
+<div class="paragraph">
+<p>لإضافة مستودع محلي إلى مشروع جت موجود، نفّذ أمرًا مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git remote add local_proj /srv/git/project.git</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>عندئذٍ يمكنك الدفع إلى ذلك البعيد والجذب منه بالاسم المختصر الجديد <code>local_proj</code> كما كنت تفعل تمامًا عبر الشبكة.</p>
+</div>
+<div class="sect4">
+<h5 id="_المزايا">المزايا</h5>
+<div class="paragraph">
+<p>مزايا المستودعات «الملفاتية» أنها سهلة وتستعمل تصاريح الملفات واتصال الشبكة الموجودين فعلا.
+وإذا كان لديك نظام ملفات مشترك يصل إليه جميع فريقك، فإعداد مستودع عملية سهلة جدا:
+تضع نسخة المستودع المجرد في مكانٍ يستطيع الجميع الوصول إليه، وتضبط أذونات القراءة والتحرير كما تفعل لأي مجلد مشترك آخر.
+سنناقش كيفية تصدير نسخة مستودع مجردة لهذا الهدف في <a href="ch04-git-on-the-server.html#_getting_git_on_a_server">تثبيت جت على خادوم</a>.</p>
+</div>
+<div class="paragraph">
+<p>هذا أيضا خيار ظريف وسريع لجلب عمل شخص آخر من مستودعه.
+فإذا كنت وزميلك تعملان على مشروع واحد ويريدك أن تسحب شيئا ما، فتنفيذ أمر مثل <code>git pull <nobr>/home/badr/project</nobr></code> أسهل كثيرا في الغالب من أن يدفع عمله إلى خادوم بعيد ثم تستحضره أنت بعد ذلك.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_العيوب">العيوب</h5>
+<div class="paragraph">
+<p>عيوب هذه الطريقة هي أن الوصول المشترك غالبا ما يكون أصعب كثيرا من الوصول الشبكي العادي، في إعداده وفي الوصول إليه من أماكن مختلفة.
+فإذا أردت أن تدفع من حاسوبك المحمول عندما تكون في المنزل، فستحتاج إلى ضم القرص البعيد، وهذا قد يكون صعبًا وبطيئًا مقارنةً بوصول عبر الشبكة.</p>
+</div>
+<div class="paragraph">
+<p>من المهم ذكر أن هذا ليس بالضرورة الخيار الأسرع إذا كنت تستعمل نوعًا من الضم (mount) المشترك.
+فالمستودع المحلي لا يكون سريعا إلا إذا كان لديك وصول سريع إلى البيانات.
+فإن مستودع على NFS يكون في الغالب أبطأ من مستودع عبر SSH على الخادوم نفسه، بفرض أن جت يعمل من الأقراص المحلية في كل نظام.</p>
+</div>
+<div class="paragraph">
+<p>وأخيرا، لا يحمي هذا الميفاق المستودعَ من الإتلاف غير المقصود.
+فكل مستخدم لديه وصول صَدفي كامل للمجلد «البعيد»، فلا شيء يمنعه من تعديل ملفات جت الداخلية أو إزالتها وتخريب المستودع.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ميفاقا_http">ميفاقا HTTP</h4>
+<div class="paragraph">
+<p>يستطيع جت التواصل عبر HTTP بطريقتين مختلفتين.
+لم يعرف جت قبل النسخة 1.6.6 منه إلا واحدة منهما، وكانت ساذجة جدا وعموما للقراءة فقط.
+ولكن في نسخة 1.6.6، جاء ميفاق جديد جعل جت يتفاوض بذكاء في شأن نقل البيانات، بطريقة تشبه ما كان يفعل عبر SSH.
+وصار ميفاق HTTP الجديد هذا في الأعوام الأخيرة أشهر كثيرا لأنه أيسر للمستخدم وأذكي في تواصله.
+فانتشرت تسمية النسخة الجديدة «ميفاق HTTP <em>الذكي</em>» (Smart HTTP)، والقديمة «ميفاق HTTP <em>البليد</em>» (Dumb HTTP).
+وسنتناول الميثاق الذكي أولا.</p>
+</div>
+<div class="sect4">
+<h5 id="_ميفاق_http_الذكي">ميفاق HTTP الذكي</h5>
+<div class="paragraph">
+<p>
+يعمل الميفاق الذكي بطريقة كبيرة الشبه بميفاقَي SSH و Git، لكنه يعمل عبر منافذ HTTPS (الآمن) المعيارية ويستعمل آليّات استيثاق HTTP المتنوعة، ما يعني أنه غالبا أسهل للمستخدم من شيء مثل SSH، لأنك مثلا تستطيع استعمال اسم المستخدم وكلمة المرور بدلا من الاضطرار إلى إعداد مفاتيح SSH.</p>
+</div>
+<div class="paragraph">
+<p>لعله أشهر طريقة لاستعمال جت اليوم، لأن من الممكن إعداده ليتيح المستودع بغير هُوية مثل ميفاق Git، وكذلك ليتيح الدفع إليه بهُوية وتعمية مثل ميفاق SSH.
+فبدلا من الاضطرار إلى إعداد رابطَين (URL) مختلفين للعمليتين، يمكنك الآن استعمال رابط واحد لكليهما.
+وإذا حاولت الدفع فطلبَ المستودعُ الاستيثاقَ منك (وهو ما يجب أن يحدث في المعتاد)، فسيسألك الخادوم عن اسم المستخدم وكلمة المرور.
+والأمر نفسه للقراءة وحدها.</p>
+</div>
+<div class="paragraph">
+<p>وفي الواقع، في خدمات مثل جت‌هب، الرابط الذي تستعمله لتصفح المستودع عبر المتصفح (مثلا <a href="https://github.com/schacon/simplegit" class="bare" target="_blank" rel="noopener">https://github.com/schacon/simplegit</a>) يمكنك استعماله هو نفسه للاستنساخ، وكذلك للدفع إليه إذا كان لديك الإذن.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_ميفاق_http_البليد">ميفاق HTTP البليد</h5>
+<div class="paragraph">
+<p>
+إن لم يستجب الخادوم لطلب ميفاق HTTP الذكي من جت، فسيحاول عميل جت استعمال ميفاق HTTP <em>البليد</em> الأيسر.
+يتوقع الميفاق البليد أن يقدَّم له مستودع جت المجرد كما تُقدَّم الملفات العادية من خادوم الوب.
+فجمال الميفاق البليد هو سهولة إعداده.
+فليس عليك إلا وضع مستودع جت مجرد في مكانٍ ما في جذر مستندات HTTP، وإعداد خطاف <code>post-update</code>، وتكون قد أتممت المهمة (انظر <s>خطاطيف جت</s>).
+عندئذٍ يستطيع استنساخ المستودع كل مَن يستطيع الوصول إلى خادوم الوب الذي وضعته عليه.
+فللسماح بقراءة مستودعك عبر HTTP، افعل شيئًا مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cd /var/www/htdocs/
+$ git clone --bare /path/to/git_project gitproject.git
+$ cd gitproject.git
+$ mv hooks/post-update.sample hooks/post-update
+$ chmod a+x hooks/post-update</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هذا كل ما في الأمر.
+وخطاف <code>post-update</code> الذي يأتي مبدئيا مع جت ينفذ الأمر المناسب (<code>git update-server-info</code>) لجعل الاستحضار والاستنساخ عبر HTTP يعمل بطريقة صحيحة.
+ويعمل هذا الأمر عندما تدفع إلى المستودع (عبر SSH مثلا). عندئذٍ يستطيع الآخرون الاستنساخ بمثل هذا الأمر:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git clone https://example.com/gitproject.git</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>نستعمل في حالتنا هذه مسار <code>/var/www/htdocs</code> وهو الشائع مع خواديم Apache. لكن يمكنك استعمال أي خادوم وب سكونيّ (استاتيكي)؛ ليس عليك سوى وضع المستودع المجرد في مساره،
+فبيانات جت تقدَّم لطالبها مثل أي ملفات ساكنة عادية (انظر باب <s>دواخل جت</s> للتفاصيل عن كيف تُقدَّم بالتحديد).</p>
+</div>
+<div class="paragraph">
+<p>وفي العموم ستختار إما تشغيل خادوم HTTP ذكي للقراءة والتحرير، وإما جعل الملفات متاحة للقراءة فقط بالطريقة البليدة.
+فمن النادر تشغيل نوعَي الخدمتين معا.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_المزايا_2">المزايا</h5>
+<div class="paragraph">
+<p>سنركز على مزايا النسخة الذكية من ميفاق HTTP.</p>
+</div>
+<div class="paragraph">
+<p>بساطة الرابط الواحد للوصول بنوعيه تسهّل الأمور كثيرا على المستخدم النهائي، وكذلك عدم الاستثياق إلا عند الحاجة.
+والاستيثاق باسم مستخدم وكلمة مرور لهو أيضا مزية كبيرة فيه على SSH، فلا يحتاج المستخدمون أن يوّلدوا مفاتيح SSH محليًّا ثم يرفعوا مفاتيحهم العمومية إلى الخادوم ليسمح لهم بالتواصل.
+وإن هذه لمزية عظيمة في قابلية الاستخدام، للمستخدمين الأقل حنكة، وللمستخدمين على أنظمة عليها SSH غير موجود أو غير شائع.
+وهو أيضا كفؤ وسريع جدا، مثل SSH.</p>
+</div>
+<div class="paragraph">
+<p>ويمكنك كذلك إتاحة مستودعاتك للقراءة فقط عبر HTTPS الآمن، ما يعني أن بإمكانك تعمية المحتوى خلال نقله، أو حتى جعل العملاء يستعملون شهادات SSL موقّعة مخصوصة.</p>
+</div>
+<div class="paragraph">
+<p>شيء جميل آخر هو أن HTTP و HTTPS مستعملان بكثرة حتى إن الجدران النارية (firewalls) الخاصة بالمؤسسات تُضبط في الغالب لتتيح مرورهما عبر منافذها.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_العيوب_2">العيوب</h5>
+<div class="paragraph">
+<p>قد يكون إعداد جت عبر HTTPS أصعب قليلا من SSH على بعض الخواديم.
+ولكن غير ذلك، فلا تكاد توجد مزية لأحد الموافيق الأخرى على HTTP الذكي في تقديم محتوى جت.</p>
+</div>
+<div class="paragraph">
+<p>فإذا كنت تستعمل HTTP للدفع المستوثَق، فإعطاء اسم المستخدم وكلمة المرور قد يكون في بعض الأحيان أعقد قليلا من استعمال المفاتيح عبر SSH.
+ولكن توجد عدة أدوات للاحتفاظ بهما يمكنك استعمالها لجعل العملية أخف كثيرا، مثل Keychain Acess على نظام ماك أو إس و Credential Manager على نظام ويندوز.
+اقرأ <s>Credential Storage</s> لترى كيف تضبط نظامك للاحتفاظ بكلمة مرور HTTP آمن على نظامك.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ميفاق_ssh">ميفاق SSH</h4>
+<div class="paragraph">
+<p>
+النقل عبر SSH شائع عند استضافة جت ذاتيا.
+هذا لأن معظم الخواديم مُعدَّة فعلا لقَبول الوصول عبره، وإن لم تكن معدة فإعدادها سهل.
+أيضا SSH هو ميفاق شبكي استيثاقي، ويوجد في كل مكان، وسهل عموما إعداده واستعماله.</p>
+</div>
+<div class="paragraph">
+<p>لاستنساخ مستودع جت عبر SSH، استعمل رابط <code>ssh://</code> مثل:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git clone ssh://[user@]server/project.git</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>أو استعمل الصيغة المختصرة شبيهة <code>scp</code> لميفاق SSH:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git clone [user@]server:project.git</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وفي كلتا الحالتين، إن لم تحدد اسم المستخدم الاختياري، فسيعدّه جت مطابقًا لاسم مستخدم النظام الحالي على حاسوبك.</p>
+</div>
+<div class="sect4">
+<h5 id="_المزايا_3">المزايا</h5>
+<div class="paragraph">
+<p>مزايا SSH عديدة.
+أولا، سهل الإعداد نسبيا؛ فعفاريته (daemons) منتشرة، ولأكثر مديري الشبكات خبرة فيها، وأغلب أنظمة التشغيل تأتي بها معدَّة أو بأدوات لإدراتها.
+ثانيا، التواصل عبره آمن؛ فكل البيانات تُنقل بعد التعمية والاستيثاق.
+وأخيرا، إنه كفؤ، فيجعل البيانات ذات أقل حجم ممكن قبل نقلها، مثل موافيق HTTPS و Git والمحلي.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_العيوب_3">العيوب</h5>
+<div class="paragraph">
+<p>نقيصة SSH أنه لا يدعم وصول المجهولين إلى مستودعك.
+فإذا كنت تستعمل SSH، <em>فيجب</em> على الناس الحصول على وصول SSH لجهازك، حتى لرؤيتها فحسب، وهذا لا يجعل SSH مستحسَنًا للمشروعات المفتوحة، التي يود الناس أن يستنسخوها للنظر فيها فقط.
+أما إذا كنت لا تستعمله إلا داخل شبكة مؤسستك، فقد يكون SSH هو الميفاق الوحيد الذي تحتاج إلى التعامل معه.
+وإذا وددت أن تأذن للمجهولين بالاطلاع فقط على مشروعاتك ولكن تريد SSH أيضا، فعليك إعداد SSH للدفع ثم إعداد ميفاق آخر للآخرين حتى يستحضروا منه.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ميفاق_git">ميفاق Git</h4>
+<div class="paragraph">
+<p>
+أخيرا، لدينا ميفاق Git.
+هذا عفريت (daemon) مخصوص مرفق مع جت، ويستمع على منفذ مخصص (9418) ليتيح خدمة شبيهة بميفاق SSH، لكن بغير استيثاق أو تعمية.
+وعليك إنشاء ملف اسمه <code>git-daemon-export-ok</code> في مستودعك لتجعل جت يقدّمه عبر ميفاق Git؛ فالعفريت لن يقدّم مستودعًا ليس فيه هذا الملف، ولكن غير ذلك لا يوجد أمان.
+إما أن يكون المستودع متاحا للجميع لاستنساخه، وإما لا يكون.
+هذا يعني أنه عموما لا يمكن الدفع عبر هذا الميفاق.
+يمكنك تفعيل إذن الدفع، ولكن لانعدام الاستيثاق، فأي شخص على الإنترنت يجد رابط مشروعك يستطيع الدفع إليه.
+يكفي أن نقول أن هذا نادر.</p>
+</div>
+<div class="sect4">
+<h5 id="_المزايا_4">المزايا</h5>
+<div class="paragraph">
+<p>ميفاق Git غالبا ما يكون أسرع ميفاق نقل شبكي متاح.
+فإن كنت تخدم كمًّا كبيرًا من النقل الشبكي لمشروع عمومي، أو تقدّم مشروعًا كبيرًا لا يحتاج استيثاق المستخدمين للاطلاع عليه، فغالبا ستودّ إعداد عفريت جت ليقدّمه.
+فهو يستعمل الآلية نفسها التي يستعملها SSH لنقل البيانات، لكن بغير عبء التعمية والاستيثاق.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_العيوب_4">العيوب</h5>
+<div class="paragraph">
+<p>بسبب عدم وجود TLS أو أي نوع من التعمية، فإن الاستنساخ عبر <code>git://</code> قد يسبب ثغرة تنفيذ تعليمات برمجية عشوائية (arbitrary code execution)، لذا ينبغي تجنبه إلا إن كنت تعي جيدا ماذا تفعل.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>عندما تنفذ <code>git clone git://example.com/project.git</code>، فإن مخترقا يتحكم في جهاز التوجيه (router) الخاص بك سيستطيع تعديل المستودع الذي استنسخته للتو، مثلا يضيف تعليمات برمجية خبيثة فيه.
+وعندما تصرّف (compile) أو تشغل ما في هذا المستودع الذي استنسخته للتو، فستنفذ تلك التعليمات البرمجية الخبيثة.
+ ابتعد عن تنفيذ <code>git clone http://example.com/project.git</code> للسبب نفسه (أي ميفاق HTTP غير الآمن).</p>
+</li>
+<li>
+<p>تنفيذ <code>git clone https://example.com/project.git</code> (الآمن) لا يعاني من تلك العلة (إلا إن استطاع المخترق أن يحضر شهادة TLS للنطاق الذي تتصل به، <code>example.com</code> في هذا المثال).<br>
+تنفيذ <code>git clone git@example.com:project.git</code> (بميفاق SSH) لا يعاني من تلك العلة أيضا، إلا إن كنت قبلت بصمة مفتاح SSH خاطئة.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>وكذلك لا يدعم الاستيثاق، فأي أحد سيستطيع استنساخ المستودع (ولكن غالبا هذا ما تريده بالتحديد).
+ولعله أيضا من أصعب الموافيق في الإعداد.
+فيجب أن يشغّل عفريته الخاص، الذي يحتاج تهيئة <code>xinetd</code> أو <code>systemd</code> أو ما يشبههما. وليس هذا يسيرًا دائما.
+ويحتاج أيضا وصولًا عبر الجدار الناري إلى منفذ 9418، وهذا ليس منفذًا معتادًا تسمح به دائما الجدران النارية الخاصة بالمؤسسات؛
+فخلف تلك الجدران الكبيرة، هذا المنفذ الغامض غالبا ما يُحظر.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_getting_git_on_a_server">تثبيت جت على خادوم</h3>
+<div class="paragraph">
+<p>سنتناول الآن إعداد خدمة جت لتشغيل هذه الموافيق على خادومك.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>سنعرض هنا الأوامر والخطوات اللازمة لتثبيت أساسي مبسط على خادوم لينكسي، لكن ممكن أيضا تشغيل هذه الخدمات على ماك أو إس أو ويندوز.
+وفي الحقيقة إعداد خادوم إنتاجي ضمن بنيتك التحتية بالتأكيد سيشمل اختلافات في التدابير الأمنية أو أدوات نظام التشغيل، ولكننا نرجو أن يعطيك هذا فكرة عامة عما ينطوي عليه الأمر.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>حتى تعد أي خادوم جت، عليك أولا تصدير مستودع موجود إلى مستودع جديد مجرد، والمستودع المجرد هو مستودع ليس فيه مجلد عمل.
+هذا في المعتاد عملية سهلة.
+فلاستنساخ مستودع لإنشاء مستودع جديد مجرد، نفّذ أمر الاستنساخ بالخيار <code>--bare</code> («مجرد»):
+والعُرف أن أسماء مجلدات المستودعات المجردة تنتهي باللاحقة <code>.git</code>، مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git clone --bare my_project my_project.git
+Cloning into bare repository 'my_project.git'...
+done.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>سيكون لديك الآن نسخة من بيانات مجلد جت في مجلد <code>my_project.git</code>.</p>
+</div>
+<div class="paragraph">
+<p>هذا يكافئ تقريبا شيئا مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cp -Rf my_project/.git my_project.git</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>توجد بعض الاختلافات الطفيفة في ملف التهيئة (‪&#8220;config&#8221;‬)، ولكن لغرضنا اليوم فيكادا يتطابقان.
+فهذا الأخير يأخذ مستودع جت وحده بغير مجلد عمله وينشئ مجلدا مخصصا له وحده.</p>
+</div>
+<div class="sect3">
+<h4 id="_bare_repo">وضع المستودع المجرد على خادوم</h4>
+<div class="paragraph">
+<p>الآن وقد صار لديك نسخة مجردة من مستودعك، فلا تحتاج سوى وضعه على الخادوم وضبط الموافيق (البروتوكولات).
+لنقُل إنك أعددت خادوما يسمى <code>git.example.com</code>، ولديك وصول SSH له، وتريد تخزين كل مستودعات جت الخاصة بك في مجلد <code>/srv/git</code> فيه.
+إذا كان مجلد <code>/srv/git</code> موجودا على هذا الخادوم، يمكنك إعداد مستودعك الجديد بنسخ مستودعك المجرد إليه:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ scp -r my_project.git user@git.example.com:/srv/git</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يستطيع الآن المستخدمين الذين لديهم إذن قراءة مجلد <code>/srv/git</code> عبر SSH أن يستنسخوا مستودعك بالأمر:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git clone user@git.example.com:/srv/git/my_project.git</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وإذا كان لمستخدمٍ إذن تحرير هذا المجلد، ودخل عبر SSH إلى الخادوم، فسيستطيع الدفع إليه متى شاء.</p>
+</div>
+<div class="paragraph">
+<p>وسيضيف جت إذن التحرير للمجموعة إلى المستودع بطريقة صحيحة إذا استخدمت خيار <code>--shared</code> («مشترك») مع أمر الابتداء <code>git init</code>.
+لاحظ أن هذا لن يُتلف أي إيداعات أو إشارات أو أي شيء آخر.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ ssh user@git.example.com
+$ cd /srv/git/my_project.git
+$ git init --bare --shared</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>قد رأيت كم هو سهل إنشاء نسخة مجردة من مستودع جت ووضعها على خادوم عندكم وصول SSH إليه.
+فيمكنكم الآن التعاون في مشروع واحد.</p>
+</div>
+<div class="paragraph">
+<p>مهمٌ ملاحظة أنك حقا لا تحتاج غير هذا لتشغيل خادوم جت مفيد يصل إليه العديدون: تنشئ حسابات SSH، وتضع مستودعًا مجردًا في مكانٍ للجميع إذن قراءته وتحريره.
+وتمت العملية بنجاح؛ لا شيء آخر مطلوب.</p>
+</div>
+<div class="paragraph">
+<p>سنرى في الفصول القليلة التالية كيف يمكنك التوسع لإعدادات أكثر تعقيدا.
+وسيشمل هذا عدم الاضطرار إلى إنشاء حساب مستخدم لكل مستخدم، وإضافة إذن القراءة للجميع للمستودعات، وإعداد واجهات الوب، والمزيد.
+لكن تذكر أن للتعاون مع بعض الناس على مشروع خصوصي، كل ما <em>تحتاجه</em> هو خادوم SSH ومستودع مجرد.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_الترتيبات_الصغيرة_fixme">الترتيبات الصغيرة</h4>
+<div class="paragraph">
+<p>إذا كانت شركتك صغيرة أو كنت تجرب جت في مؤسسة ولستم إلا عددا قليلا من المطورين، فقد تكون الأمور يسيرة عليك.
+فأحد أعقد مناحي إعداد خادوم جت هو إدارة المستخدمين.
+فإن أردت لبعض المستودعات ألا يقرأها إلا مستخدمون معينون وألا يحررها إلا جماعة أخرى، فقد تجد ترتيب الأذونات والوصول أصعب.</p>
+</div>
+<div class="sect4">
+<h5 id="_الوصول_عبر_ssh">الوصول عبر SSH</h5>
+<div class="paragraph">
+<p>
+إذا كان لديك خادومٌ يستطيع جميع المطورين الوصول إليه عبر SSH، فمن الأسهل عموما إعداد مستودعك الأول عليه، لأنك بهذا لن تحتاج إلى عمل شيء تقريبا (كما شرحنا في الفصل السابق).
+وإذا احتجت إلى أذونات وصول أعقد لمستودعاتك، فيمكنك تحقيقها بأذونات نظام الملفات العادية الخاص بنظام تشغيل خادومك.</p>
+</div>
+<div class="paragraph">
+<p>وإذا أردت وضع مستودعاتك على خادوم ليس فيه حساب لكل مطور يحتاج إذن التحرير في فريقك، فعليك إعداد وصول SSH لكلٍ منهم.
+إذا كنت تريد فعل هذا على خادوم لديك، فسنفترض أن لديك بالفعل خادوم SSH مثبت عليه، وأنه وسيلتك للتواصل مع الخادوم الجهاز.</p>
+</div>
+<div class="paragraph">
+<p>توجد أكثر من طريقة لإعطاء إذن الوصول لكل واحد في فريقك.
+الأولى هي إعداد حساب لكل واحد، وهي عملية سهلة لكن قد تكون مرهقة.
+فربما لا تريد تنفيذ <code>adduser</code> (أو بديله المحتمل <code>useradd</code>) والاضطرار إلى ضبط كلمة مرور مؤقتة لكل مستخدم جديد.</p>
+</div>
+<div class="paragraph">
+<p>الطريقة الثانية هي إنشاء حساب مستخدم <code>git</code> واحد على الجهاز، وطلب مفتاح SSH العمومي من كل مستخدم تريد إعطاءه إذن التحرير، ثم إضافة هذه المفاتيح إلى ملف <code>~/.ssh/authorized_keys</code> في حساب <code>git</code> الجديد هذا.
+وعندئذٍ سيستطيع كل شخص الوصول إلى ذلك الجهاز عبر حساب <code>git</code>.
+وهذا لا يؤثر على بيانات الإيداعات بأي شكل؛ فحساب مستخدم SSH الذي تتصل عبره لا يؤثر على الإيداعات التي تسجلها.</p>
+</div>
+<div class="paragraph">
+<p>طريقة أخرى هي أن يستوثق خادوم SSH الخاص بك من خادوم LDAP أو مصدر استيثاق مركزي آخر أعددته.
+وما دام لكل مستخدم وصول صَدَفي إلى الجهاز، فأي آلية استيثاق SSH تخطر على بالك ستعمل.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_generate_ssh_key">توليد مفتاح SSH عمومي لك</h3>
+<div class="paragraph">
+<p>
+العديد من خواديم جت تستوثق باستعمال مفاتيح SSH العمومية.
+فعلى كل مستخدم توليد مفتاح إن لم يكن لديه مفتاح فعلا.
+تتشابه هذه العملية عبر أنظمة التشغيل المختلفة.
+أولا عليك التحقق أنك لا تملك مفتاحًا فعلا.
+المكان المبدئي لتخزين مفاتيح SSH الخاصة بالمستخدم هو مجلد <code>~/.ssh</code>.
+فانظر فيه لتعرف إذا كان لديك مفتاحٌ فعلا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cd ~/.ssh
+$ ls
+authorized_keys2  id_dsa       known_hosts
+config            id_dsa.pub</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>عليك البحث عن ملفين اسم أحدهما يشبه <code>id_dsa</code> أو <code>id_rsa</code>، والآخر هو الاسم نفسه لكن بالامتداد <code>.pub</code>.
+فملف <code>.pub</code> هو مفتاحك العمومي، والملف الآخر هو نظيره الخصوصي.
+وإذا لم يكن لديك هذين الملفين (أو لم يكن لديك مجلد <code>.ssh</code> من الأساس)، فيمكنك إنشاءهما بتشغيل برنامج يسمى <code>ssh-keygen</code> («توليد مفتاح SSH»)، والذي يأتي مع حزمة SSH على أنظمة لينكس وماك أو إس ومع Git for Windows على ويندوز:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ ssh-keygen -o
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/schacon/.ssh/id_rsa):
+Created directory '/home/schacon/.ssh'.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/schacon/.ssh/id_rsa.
+Your public key has been saved in /home/schacon/.ssh/id_rsa.pub.
+The key fingerprint is:
+d0:82:24:8e:d7:f1:bb:9b:33:53:96:93:49:da:9b:e3 schacon@mylaptop.local</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هو أولا يتحقق المكان الذي تريد حفظ المفتاح فيه (<code>.ssh/id_rsa</code>)، ثم يطلب مرتين إدخال عبارة المرور (passphrase)، ويمكنك تركها فارغة إذا لم تشأ إدخال عبارة مرور عند استعمال المفتاح.
+أما إذا أردتها، فعليك إضافة الخيار <code>-o</code>؛ فهو يحفظ المفتاح الخصوصي بصيغة أفضل من الصيغة المبدئية في مقاومة كسر عبارات المرور بالقوة العمياء.
+ويمكنك أيضا استخدام أداة <code>ssh-agent</code> («عميل SSH») لمنع الحاجة إلى إدخال عبارة المرور في كل مرة.</p>
+</div>
+<div class="paragraph">
+<p>الآن، على كل مستخدم فَعَلَ هذا أن يرسل مفتاحه العمومي إليك أو إلى من يدير خادوم جت (بفرض أنك أعدت خادوم SSH ليستعمل المفاتيح العمومية).
+وليس عليهم سوى نسخ محتويات ملف <code>.pub</code> وإرسالها إليك بالبريد الإلكتروني.
+تبدو المفاتيح العمومية مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cat ~/.ssh/id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
+GPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3
+Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XA
+t3FaoJoAsncM1Q9x5+3V0Ww68/eIFmb1zuUFljQJKprrX88XypNDvjYNby6vw/Pb0rwert/En
+mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
+NrRFi9wrf+M7Q== schacon@mylaptop.local</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لشرح أعمق لإنشاء مفتاح SSH على أنظمة التشغيل المختلفة، انظر دليل جت‌هب لمفاتيح SSH (بالإنجليزية):<br>
+<a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent" class="bare" target="_blank" rel="noopener">https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_setting_up_server">إعداد الخادوم</h3>
+<div class="paragraph">
+<p>لنعدّ معا وصولَ SSH على الخادوم.
+سنستعمل في هذا المثال طريقة <code>authorized_keys</code> («المفاتيح المستوثَقة») لاستيثاق مستخدميك.
+سنفترض أيضا أنك تستعمل توزيعة لينكس معتادة مثل أوبنتو.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>معظم المشروح هنا يمكن عمله آليًّا بأمر <code>ssh-copy-id</code>، بدلا من نسخ المفاتيح العمومية وتثبيتها يدويا.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>أولا، أنشئ حساب مستخدم باسم <code>git</code> وأنشئ مجلد <code>.ssh</code> له.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ sudo adduser git
+$ su git
+$ cd
+$ mkdir .ssh &amp;&amp; chmod 700 .ssh
+$ touch .ssh/authorized_keys &amp;&amp; chmod 600 .ssh/authorized_keys</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>سنحتاج الآن إلى إضافة بعض مفاتيح SSH العمومية للمطورين إلى ملف المفاتيح المستوثَقة الخاص بالمستخدم <code>git</code>.
+لنفرض أن لديك بعض المفاتيح الموثوقة وأنك حفظتها في ملفات مؤقتة.
+للتذكير، تبدو المفاتيح العمومية هكذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cat /tmp/id_rsa.badr.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCB007n/ww+ouN4gSLKssMxXnBOvf9LGt4L
+ojG6rs6hPB09j9R/T17/x4lhJA0F3FR1rP6kYBRsWj2aThGw6HXLm9/5zytK6Ztg3RPKK+4k
+Yjh6541NYsnEAZuXz0jTTyAUfrtU3Z5E003C4oxOj6H0rfIF1kKI9MAQLMdpGW1GYEIgS9Ez
+Sdfd8AcCIicTDWbqLAcU4UpkaX8KyGlLwsNuuGztobF8m72ALC/nLF6JLtPofwFBlgc+myiv
+O7TCUSBdLQlgMVOFq1I2uPWQOkOWQAHukEOmfjy2jctxSDBQ220ymjaNsHT4kgtZg2AYYgPq
+dAv8JggJICUvax2T9va5 gsg-keypair</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ليس عليك إلا إضافتها إلى ملف <code>authorized_keys</code> الخاص بالمستخدم <code>git</code> الموجود في مجلد <code>.ssh</code> الخاص به:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cat /tmp/id_rsa.badr.pub &gt;&gt; ~/.ssh/authorized_keys
+$ cat /tmp/id_rsa.shams.pub &gt;&gt; ~/.ssh/authorized_keys
+$ cat /tmp/id_rsa.wafaa.pub &gt;&gt; ~/.ssh/authorized_keys</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>أعدّ الآن مستودع مجرد لهم بأمر الابتداء <code>git init</code> مع الخيار <code>--bare</code>، لتنشئ المستودع بلا مجلد عمل:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cd /srv/git
+$ mkdir project.git
+$ cd project.git
+$ git init --bare
+Initialized empty Git repository in /srv/git/project.git/</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>عندئذٍ يستطيع بدر أو شمس أو وفاء دفع النسخة الأولى من مشروعهم إلى المستودع بإضافته مستودعًا بعيدًا في نسختهم المحلية، ودفع الفرع الذي لديهم إليه.
+لاحظ أن في كل مرة تريد فيها إضافة مشروع، على شخصٍ ما الوصول إلى الجهاز عبر الصدفة وإنشاء مستودع مجرد.
+لنجعل <code>gitserver</code> اسم المضيف (‪&#8220;hostname&#8221;‬) للخادوم الذي أعددت عليه المستودع ومستخدم <code>git</code>.
+إذا كنت تشغّل الخادوم داخليا وأعددت DNS ليشير الاسم <code>gitserver</code> إلى هذا الخادوم، فيمكنك استعمال الأوامر كما هي تقريبا (بفرض أن <code>myproject</code> هو مشروع موجود وفيه مِلفات):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console"># على حاسوب بدر
+$ cd myproject
+$ git init
+$ git add .
+$ git commit -m 'Initial commit'
+$ git remote add origin git@gitserver:/srv/git/project.git
+$ git push origin master</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>الآن سيستطيع الآخرون استنساخه إلى أجهزتهم ودفع تعديلاتهم إليه بالسَهولة نفسها:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git clone git@gitserver:/srv/git/project.git
+$ cd project
+$ vim README
+$ git commit -am 'Fix for README file'
+$ git push origin master</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>بهذه الطريقة ستحصل سريعا على خادوم جت يتيح إذنَي القراءة والتحرير لبضعة مطورين.</p>
+</div>
+<div class="paragraph">
+<p>عليك أيضا ملاحظة أن حتى الآن، أولئك المستخدمين جميعهم يمكنهم أيضا الولوج إلى الخادوم والحصول على صدفة المستخدم <code>git</code>.
+إذا أردت تقييد هذا، فعليك تغيير الصدفة إلى شيء آخر في ملف <code>/etc/passwd</code>.</p>
+</div>
+<div class="paragraph">
+<p>يمكنك بسَهولة تقييد حساب المستخدم <code>git</code> إلى الأنشطة المرتبطة بـجت باستعمال أداة صدفة مقيَّدة اسمها <code>git-shell</code> («صدفة جت») وهي مرفقة مع جت.
+فإذا ضبطتها لتكون صدفة ولوج لحساب المستخدم <code>git</code> فإن هذا الحساب لن يكون له وصول صدفة طبيعي إلى خادومك.
+لاستعمالها، حدد <code>git-shell</code>  لتكون صدفة ولوج لهذا الحساب بدلا من <code>bash</code> أو <code>csh</code>.
+ولفعل هذا، عليك أولا إضافة المسار الكامل لأمر <code>git-shell</code> إلى مِلف <code>/etc/shells</code> إذا لم يكن موجودا فيه بالفعل:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cat /etc/shells      # انظر إن كانت صدفة جيت هنا، وإلا…‏
+$ which git-shell      # فتحقق أن صدفة جيت مثبتة على نظامك
+$ sudo -e /etc/shells  # ثم أضف مسارها من الأمر السابق إلى ملف الصدفات</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يمكنك الآن تغيير صدفة المستخدم بالأمر <code>chsh &lt;username&gt; -s &lt;shell&gt;</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ sudo chsh git -s $(which git-shell)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>عندئذٍ يستطيع المستخدم <code>git</code> استعمال SSH للدفع والجذب من مستودعات جت، بغير أن يكون له وصولًا صدفيًّا إلى خادومك.
+وإن حاول، فسيرى رسالة رفض ولوج مثل هذه:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ ssh git@gitserver
+fatal: Interactive git shell is not enabled.
+hint: ~/git-shell-commands should exist and have read and execute access.
+Connection to gitserver closed.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ولكن حتى الآن لدى المستخدمين القدرة على توجيه منفذ SSH (أي ‪&#8220;port forwarding&#8221;‬) للوصول إلى أي خادوم آخر يستطيع ذلك الخادوم الاتصال به.
+فإذا أردت منع هذا، فأضف الخيارات التالية في أول كل مفتاح تريد تقييده في ملف المفاتيح المستوثقة (<code>authorized_keys</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ستبدو نتيجة التعديل مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cat ~/.ssh/authorized_keys
+no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty ssh-rsa
+AAAAB3NzaC1yc2EAAAADAQABAAABAQCB007n/ww+ouN4gSLKssMxXnBOvf9LGt4LojG6rs6h
+PB09j9R/T17/x4lhJA0F3FR1rP6kYBRsWj2aThGw6HXLm9/5zytK6Ztg3RPKK+4kYjh6541N
+YsnEAZuXz0jTTyAUfrtU3Z5E003C4oxOj6H0rfIF1kKI9MAQLMdpGW1GYEIgS9EzSdfd8AcC
+IicTDWbqLAcU4UpkaX8KyGlLwsNuuGztobF8m72ALC/nLF6JLtPofwFBlgc+myivO7TCUSBd
+LQlgMVOFq1I2uPWQOkOWQAHukEOmfjy2jctxSDBQ220ymjaNsHT4kgtZg2AYYgPqdAv8JggJ
+ICUvax2T9va5 gsg-keypair
+
+no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty ssh-rsa
+AAAAB3NzaC1yc2EAAAADAQABAAABAQDEwENNMomTboYI+LJieaAY16qiXiH3wuvENhBG...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>عندئذٍ ستظل تعمل أوامر جت الشبكية، ولكن المستخدمين لن يعودوا قادرين على الوصول إلى صدفة.
+وكما ترى في رسالة الرفض، يمكنك أيضا إعداد مجلد في مجلد منزل المستخدم <code>git</code> لتخصيص أمر <code>git-shell</code> قليلا.
+فيمكنك مثلا تقييد أوامر جت التي يقبلها الخادوم، أو تخصيص الرسالة التي يراها المستخدمين عندما يحاولون الوصول عبر SSH.
+نفّذ الأمر <code>git help shell</code> للحصول على معلومات مزيدة عن تخصيص الصدفة.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_عفريت_جت">عفريت جت</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>(من المترجم) كلمة ‪&#8220;daemon&#8221;‬ ظهرت في MIT اسمًا للعمليات الخدمية التي تعمل في خلفية نظام التشغيل ولا يلاحظها المستخدم. جاءت التسمية نسبة إلى <a href="https://ar.wikipedia.org/wiki/عفريت_ماكسويل">«عفريت ماكسويل»</a> في الفيزياء، الذي يستعمل المعنى القديم للكلمة (في اليونانية والعربية)، وهو الكائن الغَيْبي الذي يعمل في الخفاء، وليس بالضرورة شيطانًا. فأترجمها «عفريت»، وأترجم فعل الصيرورة منها (‪&#8220;daemonize&#8221;‬) إلى «عفرتة». الاسم المناظر على ويندوز هو «خدمة» (‪&#8220;service&#8221;‬)، وقد بدأ استخدامه حديثًا في لينكس كذلك.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>
+سنعدّ الآن عفريتًا ليقدِّم المستودعات بميفاق ‪&#8220;Git&#8221;‬.
+هذا هو الخيار الشائع لإتاحة وصول سريع بغير استيثاق لبيانات جت.
+تذكر أنه غير مستوثَق، فأي شيء تتيحه عبر هذا الميفاق سيكون عموميا للجميع داخل الشبكة.</p>
+</div>
+<div class="paragraph">
+<p>فإذا كنت تستخدمه على خادوم خارج جدارك الناري، فعليك ألا تستخدمه إلا للمشروعات التي يمكن أن يراها العالم.
+وإذا كان خادومك داخل جدارك الناري، فيمكنك استخدامه للمشروعات التي يحتاج الكثير من الناس أو الأجهزة الوصولَ إليه وصول قراءة فقط (مثل خواديم البناء أو التكامل المستمر)، إن لم تكن تريد إضافة مفتاح SSH لكلٍ منهم.</p>
+</div>
+<div class="paragraph">
+<p>وفي جميع الأحوال، إن ميفاق Git سهل الإعداد نسبيا.
+فلستَ تحتاج إلا إلى عفرتة هذا الأمر:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git daemon --reuseaddr --base-path=/srv/git/ /srv/git/</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>خيار <code>--reuseaddr</code> («أعد استخدام العنوان») يسمح بإعادة تشغيل الخادوم بغير انتظار انتهاء وقت (timeout) الاتصالات القديمة. وخيار <code>--base-path</code> («أساس المسار») يتيح للناس استنساخ المشروعات بغير تحديد المسار بكامله. أما المسار الذي في آخر الأمر يخبر عفريت جت مكان المستودعات التي سيُصدِّرها.
+وإذا كنت تستخدم جدارا ناريا، فستحتاج أيضا إلى فتح منفذ 9418 فيه على الجهاز الذي تعدّه عليه.</p>
+</div>
+<div class="paragraph">
+<p>طريقة عفرتة هذه العملية تختلف حسب نظام تشغيلك.</p>
+</div>
+<div class="paragraph">
+<p>لأن <code>systemd</code> هو نظام الابتداء (init) الأكثر شيوعا على توزيعات لينكس الحديثة، فيمكنك استخدامه لهذا الغرض.
+ليس عليك سوى إنشاء الملف <code>/etc/systemd/system/git-daemon.service</code> بهذه المحتويات:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">[Unit]
+Description=Start Git Daemon
+
+[Service]
+ExecStart=/usr/bin/git daemon --reuseaddr --base-path=/srv/git/ /srv/git/
+
+Restart=always
+RestartSec=500ms
+
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=git-daemon
+
+User=git
+Group=git
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ربما لاحظت أن اسم المستخدم واسم المجموعة اللذين يشتغل تحتهما عفريت جت هما <code>git</code>.
+يمكنك تغييرهما إلى ما يناسبك، ولكن تأكد من وجود اسم المستخدم المختار على نظامك.
+وتأكد أيضا من أن الملف التنفيذي لبرنامج جت موجود فعلا في المسار <code>/usr/bin/git</code> وإلا فغيّره إلى ما يناسب.</p>
+</div>
+<div class="paragraph">
+<p>وأخيرا، نفّذ <code>systemctl enable git-daemon</code> لبَدء تشغيل الخدمة (العفريت) آليًّا مع بدء تشغيل النظام، ويمكنك تشغيل الخدمة بالأمر <code>systemctl start git-daemon</code> وإيقافها بالأمر <code>systemctl stop git-daemon</code>.</p>
+</div>
+<div class="paragraph">
+<p>على الأنظمة الأخرى، قد يناسبك <code>xinetd</code> أو بُرَيمج في نظام <code>sysvinit</code> أو شيئًا آخر&#8201;&#8212;&#8201;طالما أنك جعلت هذا الأمر مُعَفرَت ومُراقَب بطريقةٍ ما.</p>
+</div>
+<div class="paragraph">
+<p>ثم تحتاج إلى إخبار جت بأي المستودعات التي يسمح بالوصول إليها بغير استيثاق عبر خادوم جت.
+يمكنك فعل هذا بإنشاء ملف اسمه <code>git-daemon-export-ok</code> في كل مستودع.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cd /path/to/project.git
+$ touch git-daemon-export-ok</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وجود هذا الملف يخبر جت بقَبول إتاحة هذا المشروع بغير استيثاق.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ميفاق_http_الذكي_2">ميفاق HTTP الذكي</h3>
+<div class="paragraph">
+<p>
+لدينا الآن وصولا مستوثَقا عبر SSH ووصولا غير مستوثَق عبر <code>git://</code>، ولكن يوجد أيضا ميفاق يمكنه عمل كِلا الأمرين في وقت واحد.
+إعداد HTTP الذكي هو ببساطة مجرد تفعيل بُرَيمج CGI الآتي مع جت المسمى <code>git-http-backend</code> على الخادوم.
+يقرأ هذا البريمج المسار والترويسات (headers) التي يرسلها أمر الاستحضار <code>git fetch</code> أو الدفع <code>git push</code> إلى رابط HTTP ويحدد إذا كان العميل يستطيع التواصل عبر HTTP (وهذا صحيح لأي عميل جت منذ الإصدارة 1.6.6).
+وإذا رأي البريمج أن العميل ذكي، فسيتواصل معه بذكاء؛ وإلا فسيتواصل معه بالميفاق البليد (ولذا فهو متوافق مع الإصدارات القديمة التي تريد القراءة فحسب).</p>
+</div>
+<div class="paragraph">
+<p>لنرَ إعدادا بسيطا جدا.
+سنستخدم فيه أباتشي (Apache) كخادوم CGI.
+إن لم يكن لديك أباتشي مُعدًّا، فيمكنك إعداده على حاسوب لينكسي بفعل شيءٍ كهذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ sudo apt-get install apache2 apache2-utils
+$ a2enmod cgi alias env</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هذا أيضا يفعّل وِحدات <code>mod_cgi</code> و <code>mod_alias</code> و <code>mod_env</code>، والتي تحتاجها جميعها حتى يعمل هذا الإعداد بشكل صحيح.</p>
+</div>
+<div class="paragraph">
+<p>سنحتاج أيضا إلى ضبط مجموعة المستخدمين اليونكسية الخاصة بمجلدات <code>/srv/git</code> إلى <code>www-data</code>، حتى يتسنّى لخادوم الوب قراءة المستودعات وتحريرها، لأن عملية أباتشي التي تشغّل بُريمج CGI الخاص بنا تعمل (مبدئيا) تحت هذا المستخدم:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ chgrp -R www-data /srv/git</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وكذلك سنحتاج إلى إضافة بعض الأشياء إلى تهيئة أباتشي لتشغيل <code>git-http-backend</code> معالجًا (‪&#8220;handler&#8221;‬) لأي شيء يأتي من المسار <code>/git</code> على خادومك.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">SetEnv GIT_PROJECT_ROOT /srv/git
+SetEnv GIT_HTTP_EXPORT_ALL
+ScriptAlias /git/ /usr/lib/git-core/git-http-backend/</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>إن أهملت متغير البيئة <code>GIT_HTTP_EXPORT_ALL</code>، فلن يتيح جت للعملاء غير المستوثَقين إلا تلك المستودعات التي فيها الملف <code>git-daemon-export-ok</code>، تماما مثلما فعل عفريت جت.</p>
+</div>
+<div class="paragraph">
+<p>وأخيرا سنحتاج إلى إخبار أباتشي أن يسمح بالطلبات إلى <code>git-http-backend</code> وأن يستوثق عمليات التحرير بطريقةٍ ما، مثلا بك‍تلة <code>Auth</code> كهذه:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">&lt;Files "git-http-backend"&gt;
+    AuthType Basic
+    AuthName "Git Access"
+    AuthUserFile /srv/git/.htpasswd
+    Require expr !(%{QUERY_STRING} -strmatch '*service=git-receive-pack*' || %{REQUEST_URI} =~ m#/git-receive-pack$#)
+    Require valid-user
+&lt;/Files&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يتطلب هذا إنشاء ملف <code>.htpasswd</code> فيه كلمات المرور لجميع المستخدمين المقبولين.
+هذا مثال على إضافة المستخدم ‪&#8220;schacon&#8221;‬ إليه:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ htpasswd -c /srv/git/.htpasswd schacon</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لدى أباتشي طرائق عديدة لاستيثاق المستخدمين؛ عليك اختيار إحداها وتطبيقها.
+ليس هذا إلا أيسر مثال استطعنا الإتيان به.
+ومن شبه المؤكد أنك أيضا ستحتاج إلى إعداد هذا عبر SSH حتى تكون هذه البيانات كلها معمّاة.</p>
+</div>
+<div class="paragraph">
+<p>لا نود الخوض عميقا في دوامة دقائق تهيئة أباتشي، لأنك قد تستخدم خادوما آخر أو أن لديك احتياجات استيثاق مختلفة.
+وإنما الأمر أن مع جت بريمج CGI اسمه <code>git-http-backend</code>، والذي عند ندائه يفعل كل المفاوضات لإرسال واستقبال البيانات عبر HTTP.
+ولكنه لا ينفذ أي استيثاق بنفسه. لكن هذا سهل التحكم فيه في مرحلة خادوم الوب الذي يناديه.
+يمكنك فعل هذا مع ربما أي خادوم وب يدعم CGI، لذا فانطلق مع الخادوم الذي تعرفه حق المعرفة.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>لمزيد من المعلومات عن تهيئة الاستيثاق في أباتشي، انظر وثائق أباتشي (بالإنجليزية) هنا: <a href="https://httpd.apache.org/docs/current/howto/auth.html" class="bare" target="_blank" rel="noopener">https://httpd.apache.org/docs/current/howto/auth.html</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_gitweb">GitWeb</h3>
+<div class="paragraph">
+<p>
+تستطيع الآن الوصول إلى مشروعك مع إذن التحرير أو مع إذن القراءة فقط. وقد تود الآن إعداد واجهة وب رسومية يسيرة له.
+يأتي جت مع بُريْمج CGI يسمى جت‌وِب والذي يُستخدم أحيانا لهذا الغرض.</p>
+</div>
+<div id="gitweb" class="imageblock">
+<div class="content">
+<img src="images/git-instaweb.png" alt="واجهة وب جت‌وب">
+</div>
+<div class="title">شكل ٤٩. واجهة وب جت‌وب</div></div>
+<div class="paragraph">
+<p>فإذا أردت رؤية كيف يبدو جت‌وب لمشروعك، فمع جت أمر يشغّل نسخة مؤقتة منه إذا كان لديك خادوم وب خفيف على نظامك مثل <code>lighttpd</code> أو <code>webrick</code>.
+على الأنظمة اللينكسية غالبا يكون <code>lighttpd</code> مثبتًا، فقد تستطيع تشغيله بتنفيذ <code>git instaweb</code> في مجلد مشروعك.
+وإن كنت على ماك، فإن نسخة Leopard تأتي بلغة Ruby مثبتة مبدئيا، فيكون <code>webrick</code> هو الظن الأقرب.
+لـبَدء <code>instaweb</code> بشيء غير <code>lighttpd</code>، فعليك تشغيله بخيار <code>--httpd</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git instaweb --httpd=webrick
+[2009-02-21 10:02:21] INFO  WEBrick 1.3.1
+[2009-02-21 10:02:21] INFO  ruby 1.8.6 (2008-03-03) [universal-darwin9.0]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فهذا يشغّل خادوم HTTPD على منفذ 1234 ويفتح متصفح الوب على تلك الصفحة آليًّا.
+فهو يسهّل عليك.
+وعندما تقضي ما تريد وتود إيقاف الخادوم، نفّذ الأمر نفسه لكن بالخيار <code>--stop</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git instaweb --httpd=webrick --stop</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وإذا كنت تود تشغيل واجهة الوب على خادوم طوال الوقت لفريقك أو لمشروع مفتوح تستضيفه، فستحتاج إلى إعداد بريمج الـ CGI ليقدّمه خادوم الوب العادي الذي تستخدمه.
+بعض توزيعات لينكس تأتي بحزمة <code>gitweb</code> والتي قد تستطيع تثبيتها بأمر مثل <code>apt</code> أو <code>dnf</code>، لذا فقد تود تجربة هذا أولا.
+سنمر سريعا جدا على تثبيت جت‌وب يدويا.
+عليك أولا الحصول على مصدر جت، الذي فيه جت‌وب، ثم توليد بُرَيمج CGI المخصص:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git clone https://git.kernel.org/pub/scm/git/git.git
+$ cd git/
+$ make GITWEB_PROJECTROOT="/srv/git" prefix=/usr gitweb
+    SUBDIR gitweb
+    SUBDIR ../
+make[2]: `GIT-VERSION-FILE' is up to date.
+    GEN gitweb.cgi
+    GEN static/gitweb.js
+$ sudo cp -Rf gitweb /var/www/</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لاحظ أنك تحتاج إلى إخبار هذا الأمر بمكان مستودعاتك في المتغير <code>GITWEB_PROJECTROOT</code>.
+والآن، تحتاج إلى جعل أباتشي يستخدم CGI لهذا البريمج، ويمكنك فعل ذلك بإضافة مستضيف وهمي (VirtualHost) له:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">&lt;VirtualHost *:80&gt;
+    ServerName gitserver
+    DocumentRoot /var/www/gitweb
+    &lt;Directory /var/www/gitweb&gt;
+        Options +ExecCGI +FollowSymLinks +SymLinksIfOwnerMatch
+        AllowOverride All
+        order allow,deny
+        Allow from all
+        AddHandler cgi-script cgi
+        DirectoryIndex gitweb.cgi
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>مجددا، لتقديم جت‌وب تستطيع استخدام أي خادوم وب يدعم CGI أو Perl. وإذا أردت شيئا آخر فليس إعداده بالصعب.
+يمكنك الآن زيارة <code><a href="http://gitserver/" class="bare">http://gitserver/</a></code> لرؤية مستودعاتك على الشابكة.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_gitlab">GitLab</h3>
+<div class="paragraph">
+<p>
+لعلك وجدت أن جت‌وب GitWeb ساذجا قليلا أو كثيرا.
+فإذا كنت تبحث عن خادوم جت حديث ومكتمل الخصائص، فيوجد عدد من الحلول مفتوحة المصدر والتي يمكنك تثبيتها بدلا منه.
+ولأن جت‌لاب من أشهرها، فإننا سنتناول تثبيته واستخدامه مثالا.
+هذا الخيار أصعب من جت‌وب وسيحتاج منك رعاية أكثر، لكنه مكتمل الخصائص.</p>
+</div>
+<div class="sect3">
+<h4 id="_التثبيت">التثبيت</h4>
+<div class="paragraph">
+<p>جت‌لاب هو تطبيق وب مبني على قاعدة بيانات، لذا فتثبيته أعقد من بعض خواديم جت الأخرى.
+لكن لحسن الحظ هذه العملية موثقة بالكامل ومدعومة جيدا.
+يوصي جت‌لاب بقوة بتثبيته على خادومك عبر الحزمة الرسمية الحافلة، المسماة حزمة ‪&#8220;Omnibus GitLab&#8221;‬.</p>
+</div>
+<div class="paragraph">
+<p>خيارات التثبيت الأخرى هي:</p>
+</div>
+<div class="ulist tight">
+<ul class="tight">
+<li>
+<p>GitLab Helm chart، لاستخدامه مع Kubernetes.</p>
+</li>
+<li>
+<p>حزم Docker لـ GitLab، لاستخدامها مع Docker.</p>
+</li>
+<li>
+<p>من مِلفات المصدر.</p>
+</li>
+<li>
+<p>موفِّرو الخدمات السحابية، مثل AWS و Google Cloud Platform و Azure و OpenShift و Digital Ocean.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>للمزيد من المعلومات (بالإنجليزية) انظر <a href="https://gitlab.com/gitlab-org/gitlab-foss/-/blob/master/README.md" target="_blank" rel="noopener">GitLab Community Edition (CE) readme</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_الإدارة">الإدارة</h4>
+<div class="paragraph">
+<p>واجهة إدارة جت‌لاب هي واجهة وب.
+ليس عليك إلا توجيه متصفحك إلى اسم المُضيف (‪&#8220;hostname&#8221;‬) أو عنوان IP الذي ثبتَّ عليه جت‌لاب، ثم لُج بحساب المدير.
+اسم المستخدم المبدئي هو <code>admin@local.host</code>، وكلمة المرور المبدئية هي <code>5iveL!fe</code> (والتي عليك تغييرها فورا).
+بعد الولوج، اضغط على رمز ‪&#8220;Admin area&#8221;‬ (منطقة الإدارة) في القائمة التي على اليمين بالأعلى.</p>
+</div>
+<div id="gitlab_menu" class="imageblock">
+<div class="content">
+<img src="images/gitlab-menu.png" alt="زر “Admin area” (منطقة الإدارة) في قائمة جت‌لاب">
+</div>
+<div class="title">شكل ٥٠. زر ‪&#8220;Admin area&#8221;‬ (منطقة الإدارة) في قائمة جت‌لاب</div></div>
+<div class="sect4">
+<h5 id="_المستخدمون">المستخدمون</h5>
+<div class="paragraph">
+<p>على كل من يريد استخدام خادوم جت‌لاب الخاص بك الحصول على حساب مستخدم.
+حسابات المستخدمين أمر يسير؛ هي في الأساس معلومات شخصية مرتبطة ببيانات الولوج.
+كل حساب مستخدم لديه <strong>مساحة أسماء</strong> (‪&#8220;namespace&#8221;‬)، وهي تجميع منطقي للمشروعات الخاصة به.
+فمثلا إذا كان لدى المستخدم <code>shams</code> مشروع اسمه <code>project</code>، فإن رابط ذلك المشروع سيكون <code>http://server/shams/project</code>.</p>
+</div>
+<div id="gitlab_users" class="imageblock">
+<div class="content">
+<img src="images/gitlab-users.png" alt="شاشة إدارة المستخدمين على جت‌لاب">
+</div>
+<div class="title">شكل ٥١. شاشة إدارة المستخدمين على جت‌لاب</div></div>
+<div class="paragraph">
+<p>يمكنك إزالة حساب مستخدم بطريقتين:
+«حظر» (‪&#8220;block&#8221;‬) حساب مستخدم يمنعه من الولوج إلى خادومك، ولكن كل بياناته التي في مساحة أسمائه ستبقى، والإيداعات الموقَّعة ببريده ستظل تشير إلى صفحته الشخصية على خادومك.</p>
+</div>
+<div class="paragraph">
+<p>أما «محو» (‪&#8220;destroy&#8221;‬) مستخدمٍ فيزيله تماما من قاعدة البيانات ومن نظام الملفات؛
+ستُزال كل المشروعات والبيانات التي في مساحة أسمائه، وكذلك كل المجموعات التي يملكها.
+طبعا هذا الفعل مستديم الأثر وأشد إتلافا، ونادرا ما ستحتاجه.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_gitlab_groups_section">المجموعات</h5>
+<div class="paragraph">
+<p>المجموعة في جت‌لاب هي تجميعة من المشروعات، مع معلومات عن كيفية وصول المستخدمين إلى هذه المشروعات.
+كل مجموعة لديها «مساحة أسماء مشروعات»، تماما مثلما للمستخدمين، لذا فإن كان في المجموعة <code>training</code> مشروع اسمه <code>materials</code>، فسيكون رابطه <code>http://server/training/materials</code>.</p>
+</div>
+<div id="gitlab_groups" class="imageblock">
+<div class="content">
+<img src="images/gitlab-groups.png" alt="شاشة إدارة المجموعات على جت‌لاب">
+</div>
+<div class="title">شكل ٥٢. شاشة إدارة المجموعات على جت‌لاب</div></div>
+<div class="paragraph">
+<p>ترتبط كل مجموعة بعدد من المستخدمين، ولكل منهم مستوى من الصلاحيات لمشروعات المجموعة وكذلك المجموعة نفسها.
+وتتراوح هذه المستويات من ‪&#8220;Guest&#8221;‬ («زائر»: للمسائل ‪&#8220;issues&#8221;‬ والمحادثات ‪&#8220;chat&#8221;‬ فقط)، إلى ‪&#8220;Owner&#8221;‬ («مالك»: للتحكم الكامل في المجموعة وأعضائها ومشروعاتها).
+وهذه المستويات كثيرة يصعب سردها هنا، لكنّ شاشة الإدارة في جت‌لاب فيها رابطا مفيدا.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_المشروعات">المشروعات</h5>
+<div class="paragraph">
+<p>المشروع في جت‌لاب هو تقريبا مستودع جت واحد.
+ينتمي كل مشروع إلى مساحة أسماء واحدة، إما لمستخدم وإما لمجموعة.
+وإذا كان المشروع ينتمي إلى مستخدم، فلدى مالك المشروع تحكم مباشر في من لديه حق الوصول إلى المشروع. وإذا كان ينتمي إلى مجموعة، فصلاحيات أعضاء المجموعة هي التي تحدد.</p>
+</div>
+<div class="paragraph">
+<p>كل مشروع له مستوى ظهور، ليحدد من يستطيع رؤية صفحات هذا المشروع ومستودعه.
+فإذا كان المشروع «خصوصيا» (‪&#8220;Private&#8221;‬)، فلا يظهر إلا لمن يحددهم مالك المشروع بالاسم.
+وإذا كان «داخليا» (‪&#8220;Internal&#8221;‬)، فإنه لا يظهر إلا للمستخدمين الوالِجين. وإذا كان «عموميا» (‪&#8220;Public&#8221;‬) فإنه يظهر للجميع.
+لاحظ أن هذا يتحكم في الوصول عبر <code>git fetch</code> وكذلك عند الوصول عبر واجهة الوب لهذا المشروع.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_الخطاطيف">الخطاطيف</h5>
+<div class="paragraph">
+<p>يدعم جت‌لاب الخطاطيف، على مستوى المشروع وعلى مستوى النظام ككل.
+سيرسل خادوم جت‌لاب طلب HTTP بطريقة POST مع JSON وصفي كلما حدثَ حدثٌ مناسب.
+وهذه طريقة عظيمة لربط مستودعات جت وخادوم جت‌لاب بباقي الأدوات الآلية التي تستخدمها ضمن التطوير، مثل خواديم التكامل المستمر CI، وغرف المحادثة، وأدوات النشر (‪&#8220;deployment&#8221;‬).</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_الاستخدام_الأساسي">الاستخدام الأساسي</h4>
+<div class="paragraph">
+<p>أول ما قد تود عمله على جت‌لاب هو إنشاء مشروع،
+وذلك بالضغط على رمز ‪&#8220;+&#8221;‬ على شريط الأدوات.
+ستُسأل عن اسم المشروع، ومساحة الأسماء التي ينتمي إليها، ومستوى ظهوره.
+معظم ما تحدده هنا ليس مستديمًا، فتستطيع تغييره فيما بعد من واجهة الإعدادات.
+اضغط على ‪&#8220;Create Project&#8221;‬ («إنشاء المشروع») لإتمام العملية.</p>
+</div>
+<div class="paragraph">
+<p>وما إن يكون المشروع حيًّا، قد تود ربطه بمستودع محلي.
+يمكن التواصل مع أي مشروع عبر HTTPS أو SSH. ويمكنك استعمال أي منهما لإضافة مستودع جت بعيد في مستودعك المحلي.
+ستجد الروابط في أعلى الصفحة الرئيسية للمشروع.
+فمثلا تنفيذ هذا الأمر في مستودع محلي سينشئ بعيدا بالاسم <code>gitlab</code> مربوطا بالمشروع المستضاف:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git remote add gitlab https://server/namespace/project.git</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>أما إذا لم يكن لديك نسخة محلية من المستودع، فيمكنك استنساخه بسهولة هكذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git clone https://server/namespace/project.git</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>أيضا تتيح واجهة الوب طرائق مختلفة مفيدة للنظر إلى المستودع نفسه.
+فتُظهر الصفحة الرئيسية لكل مشروع آخر الأنشطة، والروابط التي في أعلى الصفحة تُريك ملفات المشروع وتاريخ إيداعاته.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_التعاون_fixme">التعاون</h4>
+<div class="paragraph">
+<p>أسهل طريقة للتعاون على مشروع على جت‌لاب هي إعطاء كل مستخدم إذن الدفع مباشرةً إلى المستودع.
+يمكنك إضافة المستخدمين إلى المشروع بالذهاب إلى قسم الأعضاء (‪&#8220;Members&#8221;‬) في إعدادات هذا المشروع، وربط المستخدمين الجدد بمستويات الوصول المناسبة. (مررنا على مستويات الوصول في <a href="ch04-git-on-the-server.html#_gitlab_groups_section">المجموعات</a>).
+إذا كان للمستخدم مستوى وصول «مطور» (‪&#8220;Developer&#8221;‬) فيستطيع دفع الإيداعات والفروع مباشرةً إلى المستودع.</p>
+</div>
+<div class="paragraph">
+<p>لكن طريقة أخرى للتعاون بغير ضم المطورين إلى المستودع هي طلبات الدمج (‪&#8220;merge request&#8221;‬).
+فتتيح هذه الميزة لأي مستخدم يستطيع رؤية المشروع أن يساهم فيه بطريقة محكومة.
+فالمستخدمون ذوو الوصول المباشر يمكنهم إنشاء فرع ودفع إيداعاتهم إليه ثم إنشاء طلب لدمج فرعهم في الفرع الرئيس أو أي فرع آخر.
+أما المستخدمون الذين ليس لديهم إذن الدفع للمستودع، فيمكنهم «اشتقاق» (‪&#8220;fork&#8221;‬) المستودع لإنشاء نسختهم الخاصة منه، ودفع إيداعاتهم إلى نسختهم <em>الخاصة بهم</em>، ثم إنشاء طلب لدمج  اشتقاقهم في المشروع الأصلي.
+يسمح هذا النموذج للمالك بالتحكم الكامل في كل ما يدخل المستودع ومتى يدخل، وفي الوقت نفسه يسمح بمساهمات المستخدمين غير الموثوق فيهم.</p>
+</div>
+<div class="paragraph">
+<p>طلبات الدمج والمسائل هما أهم وحدات النقاشات الطويلة في جت‌لاب.
+فكل طلب دمج يسمح بنقاش على كل سطر من سطور التعديل المقترح (والذي يدعم نوعا خفيفا من مراجعة الكود)، إضافةً إلى نقاش عام.
+يمكن تكليف مستخدم بإتمام طلب دمج أو مسألة، أو جعلهما ضمن مرحلة (‪&#8220;milestone&#8221;‬).</p>
+</div>
+<div class="paragraph">
+<p>ركّز هذا الفصل في معظمه على خصائص جت‌لاب المرتبطة بـجت. ولكنه مشروع ناضج ومكتمل الخصائص، ويتيح ميزات أخرى ليساعد فريقك في العمل معا، مثل موسوعات المشروعات وأدوات رعاية الأنظمة.
+من محاسن جت‌لاب أنك ما إن تتم إعداد الخادوم وتشغيله، فيندر أن تحتاج إلى تعديل ملف تهيئة أو الوصول إلى الخادوم عبر SSH؛ فواجهة الوب تتيح معظم أفعال الإدارة والاستخدام العام.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_خيارات_الاستضافة_الخارجية">خيارات الاستضافة الخارجية</h3>
+<div class="paragraph">
+<p>إن لم تشأ خوض غمار العمل المطلوب لإعداد خادوم جت الخاص بك، فلديك عدة خيارات لاستضافة مشروعاتك على مواقع استضافة خارجية متخصصة.
+لهذا منافع عديدة: أن مواقع الاستضافة عموما أسرع في الإعداد وأسهل في بدء المشروعات عليها، وليس عليك رعاية الخادوم ولا صيانته ولا مراقبته.
+حتى إن أعددت وشغّلت خادومك الخاص داخليا، فقد تود استخدام موقع استضافة عمومي لمشاريعك البرمجية المفتوحة؛ فهذا يسهّل على المجتمع أن يجدها ويساعدك فيها.</p>
+</div>
+<div class="paragraph">
+<p>لدينا اليوم عدد مهول من الاستضافات، كلٌ له مزايا وعيوب مختلفة.
+تجد قائمة محدَّثة في صفحة الاستضافات في موسوعة جت الرسمية:
+<a href="https://archive.kernel.org/oldwiki/git.wiki.kernel.org/index.php/GitHosting.html" class="bare" target="_blank" rel="noopener">https://archive.kernel.org/oldwiki/git.wiki.kernel.org/index.php/GitHosting.html</a>.</p>
+</div>
+<div class="paragraph">
+<p>سنتناول جت‌هب بالتفصيل في <s>GitHub</s>، لأنه أكبر استضافة جت مطلقا، وقد تحتاج إلى التعامل مع مشروعات مستضافة عليه على أيّ حال، ولكن توجد عشرات الخيارات الأخرى إذا لم تشأ إعداد خادوم جت الخاص بك.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_الخلاصة_4">الخلاصة</h3>
+<div class="paragraph">
+<p>لديك عدة خيارات لإعداد وتشغيل مستودع جت بعيد حتى يمكنك التعاون من الآخرين أو مشاركة عملك.</p>
+</div>
+<div class="paragraph">
+<p>يتيح لك تشغيل خادومك الخاص تحكمًا كبيرًا ويسمح لك بتشغيله داخل جدارك الناري (firewall) الخاص، لكن مثل هذا الخادوم يحتاج قدرًا لا بأس به من الوقت لإعداده ورعايته.
+أما إذا وضعت مشاريعك البرمجية على خادوم مستضاف، فستجده أسهل إعدادًا ورعايةً. لكن يجب أن يكون مسموحًا لك بذلك، فإن بعض المؤسسات لا تسمح.</p>
+</div>
+<div class="paragraph">
+<p>نتوقع أن من السهل نسبيا تحديد الحل أو توليفة الحلول الأنسب لك ولمؤسستك.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ السابق: <a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a> | ↑ البداية: <a href="index.html">احترف Git</a> | التالي: <a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-08-16 12:00:00 +0000
+</div>
+</div>
+</div></body></html><script>onbeforeprint = function () {
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+}</script>

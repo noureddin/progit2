@@ -432,26 +432,34 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
              .nav-footer > p > a {white-space: nowrap;}
 /* my own (Arabic) css overridings and dark mode */
 /** https://amirifont.org; OFL-1.1 **/
-@font-face { font-family: MyMainFont; font-style: normal; font-weight: 400; src:url("Amiri-Regular.woff2") format("woff2") }
+@font-face { font-family: MyMainFont; font-style: normal; font-weight: 400; src:local('Amiri Regular'),local('Amiri-Regular'),url("Amiri-Regular.woff2") format("woff2"), url("Amiri-Regular.woff") format("woff");font-display: swap}
 /** https://github.com/googlefonts/tajawal; OFL-1.1 **/
-@font-face { font-family: MyMainFont; font-style: normal; font-weight: 700; src:url("Tajawal-Bold.woff2") format("woff2") }
+/* @font-face { font-family: MyMainFont; font-style: normal; font-weight: 700; src:local('Tajawal Bold'),local('Tajawal-Bold'),url("Tajawal-Bold.woff2") format("woff2"), url("Tajawal-Bold.woff") format("woff") ;font-display: swap} */
+/** https://github.com/ThomasJockin/readexpro; OFL-1.1 **/
+@font-face { font-family: MyMainFont; font-style: normal; font-weight: 700; src:url("ReadexPro-bold.woff2") format("woff2"), url("ReadexPro-bold.woff") format("woff"),local('Readex Pro Regular');font-display: swap}
+/* local last for this one b/c I couldn't load the bold face, unless I have the variable font */
 /** https://github.com/googlefonts/noto-fonts, hinted; OFL-1.1 **/
-@font-face { font-family: MyMainFont; font-style: italic; font-weight: 400; src:url("NotoSans-Regular.woff2") format("woff2") }
-@font-face { font-family: MyMainFont; font-style: italic; font-weight: 400; src:url("NotoKufiArabic-Medium.woff2") format("woff2") }
+@font-face { font-family: MyMainFont; font-style: italic; font-weight: 400; src:local('Noto Kufi Arabic Regular'),local('NotoKufiArabic-Regular'),url("NotoKufiArabic-Medium.woff2") format("woff2"), url("NotoKufiArabic-Medium.woff") format("woff") }
+/* @font-face { font-family: MyMainFont; font-style: italic; font-weight: 400; src:local('Furat'),url("ae_Furat.woff2") format("woff2"), url("ae_Furat.woff") format("woff");font-display: swap} */
+@font-face { font-family: MyMainFont; font-style: italic; font-weight: 400; src:local('Noto Sans Regular'),local('NotoSans-Regular'),url("NotoSans-Regular.woff2") format("woff2"), url("NotoSans-Regular.woff") format("woff");font-display: swap}
 /** https://github.com/adobe-fonts/source-code-pro; OFL-1.1 **/
-@font-face { font-family: MyMonoFont; font-style: normal; font-weight: 400; src:url("SourceCodePro-Regular.ttf.woff2") format("woff2") }
-@font-face { font-family: MyMonoFont; font-style: normal; font-weight: 700; src:url("SourceCodePro-Bold.ttf.woff2") format("woff2") }
+@font-face { font-family: MyMonoFont; font-style: normal; font-weight: 400; src:local('SourceCodePro-Regular'),url("SourceCodePro-Regular.ttf.woff2") format("woff2"), url("SourceCodePro-Regular.ttf.woff") format("woff");font-display: swap}/**/
+@font-face { font-family: MyMonoFont; font-style: normal; font-weight: 700; src:local('SourceCodePro-Bold'),url("SourceCodePro-Bold.ttf.woff2") format("woff2"), url("SourceCodePro-Bold.ttf.woff") format("woff");font-display: swap}
 /** https://github.com/aiaf/kawkab-mono/; OFL-1.1; scaled 75% & subsetted to Arabic only **/
-@font-face { font-family: MyMonoFont; font-style: normal; font-weight: 400; src:url("KawkabMono-Regular-subset-scaled.woff2") format("woff2") }
-@font-face { font-family: MyMonoFont; font-style: normal; font-weight: 700; src:url("KawkabMono-Bold-subset-scaled.woff2") format("woff2") }
+@font-face { font-family: MyMonoFont; font-style: normal; font-weight: 400; src:url("KawkabMono-Regular-subset-scaled.woff2") format("woff2"), url("KawkabMono-Regular-subset-scaled.woff") format("woff");font-display: swap}
+@font-face { font-family: MyMonoFont; font-style: normal; font-weight: 700; src:url("KawkabMono-Bold-subset-scaled.woff2") format("woff2"), url("KawkabMono-Bold-subset-scaled.woff") format("woff");font-display: swap}
 * { direction: rtl }
 code, pre, pre code, .details, .details * { direction: ltr !important }
-em,i,.imageblock>.title,table>caption { font-size: 88% }
+em,i,.imageblock>.title,table>caption { font-family: MyMainFont }
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{font-family:MyMainFont}
+strong { font-size: 85% }
 table>caption { text-align: right !important }
 p>code:before,div.title>code:before { content: "\202a" }
 p>code:after,div.title>code:after { content: "\202c" }
-:not(.fa, code, code *) { afont-variant-ligatures: none; font-family: MyMainFont !important; line-height: 2.5 !important }
-code { font-family: MyMonoFont !important; aline-height: 1.1 !important; font-size: 75% !important }
+:not(.fa, code, code *), #toctitle { afont-variant-ligatures: none;
+  font-family: MyMainFont, serif; line-height: 2.2 !important }
+h2,h3,#toctitle,.admonitionblock .content>.title,h4,h5,h6{color:var(--hd);/*font-family: Readex Pro !important;*/font-weight:bold !important;text-align:right}
+code { font-family: MyMonoFont, monospace !important; aline-height: 1.1 !important; font-size: 75% !important }
 code * { font-family: inherit !important }
 div.title code { font-size: 90% !important }
 .admonitionblock>table td.content{padding-left:1.25em;padding-right:1.125em;border:none;border-right:1px solid #dddddf}
@@ -470,9 +478,8 @@ th, td { color: var(--fg2) !important }
 .admonitionblock .content .title {color:var(--hd) !important; text-align: right !important}
 .tableblock { color: var(--fg) }
 #header .details br+span.author::before{color:var(--fg2)}
-h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{color:var(--hd)}
 table>caption{color:var(--hd) !important}
-h1 { color: var(--fg) !important}
+h1{color:var(--hd) !important}
 .details { color: var(--fg2) !important }
 a { color:var(--aa) }
 a:hover,a:focus{ color:var(--ah) }
@@ -496,7 +503,25 @@ img { max-width: min(var(--body-width), 35em); display: block; margin: 0 auto; }
 #footer-text { color: var(--footfg) }
 details table td { color: var(--fg) }
 .imageblock>.title { text-align: center !important; color: var(--ti); line-height: 2 !important }
-.quoteblock blockquote p { font-size: 0.85rem; color: var(--fg2) }
-.quoteblock blockquote code { font-size: 90% !important; color: var(--fg2) }
+.quoteblock blockquote p { font-size: 0.95rem; color: var(--fg2) }
+.quoteblock blockquote code { font-size: 80% !important; color: var(--fg2) }
 .quoteblock blockquote::before{content:"\201d";float:right;margin-left:0;margin-right:-.6em;font-size:2rem;font-family:MyMonoFont}
 .quoteblock blockquote ul { color: var(--fg2) }
+li>.tight,#toctitle+p+ul { margin-top: -1em }
+.tight>li>p { margin: 0 }
+@media print {
+  #toc { display: none }
+  figure { break-inside: avoid; }
+  pre { break-inside: auto; }
+  a { color: var(--aa) !important }
+  /* the "proper" solution doesn't work */
+  /* h2, h3, h4, h5, h6 { break-after: avoid !important; } */
+  /* but this, fortunately, works! Thank you Zenorabi: https://stackoverflow.com/a/53742871 */
+  h2, h3, h4, h5, h6 { page-break-inside: avoid }
+  h2::after, h3::after, h4::after, h5::after, h6::after {
+    content: "";
+    display: block;
+    height: 3em;
+    margin-bottom: -3em;
+  }
+}

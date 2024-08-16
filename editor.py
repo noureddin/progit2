@@ -7,9 +7,25 @@ import sys
 import shutil
 import subprocess
 
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
+try:
+    from PyQt5.QtGui import *
+    from PyQt5.QtCore import *
+    from PyQt5.QtWidgets import *
+except:
+    from PyQt6.QtGui import *
+    from PyQt6.QtCore import *
+    from PyQt6.QtWidgets import *
+
+Next_Word = QTextCursor.MoveOperation.NextWord
+Prev_Word = QTextCursor.MoveOperation.PreviousWord
+Bgn_Word  = QTextCursor.MoveOperation.StartOfWord
+End_Word  = QTextCursor.MoveOperation.EndOfWord
+Next_Line = QTextCursor.MoveOperation.NextBlock
+Prev_Line = QTextCursor.MoveOperation.PreviousBlock
+Bgn_Line  = QTextCursor.MoveOperation.StartOfBlock
+End_Line  = QTextCursor.MoveOperation.EndOfBlock
+Add_Selection = QTextCursor.MoveMode.KeepAnchor
+
 
 class Stats:
 
@@ -34,9 +50,9 @@ class Stats:
 
 
 def Regex(r):
-    return QRegularExpression(r, QRegularExpression.MultilineOption
-                               | QRegularExpression.ExtendedPatternSyntaxOption
-                               | QRegularExpression.UseUnicodePropertiesOption)
+    return QRegularExpression(r, QRegularExpression.PatternOption.MultilineOption
+                               | QRegularExpression.PatternOption.ExtendedPatternSyntaxOption
+                               | QRegularExpression.PatternOption.UseUnicodePropertiesOption)
 
 EDITOR_FONT_FAMILY = 'Noto Sans Mono, Noto Sans Arabic'
 # EDITOR_FONT_FAMILY = 'Source Code Pro, Kawkab Mono'
@@ -179,7 +195,7 @@ titles = []
 index_of_filename = {}; i = 0
 for t,f in title_filename:
     item = QListWidgetItem(title_to_view(t))
-    item.setData(Qt.UserRole, f)
+    item.setData(Qt.ItemDataRole.UserRole, f)
     titles.append(item)
     index_of_filename[f] = i; i += 1
 
@@ -197,7 +213,7 @@ def format(color, style=''):
     _format = QTextCharFormat()
     if color: _format.setForeground(_color)
     if 'm' in style: _format.setFont(QFont('mono'))
-    if 'b' in style: _format.setFontWeight(QFont.Bold)
+    if 'b' in style: _format.setFontWeight(QFont.Weight.Bold)
     if 'i' in style: _format.setFontItalic(True)
     return _format
 
@@ -472,9 +488,10 @@ class MyMainWindow(QMainWindow):
                 ('Esc',              lambda: (self.save(), self.build(), self.hi.rehighlight())),
                 ('Ctrl+S',           lambda: (self.save(), self.build(), self.hi.rehighlight())),
                 ('F1',               lambda: self.cycleThruStatuses()),
+                ('Shift+F1',         lambda: self.cycleThruStatuses(True)),  # reverse direction
                 ('Ctrl+/',           lambda: self.toggleComment()),
-                ('Ctrl+Up',          lambda: self.moveCursor(QTextCursor.PreviousBlock)),
-                ('Ctrl+Down',        lambda: self.moveCursor(QTextCursor.NextBlock)),
+                ('Ctrl+Up',          lambda: self.moveCursor(Prev_Line)),
+                ('Ctrl+Down',        lambda: self.moveCursor(Next_Line)),
                 ('Ctrl+Space',       lambda: self.prepareForTranslation()),
                 ('Ctrl+Shift+Space', lambda: self.prepareForTranslationByCopy()),
                 ('Ctrl+O',           lambda: self.openLineBelow()),
@@ -487,8 +504,8 @@ class MyMainWindow(QMainWindow):
                 ('Ctrl++',           lambda: self.zoomIn()),
                 ('Ctrl+-',           lambda: self.zoomOut()),
                 ('Ctrl+Shift+f',     lambda: self.toggleSidePane()),
-                (Qt.CTRL+Qt.Key_PageUp,      lambda: self.prevFile()),
-                (Qt.CTRL+Qt.Key_PageDown,    lambda: self.nextFile()),
+                ('Ctrl+PgUp',        lambda: self.prevFile()),
+                ('Ctrl+PgDown',      lambda: self.nextFile()),
                 # ('Ctrl+Shift+C',   lambda: self.copyBigWord()),
                 # ('Ctrl+Shift+V',   lambda: self.pasteBigWord()),
         ]:
@@ -499,8 +516,8 @@ class MyMainWindow(QMainWindow):
         #     if e.matches(QKeySequence.Copy) and not e.textCursor().hasSelection():
         #         # select the whole line
         #         cursor = s.textCursor()
-        #         cursor.movePosition(QTextCursor.StartOfBlock)
-        #         cursor.movePosition(QTextCursor.EndOfBlock, QTextCursor.KeepAnchor)
+        #         cursor.movePosition(Bgn_Line)
+        #         cursor.movePosition(End_Line, Add_Selection)
         #         text = cursor.selectedText()
         #         QGuiApplication.clipboard().setText(text)
         #     else:
@@ -510,8 +527,8 @@ class MyMainWindow(QMainWindow):
 
     def copyCurrentFullLine(self):
         cursor = self.edit.textCursor()
-        cursor.movePosition(QTextCursor.StartOfBlock)
-        cursor.movePosition(QTextCursor.EndOfBlock, QTextCursor.KeepAnchor)
+        cursor.movePosition(Bgn_Line)
+        cursor.movePosition(End_Line, Add_Selection)
         text = cursor.selectedText()
         QGuiApplication.clipboard().setText(text)
 
@@ -553,21 +570,21 @@ class MyMainWindow(QMainWindow):
             text = self.edit.textCursor().selectedText()
         else:  # select the whole line
             cursor = self.edit.textCursor()
-            cursor.movePosition(QTextCursor.StartOfBlock)
-            cursor.movePosition(QTextCursor.EndOfBlock, QTextCursor.KeepAnchor)
+            cursor.movePosition(Bgn_Line)
+            cursor.movePosition(End_Line, Add_Selection)
             text = cursor.selectedText()
         QGuiApplication.clipboard().setText(text)
         # copy:  QGuiApplication.clipboard().setText(text)
         # paste: QGuiApplication.clipboard().text()
 
     def openLineBelow(self):
-        self.moveCursor(QTextCursor.EndOfBlock)
+        self.moveCursor(End_Line)
         self.edit.textCursor().insertText('\n')
 
     def openLineAbove(self):
-        self.moveCursor(QTextCursor.StartOfBlock)
+        self.moveCursor(Bgn_Line)
         self.edit.textCursor().insertText('\n')
-        self.moveCursor(QTextCursor.PreviousBlock)
+        self.moveCursor(Prev_Line)
 
     def goToLastFile(self):
         if self.lastFile is None: return
@@ -596,19 +613,19 @@ class MyMainWindow(QMainWindow):
         self.edit.textCursor().beginEditBlock()
         # copy the line
         cursor = self.edit.textCursor()
-        cursor.movePosition(QTextCursor.StartOfBlock)
-        cursor.movePosition(QTextCursor.EndOfBlock, QTextCursor.KeepAnchor)
+        cursor.movePosition(Bgn_Line)
+        cursor.movePosition(End_Line, Add_Selection)
         text = cursor.selectedText()
         # comments the current line; assumes it's not commented (FIXME)
         self.toggleComment()
         # makes the current physical line (block) entirely visible
-        self.moveCursor(QTextCursor.EndOfBlock)
+        self.moveCursor(End_Line)
         self.edit.ensureCursorVisible()
         # open a newline before
-        self.moveCursor(QTextCursor.StartOfBlock)
+        self.moveCursor(Bgn_Line)
         self.edit.textCursor().clearSelection()
         self.edit.textCursor().insertText('\n')
-        self.moveCursor(QTextCursor.PreviousBlock)
+        self.moveCursor(Prev_Line)
         # insert the original line
         self.edit.textCursor().insertText(text)
         # end of changes
@@ -629,16 +646,16 @@ class MyMainWindow(QMainWindow):
         # comments the current line; assumes it's not commented (FIXME)
         self.toggleComment()
         # makes the current physical line (block) entirely visible
-        self.moveCursor(QTextCursor.EndOfBlock)
+        self.moveCursor(End_Line)
         self.edit.ensureCursorVisible()
         # open a newline before
-        self.moveCursor(QTextCursor.StartOfBlock)
+        self.moveCursor(Bgn_Line)
         self.edit.textCursor().clearSelection()
         self.edit.textCursor().insertText('\n')
-        self.moveCursor(QTextCursor.PreviousBlock)
+        self.moveCursor(Prev_Line)
         # insert the prefix
         self.edit.textCursor().insertText(prefix)
-        self.moveCursor(QTextCursor.EndOfBlock)
+        self.moveCursor(End_Line)
         # insert the suffix without moving the cursor
         cursor = self.edit.textCursor()
         pos = cursor.position()
@@ -659,22 +676,22 @@ class MyMainWindow(QMainWindow):
             sel = QTextEdit.ExtraSelection()
             lineColor = QColor(COLORS['bg1'])
             sel.format.setBackground(lineColor)
-            sel.format.setProperty(QTextFormat.FullWidthSelection, True)
+            sel.format.setProperty(QTextFormat.Property.FullWidthSelection, True)
             sel.cursor = self.edit.textCursor()
             sel.cursor.clearSelection()
             return sel
         sel = newSelection()
-        sel.cursor.movePosition(QTextCursor.StartOfBlock)
-        # sel.cursor.movePosition(QTextCursor.EndOfBlock, QTextCursor.KeepAnchor)
-        sel.cursor.movePosition(QTextCursor.NextBlock, QTextCursor.KeepAnchor)
+        sel.cursor.movePosition(Bgn_Line)
+        # sel.cursor.movePosition(End_Line, Add_Selection)
+        sel.cursor.movePosition(Next_Line, Add_Selection)
         sels.append(sel)
         self.edit.setExtraSelections(sels)
 
     def getCurrentLine(self):  # a physical line is called a block in Qt
         return self.edit.textCursor().block().text()
         # cursor = self.edit.textCursor()
-        # cursor.movePosition(QTextCursor.StartOfBlock)
-        # cursor.movePosition(QTextCursor.EndOfBlock, QTextCursor.KeepAnchor)
+        # cursor.movePosition(Bgn_Line)
+        # cursor.movePosition(End_Line, Add_Selection)
         # return cursor.selectedText()
 
     TITLE_RE = Regex(r' ^[.] \S+')
@@ -706,7 +723,7 @@ class MyMainWindow(QMainWindow):
                     return status.captured(1) if status.hasMatch() else ''
             return ''
 
-    def cycleThruStatuses(self):
+    def cycleThruStatuses(self, back=False):
         # the current heading between statuses in HEADING_STATUSES
         line = self.getCurrentLine()
         head = self.HEADING_RE.match(line)
@@ -714,17 +731,27 @@ class MyMainWindow(QMainWindow):
             return
         status = self.HEADING_STATUS_RE.match(line)
         cursor = self.edit.textCursor()
-        cursor.movePosition(QTextCursor.StartOfBlock)
-        cursor.movePosition(QTextCursor.NextWord)
+        cursor.movePosition(Bgn_Line)
+        cursor.movePosition(Next_Word)
         if not status.hasMatch():  # no status; inserting the first
             newstatus = self.HEADING_STATUSES[0]
             cursor.insertText(newstatus+' ')
         elif status.captured(1) == self.HEADING_STATUSES[-1]:  # the last status; removing it
             newstatus = ''
-            cursor.movePosition(QTextCursor.NextWord, QTextCursor.KeepAnchor)
+            cursor.movePosition(Next_Word, Add_Selection)
             cursor.removeSelectedText()
-        else: # replacing the current status with the next one
-            cursor.movePosition(QTextCursor.NextWord, QTextCursor.KeepAnchor)
+        elif back:  # replacing the current status with the prev one
+            cursor.movePosition(Next_Word, Add_Selection)
+            getprev = False
+            for s in reversed(self.HEADING_STATUSES):
+                if getprev:
+                    newstatus = s
+                    cursor.insertText(s+' ')
+                    break
+                if status.captured(1) == s:
+                    getprev = True
+        else:  # replacing the current status with the next one
+            cursor.movePosition(Next_Word, Add_Selection)
             getnext = False
             for s in self.HEADING_STATUSES:
                 if getnext:
@@ -745,11 +772,11 @@ class MyMainWindow(QMainWindow):
             start = cursor.block().position() + cmnt.capturedStart(1)
             end = cursor.block().position() + cmnt.capturedEnd()
             cursor.setPosition(start)
-            cursor.setPosition(end, QTextCursor.KeepAnchor)
+            cursor.setPosition(end, Add_Selection)
             cursor.removeSelectedText()
         else:
-            cursor.movePosition(QTextCursor.StartOfBlock)
-            # cursor.movePosition(QTextCursor.StartOfWord)  # skip identation
+            cursor.movePosition(Bgn_Line)
+            # cursor.movePosition(Bgn_Word)  # skip identation
             cursor.insertText('// ')
 
     def build(self):
@@ -822,7 +849,7 @@ class MyMainWindow(QMainWindow):
         self.loadCursorPosition()
 
     def __onactivate(self, item):
-        self.load(item.data(Qt.UserRole))
+        self.load(item.data(Qt.ItemDataRole.UserRole))
 
     def closeEvent(self, ev):
         self.save()

@@ -1,5 +1,5 @@
 
-dist/*.html: .realmake.sh ./*.asc ./*/*.asc ./*/*/*/*.asc
+docs/*.html: .realmake.sh ./*.asc ./*/*.asc ./*/*/*/*.asc
 	bash .realmake.sh
 
 switch_debug:

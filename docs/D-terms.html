@@ -6,8 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.21">
 <meta name="author" content="Scott Chacon, Ben Straub">
-<link rel="icon" type="image/png" sizes="72x72" href="res/favicon-72x72.png">
-<link rel="icon" type="image/png" sizes="16x16" href="res/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
 <title>الملحق الرابع: دليل المصطلحات | احترف جت</title>
 <link rel=stylesheet type=text/css href="res/style.css">
 </head>
@@ -18,7 +17,7 @@
 <span id="author" class="author">Scott Chacon</span><br>
 <span id="author2" class="author">Ben Straub</span><br>
 <span id="revnumber">version 2.1.421,</span>
-<span id="revdate">2024-03-01</span>
+<span id="revdate">2024-08-16</span>
 </div>
 <div id="toc" class="toc">
 <div id="toctitle">فهرس المحتويات</div>
@@ -33,7 +32,7 @@
 </li>
 <li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
 </li>
-<li><s>الباب الرابع: جت على الخادوم</s>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
 </li>
 <li><s>الباب الخامس: جت الموزع</s>
 </li>
@@ -77,6 +76,10 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">access control level</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock">مستوى الوصول(؟)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">advantage</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مزيّة (ج:&nbsp;مزايا) (وليس <span class="line-through">ميزة/ميزات</span>؛ هذه feature؛ انظر <a href="E-arabic-reference.html#_terms_mz">الفرق في الملحق الآخر</a>)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">alias</p></td>
@@ -195,7 +198,7 @@
 <td class="tableblock halign-right valign-top"><p class="tableblock">حاسوب (ج:&nbsp;حواسيب)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">configure; configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">configure, configuration</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock">ضبط، تهيئة</p></td>
 </tr>
 <tr>
@@ -203,7 +206,7 @@
 <td class="tableblock halign-right valign-top"><p class="tableblock">تكامل مستمر</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">contribute; contribution</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">contribute, contribution</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock">يساهم، مساهمة</p></td>
 </tr>
 <tr>
@@ -239,7 +242,7 @@
 <td class="tableblock halign-right valign-top"><p class="tableblock">¯/_(ツ)_\¯</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">develop; development</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">develop, development</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock">تطوير</p></td>
 </tr>
 <tr>
@@ -291,7 +294,7 @@
 <td class="tableblock halign-right valign-top"><p class="tableblock">خبرة</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">experience (usage, like user ∿ (UX), developer ∿ (DX))</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">experience (usage, like user&nbsp;∿&nbsp;(UX), developer&nbsp;∿&nbsp;(DX))</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock">تجربة</p></td>
 </tr>
 <tr>
@@ -303,12 +306,20 @@
 <td class="tableblock halign-right valign-top"><p class="tableblock">دمج تسريع</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">feature</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">خصيصة (ج:&nbsp;خصائص)، ميزة (ج:&nbsp;ميزات) (وليس <span class="line-through">مزية/مزايا</span>؛ هذه advantage؛ انظر <a href="E-arabic-reference.html#_terms_mz">الفرق في الملحق الآخر</a>) (انظر&nbsp;أيضا&nbsp;killer feature)</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">folder</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock">مجلد</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">fork</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock">اشتق، يشتق، اشتقاق</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">fully featured</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">مكتمل الخصائص (انظر&nbsp;أيضا&nbsp; feature)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Git</p></td>
@@ -335,11 +346,11 @@
 <td class="tableblock halign-right valign-top"><p class="tableblock">واجهة رسومية</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">hacker (1. expert or eager learner; meanings 1–7 in <a href="http://catb.org/esr/jargon/html/H/hacker.html">the Jargon File</a>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hacker (1. expert or eager learner: meanings <nobr>1–7</nobr> in <a href="http://catb.org/esr/jargon/html/H/hacker.html">the Jargon File</a>)</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock">خارق</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">hacker (2. cracker; meaning 8 in the the Jargon File or <a href="http://catb.org/esr/jargon/html/C/cracker.html">the standalone entry</a>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hacker (2. cracker: meaning 8 in the the Jargon File or <a href="http://catb.org/esr/jargon/html/C/cracker.html">the standalone entry</a>)</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock">مخترق</p></td>
 </tr>
 <tr>
@@ -392,7 +403,7 @@
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">hostname</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">اسم المضيف(?)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اسم المضيف(؟)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">include</p></td>
@@ -428,7 +439,7 @@
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">killer feature</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">ميزة قاتلة للمنافسة</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">ميزة قاتلة للمنافسة (انظر&nbsp;أيضا&nbsp;feature)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">landing page</p></td>
@@ -560,7 +571,7 @@
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">private</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">خصوصي</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">خصوصي (وليس «خاص»)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">prompt</p></td>
@@ -576,7 +587,7 @@
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">public</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">عمومي</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">عمومي (وليس «عام»)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">pull</p></td>
@@ -656,7 +667,7 @@
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">rollback</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">إعادة(?)</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">إعادة(؟)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">root</p></td>
@@ -692,7 +703,7 @@
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">setup (arrangement)</p></td>
-<td class="tableblock halign-right valign-top"><p class="tableblock">ترتيب (ج:&nbsp;ترتيبات، تراتيب)، تركيب، تكوين</p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">ترتيب (ج:&nbsp;ترتيبات)، تركيب، تكوين</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">setup (installation)</p></td>
@@ -755,7 +766,7 @@
 <td class="tableblock halign-right valign-top"><p class="tableblock">زر الجدولة</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">tab (ui)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tab (UI)</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock">تبويب</p></td>
 </tr>
 <tr>
@@ -783,7 +794,7 @@
 <td class="tableblock halign-right valign-top"><p class="tableblock">خَتم زمني</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">track; tracking</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">track, tracking</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock">تعقب، متعقِّب (انظر التفصيل في الملحق الآخر: <a href="E-arabic-reference.html#_terms_tracking">التعقب والمتابعة: tracking</a>)</p></td>
 </tr>
 <tr>
@@ -791,7 +802,7 @@
 <td class="tableblock halign-right valign-top"><p class="tableblock">معاملة</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">two factor authentication</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">two factor authentication, 2FA</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock">استيثاق ثنائي</p></td>
 </tr>
 <tr>
@@ -855,12 +866,16 @@
 </div>
 </div>
 <div class="paragraph nav-footer">
-<p>→ السابق: <a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a> | ↑ البداية: <a href="index.html">احترف Git</a> | التالي: <a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a> ←</p>
+<p>→ السابق: <a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a> | ↑ البداية: <a href="index.html">احترف Git</a> | التالي: <a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a> ←</p>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-03-01 20:13:25 +0000
+Last updated 2024-08-16 12:00:00 +0000
 </div>
 </div>
-</div></body></html>
+</div></body></html><script>onbeforeprint = function () {
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+}</script>

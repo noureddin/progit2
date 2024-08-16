@@ -6,8 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.21">
 <meta name="author" content="Scott Chacon, Ben Straub">
-<link rel="icon" type="image/png" sizes="72x72" href="res/favicon-72x72.png">
-<link rel="icon" type="image/png" sizes="16x16" href="res/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
 <title>توطئة | احترف جت</title>
 <link rel=stylesheet type=text/css href="res/style.css">
 </head>
@@ -18,7 +17,7 @@
 <span id="author" class="author">Scott Chacon</span><br>
 <span id="author2" class="author">Ben Straub</span><br>
 <span id="revnumber">version 2.1.421,</span>
-<span id="revdate">2024-03-01</span>
+<span id="revdate">2024-08-16</span>
 </div>
 <div id="toc" class="toc">
 <div id="toctitle">فهرس المحتويات</div>
@@ -47,7 +46,7 @@
 </li>
 <li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
 </li>
-<li><s>الباب الرابع: جت على الخادوم</s>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
 </li>
 <li><s>الباب الخامس: جت الموزع</s>
 </li>
@@ -328,7 +327,11 @@ Guthrie McAfee Armstrong        Paweł Krupiński                 狄卢</code><
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-03-01 20:13:25 +0000
+Last updated 2024-08-16 12:00:00 +0000
 </div>
 </div>
-</div></body></html>
+</div></body></html><script>onbeforeprint = function () {
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+}</script>
