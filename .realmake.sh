@@ -274,7 +274,8 @@ mv -f progit.html $OUT/progit-all.html
   $perl -ne 'print if /<div class="paragraph nav-footer">/..0' $OUT/progit.html
 } |
 $perl -pe '
-BEGIN { $preintro = do { local $/; open my $f, "-|", "asciidoctor preintro.asc --embedded --out-file=-"; scalar <$f> } }
+# it was preintro.asc, but I stopped fighting ruby gems issues.
+BEGIN { $preintro = do { local $/; open my $f, "<", "preintro.html"; scalar <$f> } }
 s{<div id="toctitle">فهرس المحتويات</div>}{<div style="padding:1em"></div>};
 s{<p><span class="toc-root toc-current"><a href="progit.html">[^<>]+</a></span></p>(<ul class="sectlevel1">)}
 {$preintro$1};
