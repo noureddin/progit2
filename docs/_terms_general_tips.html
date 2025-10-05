@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>إصلاحات لغوية عامة ونصائح أسلوبية | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="_terms_general_tips" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.449,</span>
+<span id="revdate">2025-10-24</span>
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+<ul class="sectlevel2">
+<li><a href="_terms_commit_checkout.html">ه‍<small>،</small> ١<small>،</small> الإيداع والسحب</a>
+</li>
+<li><a href="_terms_push_pull_fetch.html">ه‍<small>،</small> ٢<small>،</small> الدفع والجذب والاستحضار</a>
+</li>
+<li><a href="_terms_reset_restore_revert.html">ه‍<small>،</small> ٣<small>،</small> الإرجاع والاستعادة والنقض</a>
+</li>
+<li><a href="_terms_commands.html">ه‍<small>،</small> ٤<small>،</small> أسماء أوامر جت</a>
+</li>
+<li><a href="_terms_change_rewrite.html">ه‍<small>،</small> ٥<small>،</small> التعديل والتحرير</a>
+</li>
+<li><a href="_terms_reference.html">ه‍<small>،</small> ٦<small>،</small> إشارة الرأس وإشارات الكائنات</a>
+</li>
+<li><a href="_terms_tracking.html">ه‍<small>،</small> ٧<small>،</small> التعقب والمتابعة: tracking</a>
+</li>
+<li><a href="_terms_tracking_branches.html">ه‍<small>،</small> ٨<small>،</small> الفروع البعيدة والفروع المتعقِّبة لبعيد والفروع المتعقِّبة</a>
+</li>
+<li><a href="_terms_read_write.html">ه‍<small>،</small> ٩<small>،</small> إذنا القراءة والتحرير</a>
+</li>
+<li><a href="_terms_code.html">ه‍<small>،</small> ١٠<small>،</small> تعريب كلمة كود</a>
+</li>
+<li><a href="_terms_pertaining_to.html">ه‍<small>،</small> ١١<small>،</small> المركز والمركزي، الرئيس والرئيسي</a>
+</li>
+<li><a href="_terms_general_tips.html"><span class="toc-current">ه‍، ١٢، إصلاحات لغوية عامة ونصائح أسلوبية</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="_terms_general_tips">ه‍، ١٢، إصلاحات لغوية عامة ونصائح أسلوبية</h3>
+<div class="sect3">
+<h4 id="_تصويبات">تصويبات</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>قل «يستعمل» أغلب الوقت، ولا تقل «يستخدم» إلا للضرورة، فالاستخدام يكون للعاقل. (وتبقى ‪&#8220;user&#8221;‬ «مستخدما».)
+ويستثنى من ذلك ما يقدّم خدمة، فنستخدم جت‌هب، ونستخدم الخواديم، وقد نستخدم جت نفسه تشبيهًا له بالعاقل. ولا بأس من استعمال «استعمال» مع أيٍّ منهم.
+ولكن قلل من كليهما، لأن <span class="line-through">استعمال</span> هذا الفعل يكثر في الإنجليزية المعاصرة بغير حاجة. ومثله الفعل «يستطيع» فيه إفراط بغير حاجة، فقلل منه.</p>
+</li>
+<li>
+<p>لا تقل «أصليّ» إلا لتصف الشيء بأنه مثل الأصل أو يُنسب إليه. وكذلك «مركزيّ»، «رئيسيّ»، «أوّليّ»، إلخ. فلا تشتق صفة من صفة إلا للحاجة؛ بل صِف بالصف نفسها: ‪&#8220;central&#8221;‬ غالبا يكون هو المركز نفسه وليس «مثل المركز» حتى تقول «م‍ركزيّ». فقل «الخادوم المركز»، «الفرع الرئيس»، «النسخة الأصل»، «الإيداع الأول»، بغير ياء النسبة.
+للتفصيل انظر فصل <a href="_terms_pertaining_to.html">المركز والمركزي، الرئيس والرئيسي</a>.</p>
+</li>
+<li>
+<p>لا تستعمل حرف الجر الكاف إلا للتشبيه، وعلامة ذلك استقامة المعنى وثبوته عندما تبدلها بـ«مثل»، وإلا فغيّر تركيب الجملة واستعمل شيئا غير الجر بالكاف، كالتمييز والحال والمفعول به.</p>
+</li>
+<li>
+<p>قل «يبقى» و«يظل» و«لا يزال» و«ما زال»، لكن لا تقل «لا زال»، فاستعمال «لا» مع الماضي يعني الدعاء، مثل «لا أراك الله مكروها».</p>
+</li>
+<li>
+<p>لا تقل «استبدل» لشيوع الخطأ فيه، وقل «أبدل القديم بالجديد»، فلا خلاف فيه، أو «أبدل من القديم الجديدَ»، أو ائت بفعل من جذر آخر مثل «يحل محل». (الصحاح في مادة بدل: «والأَبْدالُ: قومٌ من الصالحين لا تخلُو الدنيا منهم، إذا مات واحدٌ أَبْدَلَ الله مكانَهُ بآخر.»)</p>
+</li>
+<li>
+<p>لا تقل «تحقّق من [شيء <em>أو</em> فِعل <em>أو</em> أن تفعل]»؛ قل «تحقّق …» بغير «من»، أو قل «تفقّد …».</p>
+</li>
+<li>
+<p>لا تقل «بسيط» إلا عندما تعني «غير معقد»، وقلل منها عموما.</p>
+</li>
+<li>
+<p>لا تقل «لا داعٍ لـ…»، بل قل «لا داعيَ إلى …»، بالياء وبـ«إلى».</p>
+</li>
+<li>
+<p>لا تبدأ جملة فرعية بـ«مما»، فهي غالبا خاطئة. وعلامة ذلك اختلال المعنى إذا وضعت مكانها «مِن الذي» أو اسم موصول آخر. أمثلة:</p>
+<div class="ulist tight">
+<ul class="tight">
+<li>
+<p>«يتيح جت أيضا خيارا للحالة الموجزة، مما يتيح لك رؤية تعديلاتك بإيجاز» ← «…، لترى …»</p>
+</li>
+<li>
+<p>«إضافة [شيء] تجعل جت [يفعل شيئا]، مما يتيح لك تخطي مرحلة الإضافة» ← «…، لتتخطى …»</p>
+</li>
+<li>
+<p>«لأن طريقة التفريع في جت خفيفة […]، مما يجعل إنشاء فرع …» ← «…، فتجعل …»</p>
+</li>
+<li>
+<p>«ثم تستطيع حذف الفرعين […]، مما يجعل تاريخك …» ← «…، فيصير تاريخك …»</p>
+</li>
+<li>
+<p>«تذكر أنه غير مستوثَق، مما يعني أن أي شيء تتيحه …» ← «…، فأي شيء …»</p>
+</li>
+<li>
+<p>«وقتئذٍ ستبيت كل مشروعاتك البرمجية على جهاز واحد، مما يزيد من احتمال فقد البيانات فقدا كارثيا.» ← «…، وهذا يُزيد احتمال …»</p>
+</li>
+<li>
+<p>«لم تقترب حاله مما صار عليه اليوم» ← صحيحة</p>
+</li>
+<li>
+<p>«فبدلا مما رأينا، …» ← صحيحة</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div id="_terms_mz" class="ulist">
+<ul>
+<li>
+<p>«مِيزة»/«مِيزات» تعني الاختلاف (التمايز، وفصل الشيء من الشيء) ولا تعني التفضيل. فإذا أردت معنى الفضل (التمام والكمال)، فقل «مَزِيَّة»/«مَزَايَا». فترجم ‪&#8220;advantage&#8221;‬ بـ«مزيّة»/&shy;«م‍زايا»، وترجم ‪&#8220;feature&#8221;‬ بـ«ميزة»/&shy;«ميزات» أو «خَصِيصة»/&shy;«خصائص» (وليس «خاصيّة»/&shy;«خواصّ»؛ هذه ‪&#8220;property&#8221;‬).</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_للفصاحة_والاتساق">للفصاحة والاتساق</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>لا تقل «نفس الشيء» وقل «الشيء نفسه». (أو «شيء واحد» أو «الشيء الواحد» عند إرادة الإبهام، مثل «يمكنكم الآن التعاون في مشروع واحد» أو «ستبيت كل مشروعاتك البرمجية على جهاز واحد».)</p>
+</li>
+<li>
+<p>لا تقل «بداية»، فهي عامية، وفصيحها «بَداءة» لكنه غير مألوف، فقل «بَدء» أو «ابتداء» أو «أول». (قال فيها المصباح المنير: «و"البِدَايَةُ" بالياء مكان الهمز عامي نصّ عليه ابن بري وجماعة». وقال العباب الزاخز: «وقَوْلُ العامَّةِ: البِدايَةُ - مؤازاةً للنِّهاية: لَحْنٌ، ولا تُقاس على الغَدَايا والعَشايا؛ فإنَّها مَسْموعةٌ بخلاف البِداية».)</p>
+</li>
+<li>
+<p>لا تقل «كل ما عليك هو»؛ إنما قل «ليس عليك سوى/إلا/غير».</p>
+</li>
+<li>
+<p>قلل من «فقط» واستعمل الاستثناء أو «إنما» متى أمكن.</p>
+</li>
+<li>
+<p>قلل من «نفّذ [الأمر] مجددًا» وقل «كرر [الأم‍ر]».</p>
+</li>
+<li>
+<p>قدّم الفعل على فاعله ما لم يسبب ذلك خلطا على القارئ.</p>
+</li>
+<li>
+<p>انظر <a href="https://www.noureddin.dev/ysmu/notes/">موارد معجم يسمو</a>، وبالأخص كتاب <a href="https://web.archive.org/web/20100914143217/http://www.reefnet.gov.sy/Arabic_Proficiency/Arabic_Proficiency_Index.htm">نحو إتقان الك‍تابة باللغة العربية</a>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ <strong>السابق: </strong><a href="_terms_pertaining_to.html">ه‍<small>،</small> ١١<small>،</small> المركز والمركزي، الرئيس والرئيسي</a></p>
+<p>↑ <a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2025-10-24 12:00:00 +0000
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

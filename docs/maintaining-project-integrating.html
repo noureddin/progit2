@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>رعاية مشروع  — دمج المساهمات | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="maintaining-project-integrating" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.449,</span>
+<span id="revdate">2025-10-24</span>
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+<ul class="sectlevel2">
+<li><a href="distributed-workflows.html">٥<small>،</small> ١<small>،</small> أساليب التطوير المتوزع</a>
+</li>
+<li><a href="_contributing_project.html">٥<small>،</small> ٢<small>،</small> المساهمة في مشروع — مقدمة</a>
+</li>
+<li><a href="_commit_guidelines.html">٥<small>،</small> ٣<small>،</small> المساهمة في مشروع — إرشادات الإيداع</a>
+</li>
+<li><a href="_private_team.html">٥<small>،</small> ٤<small>،</small> المساهمة في مشروع — فريق خصوصي صغير</a>
+</li>
+<li><a href="_private_managed_team.html">٥<small>،</small> ٥<small>،</small> المساهمة في مشروع — فريق خصوصي بمدير دمج</a>
+</li>
+<li><a href="_public_project.html">٥<small>،</small> ٦<small>،</small> المساهمة في مشروع — مشروع عمومي باشتقاقات</a>
+</li>
+<li><a href="_project_over_email.html">٥<small>،</small> ٧<small>،</small> المساهمة في مشروع — مشروع عمومي عبر البريد الشابكي</a>
+</li>
+<li><a href="summary-contrib.html">٥<small>،</small> ٨<small>،</small> المساهمة في مشروع — الخلاصة</a>
+</li>
+<li><a href="maintaining-project-intro.html">٥<small>،</small> ٩<small>،</small> رعاية مشروع — مقدمة</a>
+</li>
+<li><a href="_patches_from_email.html">٥<small>،</small> ١٠<small>،</small> رعاية مشروع — تطبيق الرقع من البريد</a>
+</li>
+<li><a href="_checking_out_remotes.html">٥<small>،</small> ١١<small>،</small> رعاية مشروع — سحب فروع بعيدة</a>
+</li>
+<li><a href="_what_is_introduced.html">٥<small>،</small> ١٢<small>،</small> رعاية مشروع — تحديد التغييرات الجديدة</a>
+</li>
+<li><a href="maintaining-project-integrating.html"><span class="toc-current">٥، ١٣، رعاية مشروع — دمج المساهمات</span></a>
+</li>
+<li><a href="maintaining-project-releasing.html">٥<small>،</small> ١٤<small>،</small> رعاية مشروع — إصدار مشروعك</a>
+</li>
+<li><a href="summary-05.html">٥<small>،</small> ١٥<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="maintaining-project-integrating">٥، ١٣، رعاية مشروع <br>&emsp;— دمج المساهمات</h3>
+<div class="paragraph">
+<p>
+عندما يكون كل ما في فرع موضوعك جاهزًا لدمجه في فرع من الفروع العامة، يكون السؤال: كيف؟
+ثم ما الأسلوب العام الذي تريده لرعاية مشروعك؟
+أمامك عدة خيارات، وسنتناول بضعًا منهم.</p>
+</div>
+<div class="sect3">
+<h4 id="_أساليب_الدمج">أساليب الدمج</h4>
+<div class="paragraph">
+<p>
+من أيسر الأساليب أن تدمج كل المساهمات إلى فرعك الرئيس مباشرةً. فقط.
+في هذا الأسلوب يكون فرعك الرئيس فيه المصدر المستقر عموما.
+وعندما يكون لديك فرع موضوع فيه عمل تراه مكتملًا، أو مساهمة قد تحققْتَ صحتها، فادمج ذلك في الفرع الرئيس، واحذف فرع الموضوع الذي دمجته للتو، ثم أعد الكرّة.</p>
+</div>
+<div class="paragraph">
+<p>مثلا لدينا مستودعٌ فرعه الرئيس <code>master</code> وفيه أعمال في فرعين اسمهما <code>ruby_client</code> و <code>php_client</code> مثل شكل <a href="maintaining-project-integrating.html#merwf_a">تاريخ فيه فرعا موضوعين</a>، فإذا دمجنا <code>ruby_client</code> ثم <code>php_client</code>، سيبدو التاريخ مثل شكل <a href="maintaining-project-integrating.html#merwf_b">بعد دمج فرعيْ الموضوعين</a>.</p>
+</div>
+<div id="merwf_a" class="imageblock">
+<div class="content">
+<img src="images/merging-workflows-1.png" alt="تاريخ فيه فرعا موضوعين">
+</div>
+<div class="title">شكل ٧٢. تاريخ فيه فرعا موضوعين</div></div>
+<div id="merwf_b" class="imageblock">
+<div class="content">
+<img src="images/merging-workflows-2.png" alt="بعد دمج فرعيْ الموضوعين">
+</div>
+<div class="title">شكل ٧٣. بعد دمج فرعيْ الموضوعين</div></div>
+<div class="paragraph">
+<p>ربما هذا أيسر أسلوب تطوير. لكنه قد يصعّب الأمور في المشروعات الكبيرة أو شديدة الاستقرار التي تحتاج أن تحرص أشد الحرص قبل أن تدمج شيئا فيها.</p>
+</div>
+<div class="paragraph">
+<p>فإذا كان مشروعك كبير أو استقراره مهم، فقد تجعل أسلوبك الدمج بمرحلتين.
+وهو أن يكون لك فرعان طويلا الأمد: الفرع الرئيس (<code>master</code> مثلا)، وفرع التطوير (<code>develop</code> مثلا)؛ وتلتزم في هذا الأسلوب ألا يتغير الفرع الرئيس إلا عند ضمان استقرار ما فرع التطوير استقرارًا يقينيًّا وأن فيه كل التعديلات المرادة وأنك جاهز لإصداره إلى المستخدمين.
+وكلا الفرعين تدفعهما إلى المستودع العمومي.
+كل فرع موضوع تريد دمجه (شكل <a href="maintaining-project-integrating.html#merwf_c">قبل دمج فرع موضوع</a>)، تدمجه أولا في فرع التطوير <code>develop</code> (شكل <a href="maintaining-project-integrating.html#merwf_d">بعد دمج فرع موضوع</a>). ثم عندما تجهّز إصدارة موسومة، تسرّع الفرع الرئيس إلى الإيداع الأخير في فرع التطوير الذي صار مستقرًا (شكل <a href="maintaining-project-integrating.html#merwf_e">بعد إصدار المشروع</a>).</p>
+</div>
+<div id="merwf_c" class="imageblock">
+<div class="content">
+<img src="images/merging-workflows-3.png" alt="قبل دمج فرع موضوع">
+</div>
+<div class="title">شكل ٧٤. قبل دمج فرع موضوع</div></div>
+<div id="merwf_d" class="imageblock">
+<div class="content">
+<img src="images/merging-workflows-4.png" alt="بعد دمج فرع موضوع">
+</div>
+<div class="title">شكل ٧٥. بعد دمج فرع موضوع</div></div>
+<div id="merwf_e" class="imageblock">
+<div class="content">
+<img src="images/merging-workflows-5.png" alt="بعد إصدار المشروع">
+</div>
+<div class="title">شكل ٧٦. بعد إصدار المشروع</div></div>
+<div class="paragraph">
+<p>هكذا، عندما يستنسخ الناس مستودع مشروعك، لهم أن يسحبوا الفرع الرئيس <code>master</code> ليبنوا آخر نسخة مستقرة ويبقوها محدَّثة من هذا الفرع بسهولة، ولهم أن يسحبوا فرع التطوير <code>develop</code> الذي فيه المصدر الأحدث.
+وكذلك يمكنك الإمعان في هذا الأسلوب، بإضافة فرع الدمج <code>integrate</code> الذي تدمج فيه التعديلات كلها،
+ثم عندما ترى استقرار ما في هذا الفرع واجتيازه الاختبارات فإنك تدمجه في فرع التطوير <code>develop</code>. وعندما تتحقق استقرار فرع التطوير زمنًا فإنك تسرّع الفرع الرئيس ليوافقه.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_أساليب_الدمج_الكثير">أساليب الدمج الكثير</h4>
+<div class="paragraph">
+<p>
+في مشروع مصدر جت أربعة فروع طويلة العمر: <code>master</code> و <code>next</code> و <code>seen</code> (سابقًا <code>pu</code> = «تحديثات مقترحة»)، و <code>maint</code> لحمل الإصلاحات إلى الإصدارات القديمة (backports).
+عند المساهمة، فإن المساهمات تُجمع في فروع موضوعات في مستودع المشرف بطريقة تشبه ما شرحنا سابقا (انظر <a href="maintaining-project-integrating.html#merwf_f">إدارة مجموعة كبيرة من المساهمات المتوازية في فروع موضوعات</a>).
+عندئذٍ تُقيَّم موضوعات المساهمات لتحديد صلاحيتها وصحتها، أم أنها تحتاج عملًا.
+فإذا كانت صالحة فإنها تدمج في <code>next</code> ويُدفع هذا الفرع إلى المستودع العمومي ليجرب الجميع الموضوعات المدموجة كلها معًا.</p>
+</div>
+<div id="merwf_f" class="imageblock">
+<div class="content">
+<img src="images/large-merges-1.png" alt="إدارة مجموعة كبيرة من المساهمات المتوازية في فروع موضوعات">
+</div>
+<div class="title">شكل ٧٧. إدارة مجموعة كبيرة من المساهمات المتوازية في فروع موضوعات</div></div>
+<div class="paragraph">
+<p>وإذا كانت الموضوعات تحتاج عملًا فإنها تدمج في فرع <code>seen</code>.
+وعندما يتقرر أنها مستقرة تماما، فإنها تدمج في <code>master</code>.
+ثم يعاد تأسيس الفرعين <code>next</code> و <code>seen</code> على <code>master</code> الجديد.
+هذا يعني أن <code>master</code> يتحرك إلى الأمام دائما أو شبه دائما، وأن <code>next</code> يعاد تأسيسه أحيانا، وأن <code>seen</code> يعاد تأسيسه أكثر من ذلك.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/large-merges-2.png" alt="دمج مساهمات فروع الموضوعات في فروع دمج طويلة الأمد">
+</div>
+<div class="title">شكل ٧٨. دمج مساهمات فروع الموضوعات في فروع دمج طويلة الأمد</div></div>
+<div class="paragraph">
+<p>عندما يُدمج فرع موضوع في <code>master</code> أخيرًا، فإنه يحذف من المستودع.
+وكذلك في مشروع مصدر جت فرع <code>maint</code>، الذي يُشتقّ من آخر إصدارة ليتيح رُقَع للإصدارات القديمة إن دعت الحاجة إلى إصدارة صيانة.
+لذا فإنك عندما تستنسخ مستودع جت فإنك تجد أربعة فروع يمكنك سحبها لفحص المشروع في حالاته المختلفة من التطوير، حسب حماسك للأحدث أو حسب رغبتك في المساهمة. وللمشرف أسلوب منظم يساعده في تدقيق المساهمات الجديدة.
+لمشروع جت أسلوب تطوير مخصص.
+لتفهمه بوضوح أشد، انظر <a href="https://github.com/git/git/blob/master/Documentation/howto/maintain-git.adoc" target="_blank" rel="noopener">دليل مشرف جت (بالإنجليزية)</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_rebase_cherry_pick">أساليب الاصطفاء وإعادة التأسيس</h4>
+<div class="paragraph">
+<p>
+يحب مشرفون آخرون إعادة تأسيس المساهمات (<code>rebase</code>) على فرعهم الرئيس أو اصطفائها (<code>cherry-pick</code>)، بدلًا من دمجها فيه، ليبقوا تاريخ الإيداعات خطيًّا قدر الإمكان.
+فإذا عملت في فرع موضوع ورأيت أن تدمجه، فانتقل إلى هذا الفرع ونفّذ أمر إعادة التأسيس فيه لإعادة صناعة إيداعاته على الفرع الرئيس.
+فإذا تم هذا بنجاح، فيمكنك تسريع فرعك الرئيس، وسيكون تاريخ مشروعك خطيًّا.</p>
+</div>
+<div class="paragraph">
+<p>
+والطريقة الأخرى لنقل تغييرات من فرع إلى آخر هي باصطفائه (<code>cherry-pick</code>).
+فالاصطفاء في جت هو مثل إعادة التأسيس لكن لإيداع وحيد.
+فإنه يتناول رقعة إيداع سابق ويحاول تطبيقها على الفرع الحالي.
+يفيد هذا إذا كان لديك عددٌ من الإيداعات في فرع موضوع وتريد دمج واحدٍ فقط منها، أو عندك إيداعٌ واحد فقط في فرع موضوع وترى أن اصطفاءه خيرٌ من إعادة تأسيسه.
+للمثال، قل إن لديك مشروعا مثل هذا:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/rebasing-1.png" alt="مثال تاريخ قبل الاصطفاء (cherry-pick)">
+</div>
+<div class="title">شكل ٧٩. مثال تاريخ قبل الاصطفاء (cherry-pick)</div></div>
+<div class="paragraph">
+<p>فإذا أردت جذب الإيداع <code>e43a6</code> إلى فرع <code>master</code>، فيمكنك تنفيذ هذا وأنت في الفرع  الهدف <code>master</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git cherry-pick e43a6
+Finished one cherry-pick.
+[master]: created a0a41a9: "More friendly message when locking the index fails."
+ 3 files changed, 17 insertions(+), 3 deletions(-)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هذا يجذب تغييرات الإيداع <code>e43a6</code> نفسها، لكن بإيداع جديد وبصمة جديدة لأن تاريخ تطبيقها مختلف.
+عندئذٍ سيبدو تاريخك هكذا:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/rebasing-2.png" alt="التاريخ بعد اصطفاء إيداع من فرع موضوع">
+</div>
+<div class="title">شكل ٨٠. التاريخ بعد اصطفاء إيداع من فرع موضوع</div></div>
+<div class="paragraph">
+<p>يمكنك عندئذٍ إزالة فرع الموضوع وهجر إيداعاته التي لم تردها.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_معاودة_مصالحة_مسجلة_rerere">معاودة مصالحة مسجلة (rerere)</h4>
+<div class="paragraph">
+<p>
+إذا كنت كثير الدمج وإعادة التأسيس، أو فروع موضوعاتك طويلة العمر، ففي جت وسيلة نافعة اسمها ‪&#8220;rerere&#8221;‬.</p>
+</div>
+<div class="paragraph">
+<p>إن ‪&#8220;rerere&#8221;‬ اختصار ‪&#8220;reuse recorded resolution&#8221;‬ أي «إعادة تطبيق الحل المسجل للنزاع». وهي لتقليل الجهد اليدوي في حل النزاعات.
+فعند تمكينها، سيلتقط جت صورة من المشروع عند حدوث نزاع وصورة بعد حله، وإن لمح جت هذا النزاع مرة أخرى فسيصلحه لك من نفسه كما أصلحته أنت أول مرة تماما.</p>
+</div>
+<div class="paragraph">
+<p>هذه الميزة جزءان: إعداد تهيئة، وأمر.
+فأما الإعداد فهو <code>rerere.enabled</code>، وهو صغير ويسهل إضافته إلى تهيئة جت العامة في نظامك:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git config --global rerere.enabled true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فمن الآن، وقتما واجهت نزاع دمج وحللته وأودعت، فسيسجل جت الحل إن احتجته في المستقبل.</p>
+</div>
+<div class="paragraph">
+<p>وإن احتجت التعامل مع ذاكرة «مُعاودة المُصالحات المُسجلة»، فاستعمل الأمر <code>git rerere</code>.
+فعند تنفيذه منفردًا (بغير معاملات)، فإن جت ينظر في ذاكرة حلول النزاعات ويبحث عن ما يطابق النزاع الحالي ويحله (ولكن هذا يحدث تلقائيا إذا كان <code>rerere.enabled</code> بـ <code>true</code>).
+ولهذا الأمر أوامر فرعية لرؤية ما سيسجل، ولحذف حل نزاع معين، ولمسح ذاكرة الحلول كلها.
+سنفصّل الحديث عن هذا كله في فصل <s>معاودة مصالحة مسجلة (rerere)</s> في الباب السابع.</p>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ <strong>السابق: </strong><a href="_what_is_introduced.html">٥<small>،</small> ١٢<small>،</small> رعاية مشروع — تحديد التغييرات الجديدة</a></p>
+<p>↑ <a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Distributed-Git-Maintaining-a-Project#_integrating_contributed_work">الأصل الإنجليزي</a> (بزيادة موجودة في صفحات عربية أخرى)</span></p><p><strong>التالي: </strong><a href="maintaining-project-releasing.html">٥<small>،</small> ١٤<small>،</small> رعاية مشروع — إصدار مشروعك</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2025-10-24 12:00:00 +0000
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

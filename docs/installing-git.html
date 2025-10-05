@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>تثبيت جت | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="installing-git" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.449,</span>
+<span id="revdate">2025-10-24</span>
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+<ul class="sectlevel2">
+<li><a href="about-vc.html">١<small>،</small> ١<small>،</small> عن إدارة النسخ</a>
+</li>
+<li><a href="git-history.html">١<small>،</small> ٢<small>،</small> تاريخ جت بإيجاز</a>
+</li>
+<li><a href="what_is_git_section.html">١<small>،</small> ٣<small>،</small> ما هو جت؟</a>
+</li>
+<li><a href="git-cmdline.html">١<small>،</small> ٤<small>،</small> سطر الأوامر</a>
+</li>
+<li><a href="installing-git.html"><span class="toc-current">١، ٥، تثبيت جت</span></a>
+</li>
+<li><a href="_first_time.html">١<small>،</small> ٦<small>،</small> إعداد جت أول مرة</a>
+</li>
+<li><a href="_git_help.html">١<small>،</small> ٧<small>،</small> الحصول على المساعدة</a>
+</li>
+<li><a href="summary-01.html">١<small>،</small> ٨<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="installing-git">١، ٥، تثبيت جت</h3>
+<div class="paragraph">
+<p>قبل الشروع في استخدام جت، عليك جعله متاحًا على حاسوبك.
+حتى لو كان مثبتًا بالفعل، فغالبا من الأفضل تحديثه إلى آخر نسخة.
+يمكنك إما تثبيته من حزمة أو عبر مثبت آخر وإما تنزيل المصدر البرمجي وبناءه بنفسك.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>كُتب هذا الكتاب عن جت نسخة ٢.‎
+لكن لأن جت متميز في الحفاظ على التوافقية مع الإصدارات السابقة، فأي نسخة حديثة يُتوقع أن تعمل كما ينبغي.
+ومع أن معظم الأوامر يتوقع أن تعمل حتى في نسخ جت الأثرية، فقد لا يعمل بعضها أو يعمل باختلاف طفيف.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_التثبيت_على_لينكس">التثبيت على لينكس</h4>
+<div class="paragraph">
+<p>
+إذا أردت تثبيت أدوات جت الأساسية على لينكس عبر مثبت برمجيات مبنية، فيمكنك غالبا فعل ذلك عبر أداة إدارة الحزم التي في توزيعتك.
+فإذا كنت على فيدورا (أو أي توزيعة قريبة منها تستخدم حزم RPM، مثل ردهات (RHEL) أو CentOS)، فيمكنك استخدام <code>dnf</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ sudo dnf install git-all</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وإذا كنت على توزيعة دبيانية مثل أوبنتو، جرب <code>apt</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ sudo apt install git-all</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لخيارات أخرى، توجد على موقع جت تعليمات لتثبيته على توزيعات لينكسية ويونكسية عديدة، في <a href="https://git-scm.com/download/linux" class="bare" target="_blank" rel="noopener">https://git-scm.com/download/linux</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_التثبيت_على_ماك_أو_إس">التثبيت على ماك أو إس</h4>
+<div class="paragraph">
+<p>
+توجد طرائق عديدة لتثبيت جت على ماك.
+ربما أسهلها هو تثبيت أدوات سطر أوامر إكس‌كود (Xcode Command Line Tools).
+وعلى ماك مافريكس (Mavericks, 10.9) أو أحدث، يمكنك فعل هذا بمجرد محاولة تنفيذ <code>git</code> في الطرفية أول مرة إطلاقًا.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git --version</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فإذا لم يكن مثبتًا لديك بالفعل، فسيحثك على تثبيته.</p>
+</div>
+<div class="paragraph">
+<p>أما إذا أردت نسخة أحدث، فيمكنك أيضا تثبيته عبر مثبت برمجيات مبنية.
+يوجد مثبت جت لماك على موقع جت، في <a href="https://git-scm.com/download/mac" class="bare" target="_blank" rel="noopener">https://git-scm.com/download/mac</a>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img class="_bright" src="images/git-osx-installer.png" alt="مثبت جت على ماك أو إس">
+</div>
+<div class="title">شكل ٧. مثبت جت على ماك أو إس</div></div>
+</div>
+<div class="sect3">
+<h4 id="_التثبيت_على_ويندوز">التثبيت على ويندوز</h4>
+<div class="paragraph">
+<p>لتثبيت جت على ويندوز عدة طرائق أيضا.
+النسخة المبنية الأكثر رسميةً متاحة على موقع جت.
+عليك فقط الذهاب إلى <a href="https://git-scm.com/download/win" class="bare" target="_blank" rel="noopener">https://git-scm.com/download/win</a> وسيبدأ التنزيل تلقائيا.
+لاحظ أن هذا مشروع يسمى «جت لويندوز» (Git for Windows)، وهو منفصل عن جت نفسه؛ للمزيد من المعلومات عنه، اذهب إلى <a href="https://gitforwindows.org" class="bare" target="_blank" rel="noopener">https://gitforwindows.org</a>.</p>
+</div>
+<div class="paragraph">
+<p>أما إذا أردت مثبتا آليا فيمكنك استخدام <a href="https://community.chocolatey.org/packages/git" target="_blank" rel="noopener">حزمة Git على Chocolatey</a>.
+لاحظ أن المجتمع هو من يرعى حزمة Chocolatey.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_التثبيت_من_المصدر_البرمجي">التثبيت من المصدر البرمجي</h4>
+<div class="paragraph">
+<p>ربما يفيد بعض الناس تثبيت جت من المصدر البرمجي بدلا من ذلك، لأنك عندئذٍ ستحصل على أحدث نسخة قَط.
+مثبتات البرمجيات المبنية تميل إلى التأخر قليلا، لكن لأن جت قد نضج في الأعوام الأخيرة، فلم يعد هذا يشكّل فارقا كما كان.</p>
+</div>
+<div class="paragraph">
+<p>إذا أردت تثبيت جت من المصدر البرمجي، فستحتاج إلى المكتبات التالية التي يعتمد عليها جت: <code>autotools</code> و <code>curl</code> و <code>zlib</code> و <code>openssl</code> و <code>expat</code> و <code>libiconv</code>.
+مثلا، إذا كنت على نظام يستخدم <code>dnf</code> (مثل فيدورا) أو <code>apt-get</code> (مثل الأنظمة الدبيانية)، فيمكنك استخدام أحد هذين الأمرين لتثبيت أقل اعتماديات مطلوبة لبناء جت وتثبيته:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ sudo dnf install dh-autoreconf curl-devel expat-devel gettext-devel \
+  openssl-devel perl-devel zlib-devel
+$ sudo apt-get install dh-autoreconf libcurl4-gnutls-dev libexpat1-dev \
+  gettext libz-dev libssl-dev</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وتحتاج هذه الاعتماديات حتى تضيف التوثيق بصيغه المختلفة (<code>doc</code> و <code>html</code> و <code>info</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ sudo dnf install asciidoc xmlto docbook2X
+$ sudo apt-get install asciidoc xmlto docbook2x</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>يحتاج مستخدمو ردهات والتوزيعات الردهاتية مثل CentOS و Scientific Linux إلى <a href="https://docs.fedoraproject.org/en-US/epel/#how_can_i_use_these_extra_packages" target="_blank" rel="noopener">تفعيل مستودع EPEL (الشرح بالإنجليزية)</a> حتى يستطيعوا تثبيت حزمة <code>docbook2X</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>إذا كنت تستخدم توزيعة دبيانية (دبيان أو أوبنتو أو إحدى مشتقاتهما)، فتحتاج أيضا حزمة <code>install-info</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ sudo apt-get install install-info</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>إذا كنت تستخدم توزيعة تستخدم RPM (فيدورا أو ردهات أو إحدى مشتقاتهما)، فتحتاج أيضا حزمة <code>getopt</code> (المثبتة مبدئيا في التوزيعات الدبيانية):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ sudo dnf install getopt</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>إضافة إلى ذلك، إذا كنت تستخدم فيدورا أو ردهات أو إحدى مشتقاتهما، فتحتاج أن تفعل هذا أيضا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ sudo ln -s /usr/bin/db2x_docbook2texi /usr/bin/docbook2x-texi</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>بسبب اختلافات في أسماء الأوامر.</p>
+</div>
+<div class="paragraph">
+<p>عندما يكون لديك جميع الاعتماديات المطلوبة، يمكنك تنزيل أحدث ملف مضغوط موسوم برقم إصدار، من عدة أماكن.
+يمكنك تنزيله من موقع نواة لينكس، من <a href="https://www.kernel.org/pub/software/scm/git" class="bare" target="_blank" rel="noopener">https://www.kernel.org/pub/software/scm/git</a>، أو من النسخة المقابلة على موقع جت‌هب، من <a href="https://github.com/git/git/tags" class="bare" target="_blank" rel="noopener">https://github.com/git/git/tags</a>.
+غالبا يكون أوضح قليلا على جت‌هب ما هي النسخة الأحدث، ولكن في صفحة موقع نواة لينكس ستجد بصمات الإصدارات، إذا أحببت تفقّد صحة الملفات التي نزّلتها.</p>
+</div>
+<div class="paragraph">
+<p>بعدئذٍ يمكنك البناء والتثبيت:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ tar -zxf git-2.8.0.tar.gz
+$ cd git-2.8.0
+$ make configure
+$ ./configure --prefix=/usr
+$ make all doc info
+$ sudo make install install-doc install-html install-info</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>بعد إتمام هذا، يمكنك الحصول على جت عبر جت نفسه للتحديثات:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git clone https://git.kernel.org/pub/scm/git/git.git</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ <strong>السابق: </strong><a href="git-cmdline.html">١<small>،</small> ٤<small>،</small> سطر الأوامر</a></p>
+<p>↑ <a href="ch01-getting-started.html">الباب الأول: البدء</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">الأصل الإنجليزي</a></span></p><p><strong>التالي: </strong><a href="_first_time.html">١<small>،</small> ٦<small>،</small> إعداد جت أول مرة</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2025-10-24 12:00:00 +0000
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

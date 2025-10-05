@@ -51,16 +51,17 @@ case "$1" in
   -)  (python3 editor.py light "${@:2}" &> /dev/null &) &> /dev/null ;;
   --) (python3 editor.py       "${@:2}" &> /dev/null &) &> /dev/null ;;
   # commands specific to the primary translator
-  d) ml git\ diff\\n ;;
-    ## To use, put these in the shell initialization:
-      # quiet() { ( "$@" &> /dev/null & ) &> /dev/null; }
-      # ml() { quiet mlterm -# 'PS1=$\\ ;clear\n'"$1"; }
-    ## And do this only once:
-      # mkdir -p ~/.mlterm; printf '%s\n' 'bg_color = black' 'fg_color = white' 'fontsize = 22' > ~/.mlterm/main 
+  d) printf '\e[?2501h'; git diff "${@:2}"; printf '\e[?2501l' ;;
+    ## enables RTL-autodetection before showing the diff, then disables it
+    ## more info: https://terminal-wg.pages.freedesktop.org/bidi/recommendation/escape-sequences.html#other-output-modes
     ## You may want to use github.com/dandavison/delta or some other fancy git-diff viewer.
+  dd) printf '\e[2 k'; git diff "${@:2}"; printf '\e[0 k' ;;
+    ## force RTL direction (for viewing docs/)
+  p) nvim .postprocess.pl && make && git diff docs/ ;;
   # otherwise
   *) __help ;;
 esac
+
 
 
 

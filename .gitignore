@@ -11,3 +11,8 @@ progit.fb2.zip
 progit-kf8.epub
 progit.mobi
 contributors.txt
+
+# translator's ignored files
+a[45]-.pdf
+a[45].pdf
+v/

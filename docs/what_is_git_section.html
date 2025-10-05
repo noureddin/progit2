@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>ما هو جت؟ | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="what_is_git_section" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.449,</span>
+<span id="revdate">2025-10-24</span>
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+<ul class="sectlevel2">
+<li><a href="about-vc.html">١<small>،</small> ١<small>،</small> عن إدارة النسخ</a>
+</li>
+<li><a href="git-history.html">١<small>،</small> ٢<small>،</small> تاريخ جت بإيجاز</a>
+</li>
+<li><a href="what_is_git_section.html"><span class="toc-current">١، ٣، ما هو جت؟</span></a>
+</li>
+<li><a href="git-cmdline.html">١<small>،</small> ٤<small>،</small> سطر الأوامر</a>
+</li>
+<li><a href="installing-git.html">١<small>،</small> ٥<small>،</small> تثبيت جت</a>
+</li>
+<li><a href="_first_time.html">١<small>،</small> ٦<small>،</small> إعداد جت أول مرة</a>
+</li>
+<li><a href="_git_help.html">١<small>،</small> ٧<small>،</small> الحصول على المساعدة</a>
+</li>
+<li><a href="summary-01.html">١<small>،</small> ٨<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="what_is_git_section">١، ٣، ما هو جت؟</h3>
+<div class="paragraph">
+<p>إذًا، ما هو جت باختصار؟
+هذا فصل مهم ويجب استيعابه جيدا، لأنك إذا فهمت ماهية جت وأصول طريقة عمله، فسيكون سهل جدا عليك استخدام جت بفعالية.
+وخلال تعلمك جت، عليك تصفية ذهنك من كل ما تعمله عن أنظمة إدارة النسخ الأخرى، مثل CVS أو Subversion أو Perforce؛ يساعدك هذا على تجنب أي التباسات خفية عندما تستخدمه.
+ومع أن واجهة جت قريبة الشبه بالأنظمة الأخرى، إلا أن جت يخزن المعلومات بطريقة وينظر إليها نظرةً مختلفة أشد الاختلاف، ويساعدك فهم هذه الفروق على تجنب الالتباس عند استخدامه.</p>
+</div>
+<div class="sect3">
+<h4 id="_لقطات_وليس_فروقات">لقطات، وليس فروقات</h4>
+<div class="paragraph">
+<p>الفرق الأكبر بين جت وأي نظام آخر (بما في ذلك Subversion وأشباهه)، هو نظرة جت إلى بياناته.
+من حيث المفهوم، تخزن معظم الأنظمة الأخرى المعلومات في صورة سلسلة تعديلات على الملفات.
+هذه الأنظمة الأخرى (CVS و Subversion و Perforce إلخ) تنظر إلى المعلومات التي تخزنها على أنها مجموعة من الملفات والتعديلات التي تتم على كل ملف عبر الزمان (يوصف هذا غالبا بأنه إدارة نسخ <em>بناءً على الفروقات</em>).</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/deltas-AR.png" alt="تخزين البيانات في صورة تعديلات على نسخة أساسية من كل ملف">
+</div>
+<div class="title">شكل ٤. تخزين البيانات في صورة تعديلات على نسخة أساسية من كل ملف</div></div>
+<div class="paragraph">
+<p>لا ينظر جت إلى بياناته ولا يخزنها هكذا.
+بل يعتبرها أشبه بلقطات من نظام ملفات مصغر.
+في جت، كل مرة تصنع إيداعا (<code>commit</code>)، أي تحفظ حالة مشروعك، يلتقط جت صورة لما تبدو عليه ملفاتك جميعًا في هذه اللحظة، ويخزن إشارة لهذه اللقطة.
+وحتى يُحسن استغلال الموارد، فإن الملفات التي لم تتغير لا يخزنها جت مجددا، بل يخزن فقط إشارةً إلى الملف السابق المطابق الذي خزّنه سابقا.
+فإن جت يعتبر أن بياناته <strong>سيل من اللقطات</strong>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/snapshots-AR.png" alt="تخزين البيانات في صورة لقطات من المشروع على مر الزمان">
+</div>
+<div class="title">شكل ٥. تخزين البيانات في صورة لقطات من المشروع على مر الزمان</div></div>
+<div class="paragraph">
+<p>هذا تمييز مهم بين جت وأكثر الأنظمة الأخرى.
+إنه يجعل جت يعيد التفكير في أغلب جوانب إدارة النسخ التي نسختها معظم الأنظمة الأخرى من الأجيال السابقة.
+إنه يجعل جت أشبه بنظام ملفات مصغر ذي أدوات خارقة مبنية عليه، بدلا من مجرد نظام إدارة نسخ.
+عندما نتناول التفريع في جت في باب <a href="ch03-git-branching.html">التفريع في جت</a>، سنستكشف بعضًا من المنافع التي تحصل عليها عندما تنظر إلى بياناتك هذه النظرة.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_أغلب_العمليات_محلية">أغلب العمليات محلية</h4>
+<div class="paragraph">
+<p>أكثر العمليات في جت لا تحتاج إلا إلى ملفات وموارد محلية لكي تعمل؛ فعموما لا حاجة إلى أي معلومات من حواسيب أخرى على الشبكة.
+إذا كنت معتادًا على نظام إدارة نسخ مركزي، حيث معظم العمليات مثقلة بعبء زمن الانتقال في الشبكة، فإن هذا الجانب من جت سيجعلك تظن أنه صنع عفريت من الجن حتى يكون سريعا هكذا.
+فلأن لديك التاريخ الكامل للمشروع بين يديك على قرصك المحلي، فإن معظم العمليات تبدو آنية.</p>
+</div>
+<div class="paragraph">
+<p>مثلا، لتصفح تاريخ المشروع، لا يحتاج جت إلى السفر إلى الخادوم ليعود إليك حاملا التاريخ ليعرضه لك؛ إنما يقرؤه من قاعدة بياناتك المحلية.
+هذا يعني أنك ترى تاريخ المشروع أسرع من طرفة عين.
+وإذا أردت أن ترى التعديلات التي حدثت على ملف بين نسخته الآن ومنذ شهر، فيستطيع جت أن يأتي بهذا الملف منذ شهر ويحسب الفرق على حاسوبك، بدلا من الاضطرار إلى طلب هذا الفرق من خادوم بعيد أو طلب النسخة القديمة منه وحساب الفرق محليا.</p>
+</div>
+<div class="paragraph">
+<p>هذا أيضا يعني أنك ما زلت تستطيع فعل كل شيء، إلا القليل النادر، إذا كنت غير متصل بالشابكة (الإنترنت)، أو بشبكتك الوهمية الخصوصية (VPN).
+فإذا كنت في طائرة أو قطار، وتريد العمل قليلا، تستطيع الإيداع بكل سرور (إلى نسختك <em>المحلية</em>، أتتذكر؟) حتى تجد اتصالا شبكيا للرفع.
+وإذا عدت إلى المنزل ولم تجد عميل شبكتك الوهمية يستطيع العمل، فإنك ما زلت تستطيع العمل.
+أما في الكثير من الأنظمة الأخرى، فالعمل من غير اتصال إما أليم جدا وإما مستحيل أصلا.
+في Perforce مثلا، لا يمكنك فعل الكثير إن لم تكن متصلا بالخادوم. في Subversion و CVS تستطيع تعديل الملفات، لكن لا تستطيع إيداع أي تعديلات في قاعدة بياناتك (لأن قاعدة بياناتك غير متصلة).
+ربما تظن أن هذا ليس بالأمر العظيم، لكنك إذًا ستتفاجأ بضخامة الفرق الذي يصنعه.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_في_جت_السلامة">في جت السلامة</h4>
+<div class="paragraph">
+<p>يضمن جت سلامة البيانات دائمًا،
+فهو يحسب قيم البصمات لكل شيء قبل أن يخزنه، وبعدئذٍ يشير إلى الأشياء ببصماتها.
+هذا يعني أن تعديل محتويات أي ملف أو مجلد بغير علم جت مستحيل.
+هذا مبني في أساس جت ومن أركان فلسفته.
+فمستحيل فقد معلومات أثناء النقل أو حتى فساد ملفات من غير أن يكتشف جت ذلك.</p>
+</div>
+<div class="paragraph">
+<p>الآلية التي يستخدمها جت لحساب البصمة معروفة باسم بصمة SHA-1.
+وهي تنتج سلسلة نصية من أربعين رقْما ستعشريا (0–9 و a–f) محسوبين من محتوى الملف أو بِنية المجلد في جت.
+تشبه بصمة SHA-1 هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>24b9da6552252987aa493b52f8696cd6d3b00373</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ترى قيم البصمات هذه في كل مكان في جت لأنه يستخدمها كثيرا.
+في الحقيقة، يخزن جت كل  شيء في قاعدة بياناته، ليس بأسماء الملفات، بل بقيم بصمة محتواها.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_يضيف_جت_بيانات_فقط_عموما">يضيف جت بيانات فقط عموما</h4>
+<div class="paragraph">
+<p>أكثر الإجراءات في جت لا تفعل شيئا سوى أن <em>تضيف</em> بيانات إلى قاعدة بيانات جت.
+ومن الصعب أن تجعله يفعل شيئا لا يمكن التراجع عنه أو أن تجعله يمسح بيانات بأي طريقة.
+مثلما الحال مع أي نظام إدارة نسخ، يمكن أن تفقد أو تدمر التعديلات التي لم تودعها بعد، لكن ما إن تودعها في جت، فمن العسير جدا أن تفقدها، خصوصا إذا كنت تدفع (<code>push</code>) قاعدة بياناتك بانتظام إلى مستودع آخر.</p>
+</div>
+<div class="paragraph">
+<p>هذا يجعل استخدام جت مبهجًا لعِلمنا أننا نستطيع التجريب بغير خطر التخريب.
+للتعمق في كيفية تخرين جت لبياناته وكيفية استعادة ما يبدو أنه قد فُقد، انظر فصل <a href="_undoing.html">التراجع عن الأفعال</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_المراحل_الثلاثة">المراحل الثلاثة</h4>
+<div class="paragraph">
+<p>انتبه الآن وركّز؛ هذا أهم شيء عليك تذكره دوما عن جت إذا أردت أن تمضي رحلة تعلمك بسلاسة.
+في جت ثلاث مراحل يمكن أن تكون ملفاتك فيها: <em>معدّل</em>، و<em>مؤهل</em>، و<em>مُودَع</em>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>معدل يعني أنك عدلت الملف لكنك لم تُودِع التعديلات بعد في قاعدة بياناتك.</p>
+</li>
+<li>
+<p>مؤهل يعني أنك حددت ملفًا معدلًا في نسخته الحالية ليكون ضمن لقطة الإيداع التالية.</p>
+</li>
+<li>
+<p>مُودَع يعني أن البيانات صارت مخزنة بأمان في قاعدة بياناتك.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>يقودنا هذا إلى الأقسام الرئيسة الثلاثة في أي مشروع جت: شجرة العمل، ومنطقة التأهيل، ومجلد جت.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/areas-AR.png" alt="شجرة العمل، ومنطقة التأهيل، ومجلد جت">
+</div>
+<div class="title">شكل ٦. شجرة العمل، ومنطقة التأهيل، ومجلد جت</div></div>
+<div class="paragraph">
+<p>شجرة العمل (أو مجلد العمل) هي نسخة واحدة مسحوبة من المشروع.
+تُجلب لك هذه الملفات من قاعدة البيانات المضغوطة في مجلد جت وتُوضع لك على القرص لتستخدمها أو تعدلها.</p>
+</div>
+<div class="paragraph">
+<p>منطقة التأهيل هي ملف يخزن معلومات عما سيكون في إيداعك التالي، وعادةً يكون ملف منطقة التأهيل في مجلد جت لمشروعك.
+المصطلح التقني في لغة جت هو «الفهرس» (<code>index</code>)، لكن العبارة «منطقة التأهيل» (<code>staging area</code>) مناسبة ومستخدمة أيضا.</p>
+</div>
+<div class="paragraph">
+<p>مجلد جت هو المكان الذي يخزن فيه جت البيانات الوصفية وقاعدة بيانات الكائنات لمشروعك.
+هذا هو أهم جزء في جت، وهم الذي يُنسخ عندما <em>تستنسخ</em> (<code>clone</code>) مستودعا من حاسوب آخر.</p>
+</div>
+<div class="paragraph">
+<p>يبدو أسلوب التطوير الأساسي في جت مثل هذا:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>تعدّل ملفات في شجرة عملك.</p>
+</li>
+<li>
+<p>تنتقي من تلك التعديلات ما تؤهله ليكون جزءًا من إيداعك التالي، وهذا <em>لا يضيف إلا</em> هذه التعديلات إلى منطقة التأهيل.</p>
+</li>
+<li>
+<p>تصنع إيداعا، وهذا يلتقط صورة للملفات كما هي من منطقة التأهيل ويخزن هذه اللقطة في مجلد جت لمشروعك إلى الأبد.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>إذا كانت نسخة معينة من أحد الملفات موجودة داخل مجلد جت، فإنها تعتبر <em>مُودَعة</em>.
+وإذا كانت معدّلة وقد أضيفت إلى منطقة التأهيل، فإنها <em>مؤهَّلة</em>.
+وإذا كانت معدّلة بعد آخر مرة سُحبت فيها لكنها لم تؤهل بعد، فإنها <em>معدَّلة</em>.
+ستتعلم المزيد في باب <a href="ch02-git-basics-chapter.html">أسس جت</a> عن هذه الحالات وكيف يمكنك استغلالها أو تخطي مرحلة التأهيل برمتها.</p>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ <strong>السابق: </strong><a href="git-history.html">١<small>،</small> ٢<small>،</small> تاريخ جت بإيجاز</a></p>
+<p>↑ <a href="ch01-getting-started.html">الباب الأول: البدء</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F">الأصل الإنجليزي</a></span></p><p><strong>التالي: </strong><a href="git-cmdline.html">١<small>،</small> ٤<small>،</small> سطر الأوامر</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2025-10-24 12:00:00 +0000
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

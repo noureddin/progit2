@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>إعداد الحساب وتهيئته | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="github-account" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.449,</span>
+<span id="revdate">2025-10-24</span>
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+<ul class="sectlevel2">
+<li><a href="github-account.html"><span class="toc-current">٦، ١، إعداد الحساب وتهيئته</span></a>
+</li>
+<li><s>٦<small>،</small> ٢<small>،</small> المساهمة في مشروع</s>
+</li>
+<li><s>٦<small>،</small> ٣<small>،</small> رعاية مشروع</s>
+</li>
+<li><s>٦<small>،</small> ٤<small>،</small> إدارة منظمة</s>
+</li>
+<li><s>٦<small>،</small> ٥<small>،</small> برمجة جت‌هب</s>
+</li>
+<li><a href="summary-06.html">٦<small>،</small> ٦<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="github-account">٦، ١، إعداد الحساب وتهيئته</h3>
+<div class="paragraph">
+<p>
+أول شيء تحتاجه هو إعداد حساب مستخدم مجاني.
+ليس عليك سوى زيارة <a href="https://github.com" class="bare" target="_blank" rel="noopener">https://github.com</a> واختيار اسم مستخدم متاح وإدخال عنوان بريد شابكي وكلمة مرور، ثم الضغط على الزر الأخضر الكبير ‪&#8220;Sign up for GitHub&#8221;‬.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img class="_dark" src="images/signup.png" alt="استمارة التسجيل في جت‌هب">
+</div>
+<div class="title">شكل ٨١. استمارة التسجيل في جت‌هب</div></div>
+<div class="paragraph">
+<p>ثاني شيء ستراه هو صفحة أسعار الاشتراكات غير المجانية، ولكن يمكنك تجاهلها الآن.
+سيرسل لك جت‌هب رسالة لتحقُّق عنوان البريد الذي أدخلته.
+اذهب إلى بريدك وأكّده؛ هذا مهم (كما سنرى فيما بعد).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>يتيح جت‌هب أكثر ميزاته للحسابات المجانية، باستثناء بعض الخصائص المتقدمة.</p>
+</div>
+<div class="paragraph">
+<p>فتشمل اشتراكاته المدفوعة أدوات وميزات متقدمة إضافةً إلى تقليل قيود الخدمات المجانية، ولكن لن نتناول تلك الأمور في هذا الكتاب.
+للمزيد من المعلومات عن الاشتراكات المتاحة والمقارنة بينها، زُر <a href="https://github.com/pricing" class="bare" target="_blank" rel="noopener">https://github.com/pricing</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>ستجد في أعلى يسار الشاشة شارة القط ذي الأرجل الثمانية (والمسمى ‪&#8220;Octocat&#8221;‬&#8201;&#8212;&#8201;«أخطوقط»)، اضغط عليه لتنتقل إلى صفحتك الرئيسة.
+مبارك عليك! أنت الآن مستعد لاستخدام جت‌هب.</p>
+</div>
+<div class="sect3">
+<h4 id="_وصول_ssh">وصول SSH</h4>
+<div class="paragraph">
+<p>
+تستطيع الآن التواصل مع مستودعات جت بميفاق <code>https://</code> والاستيثاق باسم المستخدم وكلمة المرور اللذين أعددتهما للتو.
+لكن لمجرد استنساخ المستودعات العمومية، لا تحتاج حتى للتسجيل في الموقع. إنما سينفعنا الحساب الذي قد أنشأناه فيما بعد عندما نشتق مستودعاتٍ وندفع إلى اشتقاقاتنا.</p>
+</div>
+<div class="paragraph">
+<p>إذا احتجت استخدام خواديم بعيدة عبر SSH، فإنك تحتاج إعداد مفتاح عمومي.
+إذا لم يكن لديك واحدًا بالفعل، فانظر فصل <a href="_generate_ssh_key.html">توليد مفتاح SSH عمومي لك</a>.
+افتح إعدادات حسابك بالضغط على رابط الترس الذي في أعلى يمين الشاشة.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img class="_bright" src="images/account-settings.png" alt="رابط إعدادات الحساب">
+</div>
+<div class="title">شكل ٨٢. رابط إعدادات الحساب</div></div>
+<div class="paragraph">
+<p>ثم اختر تبويب ‪&#8220;SSH keys&#8221;‬ من القائمة اليسرى.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img class="_bright" src="images/ssh-keys.png" alt="إعدادات مفاتيح SSH">
+</div>
+<div class="title">شكل ٨٣. إعدادات مفاتيح SSH</div></div>
+<div class="paragraph">
+<p>ثم اضغط زر ‪&#8220;Add an SSH key&#8221;‬ لإضافة مفتاحك، وأعطه اسمًا، وانسخ في الحقل النصي الكبير محتوى ملف مفتاحك العمومي (<code>~/.ssh/id_rsa.pub</code> أو كما سمّيته)، ثم اضغط ‪&#8220;Add key&#8221;‬.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>اختر لمفتاحك اسما تتذكره.
+مثلا «حاسوبي المحمول» أو «حساب العمل». اختر لكل مفتاحٍ اسمًا واضحًا حتى إذا أردت إبطال أحدها تعرف أيهم تريد.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_personal_avatar">صورتك الشخصية</h4>
+<div class="paragraph">
+<p>الخطوة التالية، إن أردت، هي تغيير الصورة المولدة آليًّا إلى صورة من اختيارك.
+اذهب إلى تبويب ‪&#8220;Profile&#8221;‬ (فوق تبويب ‪&#8220;SSH Keys&#8221;‬) واضغط على ‪&#8220;Upload new picture&#8221;‬.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img class="_bright" src="images/your-profile.png" alt="إعدادات معلومات الحساب">
+</div>
+<div class="title">شكل ٨٤. إعدادات معلومات الحساب</div></div>
+<div class="paragraph">
+<p>سنختار صورة شارة جت موجودة لدينا على القرص الصلب، وسيتيح الموقع لنا الفرصة لاقتصاصها.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img class="_dark" src="images/avatar-crop.png" alt="اقتصاص صورتك الشخصية التي رفعتها">
+</div>
+<div class="title">شكل ٨٥. اقتصاص صورتك الشخصية التي رفعتها</div></div>
+<div class="paragraph">
+<p>من الآن سيرى الناس صورتك بجوار اسمك عندما تتفاعل على الموقع.</p>
+</div>
+<div class="paragraph">
+<p>وإذا كنت قد رفعت صورة لك على خدمة Gravatar الشهيرة (والشائعة مع حسابات WordPress)، فستكون هي الصورة المبدئية ولن تحتاج إلى هذه الخطوة من الأساس.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_عناوين_بريدك_الشابكي">عناوين بريدك الشابكي</h4>
+<div class="paragraph">
+<p>يربط جت‌هب إيداعاتك في جت بحسابك في جت‌هب عبر عنوان بريدك الشابكي.
+فإذا كنت تستعمل عدة عناوين بريد في إيداعاتك، وتريد من جت‌هب أن يربطها جميعًا بحسابك، فعليك إضافتها كلها في قسم البريد في تبويب الإدارة.</p>
+</div>
+<div id="_add_email_addresses" class="imageblock">
+<div class="content">
+<img class="_bright" src="images/email-settings.png" alt="إضافة جميع عناوين البريد الشابكي">
+</div>
+<div class="title">شكل ٨٦. إضافة جميع عناوين البريد الشابكي</div></div>
+<div class="paragraph">
+<p>في شكل <a href="github-account.html#_add_email_addresses">إضافة جميع عناوين البريد الشابكي</a> نرى بعض الحالات الممكنة للعناوين.
+العنوان الأول متحقَّق ومضبوط ليكون العنوان المبدئي، أي أنه العنوان الذي تُرسَل إليه الإشعارات والتقارير.
+والعنوان الثاني متحقَّق، فيمكن جعله العنوان المبدئي إذا أردت التبديل.
+والعنوان الأخير غير متحقَّق، فلا يمكنك جعله عنوانك المبدئي.
+فإذا رأى جت‌هب أي عنوانٍ من هؤلاء في إيداع في أي مستودع على الموقع، فسيربطه بحسابك.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_الاستيثاق_الثنائي">الاستيثاق الثنائي</h4>
+<div class="paragraph">
+<p>وأخيرا، للمزيد من الأمان، يقينًا عليك إعداد «الاستيثاق الثنائي» (وتسمى كذلك «المصادقة الثنائية» أو «التحقق بخطوتين») (‪&#8220;2FA&#8221;‬، اختصار Two-factor Authentication).
+وهي طريقة استيثاق بدأت بالانتشار حديثًا لتقليل احتمال اختراق حسابك إن سُرقت كلمة مرورك بطريقةٍ ما.
+وتفعيلها يجعل جت‌هب يسألك عن طريقتين مختلفتين للاستيثاق، لكيلا يتعرض حسابك للاختراق إن استولى أحد على إحداهما.</p>
+</div>
+<div class="paragraph">
+<p>يمكنك إعداد الاستيثاق الثنائي من تبويب ‪&#8220;Security&#8221;‬ في صفحة إعدادات حسابك.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img class="_bright" src="images/2fa-1.png" alt="الاستيثاق الثنائي في تبويب الأمان">
+</div>
+<div class="title">شكل ٨٧. الاستيثاق الثنائي في تبويب الأمان</div></div>
+<div class="paragraph">
+<p>إذا ضغطت زر ‪&#8220;Set up two-factor authentication&#8221;‬ ستنتقل إلى صفحة إعدادات يمكنك فيها اختيار تطبيق هاتف محمول لتوليد الرمز الثانوي («كلمة م‍رور استخدام واحد مؤقتة» ‪&#8220;time based one-time password&#8221;‬)، أو أن تجعل جت‌هب يرسل إليك الرم‍ز عبر رسالة محمول قصيرة (SMS) في كل م‍رة تحتاج إلى الدخول إلى الموقع.</p>
+</div>
+<div class="paragraph">
+<p>بعد اختيار طريقتك المفضلة واتباع التعليمات لإعداد الاستيثاق الثنائي، سيصير حسابك أكثر أمانًا نسبيًّا، وستحتاج إلى إدخال رمزٍ مع كلمة م‍رورك في كل م‍رة تدخل إلى حسابك على جت‌هب.</p>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>↑ <a href="ch06-github.html">الباب السادس: ؜GitHub</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/GitHub-Account-Setup-and-Configuration">الأصل الإنجليزي</a></span></p><p><strong>التالي: </strong><small><s>٦<small>،</small> ٢<small>،</small> المساهمة في مشروع</s></small>&emsp;<a href="summary-06.html">٦<small>،</small> ٦<small>،</small> الخلاصة</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2025-10-24 12:00:00 +0000
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

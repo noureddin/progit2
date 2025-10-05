@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>إعداد الخادوم | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="_setting_up_server" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.449,</span>
+<span id="revdate">2025-10-24</span>
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+<ul class="sectlevel2">
+<li><a href="protocols.html">٤<small>،</small> ١<small>،</small> الموافيق (البروتوكولات)</a>
+</li>
+<li><a href="_getting_git_on_a_server.html">٤<small>،</small> ٢<small>،</small> تثبيت جت على خادوم</a>
+</li>
+<li><a href="_generate_ssh_key.html">٤<small>،</small> ٣<small>،</small> توليد مفتاح SSH عمومي لك</a>
+</li>
+<li><a href="_setting_up_server.html"><span class="toc-current">٤، ٤، إعداد الخادوم</span></a>
+</li>
+<li><a href="git-daemon.html">٤<small>،</small> ٥<small>،</small> عفريت جت</a>
+</li>
+<li><a href="smart-http.html">٤<small>،</small> ٦<small>،</small> ميفاق HTTP الذكي</a>
+</li>
+<li><a href="gitweb-section.html">٤<small>،</small> ٧<small>،</small> ؜GitWeb</a>
+</li>
+<li><a href="gitlab.html">٤<small>،</small> ٨<small>،</small> ؜GitLab</a>
+</li>
+<li><a href="hosted-git.html">٤<small>،</small> ٩<small>،</small> خيارات الاستضافة الخارجية</a>
+</li>
+<li><a href="summary-04.html">٤<small>،</small> ١٠<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="_setting_up_server">٤، ٤، إعداد الخادوم</h3>
+<div class="paragraph">
+<p>لنعدّ معا وصولَ SSH على الخادوم.
+سنستعمل في هذا المثال طريقة <code>authorized_keys</code> («المفاتيح المستوثَقة») لاستيثاق مستخدميك.
+سنفترض أيضا أنك تستعمل توزيعة لينكس معتادة مثل أوبنتو.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>معظم المشروح هنا يمكن عمله آليًّا بأمر <code>ssh-copy-id</code>، بدلا من نسخ المفاتيح العمومية وتثبيتها يدويا.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>أولا، أنشئ حساب مستخدم باسم <code>git</code> وأنشئ مجلد <code>.ssh</code> له.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ sudo adduser git
+$ su git
+$ cd
+$ mkdir .ssh &amp;&amp; chmod 700 .ssh
+$ touch .ssh/authorized_keys &amp;&amp; chmod 600 .ssh/authorized_keys</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>سنحتاج الآن إلى إضافة بعض مفاتيح SSH العمومية للمطورين إلى ملف المفاتيح المستوثَقة الخاص بالمستخدم <code>git</code>.
+لنفرض أن لديك بعض المفاتيح الموثوقة وأنك حفظتها في ملفات مؤقتة.
+للتذكير، تبدو المفاتيح العمومية هكذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cat /tmp/id_rsa.badr.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCB007n/ww+ouN4gSLKssMxXnBOvf9LGt4L
+ojG6rs6hPB09j9R/T17/x4lhJA0F3FR1rP6kYBRsWj2aThGw6HXLm9/5zytK6Ztg3RPKK+4k
+Yjh6541NYsnEAZuXz0jTTyAUfrtU3Z5E003C4oxOj6H0rfIF1kKI9MAQLMdpGW1GYEIgS9Ez
+Sdfd8AcCIicTDWbqLAcU4UpkaX8KyGlLwsNuuGztobF8m72ALC/nLF6JLtPofwFBlgc+myiv
+O7TCUSBdLQlgMVOFq1I2uPWQOkOWQAHukEOmfjy2jctxSDBQ220ymjaNsHT4kgtZg2AYYgPq
+dAv8JggJICUvax2T9va5 gsg-keypair</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ليس عليك إلا إضافتها إلى ملف <code>authorized_keys</code> الخاص بالمستخدم <code>git</code> الموجود في مجلد <code>.ssh</code> الخاص به:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cat /tmp/id_rsa.badr.pub &gt;&gt; ~/.ssh/authorized_keys
+$ cat /tmp/id_rsa.shams.pub &gt;&gt; ~/.ssh/authorized_keys
+$ cat /tmp/id_rsa.wafaa.pub &gt;&gt; ~/.ssh/authorized_keys</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>أعدّ الآن مستودع مجرد لهم بأمر الابتداء <code>git init</code> مع الخيار <code>--bare</code>، لتنشئ المستودع بلا مجلد عمل:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cd /srv/git
+$ mkdir project.git
+$ cd project.git
+$ git init --bare
+Initialized empty Git repository in /srv/git/project.git/</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>عندئذٍ يستطيع بدر أو شمس أو وفاء دفع النسخة الأولى من مشروعهم إلى المستودع بإضافته مستودعًا بعيدًا في نسختهم المحلية، ودفع الفرع الذي لديهم إليه.
+لاحظ أن في كل مرة تريد فيها إضافة مشروع، على شخصٍ ما الوصول إلى الجهاز عبر الصدفة وإنشاء مستودع مجرد.
+ليكن <code>gitserver</code> اسم المضيف (‪&#8220;hostname&#8221;‬) للخادوم الذي أعددت عليه المستودع ومستخدم <code>git</code>.
+إذا كنت تشغّل الخادوم داخليا وأعددت DNS ليشير الاسم <code>gitserver</code> إلى هذا الخادوم، فيمكنك استعمال الأوامر كما هي تقريبا (بفرض أن <code>myproject</code> هو مشروع موجود وفيه مِلفات):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console"># على حاسوب بدر
+$ cd myproject
+$ git init
+$ git add .
+$ git commit -m 'Initial commit'
+$ git remote add origin git@gitserver:/srv/git/project.git
+$ git push origin master</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>الآن سيستطيع الآخرون استنساخه إلى أجهزتهم ودفع تعديلاتهم إليه بالسهولة نفسها:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git clone git@gitserver:/srv/git/project.git
+$ cd project
+$ vim README
+$ git commit -am 'Fix for README file'
+$ git push origin master</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>بهذه الطريقة ستحصل سريعا على خادوم جت يتيح إذنَي القراءة والتحرير لبضعة مطورين.</p>
+</div>
+<div class="paragraph">
+<p>عليك أيضا ملاحظة أن حتى الآن، أولئك المستخدمين جميعهم يمكنهم أيضا الولوج إلى الخادوم والحصول على صدفة المستخدم <code>git</code>.
+إذا أردت تقييد هذا، فعليك تغيير الصدفة إلى شيء آخر في ملف <code>/etc/passwd</code>.</p>
+</div>
+<div class="paragraph">
+<p>يمكنك بسهولة تقييد حساب المستخدم <code>git</code> إلى الأنشطة المرتبطة بـجت باستعمال أداة صدفة مقيَّدة اسمها <code>git-shell</code> («صدفة جت») وهي مرفقة مع جت.
+فإذا ضبطتها لتكون صدفة ولوج لحساب المستخدم <code>git</code> فإن هذا الحساب لن يكون له وصول صدفة طبيعي إلى خادومك.
+لاستعمالها، حدد <code>git-shell</code>  لتكون صدفة ولوج لهذا الحساب بدلا من <code>bash</code> أو <code>csh</code>.
+ولفعل هذا، عليك أولا إضافة المسار الكامل لأمر <code>git-shell</code> إلى مِلف <code>/etc/shells</code> إذا لم يكن موجودا فيه بالفعل:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cat /etc/shells      # انظر إن كانت صدفة جت هنا، وإلا…‏
+$ which git-shell      # فتحقق أن صدفة جت مثبتة على نظامك
+$ sudo -e /etc/shells  # ثم أضف مسارها من الأمر السابق إلى ملف الصدفات</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يمكنك الآن تغيير صدفة المستخدم بالأمر <code>chsh &lt;username&gt; -s &lt;shell&gt;</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ sudo chsh git -s $(which git-shell)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>عندئذٍ يستطيع المستخدم <code>git</code> استعمال SSH للدفع والجذب من مستودعات جت، بغير أن يكون له وصولًا صدفيًّا إلى خادومك.
+وإن حاول، فسيرى رسالة رفض ولوج كهذه:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ ssh git@gitserver
+fatal: Interactive git shell is not enabled.
+hint: ~/git-shell-commands should exist and have read and execute access.
+Connection to gitserver closed.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لكن ما زال يمكن للمستخدمين توجيه منفذ SSH (أي ‪&#8220;port forwarding&#8221;‬) للوصول إلى أي خادوم آخر يقدر خادوم جت أن يتصل به.
+فإذا أردت منع هذا، فأضف في ملف المفاتيح المستوثَقة (<code>authorized_keys</code>) هذه الخيارات في أول كل مفتاح تريد تقييده:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ستبدو نتيجة التعديل مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cat ~/.ssh/authorized_keys
+no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty ssh-rsa
+AAAAB3NzaC1yc2EAAAADAQABAAABAQCB007n/ww+ouN4gSLKssMxXnBOvf9LGt4LojG6rs6h
+PB09j9R/T17/x4lhJA0F3FR1rP6kYBRsWj2aThGw6HXLm9/5zytK6Ztg3RPKK+4kYjh6541N
+YsnEAZuXz0jTTyAUfrtU3Z5E003C4oxOj6H0rfIF1kKI9MAQLMdpGW1GYEIgS9EzSdfd8AcC
+IicTDWbqLAcU4UpkaX8KyGlLwsNuuGztobF8m72ALC/nLF6JLtPofwFBlgc+myivO7TCUSBd
+LQlgMVOFq1I2uPWQOkOWQAHukEOmfjy2jctxSDBQ220ymjaNsHT4kgtZg2AYYgPqdAv8JggJ
+ICUvax2T9va5 gsg-keypair
+
+no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty ssh-rsa
+AAAAB3NzaC1yc2EAAAADAQABAAABAQDEwENNMomTboYI+LJieaAY16qiXiH3wuvENhBG...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>عندئذٍ ستظل تعمل أوامر جت الشبكية، ولكن المستخدمين لن يعودوا قادرين على الوصول إلى صدفة.
+وكما ترى في رسالة الرفض، يمكنك أيضا إعداد مجلد في مجلد منزل المستخدم <code>git</code> لتخصيص أمر <code>git-shell</code> قليلا.
+فيمكنك مثلا تقييد أوامر جت التي يقبلها الخادوم، أو تخصيص الرسالة التي يراها المستخدمين عندما يحاولون الوصول عبر SSH.
+نفّذ الأمر <code>git help shell</code> للحصول على معلومات م‍زيدة عن تخصيص الصدفة.</p>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ <strong>السابق: </strong><a href="_generate_ssh_key.html">٤<small>،</small> ٣<small>،</small> توليد مفتاح SSH عمومي لك</a></p>
+<p>↑ <a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Git-on-the-Server-Setting-Up-the-Server">الأصل الإنجليزي</a></span></p><p><strong>التالي: </strong><a href="git-daemon.html">٤<small>،</small> ٥<small>،</small> عفريت جت</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2025-10-24 12:00:00 +0000
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

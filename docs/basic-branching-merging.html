@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>أسس التفريع والدمج | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="basic-branching-merging" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.449,</span>
+<span id="revdate">2025-10-24</span>
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+<ul class="sectlevel2">
+<li><a href="_git_branches_overview.html">٣<small>،</small> ١<small>،</small> الفروع بإيجاز</a>
+</li>
+<li><a href="basic-branching-merging.html"><span class="toc-current">٣، ٢، أسس التفريع والدمج</span></a>
+</li>
+<li><a href="_branch_management.html">٣<small>،</small> ٣<small>،</small> إدارة الفروع</a>
+</li>
+<li><a href="branching-workflows.html">٣<small>،</small> ٤<small>،</small> أساليب التطوير التفريعية</a>
+</li>
+<li><a href="_remote_branches.html">٣<small>،</small> ٥<small>،</small> الفروع البعيدة</a>
+</li>
+<li><a href="_rebasing.html">٣<small>،</small> ٦<small>،</small> إعادة التأسيس</a>
+</li>
+<li><a href="summary-03.html">٣<small>،</small> ٧<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="basic-branching-merging">٣، ٢، أسس التفريع والدمج</h3>
+<div class="paragraph">
+<p>لننظر مثالًا سهلًا عن التفريع والدمج بأسلوب تطوير قد تستعمله في الحقيقة.
+لنقُل إنك تفعل هذا:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>تقوم ببعض الأعمال على موقع وب.</p>
+</li>
+<li>
+<p>تنشئ فرعًا لـ«قصة المستخدم» الجديدة التي تعمل عليها.</p>
+</li>
+<li>
+<p>تقوم ببعض الأعمال في هذا الفرع.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>وعندئذٍ تأتيك مكالمة بأن علة أخرى حَرِجة وتحتاج منك إصلاحًا عاجلًا،
+فتفعل الآتي:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>تنتقل إلى فرعك الإنتاجي.</p>
+</li>
+<li>
+<p>تنشئ فرعًا لإضافة الإصلاح العاجل.</p>
+</li>
+<li>
+<p>وبعد اختباره، تدمج فرع الإصلاح العاجل، وتدفعه إلى فرع الإنتاج.</p>
+</li>
+<li>
+<p>تعود إلى قصة المستخدم الأصلية وتكمل عملك عليها.</p>
+</li>
+</ol>
+</div>
+<div class="sect3">
+<h4 id="_basic_branching">أسس التفريع</h4>
+<div class="paragraph">
+<p>
+أولا، لنقُل إنك تعمل على مشروعك، ولديك بضعة إيداعات بالفعل في فرع <code>master</code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/basic-branching-1.png" alt="تاريخ إيداعات بسيط">
+</div>
+<div class="title">شكل ١٨. تاريخ إيداعات بسيط</div></div>
+<div class="paragraph">
+<p>ثم رأيت أن تعمل على المسألة رقم ٥٣ في نظام متابعة المسائل الذي تستخدمه شركتك.
+فتنفّذ أمر <code>git checkout</code> مع الخيار <code>-b</code>، لإنشاء فرعٍ جديدٍ والانتقال إليه في الوقت نفسه:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout -b iss53
+Switched to a new branch "iss53"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وهذا اختصار للأمرين:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch iss53
+$ git checkout iss53</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/basic-branching-2.png" alt="إنشاء إشارة إلى فرع جديد">
+</div>
+<div class="title">شكل ١٩. إنشاء إشارة إلى فرع جديد</div></div>
+<div class="paragraph">
+<p>يمكنك العمل على موقعك وصنع بعض الإيداعات.
+فعل هذا يحرك فرع <code>iss53</code> إلى الأمام، لأنه الفرع المسحوب (أي أنه الفرع الذي تشير إليه إشارة الرأس <code>HEAD</code> لديك):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ vim index.html
+$ git commit -a -m 'Create new footer [issue 53]'</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/basic-branching-3.png" alt="تقدَّم فرع `iss53` بعملك عليه">
+</div>
+<div class="title">شكل ٢٠. تقدَّم فرع <code>iss53</code> بعملك عليه</div></div>
+<div class="paragraph">
+<p>ثم تأتيك مكالمة الآن بأن الموقع به علة، وعليك حلها فورا.
+لا تحتاج مع جت أن تنشر إصلاحك لهذه العلة مع تعديلات <code>iss53</code> التي صنعتها، ولا تحتاج أيضا إلى بذل المجهود للتراجع عن هذه التعديلات حتى تستطيع العمل على إصلاح علة الموقع.
+ليس عليك إلا أن تنتقل عائدا إلى فرعك الرئيس <code>master</code>.</p>
+</div>
+<div class="paragraph">
+<p>ولكن، قبل هذا، عليك ملاحظة أن إن كان مجلد عملك أو منطقة تأهيلك فيهما تعديلات غير مودعة وتختلف عما في الفرع الذي تريد الانتقال إليه، فلن يسمح لك جت بالانتقال.
+من الأفضل دومًا أن تجعل حالة مجلد العمل نظيفة قبل الانتقال بين الفروع.
+يمكن التحايل على هذا بطريقة أو بأخرى (تحديدًا، التخبئة وتصحيح الإيداعات)؛ سنتطرق إلى ذلك فيما بعد في فصل <s>التخبئة والتنظيف</s>.
+ولكن لنفترض الآن أنك أودعت كل تعديلاتك، حتى يتسنى لك الانتقال عائدًا إلى فرعك الرئيس:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout master
+Switched to branch 'master'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ستجد الآن أن مجلد عملك مطابق تماما لما كان عليه قبل أن تبدأ العمل على المسألة رقم ٥٣، ويمكنك الآن التركيز على إصلاح العلة الجديدة.
+هذه النقطة مهمة ويجب تذكرها: عندما تنتقل من فرع إلى آخر، يعيد جت مجلد عملك إلى ما كان عليه آخر مرة أودعت فيها في هذا الفرع،
+فيضيف ويحذف ويعدّل المِلفات آليا، حتى يجعل نسخة العمل مشابهة تماما لما كان عليه الفرع عند آخر إيداع تم فيه.</p>
+</div>
+<div class="paragraph">
+<p>عليك الآن العمل على الإصلاح العاجل.
+لننشئ فرع <code>hotfix</code> لتعمل عليه حتى تنتهي:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout -b hotfix
+Switched to a new branch 'hotfix'
+$ vim index.html
+$ git commit -a -m 'Fix broken email address'
+[hotfix 1fb7853] Fix broken email address
+ 1 file changed, 2 insertions(+)</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/basic-branching-4.png" alt="فرع الإصلاح العاجل (`hotfix`) مبني على الفرع الرئيس (`master`)">
+</div>
+<div class="title">شكل ٢١. فرع الإصلاح العاجل (<code>hotfix</code>) مبني على الفرع الرئيس (<code>master</code>)</div></div>
+<div class="paragraph">
+<p>يمكنك الآن إجراء الاختبارات والتأكد من أن الإصلاح الذي صنعته هو المراد. ثم دمج فرع الإصلاح العاجل في الفرع الرئيس حتى تدفعه إلى الإنتاج.
+يمكنك فعل هذا بأمر الدمج <code>git merge</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout master
+$ git merge hotfix
+Updating f42c576..3a0874c
+Fast-forward
+ index.html | 2 ++
+ 1 file changed, 2 insertions(+)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ستلاحظ عبارة ‪&#8220;fast-forward&#8221;‬ («تسريع») في ناتج الدمج.
+هذا لأن الإيداع <code>C4</code> الذي يشير إليه فرع الإصلاح العاجل كان مباشرةً أمام الإيداع <code>C2</code> الذي تقف فيه، فلم يفعل جت سوى تحريك الإشارة إلى الأمام.
+بلفظ آخر: عندما تريد دمج إيداع في إيداع آخر يمكن الوصول إليه بتتبع تاريخه، فإن جت لا يعقد الأمور بل يحرك الإشارة إلى الأمام، فلا أعمال مفترقة ليحاول دمجها&#8201;&#8212;&#8201;يسمى هذا «تسريعًا» (‪&#8220;fast-forward&#8221;‬).</p>
+</div>
+<div class="paragraph">
+<p>تعديلاتك الآن موجودة في لقطة الإيداع التي يشير إليها الفرع الرئيس، فيمكنك الآن نشرها.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/basic-branching-5.png" alt="تسريع `master` إلى `hotfix`">
+</div>
+<div class="title">شكل ٢٢. تسريع <code>master</code> إلى <code>hotfix</code></div></div>
+<div class="paragraph">
+<p>بعد نشر إصلاحك الشديد الأهمية، تكون جاهزا للعودة إلى عملك الذي كنت فيه قبل هذه المقاطعة.
+ولكن عليك أولا حذف فرع <code>hotfix</code> لأنك لم تعد تحتاج إليه؛ فالفرع الرئيس يشير إلى الشيء نفسه.
+يمكنك حذفه بالخيار <code>-d</code> مع أمر التفريع <code>git branch</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch -d hotfix
+Deleted branch hotfix (3a0874c).</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يمكنك الآن العودة إلى فرع العمل الحالي الخاص بالمسألة رقم ٥٣، وإكمال العمل عليها.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout iss53
+Switched to branch "iss53"
+$ vim index.html
+$ git commit -a -m 'Finish the new footer [issue 53]'
+[iss53 ad82d7a] Finish the new footer [issue 53]
+1 file changed, 1 insertion(+)</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/basic-branching-6.png" alt="استكمال العمل على `iss53`">
+</div>
+<div class="title">شكل ٢٣. استكمال العمل على <code>iss53</code></div></div>
+<div class="paragraph">
+<p>من الواجب ملاحظة أن مِلفات فرع <code>iss53</code> لا تحتوى على عملك في فرع <code>hotfix</code>.
+فإذا احتجت إلى جذبه إليها، ادمج فرع <code>master</code> في فرع <code>iss53</code> بالأمر <code>git merge master</code>، أو أجّله حتى تقرر جذب فرع <code>iss53</code> إلى <code>master</code> فيما بعد.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_basic_merging">أسس الدمج</h4>
+<div class="paragraph">
+<p>
+إذا رأيت أن عملك على المسألة رقم ٥٣ قد اكتمل وصار جاهزا لدمجه في الفرع الرئيس،
+فستدمج فرع <code>iss53</code> في فرع <code>master</code>، تماما مثلما دمجت فرع <code>hotfix</code> سابقا:
+ليس عليك سوى سحب الفرع الذي تريد الدمج فيه ثم تنفيذ أمر الدمج:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout master
+Switched to branch 'master'
+$ git merge iss53
+Merge made by the 'recursive' strategy.
+index.html |    1 +
+1 file changed, 1 insertion(+)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يبدو هذا مختلفا قليلا عن دمج <code>hotfix</code> الذي أجريتَه سابقا.
+ففي حالتنا هذه قد افترق تاريخ التطوير منذ نقطة سابقة.
+ولأن الإيداع الأخير في الفرع الذي تقف فيه ليس سَلَفًا للفرع الذي تريد دمجه (أب أو جد أو جد أعلى)، فإن على جت القيام ببعض العمل.
+في هذه الحالة، يعمل جت دمجًا ثلاثيًا نموذجيًّا، للقطتين اللتين يشيران إليهما رأسَا الفرعين، مع السلف المشترك للاثنتين.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/basic-merging-1-AR.png" alt="اللقطات الثلاثة المستعملة في دمج نموذجي معتاد">
+</div>
+<div class="title">شكل ٢٤. اللقطات الثلاثة المستعملة في دمج نموذجي معتاد</div></div>
+<div class="paragraph">
+<p>فبدلا من مجرد تحريك الإشارة إلى الأمام، ينشئ جت لقطة جديدة ناتجة عن هذا الدمج الثلاثي، وينشئ آليًّا إيداعًا جديدًا يشير إليها.
+يسمى هذا «إيداع دمج»، ويتميز بأن له أكثر من أب.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/basic-merging-2.png" alt="إيداع دمج">
+</div>
+<div class="title">شكل ٢٥. إيداع دمج</div></div>
+<div class="paragraph">
+<p>الآن قد دُمِج عملك، ولم تعد في حاجة إلى فرع <code>iss53</code>.
+فيمكنك غلق هذه المسألة في نظام متابعة المسائل، وحذف الفرع:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch -d iss53</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_basic_merge_conflicts">أسس نزاعات الدمج</h4>
+<div class="paragraph">
+<p>
+لا تسير هذه العملية بسلاسة في بعض الأحيان.
+فإذا عدّلت الجزء نفسه في الملف نفسه تعديلا مختلفا في الفرعين اللذين تنوي دمجهما، فلن يستطيع جت أن يدمجمهما دمجا نظيفا.
+فإن كان إصلاحك للمسألة رقم ٥٣ عدّل الجزء نفسه من الملف الذي عدّلته في فرع الإصلاح العاجل، فستواجه نزاع دمج يشبه هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git merge iss53
+Auto-merging index.html
+CONFLICT (content): Merge conflict in index.html
+Automatic merge failed; fix conflicts and then commit the result.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لم ينشئ جت آليًّا إيداعَ دمجٍ جديدًا،
+بل أوقف العملية حتى تحل النزاع.
+فإذا أردت رؤية الملفات غير المدموجة في أي وقت بعد نزاع الدمج، نفّذ أمر الحالة <code>git status</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git status
+On branch master
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+
+Unmerged paths:
+  (use "git add &lt;file&gt;..." to mark resolution)
+
+    both modified:      index.html
+
+no changes added to commit (use "git add" and/or "git commit -a")</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ستظهر الملفات المتنازع عليها ولم تُدمج بعد أنها غير مدموجة ‪&#8220;unmerged&#8221;‬.
+ويضيف جت علامات معيارية لحل النزاعات إلى الملفات المتنازع عليها، حتى تتمكن من تحريرها يدويا وحل تلك النزاعات.
+فستجد أن في ملفك جزءًا يشبه هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD:index.html
+&lt;div id="footer"&gt;contact : email.support@github.com&lt;/div&gt;
+=======
+&lt;div id="footer"&gt;
+ please contact us at support@github.com
+&lt;/div&gt;
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; iss53:index.html</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>تجد نسخة <code>HEAD</code> (فرع <code>master</code>، لأنه الفرع الذي سحبته قبل أمر الدمج) في النصف الأعلى من هذه الك‍تلة (كل ما هو فوق سطر <code>=======</code>)، ونسخة <code>iss53</code> في النصف الأسفل منها.
+وحتى تحل هذا النزاع، عليك اختيار أحد الجزأين أو دمج محتواهما بنفسك.
+فمثلا قد تحله بتغيير الكتلة كلها إلى:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">&lt;div id="footer"&gt;
+please contact us at email.support@github.com
+&lt;/div&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يحمل هذا الحل شيئا من كلا الجزأين. أما الأسطر <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> و <code>=======</code> و <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> فقد أزلناها بالكامل.
+وبعد حل كل نزاع مثل هذا في كل ملف متنازع عليه، نفّذ أمر الإضافة <code>git add</code> على كل ملف لإعلام جت أنه قد حُلّ.
+فتأهيل الملف في جت يعلن نزاعه محلولا.</p>
+</div>
+<div class="paragraph">
+<p>وإذا أردت استعمال أداة رسومية لحل هذه المشاكل، فأمر أداة الدمج <code>git mergetool</code> يشغّل أداة دمج رسومية مناسبة ويسير معك خلال النزاعات:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git mergetool
+
+This message is displayed because 'merge.tool' is not configured.
+See 'git mergetool --tool-help' or 'git help config' for more details.
+'git mergetool' will now attempt to use one of the following tools:
+opendiff kdiff3 tkdiff xxdiff meld tortoisemerge gvimdiff diffuse diffmerge ecmerge p4merge araxis bc3 codecompare vimdiff emerge
+Merging:
+index.html
+
+Normal merge conflict for 'index.html':
+  {local}: modified file
+  {remote}: modified file
+Hit return to start merge resolution tool (opendiff):</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>إذا أردت استعمال أداة دمج أخرى غير الأداة المبدئية (اختار جت في هذه الحالة أداة <code>opendiff</code> لأننا نفّذاه على نظام ماك)، فيمكنك رؤية قائمة بجميع الأدوات المدعومة في الأعلى بعد جملة ‪&#8220;one of the following tools&#8221;‬.
+ليس عليك سوى كتابة اسم الأداة التي تريدها.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>إذا احتجت أدوات متقدمة أكثر لحل النزاعات العويصة، فسنتحدث أكثر عن الدمج في فصل <s>قضايا متقدمة في الدمج</s>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>بعد إغلاق أداة الدمج، فسيسألك جت عما إذا كان الدمج ناجحًا.
+إذا أجبت بنعم، فسيؤهل الملف لك لإعلان أنه قد حُل.
+ويمكنك عندئذٍ استعراض الحالة مجددًا للتحقق أن جميع النزاعات قد حُلت:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git status
+On branch master
+All conflicts fixed but you are still merging.
+  (use "git commit" to conclude merge)
+
+Changes to be committed:
+
+    modified:   index.html</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فإذا كنت راضيا عن هذا، وتأكدت من أن كل شيء كان عليه نزاع قد أُهِّل، نفّذ <code>git commit</code> لاختتام إيداع الدمج.
+ورسالة الإيداع المبدئية تشبه هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">Merge branch 'iss53'
+
+Conflicts:
+    index.html
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	modified:   index.html
+#</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فيها يمكنك شرح حلك للنزاع وتعليل تعديلاتك إن لم تكن واضحة، إذا ظننت أن هذا يفيد من يرى هذا الإيداع فيما بعد.</p>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ <strong>السابق: </strong><a href="_git_branches_overview.html">٣<small>،</small> ١<small>،</small> الفروع بإيجاز</a></p>
+<p>↑ <a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging">الأصل الإنجليزي</a></span></p><p><strong>التالي: </strong><a href="_branch_management.html">٣<small>،</small> ٣<small>،</small> إدارة الفروع</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2025-10-24 12:00:00 +0000
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

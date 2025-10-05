@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>رعاية مشروع  — إصدار مشروعك | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="maintaining-project-releasing" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.449,</span>
+<span id="revdate">2025-10-24</span>
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+<ul class="sectlevel2">
+<li><a href="distributed-workflows.html">٥<small>،</small> ١<small>،</small> أساليب التطوير المتوزع</a>
+</li>
+<li><a href="_contributing_project.html">٥<small>،</small> ٢<small>،</small> المساهمة في مشروع — مقدمة</a>
+</li>
+<li><a href="_commit_guidelines.html">٥<small>،</small> ٣<small>،</small> المساهمة في مشروع — إرشادات الإيداع</a>
+</li>
+<li><a href="_private_team.html">٥<small>،</small> ٤<small>،</small> المساهمة في مشروع — فريق خصوصي صغير</a>
+</li>
+<li><a href="_private_managed_team.html">٥<small>،</small> ٥<small>،</small> المساهمة في مشروع — فريق خصوصي بمدير دمج</a>
+</li>
+<li><a href="_public_project.html">٥<small>،</small> ٦<small>،</small> المساهمة في مشروع — مشروع عمومي باشتقاقات</a>
+</li>
+<li><a href="_project_over_email.html">٥<small>،</small> ٧<small>،</small> المساهمة في مشروع — مشروع عمومي عبر البريد الشابكي</a>
+</li>
+<li><a href="summary-contrib.html">٥<small>،</small> ٨<small>،</small> المساهمة في مشروع — الخلاصة</a>
+</li>
+<li><a href="maintaining-project-intro.html">٥<small>،</small> ٩<small>،</small> رعاية مشروع — مقدمة</a>
+</li>
+<li><a href="_patches_from_email.html">٥<small>،</small> ١٠<small>،</small> رعاية مشروع — تطبيق الرقع من البريد</a>
+</li>
+<li><a href="_checking_out_remotes.html">٥<small>،</small> ١١<small>،</small> رعاية مشروع — سحب فروع بعيدة</a>
+</li>
+<li><a href="_what_is_introduced.html">٥<small>،</small> ١٢<small>،</small> رعاية مشروع — تحديد التغييرات الجديدة</a>
+</li>
+<li><a href="maintaining-project-integrating.html">٥<small>،</small> ١٣<small>،</small> رعاية مشروع — دمج المساهمات</a>
+</li>
+<li><a href="maintaining-project-releasing.html"><span class="toc-current">٥، ١٤، رعاية مشروع — إصدار مشروعك</span></a>
+</li>
+<li><a href="summary-05.html">٥<small>،</small> ١٥<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="maintaining-project-releasing">٥، ١٤، رعاية مشروع <br>&emsp;— إصدار مشروعك</h3>
+<div class="sect3">
+<h4 id="_tagging_releases">وسم إصداراتك</h4>
+<div class="paragraph">
+<p>
+عندما تنوي إطلاق إصدارة، من المستحب أن تعيّن لها وسمًا، حتى تُنشئها مجددا متى شئت فيما بعد.
+تستطيع إنشاء وسمٍ كما شرحنا في باب <a href="ch02-git-basics-chapter.html">أسس جت</a>.
+وإذا كنت مشرف المشروع ووقّعت الوسم، فسيبدو مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git tag -s v1.5 -m 'my signed 1.5 tag'
+You need a passphrase to unlock the secret key for
+user: "Scott Chacon &lt;schacon@gmail.com&gt;"
+1024-bit DSA key, ID F721C45A, created 2009-02-09</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>إذا كنت فعلًا توقّع وسومك، فقد يتعبك توزيع المفتاح العمومي الذي توقّع به.
+مشرف مشروع جت حل هذا بجعل مفتاحه العام كتلة رقْمية في المستودع (‪&#8220;blob&#8221;‬)، ووسمها بوسم يشير إليها مباشرةً.
+إذا أردت فعل هذا، فعليك أولا تحديد المفتاح الذي تريد التوقيع به، فاسرد مفاتيحك بأمر <code>gpg --list-keys</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ gpg --list-keys
+/Users/schacon/.gnupg/pubring.gpg
+---------------------------------
+pub   1024D/F721C45A 2009-02-09 [expires: 2010-02-09]
+uid                  Scott Chacon &lt;schacon@gmail.com&gt;
+sub   2048g/45D02282 2009-02-09 [expires: 2010-02-09]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>عندئذٍ تستطيع استيراده مباشرةً إلى قاعدة بيانات جت بتصديره ونقله في أنبوب يونكسي إلى أمر <code>git hash-object</code>، الذي يكتب هذا المحتوى في كتلة رقمية جديدة في جت ويخبرك ببصمة الكتلة:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ gpg -a --export F721C45A | git hash-object -w --stdin
+659ef797d181633c87ec71ac3f9ba29fe5775b92</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>الآن لديك محتوى مفتاحك في جت، فيمكنك إنشاء وسم يشير إليه مباشرةً بتعيين البصمة التي أخبرك بها أمر <code>hash-object</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git tag -a maintainer-pgp-pub 659ef797d181633c87ec71ac3f9ba29fe5775b92</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فإذا دفعت الوسوم بالأمر <code>git push --tags</code>، فإنك ستشارك الوسم <code>maintainer-pgp-pub</code> مع الجميع.
+وإذا أراد أحدٌ أن يتحقق وسمًا، فإنه يجذب من بيانات جت الكتلةَ الرقمية المشار إليها بالوسم ويستوردها إلى GPG:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git show maintainer-pgp-pub | gpg --import</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فيمكنه بهذا المفتاح أن يتحقق كل وسومك الموقعّة.
+وحتى إنك تستطيع أن تشرح خطوات التحقق بدقة في رسالة الوسم نفسه، ليراها من يُظهره بالأمر <code>git show «وسم-المفتاح»</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_build_number">توليد رقم بناء</h4>
+<div class="paragraph">
+<p>
+لا يرافق إيداعات جت أرقامٌ متزايدة بإطراد مثل <code>v123</code> أو نحوها. فإذا أردت لإيداعٍ اسمًا يلائم البشر، فيمكنك تنفيذ أمر <code>git describe</code> على هذا الإيداع.
+فيصنع لك جت اسمًا يتكون من اسم آخر وسم قبل هذا الإيداع، ثم عدد الإيداعات بينهما، ثم يختمه بمختصر بصمة الإيداع مسبوقة بحرف ‪&#8220;g&#8221;‬ (اختصار Git):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git describe master
+v1.6.2-rc1-20-g8c5b85c</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هكذا تستطيع تصدير لقطة أو بناء من مشروعك وتسمّيه اسمًا يفهمه الناس.
+بل إنك إذا بنيت جت من مصدره البرمجي المستنسخ من مستودعه الرسمي، فإن <code>git --version</code> سيجيب بشيء مثل هذا.
+وإذا طلبت وصف إيداع قد وسمته هو نفسه، فإن <code>git describe</code> يعطيك اسم الوسم فقط.</p>
+</div>
+<div class="paragraph">
+<p>أمر الوصف بطبيعته لا يعتمد إلا على الوسوم المعنونة (وهي الوسوم المنشأة بخيارات أشهرها <code>-a</code> و <code>-s</code>). أما إذا أردته أن ينظر إلى الوسوم الخفيفة كذلك، فأضف خيار <code>--tags</code> إليه.
+ويمكنك كذلك استعمال هذا الاسم الوصفي مع أمر السحب <code>git checkout</code> وأمر الإظهار <code>git show</code>، على أن ذلك يعتمد على مختصر البصمة الذي في آخره فقد لا يدوم صلاحه.
+فمثلا انتقل مشروع نواة لينكس من ثماني محارف إلى عشرة محارف لضمان تفرّد بصمات الكائنات، فأُبطلت الأسماء القديمة الناتجة من <code>git describe</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_preparing_release">تجهيز إصدارة</h4>
+<div class="paragraph">
+<p>
+الآن أنت تريد إصدار بناء من مشروعك.
+من المستحب أن تحزم آخر لقطة من مشروعك لأولئك المساكين المحرومين من استخدام جت.
+افعل هذا بأمر <code>git archive</code>، مثلا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git archive master --prefix='project/' | gzip &gt; `git describe master`.tar.gz
+$ ls *.tar.gz
+v1.6.2-rc1-20-g8c5b85c.tar.gz</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فإذا فتح أحدٌ هذه الحزمة، سيجد آخر نسخة من مشروعك الذي في مجلد <code>project</code>.
+وتستطيع كذلك إنشاء حزمة بصيغة zip، بأمر كبير الشبه بالسابق، لكن بالخيار <code>--format=zip</code> لأمر الحزم:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git archive master --prefix='project/' --format=zip &gt; `git describe master`.zip</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لديك الآن حزمة tar مضغوطة وحزمة zip من إصدارة مشروعك، فيمكنك رفعهما إلى موقعك أو إرسالهما بالبريد الشابكي إلى الناس.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_the_shortlog">السجل الموجز</h4>
+<div class="paragraph">
+<p>
+حان الآن موعد إخبار قائمتك البريدية بما حدث في مشروعك.
+أمر  السجل الموجز <code>git shortlog</code> هو طريقة ظريفة سريعة لصياغة «سجل تغييرات» مشروعك منذ آخر إصدارة أو رسالة بريدية.
+فإنه يوجز كل الإيداعات التي في النطاق الذي تحدده. فمثلا الأمر التالي يخبرك بموجز الإيداعات جميعًا منذ آخر إصدارة، إذا كانت آخر إصدارة من هذا المشروع اسمها <code>v1.0.1</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git shortlog --no-merges master --not v1.0.1
+Chris Wanstrath (6):
+      Add support for annotated tags to Grit::Tag
+      Add packed-refs annotated tag support.
+      Add Grit::Commit#to_patch
+      Update version and History.txt
+      Remove stray `puts`
+      Make ls_tree ignore nils
+
+Tom Preston-Werner (4):
+      fix dates in history
+      dynamic version method
+      Version bump to 1.0.2
+      Regenerated gemspec for version 1.0.2</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>موجز واضح لكل الإيداعات منذ <code>v1.0.1</code>، ومجموعة بمؤلف الإيداع، حتى ترسلها إلى قائمتك البريدية.</p>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ <strong>السابق: </strong><a href="maintaining-project-integrating.html">٥<small>،</small> ١٣<small>،</small> رعاية مشروع — دمج المساهمات</a></p>
+<p>↑ <a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Distributed-Git-Maintaining-a-Project#_tagging_releases">الأصل الإنجليزي</a> (بزيادة موجودة في صفحات عربية أخرى)</span></p><p><strong>التالي: </strong><a href="summary-05.html">٥<small>،</small> ١٥<small>،</small> الخلاصة</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2025-10-24 12:00:00 +0000
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

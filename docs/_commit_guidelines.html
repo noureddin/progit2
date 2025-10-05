@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>المساهمة في مشروع  — إرشادات الإيداع | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="_commit_guidelines" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.449,</span>
+<span id="revdate">2025-10-24</span>
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+<ul class="sectlevel2">
+<li><a href="distributed-workflows.html">٥<small>،</small> ١<small>،</small> أساليب التطوير المتوزع</a>
+</li>
+<li><a href="_contributing_project.html">٥<small>،</small> ٢<small>،</small> المساهمة في مشروع — مقدمة</a>
+</li>
+<li><a href="_commit_guidelines.html"><span class="toc-current">٥، ٣، المساهمة في مشروع — إرشادات الإيداع</span></a>
+</li>
+<li><a href="_private_team.html">٥<small>،</small> ٤<small>،</small> المساهمة في مشروع — فريق خصوصي صغير</a>
+</li>
+<li><a href="_private_managed_team.html">٥<small>،</small> ٥<small>،</small> المساهمة في مشروع — فريق خصوصي بمدير دمج</a>
+</li>
+<li><a href="_public_project.html">٥<small>،</small> ٦<small>،</small> المساهمة في مشروع — مشروع عمومي باشتقاقات</a>
+</li>
+<li><a href="_project_over_email.html">٥<small>،</small> ٧<small>،</small> المساهمة في مشروع — مشروع عمومي عبر البريد الشابكي</a>
+</li>
+<li><a href="summary-contrib.html">٥<small>،</small> ٨<small>،</small> المساهمة في مشروع — الخلاصة</a>
+</li>
+<li><a href="maintaining-project-intro.html">٥<small>،</small> ٩<small>،</small> رعاية مشروع — مقدمة</a>
+</li>
+<li><a href="_patches_from_email.html">٥<small>،</small> ١٠<small>،</small> رعاية مشروع — تطبيق الرقع من البريد</a>
+</li>
+<li><a href="_checking_out_remotes.html">٥<small>،</small> ١١<small>،</small> رعاية مشروع — سحب فروع بعيدة</a>
+</li>
+<li><a href="_what_is_introduced.html">٥<small>،</small> ١٢<small>،</small> رعاية مشروع — تحديد التغييرات الجديدة</a>
+</li>
+<li><a href="maintaining-project-integrating.html">٥<small>،</small> ١٣<small>،</small> رعاية مشروع — دمج المساهمات</a>
+</li>
+<li><a href="maintaining-project-releasing.html">٥<small>،</small> ١٤<small>،</small> رعاية مشروع — إصدار مشروعك</a>
+</li>
+<li><a href="summary-05.html">٥<small>،</small> ١٥<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="_commit_guidelines">٥، ٣، المساهمة في مشروع <br>&emsp;— إرشادات الإيداع</h3>
+<div class="paragraph">
+<p>قبل أن نشرع في تناول حالات معينة، هذه ملاحظة قصيرة عن رسائل الإيداعات:
+وجود إرشادات جيدة لصناعة الإيداعات والالتزام بها يسهّل كثيرا العمل مع جت والتعاون مع الآخرين.
+يتيح مشروع جت مستندًا يسرد نصائح حسنة لصناعة الإيداعات وإرسال الرقع؛ يمكنك قراءته في مستودعه في ملف <a href="https://github.com/git/git/blob/master/Documentation/SubmittingPatches" target="_blank" rel="noopener"><code>Documentation/SubmittingPatches</code></a>.</p>
+</div>
+<div class="paragraph">
+<p>
+أولا، يجب ألا يكون في تعديلاتك أخطاء في المسافات.
+يسهّل جت تحقق هذا: نفّذ الأمر <code>git diff --check</code> قبل الإيداع، ليسرد لك الأخطاء المحتملة في المسافات.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img class="_dark" src="images/git-diff-check.png" alt="ناتج `git diff --check`">
+</div>
+<div class="title">شكل ٥٦. ناتج <code>git diff --check</code></div></div>
+<div class="paragraph">
+<p>باستعمال هذا الأمر قبل الإيداع، ستعلم إذا كنت على وشك إيداع مسافات خطأ قد تزعج المطورين الآخرين.</p>
+</div>
+<div class="paragraph">
+<p>ثانيا، حاول جعل كل إيداع عبارة عن مجموعة مستقلة منطقيًّا من التعديلات.
+وإذا استطعت فاجعل تعديلاتك سهلة الفهم: لا تعمل لياليَ نهاية أسبوع في خمس مسائل مختلفة ثم ترسلها جميعًا في إيداع عملاق واحد أول الأسبوع التالي.
+حتى إن لم تودع خلال الليالي، فاستعمل منطقة التأهيل قبل الإيداع أول الأسبوع لكي تقسم عملك إلى إيداعٍ واحد لكل مسألة على الأقل، مع رسالة مفيدة لكل إيداع.
+وإذا عدّلت في ملف واحد تعديلات مختلفة، فاستعمل أمر إضافة الرقعة <code>git add --patch</code> لتؤهل أجزاءً من الملف (نتناوله بالتفصيل في فصل <s>التأهيل التفاعلي</s>).
+فإن لقطة المشروع عند رأس الفرع ستكون هي نفسها، سواءً جعلت التعديلات في إيداعٍ واحد أو في خمسة إيداعات، ما دمت قد أضفت جميع التعديلات. لذا حاول أن تسهّل الأمور على زملائك المطورين عندما يحتاجون إلى النظر في تعديلاتك.</p>
+</div>
+<div class="paragraph">
+<p>كذلك يسهّل هذا عليك فيما بعد إن احتجت إلى اقتلاع أحد الإيداعات، أو نقضه (‪&#8220;revert&#8221;‬).
+يشرح فصل <s>تحرير التاريخ</s> عددًا من حيل جت النافعة لتحرير التاريخ والتأهيل التفاعلي للملفات؛ استعمل هذه الأدوات لصياغة تاريخ نظيف ومفهوم قبل إرسال عملك إلى أحد.</p>
+</div>
+<div class="paragraph">
+<p>وآخر شيء نذكّرك به: رسالة الإيداع.
+التعوّد على كتابة رسائل إيداع بيِّنة الجودة يجعل استعمال جت والتعاون به أيسر كثيرًا.
+والقاعدة الإرشادية العامة: ابدأ رسائلك بسطر واحد أدنى من خمسين مِحرَفًا ويشرح التغيير المودَع بإيجاز، وأتبعه بسطر فارغ ثم شرح مستفيض.
+يطلب مشروع جت أن يشمل ذلك الشرح المستفيض غرضَك من التغيير واختلافَه عن السلوك السابق له؛ هذا إرشاد حسن جدير بالاتّباع.
+واكتب رسائل الإيداع بالفعل المجرّد: ‪&#8220;Fix bug&#8221;‬ وليس ‪&#8220;Fixed bug&#8221;‬ أو ‪&#8220;Fixes bug&#8221;‬.
+هذا قالب يمكنك اتباعه، وقد طوّعناه قليلًا من <a href="https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html">الذي كتبه Tim Pope</a>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text" data-lang="text">Capitalized, short (50 chars or less) summary
+
+More detailed explanatory text, if necessary.  Wrap it to about 72
+characters or so.  In some contexts, the first line is treated as the
+subject of an email and the rest of the text as the body.  The blank
+line separating the summary from the body is critical (unless you omit
+the body entirely); tools like rebase will confuse you if you run the
+two together.
+
+Write your commit message in the imperative: "Fix bug" and not "Fixed bug"
+or "Fixes bug."  This convention matches up with commit messages generated
+by commands like git merge and git revert.
+
+Further paragraphs come after blank lines.
+
+- Bullet points are okay, too
+
+- Typically a hyphen or asterisk is used for the bullet, followed by a
+  single space, with blank lines in between, but conventions vary here
+
+- Use a hanging indent</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>إذا اتبعت جميع رسائل إيدعاتك هذا النموذج، فستكون الأمور أيسر كثيرًا عليك وعلى المطورين الذين يتعاونون معك.
+ورسائل إيداع مشروع جت نفسه حسنة الصياغة؛ اسردها بالأمر <code>git log --no-merges</code> لترى كيف يبدو تاريخ إيداعات مشروع مصاغ صياغة حسنة.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">افعل كما نقول، لا كما نفعل</div>
+<div class="paragraph">
+<p>في هذا الكتاب أمثلة كثيرة ليست ذات رسائل إيداع حسنة الصياغة كهذه. إنما نستعمل خيار الرسالة <code>-m</code> مع أم‍ر الإيداع <code>git commit</code> للاختصار.</p>
+</div>
+<div class="paragraph">
+<p>بإيجاز: افعل كما نقول، لا كما نفعل.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ <strong>السابق: </strong><a href="_contributing_project.html">٥<small>،</small> ٢<small>،</small> المساهمة في مشروع — مقدمة</a></p>
+<p>↑ <a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project#_commit_guidelines">الأصل الإنجليزي</a> (بزيادة موجودة في صفحات عربية أخرى)</span></p><p><strong>التالي: </strong><a href="_private_team.html">٥<small>،</small> ٤<small>،</small> المساهمة في مشروع — فريق خصوصي صغير</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2025-10-24 12:00:00 +0000
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

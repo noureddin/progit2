@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>ميفاق HTTP الذكي | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="smart-http" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.449,</span>
+<span id="revdate">2025-10-24</span>
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+<ul class="sectlevel2">
+<li><a href="protocols.html">٤<small>،</small> ١<small>،</small> الموافيق (البروتوكولات)</a>
+</li>
+<li><a href="_getting_git_on_a_server.html">٤<small>،</small> ٢<small>،</small> تثبيت جت على خادوم</a>
+</li>
+<li><a href="_generate_ssh_key.html">٤<small>،</small> ٣<small>،</small> توليد مفتاح SSH عمومي لك</a>
+</li>
+<li><a href="_setting_up_server.html">٤<small>،</small> ٤<small>،</small> إعداد الخادوم</a>
+</li>
+<li><a href="git-daemon.html">٤<small>،</small> ٥<small>،</small> عفريت جت</a>
+</li>
+<li><a href="smart-http.html"><span class="toc-current">٤، ٦، ميفاق HTTP الذكي</span></a>
+</li>
+<li><a href="gitweb-section.html">٤<small>،</small> ٧<small>،</small> ؜GitWeb</a>
+</li>
+<li><a href="gitlab.html">٤<small>،</small> ٨<small>،</small> ؜GitLab</a>
+</li>
+<li><a href="hosted-git.html">٤<small>،</small> ٩<small>،</small> خيارات الاستضافة الخارجية</a>
+</li>
+<li><a href="summary-04.html">٤<small>،</small> ١٠<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="smart-http">٤، ٦، ميفاق HTTP الذكي</h3>
+<div class="paragraph">
+<p>
+لدينا الآن وصولا مستوثَقا عبر SSH ووصولا غير مستوثَق عبر <code>git://</code>، ولكن يوجد أيضا ميفاق يمكنه عمل كِلا الأمرين في وقت واحد.
+ليس إعداد HTTP الذكي إلا أن تفعّل على الخادوم بُرَيمج CGI المرفق مع جت المسمى <code>git-http-backend</code>.
+يقرأ هذا البريمج المسار والترويسات (headers) التي يرسلها أمر الاستحضار <code>git fetch</code> أو الدفع <code>git push</code> إلى رابط HTTP ويحدد إذا كان العميل يستطيع التواصل عبر HTTP (وهذا صحيح لأي عميل جت منذ الإصدارة 1.6.6).
+وإذا رأي البريمج أن العميل ذكي، فسيتواصل معه بذكاء؛ وإلا فسيتواصل معه بالميفاق البليد (ولذا فهو متوافق مع الإصدارات القديمة التي تريد القراءة فحسب).</p>
+</div>
+<div class="paragraph">
+<p>لنرَ إعدادا يسيرا جدا.
+سنعدّ فيه أباتشي (Apache) ليكون خادوم CGI.
+إن لم يكن لديك أباتشي مُعدًّا، فيمكنك إعداده على حاسوب لينكسي بفعل شيءٍ كهذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ sudo apt-get install apache2 apache2-utils
+$ a2enmod cgi alias env</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هذا أيضا يفعّل وِحدات <code>mod_cgi</code> و <code>mod_alias</code> و <code>mod_env</code>، التي تحتاجها جميعها حتى يعمل هذا الإعداد بشكل صحيح.</p>
+</div>
+<div class="paragraph">
+<p>سنحتاج أيضا إلى ضبط مجموعة المستخدمين اليونكسية الخاصة بمجلدات <code>/srv/git</code> إلى <code>www-data</code>، حتى يتسنّى لخادوم الوب قراءة المستودعات وتحريرها، لأن عملية أباتشي التي تشغّل بُريمج CGI الخاص بنا تعمل (مبدئيا) تحت هذا المستخدم:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ chgrp -R www-data /srv/git</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وكذلك سنحتاج إلى إضافة بعض الأشياء إلى تهيئة أباتشي لتشغيل <code>git-http-backend</code> معالجًا (‪&#8220;handler&#8221;‬) لأي شيء يأتي من المسار <code>/git</code> على خادومك.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">SetEnv GIT_PROJECT_ROOT /srv/git
+SetEnv GIT_HTTP_EXPORT_ALL
+ScriptAlias /git/ /usr/lib/git-core/git-http-backend/</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>إن أهملت متغير البيئة <code>GIT_HTTP_EXPORT_ALL</code>، فلن يتيح جت للعملاء غير المستوثَقين إلا تلك المستودعات التي فيها الملف <code>git-daemon-export-ok</code>، تماما مثلما فعل عفريت جت.</p>
+</div>
+<div class="paragraph">
+<p>وأخيرا سنحتاج إلى إخبار أباتشي أن يسمح بالطلبات إلى <code>git-http-backend</code> وأن يستوثق عمليات التحرير بطريقةٍ ما، مثلا بكتلة <code>Auth</code> كهذه:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">&lt;Files "git-http-backend"&gt;
+    AuthType Basic
+    AuthName "Git Access"
+    AuthUserFile /srv/git/.htpasswd
+    Require expr !(%{QUERY_STRING} -strmatch '*service=git-receive-pack*' || %{REQUEST_URI} =~ m#/git-receive-pack$#)
+    Require valid-user
+&lt;/Files&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يتطلب هذا إنشاء ملف <code>.htpasswd</code> (يبدأ اسمه بنقطه) فيه كلمات المرور لجميع المستخدمين المقبولين.
+هذا مثال على إضافة المستخدم ‪&#8220;schacon&#8221;‬ إليه:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ htpasswd -c /srv/git/.htpasswd schacon</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لدى أباتشي طرائق عديدة لاستيثاق المستخدمين؛ عليك اختيار إحداها وتطبيقها.
+ليس هذا إلا أيسر مثال استطعنا الإتيان به.
+ومن شبه المؤكد أنك أيضا ستحتاج إلى إعداد هذا عبر SSH حتى تكون هذه البيانات كلها معمّاة.</p>
+</div>
+<div class="paragraph">
+<p>لا نود الخوض عميقا في دوامة دقائق تهيئة أباتشي، لأنك قد تستخدم خادوما آخر أو أن لديك احتياجات استيثاق مختلفة.
+وإنما الأمر أن مع جت بريمج CGI اسمه <code>git-http-backend</code>، الذي عند ندائه يفعل كل المفاوضات لإرسال واستقبال البيانات عبر HTTP.
+ولكنه لا ينفذ أي استيثاق بنفسه. لكن هذا سهل التحكم فيه في خادوم الوب الذي يناديه.
+يمكنك فعل هذا مع ربما أي خادوم وب يدعم CGI، لذا فانطلق مع الخادوم الذي تعرفه حق المعرفة.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>لمزيد من المعلومات عن تهيئة الاستيثاق في أباتشي، انظر وثائق أباتشي (بالإنجليزية) هنا: <a href="https://httpd.apache.org/docs/current/howto/auth.html" class="bare" target="_blank" rel="noopener">https://httpd.apache.org/docs/current/howto/auth.html</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ <strong>السابق: </strong><a href="git-daemon.html">٤<small>،</small> ٥<small>،</small> عفريت جت</a></p>
+<p>↑ <a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Git-on-the-Server-Smart-HTTP">الأصل الإنجليزي</a></span></p><p><strong>التالي: </strong><a href="gitweb-section.html">٤<small>،</small> ٧<small>،</small> ؜GitWeb</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2025-10-24 12:00:00 +0000
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>الفروع البعيدة | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="_remote_branches" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.449,</span>
+<span id="revdate">2025-10-24</span>
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+<ul class="sectlevel2">
+<li><a href="_git_branches_overview.html">٣<small>،</small> ١<small>،</small> الفروع بإيجاز</a>
+</li>
+<li><a href="basic-branching-merging.html">٣<small>،</small> ٢<small>،</small> أسس التفريع والدمج</a>
+</li>
+<li><a href="_branch_management.html">٣<small>،</small> ٣<small>،</small> إدارة الفروع</a>
+</li>
+<li><a href="branching-workflows.html">٣<small>،</small> ٤<small>،</small> أساليب التطوير التفريعية</a>
+</li>
+<li><a href="_remote_branches.html"><span class="toc-current">٣، ٥، الفروع البعيدة</span></a>
+</li>
+<li><a href="_rebasing.html">٣<small>،</small> ٦<small>،</small> إعادة التأسيس</a>
+</li>
+<li><a href="summary-03.html">٣<small>،</small> ٧<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="_remote_branches">٣، ٥، الفروع البعيدة</h3>
+<div class="paragraph">
+<p>
+الإشارات البعيدة هي تلك الإشارات الموجودة في مستودعاتك البعيدة، كالفروع والوسوم.
+يمكنك سرد جميع الإشارات البعيدة بالأمر <code>git ls-remote «البعيد»</code>، أو سرد الفروع البعيدة ومعلوماتها بالأم‍ر <code>git remote show «البعيد»</code> (حيث <code>«البعيد»</code> هو الاسم المختصر المستودع البعيد).
+ولكن الشائع هو الانتفاع بـ«الفروع المتعقِّبة للبعيد».</p>
+</div>
+<div class="paragraph">
+<p>الفرع المتعقِّب لبعيد هو إشارة إلى حالة فرع بعيد.
+أي أنه إشارة محلية (أي في المستودع الذي على حاسوبك) لكن لا يمكنك تحريكها؛ إن جت يحركها لك عند الاتصال مع الخادوم، حتى يضمن أنها دائما تمثل حالة المستودع البعيد.
+اعتبرها إشارات مرجعية مثل علامات المتصفح، لتذكرك أين كانت فروع مستودعك البعيد عندما تواصلت معه آخر م‍رة.</p>
+</div>
+<div class="paragraph">
+<p>يكون شكل أسماء الفروع المتعقِّبة للبعيد <code>&lt;remote&gt;/&lt;branch&gt;</code> (أيْ اسم المستودع البعيد ثم شرطة مائلة ثم اسم الفرع).
+فمثلا إذا أردت رؤية كيف بدا فرع <code>master</code> في مستودعك البعيد <code>origin</code> عندما اتصلت به آخر مرة، فانتقل إلى فرع <code>origin/master</code>.
+وإذا كنت تعمل مع زميل على مسألةٍ ودفَعَ فرع <code>iss53</code> إلى المستودع البعيد، فقد يكون لديك فرع محلي بالاسم نفسه، ولكن الفرع الذي على الخادوم سيمثله عندك الفرع المتعقِّب للبعيد الذي اسمه <code>origin/iss53</code>.</p>
+</div>
+<div class="paragraph">
+<p>لعل الكلام غامض، فدعنا ننظر إلى مثال.
+لنقُل إن لديك خادوم جت على شبكتك عنوانه <code>git.ourcompany.com</code>.
+إذا استنسخته، فإن أمر الاستنساخ سيسميه <code>origin</code> لك، ويجذب كل ما فيه من بيانات، وينشئ إشارة إلى ما يشير إليه فرع <code>master</code> عليه ويسميه <code>origin/master</code> محليا.
+وسيعطيك جت أيضا فرع <code>master</code> محلي خاص بك بادئًا من المكان نفسه الذي فيه فرع <code>master</code> الخاص بالأصل، حتى يتسنّى لك البدء بالعمل.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">الاسم ‪&#8220;origin&#8221;‬ ليس مميزا</div>
+<div class="paragraph">
+<p>تماما مثلما أن اسم الفرع الرئيس ‪&#8220;master&#8221;‬ لا يحمل أي معنى خاص في جت، فكذلك اسم المستودع البعيد الأصل ‪&#8220;origin&#8221;‬.
+فإن ‪&#8220;master&#8221;‬ هو الاسم المبدئي لأول فرع ينشئه جت عندما تستخدم <code>git init</code> (وهو السبب الوحيد لشيوعه)، وكذلك ‪&#8220;origin&#8221;‬ هو الاسم المبدئي للمستودع البعيد عندما تستخدم <code>git clone</code>.
+فإذا استخدمت <code>git clone -o yalla</code> مثلا، فإنك ستجد أن <code>yalla/master</code> هو اسم الفرع البعيد المبدئي.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/remote-branches-1.png" alt="المستودعان البعيد والمحلي بعد الاستنساخ">
+</div>
+<div class="title">شكل ٣٠. المستودعان البعيد والمحلي بعد الاستنساخ</div></div>
+<div class="paragraph">
+<p>إذا عملت في فرعك الرئيس المحلي، ودفع أحد إلى الفرع الرئيس في المستودع البعيد، فإن تاريخَي الفرعين سيتقدمان مفترقين.
+وإن تجنبت الاتصال مع مستودعك البعيد على الخادوم الأصل، فلن تتحرك إشارة <code>origin/master</code> التي لديك.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/remote-branches-2.png" alt="قد يفترق العمل المحلي والبعيد">
+</div>
+<div class="title">شكل ٣١. قد يفترق العمل المحلي والبعيد</div></div>
+<div class="paragraph">
+<p>لمزامنة عملك مع مستودع بعيد، نفّذ الأمر <code>git fetch «البعيد»</code> (في حالتنا <code>git fetch origin</code>).
+فهذا الأمر يبحث عن المستودع المسمى ‪&#8220;origin&#8221;‬ (في حالتنا <code>git.ourcompany.com</code>)، ويستحضر البيانات التي عليه وليست عندك بعد، ويحدّث قاعدة بياناتك المحلية، ويحرك إشارة <code>origin/master</code> الخاصة بك لتشير إلى موقعها الجديد المحدَّث.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/remote-branches-3.png" alt="يحدّث أمر الاستحضار `git fetch` فروعك المتعقِّبة للبعيد">
+</div>
+<div class="title">شكل ٣٢. يحدّث أمر الاستحضار <code>git fetch</code> فروعك المتعقِّبة للبعيد</div></div>
+<div class="paragraph">
+<p>لتمثيل وجود خواديم بعيدة عديدة ولإيضاح منظر الفروع المتعقِّبة لهذه المستودعات البعيدة، لنقُل إن لديك خادوم جت داخلي آخر، ولا يستخدمه إلا فريق واحد من أجل التطوير،
+وإن عنوانه هو <code>git.team1.ourcompany.com</code>.
+يمكنك إضافته إشارةً بعيدة جديدة في مشروعك، بأمر <code>git remote add</code> كما رأينا في باب <a href="ch02-git-basics-chapter.html">أسس جت</a>،
+وتسميته <code>teamone</code>، الذي يُعتبر اسمًا مختصرًا لرابطه الكامل.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/remote-branches-4.png" alt="إضافة إشارة إلى خادوم بعيد آخر">
+</div>
+<div class="title">شكل ٣٣. إضافة إشارة إلى خادوم بعيد آخر</div></div>
+<div class="paragraph">
+<p>والآن، نفّذ <code>git fetch teamone</code> لاستحضار كل ما لدى خادوم <code>teamone</code> البعيد وليس لديك بعد.
+ولأنه الآن ليس لديه من البيانات إلا جزءًا مما لدى الخادوم الأصل (<code>origin</code>)، فلن يستحضر جت شيئًا، لكنه سيعدّ فرعًا متعقبًا للبعيد يسمى <code>teamone/master</code> ليشير إلى الإيداع الذي يشير إليه فرع <code>master</code> في مستودع <code>teamone</code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/remote-branches-5.png" alt="فرع متعقب للبعيد للفرع `teamone/master`">
+</div>
+<div class="title">شكل ٣٤. فرع متعقب للبعيد للفرع <code>teamone/master</code></div></div>
+<div class="sect3">
+<h4 id="_pushing_branches">الدفع</h4>
+<div class="paragraph">
+<p>
+عندما تريد أن تشارك فرعًا مع العالَم، فعليك دفعه إلى مستودع بعيد لديك إذن تحريره.
+ففروعك المحلية لا تُزامَن آليًّا إلى المستودعات البعيدة، حتى التي دفعت إليها؛ عليك دفع الفروع التي تريد مشاركتها بأمر صريح.
+يسمح لك هذا أن تستعمل فروعًا خصوصية للأعمال التي لا تريد مشاركتها، وألا تدفع إلا فروع الموضوعات التي تريد التعاون عليها.</p>
+</div>
+<div class="paragraph">
+<p>مثلا إذا كان لديك فرعًا اسمه <code>serverfix</code> وتريد العمل عليه مع الآخرين، يمكنك دفعه بالطريقة نفسها التي دفعت بها فرعك الأول؛
+نفّذ <code>git push &lt;remote&gt; &lt;branch&gt;</code> (أي اسم المستودع البعيد ثم الفرع):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git push origin serverfix
+Counting objects: 24, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (15/15), done.
+Writing objects: 100% (24/24), 1.91 KiB | 0 bytes/s, done.
+Total 24 (delta 2), reused 0 (delta 0)
+To https://github.com/schacon/simplegit
+ * [new branch]      serverfix -&gt; serverfix</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هذا اختصار،
+لأن جت يفك اسم الفرع <code>serverfix</code> إلى <code>refs/heads/serverfix:refs/heads/serverfix</code>، الذي يعني «ادفع فرعي المحلي <code>serverfix</code> إلى المستودع البعيد <code>origin</code> لتحدّث فرع <code>serverfix</code> عليه».
+سنفصّل شرح جزء <code>refs/heads/</code> في باب <s>دواخل جت</s>، ولكن عامةً يمكنك تركه.
+كذلك يمكنك تنفيذ <code>git push origin serverfix:serverfix</code> الذي يفعل الشيء نفسه؛ إنه يقول: «خذ فرعي المسمى <code>serverfix</code> واجعله فرع <code>serverfix</code> في المستودع البعيد».
+هذه الصياغة مفيدة لدفع فرع محلي إلى فرع بعيد باسم مختلف.
+فمثلا إن لم تُرِده أن يسمى <code>serverfix</code> في المستودع البعيد، فنفّذ <code>git push origin serverfix:awesomebranch</code>، فهذا يدفع فرعك المحلي <code>serverfix</code> إلى فرع <code>awesomebranch</code> في المستودع البعيد.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">لا تكتب كلمة مرورك كل م‍رة</div>
+<div class="paragraph">
+<p>إذا كنت تستعمل رابط HTTPS للدفع، فإن خادوم جت سيسألك عن اسم مستخدمك وكلمة مرورك للاستيثاق.
+المعتاد أن عميل جت سيسألك عن هذا في الطرفية حتى يعرف الخادوم إذا ما كان مسموحا لك بالدفع.</p>
+</div>
+<div class="paragraph">
+<p>إذا لم تشأ أن تكتب كلمة مرورك في كل م‍رة تدفع فيها، فعليك إعداد «تذكُّر مؤقت للاستيثاق» (‪&#8220;credential cache&#8221;‬).
+أسهل خيار هو جعله في ذاكرة الحاسوب لعدة دقائق، الذي يمكنك إعداده بالأمر <code>git config --global credential.helper cache</code>.</p>
+</div>
+<div class="paragraph">
+<p>لمعلومات أكثر عن خيارات تذكُّر الاستيثاق المتاحة، انظر فصل <s>تخزين الاسم وكلمة المرور</s>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>وفي المرة التالية التي يستحضر أحد زملائك من الخادوم، سيحصل على إشارة إلى حيث يشير فرع <code>serverfix</code> على الخادوم؛ سيجدها عنده في الفرع البعيد <code>origin/serverfix</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git fetch origin
+remote: Counting objects: 7, done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 3 (delta 0)
+Unpacking objects: 100% (3/3), done.
+From https://github.com/schacon/simplegit
+ * [new branch]      serverfix    -&gt; origin/serverfix</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>من المهم ملاحظة أنك عندما تستحضر، يجلب لك هذا فروعًا جديدة متعقبة للبعيد، أي أنك لا تحصل تلقائيًّا على نسخ محلية منها يمكنك تعديلها.
+بلفظ آخر، لا تحصل آليًّا على فرع <code>serverfix</code> جديد في هذه الحالة: لم تُعطَ إلا إشارة <code>origin/serverfix</code> التي لا يمكنك التعديل فيها.</p>
+</div>
+<div class="paragraph">
+<p>لدمج هذا العمل في فرعك الحالي، يمكنك تنفيذ <code>git merge origin/serverfix</code>.
+وإذا أردت فرع <code>serverfix</code> خاصًا بك تستطيع العمل فيه، يمكنك تفريعه من الفرع المتعقب للبعيد:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout -b serverfix origin/serverfix
+Branch serverfix set up to track remote branch serverfix from origin.
+Switched to a new branch 'serverfix'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يعطيك هذا فرعًا محليًا يمكنك العمل فيه، ويبدأ من حيث يقف <code>origin/serverfix</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_tracking_branches">تعقب الفروع</h4>
+<div class="paragraph">
+<p>
+إن سحب فرع محلي من فرع متعقب للبعيد ينشئ آليًّا ما يسمى «فرع متعقِّب» (والفرع الذي يتعقبه يسمى «الفرع المنبع»).
+الفروع المتعقبة هي فروع محلية ذات علاقة مباشرة بفرع بعيد.
+فإذا كنت في فرع متعقب وكتبت <code>git pull</code>، فسيعرف جت تلقائيا أي مستودع بعيد يستحضر منه وأي فرع يدمج فيه.</p>
+</div>
+<div class="paragraph">
+<p>عندما تستنسخ مستودعًا، ينشئ جت فرعًا باسم الفرع المبدئي فيه (مثل <code>master</code>) ويجعله يتعقب الفرع المبدئي في المستودع الأصل (<code>origin/master</code>).
+ولكن يمكنك إعداد فروع متعقبة أخرى إذا أردت، لتعقب مستودعات بعيدة أخرى، أو لتعقب فرع غير الرئيس.
+أيسر حالة مثلما رأيتَ آنفًا، عند اتحاد اسم الفرع المحلي والبعيد، أيْ <code>git checkout -b &lt;branch&gt; &lt;remote&gt;/&lt;branch&gt;</code>.
+وهذه العملية شائعة بما يكفي أن جت يتيح اختصارها بالخيار <code>--track</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout --track origin/serverfix
+Branch serverfix set up to track remote branch serverfix from origin.
+Switched to a new branch 'serverfix'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وفي الحقيقة أن هذا شائع جدًا حتى إن جت يتيح اختصارًا لهذا الاختصار.
+فإذا كان اسم الفرع الذي تريد سحبه، أولا غير موجود محليًّا بالفعل، وثانيا يطابق تمامًا اسمًا في مستودع بعيد واحد، فسينشئ لك جت فرعًا متعقِّبًا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout serverfix
+Branch serverfix set up to track remote branch serverfix from origin.
+Switched to a new branch 'serverfix'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ولإعداد فرع محلي باسم مختلف عن الفرع البعيد، فسهلٌ استعمال الصيغة الأولى مع اسم فرع محلي مختلف:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout -b sf origin/serverfix
+Branch sf set up to track remote branch serverfix from origin.
+Switched to a new branch 'sf'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>الآن، فرعك المحلي <code>sf</code> سيجذب من <code>origin/serverfix</code> تلقائيا.</p>
+</div>
+<div class="paragraph">
+<p>إن كان لديك بالفعل فرعًا محليًّا وتريده أن يجذب من فرع بعيد جذبته للتو، أو تريد تغيير الفرع المنبع الذي تتعقبه، عليك بخيار «تعيين المنبع» <code>--set-upstream-to</code> أو اختصاره <code>-u</code>، مع أمر الفروع <code>git branch</code> لتغييره بأم‍ر صريح وقتما شئت.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch -u origin/serverfix
+Branch serverfix set up to track remote branch serverfix from origin.</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">الاسم المختصر للمنبع</div>
+<div class="paragraph">
+<p>عندما يكون لديك فرع متعقب مُعَدّ، يمكنك الإشارة إلى فرعه المنبع بالاختصار <code>@{upstream}</code> أو <code>@{u}</code>.
+فإذا كنت في <code>master</code> وكان يتعقب <code>origin/master</code>، يمكنك تنفيذ أمر مثل <code>git merge @{u}</code> بدلا من <code>git merge origin/master</code> إن أردت.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>لرؤية الفروع المتعقِّبة التي أعددتها، يقبل أمر الفروع خيارَ الإطناب م‍رتين <code>-vv</code>
+ليسرد لك فروعك المحلية مع معلومات مزيدة فيها ما يتعقبه كل فرع وإذا كان فرعك متقدمًا عنه (<code>ahead</code>) أو متأخرًا (<code>behind</code>) أو كليهما.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch -vv
+  iss53     7e424c3 [origin/iss53: ahead 2] Add forgotten brackets
+  master    1ae2a45 [origin/master] Deploy index fix
+* serverfix f8674d9 [teamone/server-fix-good: ahead 3, behind 1] This should do it
+  testing   5ea463a Try something new</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فنرى هنا أن فرع <code>iss53</code> يتعقب <code>origin/iss53</code> وأنه «متقدم» (<code>ahead</code>) باثنين، أي أن لدينا إيداعين محليين ولم ندفعهما إلى الخادوم بعد.
+ونرى كذلك أن فرع <code>master</code> يتعقب <code>origin/master</code> وأنه متزامن معه.
+ثم نرى بعدهما أن فرع <code>serverfix</code> يتعقب فرع <code>server-fix-good</code> على خادوم <code>teamone</code> وأنه متقدم عنه بثلاثة ومتأخر بواحد، أي أن لدى الخادوم إيداعًا لم ندمجه في فرعنا بعد، وأن لدينا ثلاثة إيداعات محلية لم ندفعها إليه.
+ثم نرى في النهاية أن فرع <code>testing</code> لا يتعقب أي فرع بعيد.</p>
+</div>
+<div class="paragraph">
+<p>مهم ملاحظة أن هذه الأعداد ليست إلا منذ آخر استحضار (<code>fetch</code>) من كل خادوم نتعقبه.
+فلا يحاول هذا الأمر الاتصال بالخواديم؛ إنما يخبرك بما يحفظه على حاسوبك عما فيها.
+فإذا أردت من أعداد التقدم والتأخر أن تكون أحدث ما يكون، فعليك الاستحضار من جميع خواديمك البعيدة قبل تنفيذ هذا الأمر مباشرةً.
+ويمكنك فعل ذلك هكذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git fetch --all; git branch -vv</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_الجذب">الجذب</h4>
+<div class="paragraph">
+<p>
+نعلم أن أمر الاستحضار <code>git fetch</code> يستحضر الإيداعات التي في المستودع البعيد وليست لديك، لكنه لا يغيّر شيئًا في مجلد عملك قَط؛
+إنما يجلب البيانات لك ويتركك تدمجها بنفسك.
+لكن في جت أمر يسمى أم‍ر الجذب <code>git pull</code>، وهذا الأم‍ر عمليًّا يكافئ استحضارًا <code>git fetch</code> متبوعًا مباشرةً بدمج <code>git merge</code>، في معظم الحالات.
+فإذا كان لديك فرع متعقِّب مُعَدّ كما في الفصل السابق، إما بإعداده صراحةً وإما بأن يعدّه لك أمر الاستنساخ <code>git clone</code> أو أم‍ر السحب <code>git checkout</code>، فإن أم‍ر الجذب <code>git pull</code> سينظر أيّ مستودع وأيّ فرع يتعقبهما فرعك الحالي، ويستحضر ما في المستودع البعيد ويحاول دمجه في فرعك.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_delete_branches">حذف فروع بعيدة</h4>
+<div class="paragraph">
+<p>
+لنقُل إنك قضيت ما تريد من فرع بعيد، مثلا انتهيت أنت وزملاؤك من إضافة ميزة جديدة ودمجتموها في الفرع الرئيس.
+يمكنك حذف فرع بعيد بالخيار <code>--delete</code> مع أمر الدفع <code>git push</code>.
+فإذا أردت حذف فرع <code>serverfix</code> من الخادوم، يمكنك تنفيذ الأمر التالي:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git push origin --delete serverfix
+To https://github.com/schacon/simplegit
+ - [deleted]         serverfix</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لا يفعل هذا الأمر سوى أنه يحذف الإشارة من على الخادوم.
+ولكن خواديم جت عمومًا تبقى البيانات موجودة وقتًا، إلى أن يعمل جامع المهملات، فغالبًا ستستطيع استعادته بسهولة إن حذفته بالخطأ.</p>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ <strong>السابق: </strong><a href="branching-workflows.html">٣<small>،</small> ٤<small>،</small> أساليب التطوير التفريعية</a></p>
+<p>↑ <a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Git-Branching-Remote-Branches">الأصل الإنجليزي</a></span></p><p><strong>التالي: </strong><a href="_rebasing.html">٣<small>،</small> ٦<small>،</small> إعادة التأسيس</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2025-10-24 12:00:00 +0000
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

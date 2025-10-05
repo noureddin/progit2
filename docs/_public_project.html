@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>المساهمة في مشروع  — مشروع عمومي باشتقاقات | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="_public_project" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.449,</span>
+<span id="revdate">2025-10-24</span>
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+<ul class="sectlevel2">
+<li><a href="distributed-workflows.html">٥<small>،</small> ١<small>،</small> أساليب التطوير المتوزع</a>
+</li>
+<li><a href="_contributing_project.html">٥<small>،</small> ٢<small>،</small> المساهمة في مشروع — مقدمة</a>
+</li>
+<li><a href="_commit_guidelines.html">٥<small>،</small> ٣<small>،</small> المساهمة في مشروع — إرشادات الإيداع</a>
+</li>
+<li><a href="_private_team.html">٥<small>،</small> ٤<small>،</small> المساهمة في مشروع — فريق خصوصي صغير</a>
+</li>
+<li><a href="_private_managed_team.html">٥<small>،</small> ٥<small>،</small> المساهمة في مشروع — فريق خصوصي بمدير دمج</a>
+</li>
+<li><a href="_public_project.html"><span class="toc-current">٥، ٦، المساهمة في مشروع — مشروع عمومي باشتقاقات</span></a>
+</li>
+<li><a href="_project_over_email.html">٥<small>،</small> ٧<small>،</small> المساهمة في مشروع — مشروع عمومي عبر البريد الشابكي</a>
+</li>
+<li><a href="summary-contrib.html">٥<small>،</small> ٨<small>،</small> المساهمة في مشروع — الخلاصة</a>
+</li>
+<li><a href="maintaining-project-intro.html">٥<small>،</small> ٩<small>،</small> رعاية مشروع — مقدمة</a>
+</li>
+<li><a href="_patches_from_email.html">٥<small>،</small> ١٠<small>،</small> رعاية مشروع — تطبيق الرقع من البريد</a>
+</li>
+<li><a href="_checking_out_remotes.html">٥<small>،</small> ١١<small>،</small> رعاية مشروع — سحب فروع بعيدة</a>
+</li>
+<li><a href="_what_is_introduced.html">٥<small>،</small> ١٢<small>،</small> رعاية مشروع — تحديد التغييرات الجديدة</a>
+</li>
+<li><a href="maintaining-project-integrating.html">٥<small>،</small> ١٣<small>،</small> رعاية مشروع — دمج المساهمات</a>
+</li>
+<li><a href="maintaining-project-releasing.html">٥<small>،</small> ١٤<small>،</small> رعاية مشروع — إصدار مشروعك</a>
+</li>
+<li><a href="summary-05.html">٥<small>،</small> ١٥<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="_public_project">٥، ٦، المساهمة في مشروع <br>&emsp;— مشروع عمومي باشتقاقات</h3>
+<div class="paragraph">
+<p>
+المساهمة في مشروع عمومي أمرها مختلف.
+ فليس لديك إذن الدفع فيه لتستطيع تحديث فروعه مباشرةً، فعليك إرسال عملك إلى القائمين عليه بطريقة أخرى.
+يشرح المثال الأول هذا المساهمة بالاشتقاق في مواقع استضافة جت التي تسهّل الاشتقاق.
+مواقع كثيرة تدعمه (منها جت‌هب GitHub، و BitBucket، و repo.or.cz، وآخرون)، والكثير من مديري المشروعات يتوقعون أسلوب المساهمة هذا.
+أما الفصل التالي فسيتناول المشروعات التي تحب قبول الرقع المساهم بها عبر البريد الشابكي.</p>
+</div>
+<div class="paragraph">
+<p>أولًا عليك غالبًا استنساخ المستودع الرئيس، وإنشاء فرع موضوع للرقعة أو سلسلة الرقع التي تريد المساهمة بها، ثم العمل فيه.
+فسلسلة الأفعال تبدو هكذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git clone «رابط-المستودع»
+$ cd project
+$ git checkout -b featureA
+  ... عمل ...
+$ git commit
+  ... عمل ...
+$ git commit</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>قد تود استعمال إعادة التأسيس التفاعلية <code>git rebase -i</code> لهرس عملك (‪&#8220;squash&#8221;‬) إلى إيداع واحد، أو لإعادة ترتيب الإيداعات، حتى تسهّل مراجعة الرقعة على المشرف؛ انظر فصل <s>تحرير التاريخ</s> لمعلومات أزيد عن إعادة التأسيس التفاعلية.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>عندما تفرغ من عملك في الفرع وتكون مستعدًا لمشاركته مع القائمين على المشروع، اذهب إلى صفحة المشروع الأصل واضغط زر ‪&#8220;Fork&#8221;‬ («اشتقاق»)، لتُنشئ نسختك الخاصة بك من المشروع التي تستطيع الدفع إليها.
+عندئذٍ تحتاج إضافة رابط هذا المستودع ليكون بعيدًا جديدًا في مستودعك المحلي؛ لنسمّيه فيه هذا المثال <code>myfork</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git remote add myfork «الرابط»</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>عندئذٍ تدفع عملك إلى هذا المستودع.
+من الأسهل أن تدفع (إلى اشتقاقك) فرعَ الموضوع الذي عملت فيه، بدلًا من دمج عملك في الفرع الرئيس المحلي ودفع هذا الفرع.
+وذلك حتى لا تضطر إلى إرجاع فرعك الرئيس إلى الخلف، إن لم يقبلوا عملك أو أنهم اصطفوه (نتناول عملية الاصطفاء <code>cherry-pick</code> في جت بمزيد من التفصيل في فصل <a href="maintaining-project-integrating.html#_rebase_cherry_pick">أساليب الاصطفاء وإعادة التأسيس</a>).
+فإذا القائمون على المشروع دمجوا عملك (<code>merge</code>)، أو أعادوا تأسيسه (<code>rebase</code>)، أو اصطفوه (<code>cherry-pick</code>)، فستحتاج إلى إحضاره من جديد بالجذب من مستودعهم بطريقة ما.</p>
+</div>
+<div class="paragraph">
+<p>وعموما، يمكنك دفع عملك بالأمر:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git push -u myfork featureA</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>
+ما إن يتم دفع عملك إلى اشتقاقك من المستودع، عليك إعلام القائمين على المشروع الأصل أن لديك شيئًا تود منهم أن يدمجوه.
+في الغالب يسمى هذا «طلب جذب» (pull request)، وفي المعتاد تُنشئ هذا الطلب إما عبر الموقع (فلدى جت‌هب آلية طلبات الجذب الخاصة به التي سنتناولها في باب <a href="ch06-github.html">؜GitHub</a>) وإما بالأمر <code>git request-pull</code> وإرسال ناتجه بالبريد بنفسك إلى القائمين على المشروع.</p>
+</div>
+<div id="_note_pr_mr" class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>(من المترجم) يسمى هذا «طلب جذب» في جت نفسه وفي عدة مواقع استضافة جت، ويسمى «طلب دمج» في مواقع جت أخرى. واختلف الناس في علة الاختلاف بين الاسمين؛ انظر الإجابات على هذا السؤال: <a href="https://stackoverflow.com/questions/22199432/pull-request-vs-merge-request">Pull request vs Merge request</a>.</p>
+</div>
+<div class="paragraph">
+<p>و«الجذب» أقرب لعمل جت، فإنك تطلب من القائمين على المشروع الأصل أن يجذبوا (<code>pull</code>) عملك، والجذب يشمل الدمج. لكن «الدمج» أوضح لمن لم يضطلع بجت. فمن اختار «طلب جذب» اتبع جت نفسه، ومن اختار «طلب دمج» اختار الأوضح للمستخدمين.</p>
+</div>
+<div class="paragraph">
+<p>ومما يؤيد «الجذب» أن الجذب هو استحضار <code>fetch</code> متبوعٌ إما بدمج <code>merge</code> وإما بإعادة التأسيس <code>rebase</code>. لكن في العربية «الدمج» يعني ‪&#8220;merge&#8221;‬ ويعني ‪&#8220;integrate&#8221;‬ في سياق إدارة المراجعات.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>أمر <code>git request-pull</code> تعطيه: (١) الفرع الأساس الذي تريدهم أن يجذبوا فرعك إليه، و (٢) رابط مستوع جت الذي تريدهم أن يجذبوا منه؛ ويُنتج لك خلاصة التعديلات التي تسألهم أن يجذبوها.
+فمثلا، إذا أرادت سميرة أن ترسل إلى سمير طلب جذب، وقد صنعت إيداعين في فرع الموضوع الذي دفعت إليه للتو، يمكنها تنفيذ هذا الأمر:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git request-pull origin/master myfork
+The following changes since commit 1edee6b1d61823a2de3b09c160d7080b8d1b3a40:
+Sameera Samara (1):
+        Create new function
+
+are available in the git repository at:
+
+  https://githost/simplegit.git featureA
+
+Sameera Samara (2):
+      Add limit to log function
+      Increase log output to 30 from 25
+
+ lib/simplegit.rb |   10 +++++++++-
+ 1 files changed, 9 insertions(+), 1 deletions(-)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يمكن إرسال هذا الناتج إلى القائم على المشروع، فإنه يخبره من أين تفرّع العمل، ويوجز له الإيداعات، ويحدد له من أين يستطيع جذب العمل الجديد.</p>
+</div>
+<div class="paragraph">
+<p>وإن الأسهل غالبًا في مشروع لستَ القائم عليه أن تُبقي دومًا فرعك الرئيس المحلي يتبع الفرع البعيد المناظر له (مثلا <code>master</code> الخاص بك يتبع <code>origin/master</code>)، وأن تفعل كل شيء في فروع موضوعات، حتى تستطيع أن تلغيها بسهولة إن رُفضت.
+وكذلك فصل مسارات العمل في فروع موضوعات يسهّل عليك إعادة تأسيسها إذا تحرك رأس المستودع الرئيس خلال عملك ولم تبقَ إيداعاتك قابلة للتطبيق بنظافة.
+فمثلًا إذا أردت أن ترسل إلى المشروع تعديلات في موضوع آخر، فلا تستمر بالعمل في فرع الموضوع السابق الذي دفعته؛ بل ابدأ من جديد باشتقاق الفرع الرئيس للمستودع الأصل:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout -b featureB origin/master
+  ... عمل ...
+$ git commit
+$ git push myfork featureB
+$ git request-pull origin/master myfork
+  ... إرسال طلب الجذب الناتج بالبريد الشابكي إلى القائم على المشروع ...
+$ git fetch origin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فالآن كل موضوعٍ منهما محتوًى في صومعة (مثل طابور الرقع) فيمكن تحرير أحدهما أو تعديله أو إعادة تأسيسه بغير تشابك الموضوعين أو اعتماد أحدهما على الآخر، مثل هذا:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/public-small-1.png" alt="تاريخ الإيداعات عند بدء العمل في `featureB`">
+</div>
+<div class="title">شكل ٦٩. تاريخ الإيداعات عند بدء العمل في <code>featureB</code></div></div>
+<div class="paragraph">
+<p>لنقُل إن القائم على المشروع قد جذب عددًا من الرقع الأخرى ثم حاول جذب فرعك الأول فلم يجده يقبل الدمج بنظافة.
+يمكنك عندئذٍ أن تعيد تأسيس هذا الفرع على <code>origin/master</code> وتحلّ النزاعات نيابةً عن القائم على المشروع، ثم تُعيد إرسال تعديلاتك:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout featureA
+$ git rebase origin/master
+$ git push -f myfork featureA</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هذا يحرّر التاريخ ليبدو هكذا مثل شكل <a href="_public_project.html#psp_b">تاريخ الإيداعات بعد العمل في <code>featureA</code></a>.</p>
+</div>
+<div id="psp_b" class="imageblock">
+<div class="content">
+<img src="images/public-small-2.png" alt="تاريخ الإيداعات بعد العمل في `featureA`">
+</div>
+<div class="title">شكل ٧٠. تاريخ الإيداعات بعد العمل في <code>featureA</code></div></div>
+<div class="paragraph">
+<p>ولأنك أعدت تأسيس الفرع، فعليك الدفع عَنوةً (خيار <code>-f</code> مع أمر <code>push</code>)، حتى تبدل فرع <code>featureA</code> على الخادوم بإيداع ليس مبنيًّا عليه.
+ويمكنك بدلًا من ذلك أن تدفع العمل الجديد إلى فرع آخر على الخادوم (مثلا <code>featureAv2</code>).</p>
+</div>
+<div class="paragraph">
+<p>لنرَ موقفًا محتملًا آخر: نظر القائم على المشروع إلى عملك في فرعك الثاني، وراقه المبدأ، لكنه ودّ أن تغيّر بعض التفاصيل.
+ورأيت أن تنتهز الفرصة لتعيد تأسيسه على الفرع الرئيس الحالي للمشروع.
+فبدأت فرعًا جديدًا من فرع <code>origin/master</code> الحالي، وهرست إيداعات <code>featureB</code> إليه (‪&#8220;squash&#8221;‬)، وحللت أي نزاعات ظهرت، وغيّرت له ما أراد، ثم دفعت هذا إلى فرع جديد على الخادوم:</p>
+</div>
+<div class="paragraph">
+<p></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout -b featureBv2 origin/master
+$ git merge --squash featureB
+  ... change implementation ...
+$ git commit
+$ git push myfork featureBv2</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>خيار الهرس <code>--squash</code> يتناول كل العمل الذي في الفرع المدموج، ويهرسه (يجعله إيداعًا واحدًا) فيصير حال المستودع كأن ما حدث هو دمج حقيقي، بغير أن يصنع إيداع دمج.
+يعني هذا أن إيداعك الجديد سيكون له إيداع أب واحد، ويسمح لك باشتمال كل التعديلات التي في فرع آخر، ثم زيادة تعديلات أخرى عليها قبل صناعة الإيداع الجديد.
+وفي حالة الدمج العادي (وليس الهرس)، قد يفيدك أيضًا الخيار <code>--no-commit</code> لتأجيل إيداع الدمج.</p>
+</div>
+<div class="paragraph">
+<p>عندئذٍ يمكنك إعلام القائم على المشروع أنك قد أتممت التعديلات المطلوبة، وأنه سيجدها في فرع <code>featureBv2</code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/public-small-3.png" alt="تاريخ الإيداعات بعد العمل في `featureBv2`">
+</div>
+<div class="title">شكل ٧١. تاريخ الإيداعات بعد العمل في <code>featureBv2</code></div></div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ <strong>السابق: </strong><a href="_private_managed_team.html">٥<small>،</small> ٥<small>،</small> المساهمة في مشروع — فريق خصوصي بمدير دمج</a></p>
+<p>↑ <a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project#_public_project">الأصل الإنجليزي</a> (بزيادة موجودة في صفحات عربية أخرى)</span></p><p><strong>التالي: </strong><a href="_project_over_email.html">٥<small>،</small> ٧<small>،</small> المساهمة في مشروع — مشروع عمومي عبر البريد الشابكي</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2025-10-24 12:00:00 +0000
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

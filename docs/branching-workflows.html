@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>أساليب التطوير التفريعية | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="branching-workflows" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.449,</span>
+<span id="revdate">2025-10-24</span>
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+<ul class="sectlevel2">
+<li><a href="_git_branches_overview.html">٣<small>،</small> ١<small>،</small> الفروع بإيجاز</a>
+</li>
+<li><a href="basic-branching-merging.html">٣<small>،</small> ٢<small>،</small> أسس التفريع والدمج</a>
+</li>
+<li><a href="_branch_management.html">٣<small>،</small> ٣<small>،</small> إدارة الفروع</a>
+</li>
+<li><a href="branching-workflows.html"><span class="toc-current">٣، ٤، أساليب التطوير التفريعية</span></a>
+</li>
+<li><a href="_remote_branches.html">٣<small>،</small> ٥<small>،</small> الفروع البعيدة</a>
+</li>
+<li><a href="_rebasing.html">٣<small>،</small> ٦<small>،</small> إعادة التأسيس</a>
+</li>
+<li><a href="summary-03.html">٣<small>،</small> ٧<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="branching-workflows">٣، ٤، أساليب التطوير التفريعية</h3>
+<div class="paragraph">
+<p>بما أنك الآن تعلم أسس التفريع والدمج، ماذا يمكنك أو يجدر بك فعله بهما؟
+سنتناول في هذا الفصل بعض أشهر أساليب التطوير التي يجعلها هذا التفريع الخفيف ممكنة، لكي تقرر إذا ما كنت تود أن تجعلها جزءًا من دورة التطوير التي تتبعها.</p>
+</div>
+<div class="sect3">
+<h4 id="_الفروع_طويلة_العمر">الفروع طويلة العمر</h4>
+<div class="paragraph">
+<p>
+يستعمل جت دمجًا ثلاثيًّا غير معقد، فيسهّل الدمج بين فرعين مرات عديدة عبر مدة زمنية طويلة.
+يتيح لك هذا وجود عدد من الفروع المفتوحة دائما لتستعملها لمراحل مختلفة من دورة التطوير، لأنك تستطيع أن تدمج باستمرار فيما بينها.</p>
+</div>
+<div class="paragraph">
+<p>الكثير من المطورين مستخدمي جت يعتمدون هذا النهج في أسلوبهم في التطوير، فيخصصون مثلا الفرع الرئيس للمصدر المستقر تمامًا وحسب، أو للذي أُصدر فعلا، أو للذي سيُصدر.
+ويكون لديهم فرعًا موازيًا اسمه <code>develop</code> أو <code>next</code> مثلا، ليعملوا منه أو ليستعملوه لاختبار الاستقرار، فليس بالضرورة أن يكون مستقرًا دوما، ولكن عند استقراره، يمكن دمجه في الفرع الرئيس.
+ويستعملون هذا الفرع ليجذبوا فيه فروع الموضوعات (الفروع قصيرة العمر، مثل فرع <code>iss53</code> المذكور سابقا) عندما تكون جاهزة، لضمان اجتيازها جميع الاختبارات وأنها لا تُحدِث عللًا.</p>
+</div>
+<div class="paragraph">
+<p>نحن فعليا نتحدث عن إشارات ترتقي في سلّم ايداعاتك.
+فالفروع المستقرة في أسفله، أما طليعة التطوير ففي أعلاه.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/lr-branches-1.png" alt="منظور خطي لتفريع الاستقرار المتزايد">
+</div>
+<div class="title">شكل ٢٦. منظور خطي لتفريع الاستقرار المتزايد</div></div>
+<div class="paragraph">
+<p>لعل الأسهل تصور أنها صومعات عمل منعزلة، فتتخرج دفعة من الإيداعات إلى صومعة أخرى أكثر استقرارا عندما تجتاز جميع الاختبارات.</p>
+</div>
+<div id="lrbranch_b" class="imageblock">
+<div class="content">
+<img class="_dark" src="images/lr-branches-2.png" alt="منظور «صومعي» لتفريع الاستقرار المتزايد">
+</div>
+<div class="title">شكل ٢٧. منظور «صومعي» لتفريع الاستقرار المتزايد</div></div>
+<div class="paragraph">
+<p>يمكنك فعل هذا بعدة مستويات من الاستقرار.
+فلدى بعض المشروعات الكبيرة فرع <code>proposed</code> أو <code>pu</code> («تحديثات مقترحة») ويدمجوا فيه فروعًا قد لا تكون جاهزة لأن تكون في فرع <code>next</code> أو <code>master</code>.
+فالأمر أن فروعك في مستويات مختلفة من الاستقرار، فعندما يصل أحدها إلى مستوى استقرار أعلى، فإنه يُدمج في الفرع الأعلى.
+ونكرر: ليس ضروريا استعمال عدد من الفروع طويلة العمر، ولكنه كثيرا ما يفيد، خصوصا عندما تتعامل مع مشروعات معقدة أو كبيرة جدا.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_topic_branch">فروع الموضوعات</h4>
+<div class="paragraph">
+<p>
+لكن فروع الموضوعات تفيد جميع المشروعات بغض النظر عن حجمها.
+فرع الموضوع هو فرع قصير العمر تنشئه وتستعمله لميزة واحدة أو ما يخصها من عمل.
+لعلك لم تفعل هذا قط مع نظام إدارة نسخ آخر، لأن التفريع والدمج غالبا ما يكونا بطيئين جدا في الأنظمة الأخرى.
+ولكن الشائع مع جت هو إنشاء فروع والعمل عليها ودمجها وحذفها عدة مرات في اليوم الواحد.</p>
+</div>
+<div class="paragraph">
+<p>وقد رأيت هذا في الفصل السابق في فرعَي <code>iss53</code> و <code>hotfix</code> اللذين أنشأتهما،
+فقد صنعت بضعة إيداعات فيهما ثم حذفتهما فور دمجهما في فرعك الرئيس.
+يسمح لك هذا الأسلوب بـ«تبديل السياق» سريعا وبالكامل، لأنك قسّمت عملك إلى صومعات، وكل صومعة (فرع) ليس فيها إلا التعديلات التي تخص موضوعًا واحدًا، فيسهّل ذلك رؤيتها عند المراجعة (code review) وغير ذلك.
+ويمكنك إبقاء التعديلات هناك دقائق أو أيامًا أو شهورًا، ثم دمجها عندما تكون جاهزة، بغض النظر عن ترتيب إنشائها أو العمل عليها.</p>
+</div>
+<div class="paragraph">
+<p>لنقُل مثلا إنك عملت (في <code>master</code>)، ثم تفرّعت لإصلاح علة (<code>iss91</code>)، وعملت عليها قليلا، ثم تفرّعت مجددا (من الفرع الثاني) لتجرب طريقة أخرى لإصلاح العلة نفسها (<code>iss91v2</code>)، ثم عدت إلى فرعك الرئيس (<code>master</code>) وعملت فيه قليلا، ثم تفرّعت منه لتجربة شيء لست واثقا أنه جيد (فرع <code>dumbidea</code>).
+سيبدو تاريخ إيداعك الآن مثل هذا:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/topic-branches-1.png" alt="فروع موضوعات متعددة">
+</div>
+<div class="title">شكل ٢٨. فروع موضوعات متعددة</div></div>
+<div class="paragraph">
+<p>لنقُل إنك الآن وجدت إصلاحك الثاني للعلة (<code>iss91v2</code>) أفضل، وأنك أريت زملاءك فرع <code>dumbidea</code> فأخبروك أنه عبقري.
+فيمكنك إذًا إلقاء فرع <code>iss91</code> الأول (وفقد الإيداعين <code>C5</code> و <code>C6</code>)، ودمج الفرعين الآخرين في الفرع الرئيس.
+سيبدو تاريخك الآن كهذا:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/topic-branches-2.png" alt="التاريخ بعد دمج `dumbidea` و `iss91v2`">
+</div>
+<div class="title">شكل ٢٩. التاريخ بعد دمج <code>dumbidea</code> و <code>iss91v2</code></div></div>
+<div class="paragraph">
+<p>سنتحدث بتفصيل أكبر عن مختلف أساليب التطوير الممكنة في مشروعات جت في باب <a href="ch05-distributed-git.html">جت المتوزع</a>، فعليك قراءة هذا الفصل قبل أن تقرر أي أسلوب تفريع سيتبعه مشروعك التالي.</p>
+</div>
+<div class="paragraph">
+<p>من المهم تذكر أنك عندما تفعل أيًّا من هذا فإن هذه الفروع تبقى محلية بالكامل.
+فعندما تتفرّع وتدمج، يحدث كل شيء داخل مستودع جت الخاص بك وحسب؛ لا يحدث أي تواصل مع الخادوم.</p>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ <strong>السابق: </strong><a href="_branch_management.html">٣<small>،</small> ٣<small>،</small> إدارة الفروع</a></p>
+<p>↑ <a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Git-Branching-Branching-Workflows">الأصل الإنجليزي</a></span></p><p><strong>التالي: </strong><a href="_remote_branches.html">٣<small>،</small> ٥<small>،</small> الفروع البعيدة</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2025-10-24 12:00:00 +0000
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

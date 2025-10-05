@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>خطاطيف جت | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="_git_hooks" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.449,</span>
+<span id="revdate">2025-10-24</span>
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+<ul class="sectlevel2">
+<li><s>٨<small>،</small> ١<small>،</small> تهيئة جت</s>
+</li>
+<li><s>٨<small>،</small> ٢<small>،</small> سمات الملفات في جت</s>
+</li>
+<li><a href="_git_hooks.html"><span class="toc-current">٨، ٣، خطاطيف جت</span></a>
+</li>
+<li><s>٨<small>،</small> ٤<small>،</small> مثال لفرض السياسات في جت</s>
+</li>
+<li><a href="summary-08.html">٨<small>،</small> ٥<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="_git_hooks">٨، ٣، خطاطيف جت</h3>
+<div class="paragraph">
+<p>
+لدى جت، مثل أنظمة إدارة نسخ كثيرة أخرى، طريقة لتشغيل بُرَيْمِجات (scripts) مخصصة عند أحداث معينة مهمة.
+وتسمى الخطاطيف، وتقسم نوعين: خطاطيف عند العميل، وخطاطيف على الخادوم.
+تستثير خطاطيفَ العميل عملياتٌ مثل الإيداع والدمج، أما خطاطيفَ الخادوم فالعملياتُ الشبكية مثل استقبال الإيداعات المدفوعة.
+ويمكنك استخدام الخطاطيف لأسباب عديدة مختلفة.</p>
+</div>
+<div class="sect3">
+<h4 id="_تركيب_خطاف_fixme">تركيب خطاف</h4>
+<div class="paragraph">
+<p>تحفظ جميع الخطاطيف في مجلد <code>hooks</code> داخل مجلد جت.
+أي في <code>.git/hooks</code> في معظم المستودعات.
+وعندما تبتدئ مستودعًا جديدًا بأمر الابتداء <code>git init</code>، فإن جت يملأ مجلد الخطاطيف بأمثلة بُريمجات (التي قد يفيد بعضها بلا تغيير)، وفيها شرح مدخلات كل بريمج.
+أكثر الأمثلة مكتوبة بلغة الصدَفة (shell)، والبعض بلغة Perl. ولكن أي ملف تنفيذي بالاسم المناسب سيعمل؛ اكتبه بـ Python أو بـ Ruby أو بما تشاء.
+وإذا أردت استعمال بُريمجات الخطاطيف المرفقة مع جت، عليك تغيير أسمائها، فأسماؤها جميعًا تنتهي بالامتداد <code>.sample</code>.</p>
+</div>
+<div class="paragraph">
+<p>لتفعيل بُريمج خطاف، ضع ملفًا تنفيذيًّا بالاسم المناسب (بغير امتداد) في مجلد <code>hooks</code> في مجلد <code>.git</code> في مستودعك،
+ومن وقتئذٍ فصاعدًا سيُنفّذ.
+نمرّ الآن على أهم الخطاطيف ونسرد أسماءها.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_خطاطيف_العميل">خطاطيف العميل</h4>
+<div class="paragraph">
+<p>خطاطيف كثيرة تُنفّذ عند العميل.
+يقسمهم هذا الفصل إلى أقسام ثلاثة لتيسير الشرح: خطاطيف الإيداع، وخطاطيف البريد، والخطاطيف الأخرى.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>مهم جدا أن تعلم أن خطاطيف العميل <strong>ليست</strong> تُنسخ عند استنساخ المستودع.
+فإذا كان مرادك من هذه البُريمجات أن تفرض سياسات معينة، فربما تفضّل فعل هذا على الخادوم؛ انظر المثال في فصل <s>مثال لفرض السياسات في جت</s>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_خطاطيف_الإيداع">خطاطيف الإيداع</h5>
+<div class="paragraph">
+<p>الخطاطيف الأربعة الأولى تخص عملية الإيداع.</p>
+</div>
+<div class="paragraph">
+<p>يعمل <em>خطاف ما قبل الإيداع</em> (<code>pre-commit</code>) أولا، حتى قبل أن تكتب رسالة الإيداع.
+ويُستعمل لفحص اللقطة التي ستودعها للتأكد من أنك لم تنسَ شيئًا، أو للتأكد من أنك نفّذت الاختبارات، أو للتأكد مما تريد التأكد منه عمومًا.
+وإنهاء تنفيذ هذا البُريمج بقيمة خروج غير الصفر يوقف الإيداع، على أنك تستطيع تخطيه بالأمر <code>git commit --no-verify</code>.
+يمكّنك هذا من تنسيق المصدر البرمجي (مثل تنفيذ <code>lint</code> أو ما يكافئه)، أو التأكد من عدم انتهاء السطور بمسافات زائدة (وهذا ما يفعله المثال الآتي مع جت)، أو فحص وجود التوثيق المناسب للدوال الجديدة.</p>
+</div>
+<div class="paragraph">
+<p>أما <em>خطاف تجهيز رسالة الإيداع</em> (<code>prepare-commit-msg</code>) فيعمل قبل فتح محرر رسالة الإيداع ولكن بعد إنشاء الرسالة المبدئية،
+حتى يتيح لك تعديل الرسالة المبدئية قبل أن يراها صانع الإيداع.
+ويُرسل إلى هذا الخطاف ثلاثة معاملات: مسار الملف المؤقت الذي فيه رسالة الإيداع، ونوع الإيداع، وبصمة SHA-1 للإيداع إذا كان إيداعًا مصحّحًا (أي مودَع بالخيار <code>--amend</code>).
+وعمومًا ليس هذا الخطاف كبير النفع للإيداعات العادية، لكنه يفيد الإيداعات التي رسالتها المبدئية مولدة آليًّا، مثل قوالب رسائل الإيداع، وإيداعات الدمج، والإيداعات المهروسة (‪&#8220;squashed&#8221;‬)، والإيداعات المصححة (‪&#8220;amended&#8221;‬).
+وقد تستخدمه مع قالب رسالة إيداع لإدراج معلومات فيها برمجيًّا.</p>
+</div>
+<div class="paragraph">
+<p>وأما <em>خطاف رسالة الإيداع</em> (<code>commit-msg</code>) فيقبل معاملًا واحدًا، وهو كذلك مسار الملف المؤقت الذي فيه رسالة الإيداع التي كتبها المطوّر.
+وإن أنهى تنفيذه بقيمة خروج غير الصفر فإن جت يوقف الإيداع. فيمكنك إذًا استخدامه لتحقق حالة مشروعك أو رسالة الإيداع قبل السماح للإيداع بأن يتم.
+وسنرى في الفصل الأخير من هذا الباب شرح مثال لاستعمال هذا الخطاف لتحقُّق موافقة رسائل الإيداع لنمط محدد.</p>
+</div>
+<div class="paragraph">
+<p>أما <em>خطاف ما بعد الإيداع</em> (<code>post-commit</code>) فيعمل بعد تمام عملية الإيداع بكاملها.
+ولا يقبل أي معاملات. لكن يمكن جلب الإيداع الأخير بسهولة بالأمر <code>git log -1 HEAD</code>.
+وعموما يُستعمل هذا البُريمج للإعلامات أو ما يشابهها.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_email_hooks">خطاطيف البريد</h5>
+<div class="paragraph">
+<p>يمكنك إعداد خطاطيف ثلاثة لأساليب التطوير المعتمدة على البريد.
+جميعها يناديها أمر تطبيق الرقع البريدية <code>git am</code>، فإذا لم يكن هذا الأم‍ر في أسلوب التطوير الذي تتبعه فانتقل إلى الفصل التالي.
+أما إذا كنت تقبل الرقع المُعدَّة بالأمر <code>git format-patch</code> عبر البريد الشابكي، فقد يفيدك بعضها.</p>
+</div>
+<div class="paragraph">
+<p>أول خطاف ينفّذ هو <em>خطاف رسالة الرقعة</em> (<code>applypatch-msg</code>).
+ويقبل معاملًا واحدًا هو مسار الملف المؤقت الذي فيه رسالة الإيداع المقترحة.
+وإنهاء تنفيذه بقيمة خروج غير الصفر يوقف الرقعة.
+فيمكنك استعماله للتأكد من أن رسالة الإيداع صحيحة التنسيق، أو لاستنظام (normalize) الرسالة بتعديلها في مكانها.</p>
+</div>
+<div class="paragraph">
+<p>والتالي هو <em>خطاف ما قبل إيداع الرقعة</em> (<code>pre-applypatch</code>).
+وقد يسبب اللبس أنه، خلافًا لاسمه الأصلي بالإنجليزية، يعمل <em>بعد</em> تطبيق الرقعة ولكن قبل صنع الإيداع، فيمكنك استعماله لفحص اللقطة قبل إيداعها.
+فيمكنك فيه تنفيذ الاختبارات أو فحص شجرة العمل أو غير ذلك.
+وإن افتقدت شيئًا أو فشل اختبار، فإن إنهاء تنفيذ هذا البُريمج بقيمة خروج غير الصفر يوقف أمر <code>git am</code> بغير إيداع الرقعة.</p>
+</div>
+<div class="paragraph">
+<p>أما <em>خطاف ما بعد إيداع الرقعة</em> (<code>post-applypatch</code>) فهو الخطاف الأخير الذي ينفَّذ عند تطبيق رقعة بريدية بالأمر <code>git am</code>، وينفَّذ بعد صنع الإيداع.
+فيمكنك استعماله لإعلام صاحب الرقعة أو غيره بإتمام إيداعها.
+ولا يمكنك إيقاف الرقعة بهذا البُريمج.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_other_client_hooks">خطاطيف العميل الأخرى</h5>
+<div class="paragraph">
+<p>ينفَّذ <em>خطاف ما قبل إعادة التأسيس</em> (<code>pre-rebase</code>) قبل إعادة تأسيس أي شيء، ويمكنه إيقاف العملية بإنهاء تنفيذه بقيمة خروج غير الصفر.
+فيمكنك استعماله لمنع إعادة تأسيس أي إيداعات قد دُفعت.
+البُريمج المثال المرفق مع جت يفعل هذا، إلا أنه يفترض بعض الأمور التي قد لا توافق أسلوب عملك.</p>
+</div>
+<div class="paragraph">
+<p>أما <em>خطاف ما بعد التحرير</em> (<code>post-rewrite</code>) فتنفِّذه الأوامر التي تبدّل الإيداعات، مثل أم‍ر تصحيح الإيداع <code>git commit --amend</code> وأم‍ر إعادة التأسيس <code>git rebase</code> (لكن ليس أم‍ر معالجة الفروع <code>git filter-branch</code>).
+مُعامِله الوحيد هو الأمر الذي سبّب التحرير، ويستقبل قائمة بالتحريرات على المَدخل المعياري (<code>stdin</code>).
+معظم استعمالات هذا الخطاف مثل خطافَيْ <code>post-checkout</code> و <code>post-merge</code> التاليين.</p>
+</div>
+<div class="paragraph">
+<p>بعد نجاح أمر السحب، ينفّذ <em>خطاف ما بعد السحب</em> (<code>post-checkout</code>). يمكنك استعماله لإعداد مجلد عملك ليناسب بيئة مشروعك.
+قد يعني هذا مثلا أن تنقل إليه ملفات رقْمية كبيرة لا تريدها في تاريخ المستودع، أو أن توّلد الوثائق، أو شيئًا من هذا القبيل.</p>
+</div>
+<div class="paragraph">
+<p>أما <em>خطاف ما بعد الدمج</em> (<code>post-merge</code>) فينفَّذ بعد نجاح أمر الدمج.
+فيمكنك استعماله لكي تستعيد إلى مجلد العمل البيانات التي لا يسجلها جت، مثل أذونات الملفات.
+ويمكنه كذلك تحقّق وجود ملفات معينة يتجاهلها جت وتريدها عندما يتبدّل مجلد العمل.</p>
+</div>
+<div class="paragraph">
+<p>ويعمل <em>خطاف ما قبل الدفع</em> (<code>pre-push</code>) عند تنفيذ أمر الدفع، بعد تحديث الإشارات البعيدة لكن قبل نقل أي كائن.
+يستقبل مُعامِلين هما اسم البعيد المدفوع إليه، ورابطه، ويستقبل من المدخل المعياري قائمة من الإشارات التي ستُحدَّث.
+يمكنك استعماله لتحقق تحديثات الإشارات قبل إتمام الدفع، فإن إنهاء تنفيذه بقيمة خروج غير الصفر يوقف الدفع.</p>
+</div>
+<div class="paragraph">
+<p>خلال عمل جت أحيانا يحتاج تنظيف سجلاته الخاصة بالمستودع، فينفّذ جت أمر التنظيف الآلي <code>git gc --auto</code>، الذي ينظّم الملفات الداخلية للمستودع ويحذف المهملات. (<code>gc</code> اختصار ‪&#8220;garbage collection&#8221;‬ («جمع المهملات»).)
+ينفَّذ <em>خطاف ما قبل التنظيف الآلي</em> (<code>pre-auto-gc</code>) قُبَيل بدء التنظيف الآلي، ليُخبرك مثلًا بحدوثه، أو ليمنعه إن لم يمكن الوقت مناسبًا لذلك.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_خطاطيف_الخادوم">خطاطيف الخادوم</h4>
+<div class="paragraph">
+<p>بالإضافة إلى الخطاطيف التي تنفّذ عند العميل، يمكنك استخدام الخطاطيف التي تنفّذ على الخادوم، إذا كنت مدير أنظمة، حتى تنْفِذ سياسات مشروعك المختارة.
+وتعمل هذه البُريمجات قبل الدفع إلى خادومك وبعده.
+فتستطيع الخطاطيف «القَبْلية» رفض الدفع بأن تنهي تنفيذها بقيمة خروج غير الصفر في أي وقت، ثم تطبع رسالة خطأ إلى العميل. ويمكنك إعداد سياسة دفع سهلة أو معقدة كما تشاء.</p>
+</div>
+<div class="sect4">
+<h5 id="_خطاف_ما_قبل_الاستلام_pre_receive">خطاف ما قبل الاستلام <code>pre-receive</code></h5>
+<div class="paragraph">
+<p>أول بُريمج يعمل عند استقبال دفع من عميل هو خطاف ما قبل الاستلام (<code>pre-receive</code>).
+ويقرأ من المَدخل المعياري (<code>stdin</code>) قائمةَ الإشارات التي تُدفع. فإذا أنهى تنفيذه بقيمة خروج غير الصفر، لم تُقبل أيٌّ منهم.
+فيمكنك استعماله مثلًا للتحقُّق أن الإشارات المحدّثة جميعها إيداعات تسريع، أو لتحقُّق صلاحيات الوصول للإشارات والملفات التي تعدلها إيداعات هذا الدفع.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_خطاف_التحديث_update">خطاف التحديث <code>update</code></h5>
+<div class="paragraph">
+<p>خطاف التحديث (<code>update</code>) يشبه كثيرا خطاف ما قبل الاستلام (<code>pre-receive</code>)، إلا أنه ينفّذ مرة لكل فرع يريد تحديثه الذي يدفع.
+فإن كان يدفع إلى عدة فروع، فإن خطاف ما قبل الاستلام (<code>pre-receive</code>) سينفّذ مرة واحدة فقط، أما خطاف التحديث (<code>update</code>) سينفّذ م‍رة لكل فرع يدفع إليه.
+وبدلًا من القراءة من المدخل المعياري، فإنه يقبل ثلاثة معاملات: اسم الإشارة (الفرع)، وبصمة SHA-1 التي كانت تشير إليها الإشارة قبل الدفع، وبصمة SHA-1 التي يريد المستخدم دفعها.
+فإذا أنهي البُريمج تنفيذه بقيمة خروج غير الصفر، فستُرفض هذه الإشارة وحدها. أما الإشارات الأخرى فلن تتأثر به وقد تقبل.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_خطاف_ما_بعد_الاستلام_post_receive">خطاف ما بعد الاستلام <code>post-receive</code></h5>
+<div class="paragraph">
+<p>أما خطاف ما بعد الاستلام (<code>post-receive</code>) فيعمل بعد تمام العملية بكاملها، ويُستعمل لتحديث الخدمات الأخرى أو إعلام المستخدمين.
+ويقرأ المعطيات نفسها من المدخل المعياري مثل خطاف ما قبل الاستلام (<code>pre-receive</code>) تماما.
+يمكن استعماله لإرسال بريد شابكي إلى قائمة بريدية، أو تنبيه خادوم دمج مستمر (CI)، أو تحديث نظام متابعة مسائل. فيمكنك تحليل رسائل الإيداع برمجيًّا لتعلم إن كانت مسألةٌ ما تحتاج إلى الفتح أو التعديل أو الغلق.
+لن يُوقف هذا البريمج عمليةَ الدفع، لكن لن يقطع العميل اتصاله إلا عندما يتنهي، فاحذر أن تفعل شيئًا قد يستغرق وقتًا طويلًا.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>إذا كنت تكتب بُريمج خطاف سيقرؤه الآخرون، فعليك بالخيارات الطويلة للأوامر؛ سوف تشكرنا بعد شهور من الآن.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_البرشامة_في_الخطاطيف_cheatsheet">البرشامة في الخطاطيف (Cheatsheet)</h4>
+<div class="paragraph glue-to-next">
+<p>هذا مرجع موجز لجميع الخطاطيف المشروحة. (من إضافة المترجم.)</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_خطاطيف_أمر_الإيداع_git_commit">خطاطيف أمر الإيداع git commit</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>خطاف ما قبل الإيداع</strong> <code>pre-commit</code>:<br>
+قبل رسالة الإيداع، لفحص اللقطة المودعة. قد يوقف الإيداع.</p>
+</li>
+<li>
+<p><strong>خطاف تجهيز رسالة الإيداع</strong> <code>prepare-commit-msg</code>:<br>
+قبل فتح المحرر لكن بعد إنشاء الرسالة المبدئية، لتعديلها.</p>
+</li>
+<li>
+<p><strong>خطاف رسالة الإيداع</strong> <code>commit-msg</code>:<br>
+بعد الفراغ من تحرير رسالة الإيداع، لمراجعتها. قد يوقف الإيداع.</p>
+</li>
+<li>
+<p><strong>خطاف ما بعد الإيداع</strong> <code>post-commit</code>:<br>
+بعد إتمام عملية الإيداع بكاملها، للإعلامات وما يشابهها.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_خطاطيف_أمر_تطبيق_الرقع_البريدية_git_am">خطاطيف أمر تطبيق الرقع البريدية git am</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>خطاف رسالة الرقعة</strong> <code>applypatch-msg</code>:<br>
+عند البدء، لمراجعة رسالة الرقعة أو تعديلها. قد يوقف تطبيق الرقعة.</p>
+</li>
+<li>
+<p><strong>خطاف ما قبل إيداع الرقعة</strong> <code>pre-applypatch</code> <span class="tiny">(اسمه الإنجليزي خادع)</span>:<br>
+بعد تطبيق الرقعة وقبل إيداعها، لفحص اللقطة قبل إيداعها. قد يوقف الإيداع.</p>
+</li>
+<li>
+<p><strong>خطاف ما بعد إيداع الرقعة</strong> <code>post-applypatch</code>:<br>
+بعد الإيداع، للإعلامات وما يشابهها.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_خطاطيف_العميل_الأخرى">خطاطيف العميل الأخرى</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>خطاف ما قبل إعادة التأسيس</strong> <code>pre-rebase</code>:<br>
+قبل إعادة تأسيس أي شيء. قد يوقف العملية.</p>
+</li>
+<li>
+<p><strong>خطاف ما بعد التحرير</strong> <code>post-rewrite</code>:<br>
+بعد تحرير الإيداعات. يستعمل لتجهيز مجلد العمل.</p>
+</li>
+<li>
+<p><strong>خطاف ما بعد السحب</strong> <code>post-checkout</code>:<br>
+بعد نجاح أمر السحب. يستعمل لتجهيز مجلد العمل.</p>
+</li>
+<li>
+<p><strong>خطاف ما بعد الدمج</strong> <code>post-merge</code>:<br>
+بعد نجاح أمر الدمج. يستعمل لتجهيز مجلد العمل.</p>
+</li>
+<li>
+<p><strong>خطاف ما قبل الدفع</strong> <code>pre-push</code>:<br>
+عند بدء تنفيذ أمر الدفع، بعد تحديث الإشارات وقبل نقل شيء. يستعمل لمراجعة ما سيُدفع. قد يوقف الدفع.</p>
+</li>
+<li>
+<p><strong>خطاف ما قبل التنظيف الآلي</strong> <code>pre-auto-gc</code> <span class="tiny">(تنظيم بيانات جت وجمع المهملات منها)</span>:<br>
+قُبَيل بدء التنظيف الآلي، للإعلام به أو منعه عند الحاجة.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_خطاطيف_الخادوم_2">خطاطيف الخادوم</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>خطاف ما قبل الاستلام</strong> <code>pre-receive</code>:<br>
+عند الدفع إلى الخادوم، ينفّذ مرة واحدة للدفع كله، ليراجع جميع الإشارات المدفوعة. قد يوقف الدفع.</p>
+</li>
+<li>
+<p><strong>خطاف التحديث</strong> <code>update</code>:<br>
+عند الدفع إلى الخادوم، ينفّذ مرة لكل فرع مدفوع إليه، ليراجع جميع الإشارات المدفوعة إليه. قد يوقف الدفع إلى هذا الفرع وحده.</p>
+</li>
+<li>
+<p><strong>خطاف ما بعد الاستلام</strong> <code>post-receive</code>:<br>
+بعد نجاح الدفع إلى الخادوم، لتحديث الخدمات أو للإعلامات. يبقى العميل متصلًا حتى ينتهي هذا الخطاف.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ <strong>السابق: </strong><small><s>٨<small>،</small> ٢<small>،</small> سمات الملفات في جت</s></small>&emsp;<a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a></p>
+<p>↑ <a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks">الأصل الإنجليزي</a></span></p><p><strong>التالي: </strong><small><s>٨<small>،</small> ٤<small>،</small> مثال لفرض السياسات في جت</s></small>&emsp;<a href="summary-08.html">٨<small>،</small> ٥<small>،</small> الخلاصة</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2025-10-24 12:00:00 +0000
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

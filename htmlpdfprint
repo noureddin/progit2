@@ -1,0 +1,126 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# vim: set et sw=4 ts=4  :
+
+# based on my pythonization of an old, official Qt5 example:
+# https://gist.github.com/noureddin/d58ad46a32a4f954c0646fed201932ff
+# the original source is under the terms of BSD License:
+# https://code.qt.io/cgit/qt/qtwebengine.git/tree/examples/webenginewidgets/html2pdf/html2pdf.cpp?h=5.15
+# Copyright (C) 2017 The Qt Company Ltd.
+# Copyright (C) 2025 Noureddin.
+
+import sys
+import os
+
+from PyQt6.QtCore import *
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
+from PyQt6.QtWebEngineCore import *
+from PyQt6.QtWebEngineWidgets import *
+
+Exact = QPageSize.SizeMatchPolicy.ExactMatch
+
+A4 = QPageSize.PageSizeId.A4
+# A5 = QPageSize.PageSizeId.A5  # the same as `QPageSize(QSize(421, 297))`, which is slightly off
+A5 = QPageSize(QSize(420, 596), "", Exact)
+Port = QPageLayout.Orientation.Portrait
+Land = QPageLayout.Orientation.Landscape
+Mill = QPageLayout.Unit.Millimeter
+Inch = QPageLayout.Unit.Inch
+
+A4pagelayout = QPageLayout(QPageSize(A4), Port, QMarginsF(0.25, 0.5, 0.25, 0.5), Inch)
+A5pagelayout = QPageLayout(QPageSize(A5), Port, QMarginsF(0.25, 0.5, 0.25, 0.5), Inch)
+
+# for faster generation for testing, most chapters can be dropped
+COND = '!= 2'  # remove all except ch 2
+COND = '>= 2'  # remove ch2+
+COND = ''  # remove nothing
+
+JS = f'''
+document.getElementById('toc').remove()
+Array.from(document.getElementById('content').children).forEach((el, i) => {{ if (i-1 {COND}) {{ el.remove() }} }})
+// remove all chapters after the first one after the prefaces and the intro
+''' if COND else ""
+
+
+class HtmlPdfPrinter(QObject):
+
+    def __init__(self, input_path, output_path, pagelayout, working_directory=None):
+        super().__init__()
+        self.input  = input_path
+        self.output = output_path
+        self.layout = pagelayout
+        self.cwd    = working_directory
+        self.profile = QWebEngineProfile()  # no name given means incognito
+        self.page = QWebEnginePage(self.profile, None)
+        self.page.loadFinished.connect(self.loadFinished)
+        self.page.pdfPrintingFinished.connect(self.pdfPrintingFinished)
+
+    def run(self):
+        self.page.load(QUrl.fromUserInput(self.input, self.cwd))
+        return QApplication.exec()
+
+    def loadFinished(self, ok):
+        if not ok:
+            print(f"Failed to load URL '{self.input}'", file=sys.stderr, flush=True)
+            QCoreApplication.exit(1)
+        else:
+            print_page = lambda _=None: self.page.printToPdf(self.output, self.layout)
+            if JS:
+                self.page.runJavaScript(JS, print_page)
+            else:
+                print_page()
+
+    def pdfPrintingFinished(self, file_path, success):
+        if not success:
+            print(f"Failed to print to output file '{file_path}'", file=sys.stderr, flush=True)
+            QCoreApplication.exit(1)
+        else:
+            print(f"Saved '{self.input}' to '{file_path}'")
+            QCoreApplication.quit()
+
+
+def main(argv):
+    app = QApplication(argv)
+    QCoreApplication.setOrganizationName("HtmlPdfPrint")
+    QCoreApplication.setApplicationName("htmlpdfprint")
+    QCoreApplication.setApplicationVersion('0.1.0+qt'+QT_VERSION_STR)
+
+    parser = QCommandLineParser()
+    parser.setApplicationDescription(
+        QCoreApplication.translate("main", "Converts the web page or HTML file <input> into the PDF file <output>."))
+    parser.addHelpOption()
+    parser.addVersionOption()
+    parser.addPositionalArgument(
+        QCoreApplication.translate("main", "<input>"),
+        QCoreApplication.translate("main", "Input URL or path for PDF conversion."))
+    parser.addPositionalArgument(
+        QCoreApplication.translate("main", "<output>"),
+        QCoreApplication.translate("main", "Output file name for PDF conversion."))
+    parser.addPositionalArgument(
+        QCoreApplication.translate("main", "[page-size]"),
+        QCoreApplication.translate("main", "A4 or A5, case-insensitive; defaults to A4", "[size]"))
+
+    parser.process(QCoreApplication.arguments())
+
+    requiredArguments = parser.positionalArguments()
+
+    argc = len(requiredArguments)
+    if argc < 2 or argc > 3:
+        parser.showHelp(1)
+
+    if argc != 3:
+        pagelayout = A4pagelayout
+    elif requiredArguments[2] in ('a4', 'A4'):
+        pagelayout = A4pagelayout
+    elif requiredArguments[2] in ('a5', 'A5'):
+        pagelayout = A5pagelayout
+    else:
+        parser.showHelp(1)
+
+    converter = HtmlPdfPrinter(requiredArguments[0], requiredArguments[1], pagelayout, os.getcwd())
+    return converter.run()
+
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv))

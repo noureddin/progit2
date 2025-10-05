@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>؜GitLab | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="gitlab" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.449,</span>
+<span id="revdate">2025-10-24</span>
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+<ul class="sectlevel2">
+<li><a href="protocols.html">٤<small>،</small> ١<small>،</small> الموافيق (البروتوكولات)</a>
+</li>
+<li><a href="_getting_git_on_a_server.html">٤<small>،</small> ٢<small>،</small> تثبيت جت على خادوم</a>
+</li>
+<li><a href="_generate_ssh_key.html">٤<small>،</small> ٣<small>،</small> توليد مفتاح SSH عمومي لك</a>
+</li>
+<li><a href="_setting_up_server.html">٤<small>،</small> ٤<small>،</small> إعداد الخادوم</a>
+</li>
+<li><a href="git-daemon.html">٤<small>،</small> ٥<small>،</small> عفريت جت</a>
+</li>
+<li><a href="smart-http.html">٤<small>،</small> ٦<small>،</small> ميفاق HTTP الذكي</a>
+</li>
+<li><a href="gitweb-section.html">٤<small>،</small> ٧<small>،</small> ؜GitWeb</a>
+</li>
+<li><a href="gitlab.html"><span class="toc-current">٤، ٨، ؜GitLab</span></a>
+</li>
+<li><a href="hosted-git.html">٤<small>،</small> ٩<small>،</small> خيارات الاستضافة الخارجية</a>
+</li>
+<li><a href="summary-04.html">٤<small>،</small> ١٠<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="gitlab">٤، ٨، ؜GitLab</h3>
+<div class="paragraph">
+<p>
+لعلك وجدت أن جت‌وب GitWeb قليل الإمكانات بعض الشيء.
+فإذا كنت تبحث عن خادوم جت حديث ومكتمل الخصائص، فيوجد عدد من الحلول المفتوحة المصدر يمكنك تثبيتها بدلا منه.
+ولأن جت‌لاب من أشهرها، فإننا سنتناول تثبيته واستخدامه مثالا.
+هذا الخيار أصعب من جت‌وب وسيحتاج منك رعاية أكثر، لكنه مكتمل الخصائص.</p>
+</div>
+<div class="sect3">
+<h4 id="_التثبيت">التثبيت</h4>
+<div class="paragraph">
+<p>جت‌لاب هو تطبيق وب بقاعدة بيانات، لذا فتثبيته أعقد من بعض خواديم جت الأخرى.
+لكن لحسن الحظ هذه العملية موثقة بالكامل ومدعومة جيدا.
+جت‌لاب يشدد التوصية بتثبيته على خادومك عبر الحزمة الرسمية الحافلة، المسماة حزمة ‪&#8220;Omnibus GitLab&#8221;‬.</p>
+</div>
+<div class="paragraph">
+<p>خيارات التثبيت الأخرى هي:</p>
+</div>
+<div class="ulist tight">
+<ul class="tight">
+<li>
+<p>GitLab Helm chart، لاستخدامه مع Kubernetes.</p>
+</li>
+<li>
+<p>حزم Docker لـ GitLab، لاستخدامها مع Docker.</p>
+</li>
+<li>
+<p>من مِلفات المصدر.</p>
+</li>
+<li>
+<p>مقدِّمو الخدمات السحابية، مثل AWS و Google Cloud Platform و Azure و OpenShift و Digital Ocean.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>للمزيد من المعلومات (بالإنجليزية) انظر <a href="https://gitlab.com/gitlab-org/gitlab-foss/-/blob/master/README.md" target="_blank" rel="noopener">GitLab Community Edition (CE) readme</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_الإدارة">الإدارة</h4>
+<div class="paragraph">
+<p>واجهة إدارة جت‌لاب هي واجهة وب.
+ليس عليك إلا توجيه متصفحك إلى اسم المُضيف (‪&#8220;hostname&#8221;‬) أو عنوان IP الذي ثبتَّ عليه جت‌لاب، ثم لُج بحساب المدير <code>root</code>.
+كلمة المرور المبدئية تختلف حسب خيار التثبيت، لكن الحزمة الرسمية الحافلة، بطبيعتها تولّد لك كلمة مرور وتخزنها في ملف <code>/etc/gitlab/initial_root_password</code> حتى أربعٍ وعشرين ساعة على الأقل.
+انظر التوثيق لتفاصيل أزيد.
+بعد الولوج، اضغط على رمز ‪&#8220;Admin area&#8221;‬ (منطقة الإدارة) في القائمة التي على اليمين بالأعلى.</p>
+</div>
+<div id="gitlab_menu" class="imageblock">
+<div class="content">
+<img class="_bright" src="images/gitlab-menu.png" alt="زر “Admin area” (منطقة الإدارة) في قائمة جت‌لاب">
+</div>
+<div class="title">شكل ٥٠. زر ‪&#8220;Admin area&#8221;‬ (منطقة الإدارة) في قائمة جت‌لاب</div></div>
+<div class="sect4">
+<h5 id="_المستخدمون">المستخدمون</h5>
+<div class="paragraph">
+<p>على كل من يريد استخدام خادوم جت‌لاب الخاص بك الحصول على حساب مستخدم.
+حسابات المستخدمين أمر يسير؛ هي في الأساس معلومات شخصية م‍رتبطة ببيانات الولوج.
+كل حساب مستخدم لديه <strong>مساحة أسماء</strong> (‪&#8220;namespace&#8221;‬)، وهي تجميع منطقي للمشروعات الخاصة به.
+فمثلا إذا كان لدى المستخدم <code>shams</code> مشروع اسمه <code>project</code>، فإن رابط ذلك المشروع سيكون <code>http://server/shams/project</code>.</p>
+</div>
+<div id="gitlab_users" class="imageblock">
+<div class="content">
+<img class="_bright" src="images/gitlab-users.png" alt="شاشة إدارة المستخدمين على جت‌لاب">
+</div>
+<div class="title">شكل ٥١. شاشة إدارة المستخدمين على جت‌لاب</div></div>
+<div class="paragraph">
+<p>يمكنك إزالة حساب مستخدم بطريقتين:
+«حظر» (‪&#8220;block&#8221;‬) حساب مستخدم يمنعه من الولوج إلى خادومك، ولكن كل بياناته التي في مساحة أسمائه ستبقى، والإيداعات الموقَّعة ببريده ستظل تشير إلى صفحته الشخصية على خادومك.</p>
+</div>
+<div class="paragraph">
+<p>أما «محو» (‪&#8220;destroy&#8221;‬) مستخدمٍ فيزيله تماما من قاعدة البيانات ومن نظام الملفات؛
+ستُزال كل المشروعات والبيانات التي في مساحة أسمائه، وكذلك كل المجموعات التي يملكها.
+طبعا هذا الفعل مستديم الأثر وأشد إتلافًا، ونادرا ما ستحتاجه.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_gitlab_groups_section">المجموعات</h5>
+<div class="paragraph">
+<p>المجموعة في جت‌لاب هي تجميعة من المشروعات، مع معلومات عن كيفية وصول المستخدمين إلى هذه المشروعات.
+كل مجموعة لديها «مساحة أسماء مشروعات»، تماما مثلما للمستخدمين، لذا فإن كان في المجموعة <code>training</code> مشروع اسمه <code>materials</code>، فسيكون رابطه <code>http://server/training/materials</code>.</p>
+</div>
+<div id="gitlab_groups" class="imageblock">
+<div class="content">
+<img class="_bright" src="images/gitlab-groups.png" alt="شاشة إدارة المجموعات على جت‌لاب">
+</div>
+<div class="title">شكل ٥٢. شاشة إدارة المجموعات على جت‌لاب</div></div>
+<div class="paragraph">
+<p>ترتبط كل مجموعة بعدد من المستخدمين، ولكل منهم مستوى من الصلاحيات لمشروعات المجموعة وكذلك المجموعة نفسها.
+وتتراوح هذه المستويات من ‪&#8220;Guest&#8221;‬ («زائر»: للمسائل ‪&#8220;issues&#8221;‬ والمحادثات ‪&#8220;chat&#8221;‬ فقط)، إلى ‪&#8220;Owner&#8221;‬ («مالك»: للتحكم الكامل في المجموعة وأعضائها ومشروعاتها).
+وهذه المستويات كثيرة يصعب سردها هنا، لكنّ شاشة الإدارة في جت‌لاب فيها رابطا مفيدا.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_المشروعات">المشروعات</h5>
+<div class="paragraph">
+<p>المشروع في جت‌لاب هو تقريبا مستودع جت واحد.
+ينتمي كل مشروع إلى مساحة أسماء واحدة، إما لمستخدم وإما لمجموعة.
+وإذا كان المشروع ينتمي إلى مستخدم، فلدى مالك المشروع تحكم مباشر في من لديه حق الوصول إلى المشروع. وإذا كان ينتمي إلى مجموعة، فصلاحيات أعضاء المجموعة هي التي تحدد.</p>
+</div>
+<div class="paragraph">
+<p>كل مشروع له مستوى ظهور، ليحدد من يستطيع رؤية صفحات هذا المشروع ومستودعه.
+فإذا كان المشروع «خصوصيًّا» (‪&#8220;Private&#8221;‬)، فلا يظهر إلا لمن يحددهم مالك المشروع بالاسم.
+وإذا كان «داخليًّا» (‪&#8220;Internal&#8221;‬)، فإنه لا يظهر إلا للمستخدمين الوالِجين إلى الخادوم. وإذا كان «عموميًّا» (‪&#8220;Public&#8221;‬) فإنه يظهر للجميع.
+لاحظ أن هذا يتحكم في الوصول عبر <code>git fetch</code> وكذلك عند الوصول عبر واجهة الوب لهذا المشروع.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_الخطاطيف">الخطاطيف</h5>
+<div class="paragraph">
+<p>يدعم جت‌لاب الخطاطيف، على مستوى المشروع وعلى مستوى النظام كله.
+سيرسل خادوم جت‌لاب طلب HTTP بطريقة POST مع وصف بصيغة JSON، كلما حدثَ حدثٌ مناسب.
+وهذه طريقة عظيمة لربط مستودعات جت وخادوم جت‌لاب بالأدوات الآلية الأخرى التي تستخدمها في التطوير، مثل خواديم الدمج المستمر (CI)، وغرف المحادثة، وأدوات النشر (deployment).</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_الاستخدام_الأساسي">الاستخدام الأساسي</h4>
+<div class="paragraph">
+<p>أول ما قد تود عمله على جت‌لاب هو إنشاء مشروع،
+وذلك بالضغط على رمز ‪&#8220;+&#8221;‬ على شريط الأدوات.
+ستُسأل عن اسم المشروع، ومساحة الأسماء التي ينتمي إليها، ومستوى ظهوره.
+معظم ما تحدده هنا ليس مستديمًا، فتستطيع تغييره فيما بعد من واجهة الإعدادات.
+اضغط على ‪&#8220;Create Project&#8221;‬ («إنشاء المشروع») لإتمام العملية.</p>
+</div>
+<div class="paragraph">
+<p>وما إن يكون المشروع حيًّا، قد تود ربطه بمستودع محلي.
+يمكن التواصل مع أي مشروع عبر HTTPS أو SSH. ويمكنك استعمال أي منهما لإضافة مستودع جت بعيد في مستودعك المحلي.
+ستجد الروابط في أعلى الصفحة الرئيسة للمشروع.
+فمثلا تنفيذ هذا الأمر في مستودع محلي سيضيف إليه مستودعًا بعيدًا اسمه <code>gitlab</code> ويشير إلى المستودع المستضاف:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git remote add gitlab https://server/namespace/project.git</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>أما إذا لم يكن لديك نسخة محلية من المستودع، فيمكنك استنساخه بسهولة هكذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git clone https://server/namespace/project.git</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وتتيح واجهة الوب طرائق مختلفة مفيدة للنظر إلى المستودع نفسه.
+فتُظهر الصفحة الرئيسة لكل مشروع آخر الأنشطة، والروابط التي في أعلى الصفحة تُريك ملفات المشروع وتاريخ إيداعاته.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_التعاون_fixme">التعاون</h4>
+<div class="paragraph">
+<p>أسهل طريقة للتعاون على مشروع على جت‌لاب هي إعطاء كل مستخدم إذن الدفع مباشرةً إلى المستودع.
+يمكنك ضم المستخدمين إلى المشروع بالذهاب إلى قسم الأعضاء (‪&#8220;Members&#8221;‬) في إعدادات هذا المشروع، وربط المستخدمين الجدد بمستويات الوصول المناسبة. (مررنا على مستويات الوصول في فصل <a href="gitlab.html#_gitlab_groups_section">المجموعات</a>).
+إذا كان للمستخدم مستوى الوصول «مطور» (‪&#8220;Developer&#8221;‬) فيستطيع دفع الإيداعات والفروع مباشرةً إلى المستودع.</p>
+</div>
+<div class="paragraph">
+<p>لكن طريقة أخرى للتعاون بغير ضم المطورين إلى المستودع هي طلبات الدمج (‪&#8220;merge request&#8221;‬)،
+التي تتيح المساهمة بطريقة محكومة لكل مستخدم يستطيع رؤية المشروع.
+فالمستخدمون ذوو الوصول المباشر يمكنهم إنشاء فرع ودفع إيداعاتهم إليه ثم إنشاء طلب لدمج فرعهم في الفرع الرئيس أو أي فرع آخر.
+أما المستخدمون الذين ليس لديهم إذن الدفع للمستودع، فيمكنهم «اشتقاق» (‪&#8220;fork&#8221;‬) المستودع لإنشاء نسختهم الخاصة منه، ودفع إيداعاتهم إلى نسختهم <em>الخاصة بهم</em>، ثم إنشاء طلب دمج من اشتقاقهم إلى المشروع الأصل.
+يسمح هذا الأسلوب للمالك بالتحكم الكامل في كل ما يدخل المستودع ومتى يدخل، وفي الوقت نفسه يسمح بمساهمات المستخدمين غير الموثوق فيهم.</p>
+</div>
+<div class="paragraph">
+<p>طلبات الدمج، والمسائل (‪&#8220;issues&#8221;‬)، هما أهم أدوات النقاشات الطويلة في جت‌لاب.
+فكل طلب دمج يسمح بنقاش على كل سطر من سطور التعديل المقترح (ويدعم نوعًا خفيفًا من مراجعة التعديلات (code review))، إضافةً إلى نقاش عام.
+يمكن تكليف مستخدم بإتمام طلب دمج أو مسألة، أو جعل ذلك ضمن هدف من الأهداف (‪&#8220;milestone&#8221;‬).</p>
+</div>
+<div class="paragraph">
+<p>ركّز هذا الفصل في معظمه على خصائص جت‌لاب المرتبطة بـجت. ولكنه مشروع ناضج ومكتمل الخصائص، وفيه الكثير غير ذلك ليساعد فريقك في التعاون، مثل موسوعات المشروعات وأدوات رعاية الأنظمة.
+من محاسن جت‌لاب أنك ما إن تُتم إعداد الخادوم وتشغيله، فيندر أن تحتاج إلى تعديل ملف تهيئة أو الوصول إلى الخادوم عبر SSH؛ فواجهة الوب تتيح معظم أفعال الإدارة والاستخدام العام.</p>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ <strong>السابق: </strong><a href="gitweb-section.html">٤<small>،</small> ٧<small>،</small> ؜GitWeb</a></p>
+<p>↑ <a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Git-on-the-Server-GitLab">الأصل الإنجليزي</a></span></p><p><strong>التالي: </strong><a href="hosted-git.html">٤<small>،</small> ٩<small>،</small> خيارات الاستضافة الخارجية</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2025-10-24 12:00:00 +0000
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

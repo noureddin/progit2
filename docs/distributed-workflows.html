@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>أساليب التطوير المتوزع | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="distributed-workflows" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.449,</span>
+<span id="revdate">2025-10-24</span>
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+<ul class="sectlevel2">
+<li><a href="distributed-workflows.html"><span class="toc-current">٥، ١، أساليب التطوير المتوزع</span></a>
+</li>
+<li><a href="_contributing_project.html">٥<small>،</small> ٢<small>،</small> المساهمة في مشروع — مقدمة</a>
+</li>
+<li><a href="_commit_guidelines.html">٥<small>،</small> ٣<small>،</small> المساهمة في مشروع — إرشادات الإيداع</a>
+</li>
+<li><a href="_private_team.html">٥<small>،</small> ٤<small>،</small> المساهمة في مشروع — فريق خصوصي صغير</a>
+</li>
+<li><a href="_private_managed_team.html">٥<small>،</small> ٥<small>،</small> المساهمة في مشروع — فريق خصوصي بمدير دمج</a>
+</li>
+<li><a href="_public_project.html">٥<small>،</small> ٦<small>،</small> المساهمة في مشروع — مشروع عمومي باشتقاقات</a>
+</li>
+<li><a href="_project_over_email.html">٥<small>،</small> ٧<small>،</small> المساهمة في مشروع — مشروع عمومي عبر البريد الشابكي</a>
+</li>
+<li><a href="summary-contrib.html">٥<small>،</small> ٨<small>،</small> المساهمة في مشروع — الخلاصة</a>
+</li>
+<li><a href="maintaining-project-intro.html">٥<small>،</small> ٩<small>،</small> رعاية مشروع — مقدمة</a>
+</li>
+<li><a href="_patches_from_email.html">٥<small>،</small> ١٠<small>،</small> رعاية مشروع — تطبيق الرقع من البريد</a>
+</li>
+<li><a href="_checking_out_remotes.html">٥<small>،</small> ١١<small>،</small> رعاية مشروع — سحب فروع بعيدة</a>
+</li>
+<li><a href="_what_is_introduced.html">٥<small>،</small> ١٢<small>،</small> رعاية مشروع — تحديد التغييرات الجديدة</a>
+</li>
+<li><a href="maintaining-project-integrating.html">٥<small>،</small> ١٣<small>،</small> رعاية مشروع — دمج المساهمات</a>
+</li>
+<li><a href="maintaining-project-releasing.html">٥<small>،</small> ١٤<small>،</small> رعاية مشروع — إصدار مشروعك</a>
+</li>
+<li><a href="summary-05.html">٥<small>،</small> ١٥<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="distributed-workflows">٥، ١، أساليب التطوير المتوزع</h3>
+<div class="paragraph">
+<p>
+خلافًا للأنظمة المركزية، طبيعة جت المتوزعة تسمح بمرونة كبيرة في التعاون على تطوير المشروعات.
+ففي الأنظمة المركزية، الكل متساوون في أنهم نقاط فرعية تعمل مع مركز التقاء.
+أما في جت، فكل مطور يمكن أن يكون نقطةً أو مركزًا؛ كل مطور قد يساهم في مستودعات الآخرين وقد يرعى مستودعًا عموميًّا يبني الآخرون عليه ويساهمون فيه.
+يتيح هذا ضروبًا كثيرة من أساليب التطوير لمشروعاتك ومشروعات فريقك. لذا سنتناول بعضًا من أشهر الأساليب التي تعتمد على هذه المرونة.
+وسنرى مزايا وعيوب كلٍ منها. يمكنك اختيار أسلوب واحد، أو م‍زج خصائص بضعة أساليب كيفما يناسبك.</p>
+</div>
+<div class="sect3">
+<h4 id="_الأسلوب_المركزي">الأسلوب المركزي</h4>
+<div class="paragraph">
+<p>
+في الأنظمة المركزية، يكاد ألا يوجد إلا أسلوب تعاون واحد: الأسلوب المركزي.
+مركز التقاء واحد، أيْ <em>مستودع</em>، هو الذي يقبل التعديلات، ويُزامن كل المساهمين مستودعاتهم معه.
+المطورون هم نقاط فرعية («عملاء» لنقطة الالتقاء المركزية)، ويتزامنون مع المركز.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/centralized-AR.png" alt="أسلوب التطوير المركزي">
+</div>
+<div class="title">شكل ٥٣. أسلوب التطوير المركزي</div></div>
+<div class="paragraph">
+<p>فإذا استنسخ المستودع مبرمجان، وكلاهما عدّل فيه، فإن المبرمج الذي يدفع تعديلاته إلى المستودع أولًا لن يجد صعوبة،
+أما المبرمج الآخر فعليه أولا دمج عمل المبرمج الأول قبل دفع تعديلاته إلى المستودع، حتى لا يغيّر عمل الأول.
+هذا الأمر حقيقة في جت كما في Subversion (مثل جميع أنظمة إدارة النسخ المركزية)، وهذا الأسلوب يعمل جيدًا في جت.</p>
+</div>
+<div class="paragraph">
+<p>فإذا كنت مرتاحًا مع أسلوب تطوير م‍ركزي معين في شركتك أو فريقك، فيمكنك الاستمرار في اتباعه مع جت.
+ليس عليك إلا إعداد مستودع واحد، وإعطاء كل واحد في فريقك إذن الدفع؛ ولن يسمح جت لأحد بتغيير عمل الآخرين.</p>
+</div>
+<div class="paragraph">
+<p>تخيل أن سمير وسميرة بدءا العمل في وقت واحد.
+وأتم سمير تعديلاته ودفعها إلى الخادوم.
+ثم أرادت سميرة دفع تعديلاتها، فسيرفض الخادوم،
+ويخبرها أنها تريد دفع إيداعات ليست إيداعات تسريع، ولن يسمح لها إلا بعد أن تستحضر (<code>fetch</code>) الجديد وتدمجه (<code>merge</code>).
+أسلوب التطوير هذا جذاب للكثيرين لأنه مألوف ومريح للكثيرين.</p>
+</div>
+<div class="paragraph">
+<p>وليس هذا الأسلوب مقصورًا على جماعات التطوير الصغيرة؛
+فنموذج التفريع في جت يسمح لمئات المطورين بالعمل بيُسر معًا على مشروع واحد، باستعمال عشرات الفروع في وقت واحد.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_integration_manager">أسلوب مدير الدمج</h4>
+<div class="paragraph">
+<p>
+يمكّنك جت من التعامل مع العديد من المستودعات البعيدة. فيسمح هذا بأسلوب تطوير فيه كل مطور له إذن الدفع إلى مستودعه العمومي، وإذن القراءة لمستودعات الآخرين كلهم.
+هذا غالبًا يشمل وجود مستودع رئيس يُعدّ المستودع «الرسمي».
+فللمساهمة في هذا المشروع، عليك استنساخه ودفع تعديلاتك إلى نسختك.
+عندئذٍ ترسل إلى القائم على المشروع طلبًا بجذب تعديلاتك.
+فيضيف مستودعك إلى المستودعات البعيدة في المشروع، ويختبر تعديلاتك على جهازه، ثم يدمجها ويدفعها إلى المستودع الرئيس.
+تجري هذه العملية هكذا (انظر شكل <a href="distributed-workflows.html#wfdiag_b">أسلوب مدير الدمج</a>):</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>يدفع القائم على المشروع إلى مستودعه العمومي.</p>
+</li>
+<li>
+<p>يستنسخ مبرمجٌ ما ذلك المستودع ويعدّل فيه.</p>
+</li>
+<li>
+<p>يدفع هذا المبرمج إلى نسخته العمومية الخاصة به.</p>
+</li>
+<li>
+<p>يرسل المبرمج (في رسالة بريد شابكي مثلا) إلى القائم على المشروع طلبًا بجذب تعديلاته.</p>
+</li>
+<li>
+<p>يضيف القائم على المشروع مستودع المساهم إلى المشروع ويدمج التعديلات على جهازه.</p>
+</li>
+<li>
+<p>يدفع القائم على المشروع هذه التعديلات إلى المستودع الرئيس.</p>
+</li>
+</ol>
+</div>
+<div id="wfdiag_b" class="imageblock">
+<div class="content">
+<img src="images/integration-manager-AR.png" alt="أسلوب مدير الدمج">
+</div>
+<div class="title">شكل ٥٤. أسلوب مدير الدمج</div></div>
+<div class="paragraph">
+<p>
+هذا الأسلوب هو الأشهر في أدوات التطوير الملتقي مثل جت‌هب وجت‌لاب. فسهلٌ فيها اشتقاق مشروع ودفع تعديلاتك إلى نسختك المشتقة ليراها الجميع.
+من مزايا هذا الأسلوب إمكانك مواصلة العمل، وإمكان القائم على المستودع الرئيس أن يجذب تعديلاتك في أي وقت.
+فلا يحتاج المساهمون إلى انتظار المشروع أن يدمج تعديلاتهم، فكلٌ يعمل على راحته.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_أسلوب_الزعيم_والمساعدين">أسلوب الزعيم والمساعدين</h4>
+<div class="paragraph">
+<p>
+هذا شكل من أشكال أسلوب «المستودعات العديدة».
+تتّبعه غالبًا المشروعات العملاقة ذات المئات من المساهمين. من أشهرها نواة لينكس.
+وفيه نجد عددًا من مديري الدمج، كلٌ منهم مسؤول عن جزء معين من المستودع، ويسمون <em>المساعدين</em> (lieutenants).
+ولجميع المساعدين مدير دمج واحد يسمى الزعيم أو الدكتاتور الخيّر (benevolent dictator).
+ويدفع الزعيم إلى المستودع المرجِع، الذي يجذب منه جميع المساهمين.
+تجري هذه العملية هكذا (انظر شكل <a href="distributed-workflows.html#wfdiag_c">أسلوب الزعيم والمساعدين</a>):</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>يعمل المطورون العاديون في فروع موضوعات، ويعيدون تأسيس عملهم على الفرع الرئيس للمستودع المرجع الذي يدفع الزعيم إليه.</p>
+</li>
+<li>
+<p>يدمج المساعدون فروع موضوعات المطورين في فروعهم الرئيسة.</p>
+</li>
+<li>
+<p>يدمج الزعيم فروع المساعدين الرئيسة في فرعه الرئيس.</p>
+</li>
+<li>
+<p>وأخيرا، يدفع الزعيم فرعه الرئيس إلى المستودع المرجع ليتسنّى للمطورين إعادة التأسيس عليه.</p>
+</li>
+</ol>
+</div>
+<div id="wfdiag_c" class="imageblock">
+<div class="content">
+<img src="images/benevolent-dictator-AR.png" alt="أسلوب الزعيم والمساعدين">
+</div>
+<div class="title">شكل ٥٥. أسلوب الزعيم والمساعدين</div></div>
+<div class="paragraph">
+<p>ليس هذا الأسلوب شائعًا، لكنه مفيد في المشروعات الضخمة وفي البيئات ذات المراتب العديدة من المطورين.
+فإنه يتيح لقائد المشروع (الزعيم) تفويض معظم العمل إلى الآخرين، وجمع أجزاء كبيرة من التعديلات في نقاط متعددة قبل دمجها معا.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_patterns_for_managing_source_code_branches">أنماط إدارة فروع المصدر البرمجي</h4>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>صنّف Martin Fowler دليلًا باسم ‪&#8220;Patterns for Managing Source Code Branches&#8221;‬ («أنماط إدارة فروع المصدر البرمجي»).
+يتناول هذا الدليل أساليب التطوير الشائعة في جت، ويشرح كيف تستعملها ومتى.
+وفيه كذلك قسم يقارن بين الدمج المتواتر والدمج المتباعد.</p>
+</div>
+<div class="paragraph">
+<p>الدليل بالإنجليزية:
+<a href="https://martinfowler.com/articles/branching-patterns.html" class="bare" target="_blank" rel="noopener">https://martinfowler.com/articles/branching-patterns.html</a></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_خلاصة_أساليب_التطوير">خلاصة أساليب التطوير</h4>
+<div class="paragraph">
+<p>هذه من أشهر أساليب التطوير المستعملة، الممكنة مع نظام إدارة نسخ متوزع مثل جت. لكن الكثير من التنويعات ممكنة حتى تلائم أسلوبك في الواقع.
+لأنك الآن قد تستطيع تحديد شكل الأسلوب الذي قد يلائمك، فسنتناول أمثلة محددة للقيام بالوظائف الأساسية التي تتكون منها الأساليب المختلفة.
+سنتعلم في الفصل التالي بعض أشهر أنماط المساهمة في مشروع.</p>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>↑ <a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Distributed-Git-Distributed-Workflows">الأصل الإنجليزي</a></span></p><p><strong>التالي: </strong><a href="_contributing_project.html">٥<small>،</small> ٢<small>،</small> المساهمة في مشروع — مقدمة</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2025-10-24 12:00:00 +0000
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

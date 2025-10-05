@@ -16,6 +16,8 @@ except:
     from PyQt6.QtCore import *
     from PyQt6.QtWidgets import *
 
+Prev_Char = QTextCursor.MoveOperation.PreviousCharacter
+Next_Char = QTextCursor.MoveOperation.NextCharacter
 Next_Word = QTextCursor.MoveOperation.NextWord
 Prev_Word = QTextCursor.MoveOperation.PreviousWord
 Bgn_Word  = QTextCursor.MoveOperation.StartOfWord
@@ -24,6 +26,7 @@ Next_Line = QTextCursor.MoveOperation.NextBlock
 Prev_Line = QTextCursor.MoveOperation.PreviousBlock
 Bgn_Line  = QTextCursor.MoveOperation.StartOfBlock
 End_Line  = QTextCursor.MoveOperation.EndOfBlock
+End_Doc   = QTextCursor.MoveOperation.End
 Add_Selection = QTextCursor.MoveMode.KeepAnchor
 
 
@@ -61,7 +64,7 @@ EDITOR_FONT_SIZE_VALUE = 16
 EDITOR_FONT_SIZE_UNIT = 'pt'
 
 # LIST_FONT_FAMILY = EDITOR_FONT_FAMILY
-LIST_FONT_FAMILY = 'Source Code Pro' #, Kawkab Mono'
+LIST_FONT_FAMILY = 'Noto Color Emoji, Source Code Pro'
 LIST_FONT_SIZE_VALUE = 12
 LIST_FONT_SIZE_UNIT = 'pt'
 
@@ -78,7 +81,7 @@ title_filename = [  # {{{
     ['-Terms', 'D-terms.asc'],
     ['-Arabic', 'E-arabic-reference.asc'],
     ['-License', 'book/license.asc'],
-    ['-Pre-Intro', 'preintro.asc'],
+    ['-Pre-Intro', 'preintro.md'],
     ['-Pre Trans', 'book/preface_translator.asc'],
     ['-Pre Sch', 'book/preface_schacon.asc'],
     ['-Pre Ben', 'book/preface_ben.asc'],
@@ -189,7 +192,7 @@ sub_prefix = re.compile('^--')
 INDENT = '\N{EM SPACE}\N{EM SPACE}'
 DBL_INDENT = INDENT + INDENT
 def title_to_view(t):
-    return sec_prefix.sub(INDENT, sub_prefix.sub(DBL_INDENT, t))
+    return sec_prefix.sub(INDENT, sub_prefix.sub(DBL_INDENT, t)).replace(' ', '\u202f')  # U+202F Narrow NSBP for Noto Color Emoji
 
 titles = []
 index_of_filename = {}; i = 0
@@ -203,7 +206,7 @@ lastposition = { f:0 for t,f in title_filename }
 # }}}
 
 
-# Syntax Highlighting {{{
+# Colors and Syntax Highlighting {{{
 # https://wiki.python.org/moin/PyQt/Python%20syntax%20highlighting
 
 def format(color, style=''):
@@ -218,7 +221,9 @@ def format(color, style=''):
     return _format
 
 # gruvbox dark - https://github.com/morhetz/gruvbox
-COLORS = {
+COLORS_DARK = {
+    'bg0_h':    '#1d2021',
+    'bg0_s':    '#32302f',
     'bg':       '#282828',
     'bg1':      '#3c3836',
     'bg2':      '#504945',
@@ -226,6 +231,8 @@ COLORS = {
     'bg4':      '#7c6f64',
     'fg':       '#ebdbb2',
     'fg2':      '#d5c4a1',
+    'fg3':      '#bdae93',
+    'fg4':      '#a89984',
     'red':      '#cc241d',
     'red2':     '#fb4934',
     'green':    '#98971a',
@@ -243,32 +250,35 @@ COLORS = {
     'orange':   '#d65d0e',
 }
 
-if 'light' in sys.argv:
-        # gruvbox light - https://github.com/morhetz/gruvbox
-        COLORS = {
-            'bg':       '#fbf1c7',
-            'bg1':      '#ebdbb2',
-            'bg2':      '#d5c4a1',
-            'bg3':      '#bdae93',
-            'bg4':      '#a89984',
-            'fg':       '#3c3836',
-            'fg2':      '#504945',
-            'red':      '#cc241d',
-            'red2':     '#9d0006',
-            'green':    '#98971a',
-            'green2':   '#79740e',
-            'green3':   '#79740e',
-            'green4':   '#b8bb26',
-            'yellow':   '#d79921',
-            'yellow2':  '#b57614',
-            'blue':     '#458588',
-            'blue2':    '#076778',
-            'purple':   '#b16286',
-            'aqua':     '#689d6a',
-            'gray':     '#7c6f64',
-            'gray2':    '#928374',
-            'orange':   '#d65d0e',
-        }
+# gruvbox light - https://github.com/morhetz/gruvbox
+COLORS_LIGHT = {
+    'bg0_h':    '#f9f5d7',
+    'bg0_s':    '#f2e5bc',
+    'bg':       '#fbf1c7',
+    'bg1':      '#ebdbb2',
+    'bg2':      '#d5c4a1',
+    'bg3':      '#bdae93',
+    'bg4':      '#a89984',
+    'fg':       '#3c3836',
+    'fg2':      '#504945',
+    'fg3':      '#665c54',
+    'fg4':      '#7c6f64',
+    'red':      '#cc241d',
+    'red2':     '#9d0006',
+    'green':    '#98971a',
+    'green2':   '#79740e',
+    'green3':   '#79740e',
+    'green4':   '#b8bb26',
+    'yellow':   '#d79921',
+    'yellow2':  '#b57614',
+    'blue':     '#458588',
+    'blue2':    '#076778',
+    'purple':   '#b16286',
+    'aqua':     '#689d6a',
+    'gray':     '#7c6f64',
+    'gray2':    '#928374',
+    'orange':   '#d65d0e',
+}
 
 DIRECTIVES = r'(^ifdef::[^\[]*(?=\[) | ^(?:include|image|link)::(?=.*\[) | (?:image:|link:)(?=[^ \t\n]+\[) )'
 
@@ -294,23 +304,14 @@ ENTITY = r'&[#A-Za-z0-9]+;'
 REFERENCES = '( \({3} [^()]+ \){3} )'
 
 def format_rule(regex, color, style=''):
-    return (re.compile(regex, re.M | re.X), format(COLORS[color], style))
+    return (re.compile(regex, re.M | re.X), format(globals()['COLORS'][color], style))
 
 TEXT_STATE = -1
 
-# first elem is the state, and it must be binary-exclusive with each other: 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, and so on.
-MULTILINE_PRE = [
-    (1, *format_rule('^====$',  'orange',    )),  # admn
-]
-MULTILINE_POST = [
-    (2, *format_rule('^----$',  'aqua',   'm')),  # code
-    (4, *format_rule('^\+{3}$', 'purple', 'm')),  # pass
-    (8, *format_rule('^////$',  'gray',   'i')),  # cmnt
-]
-
 BOLD = r'(?:(?<!\\)(?<=\W)|^) (\*) ([^<>]*?) (?<!\\)(\*) (?:(?=\W)|$)'; FREE_BOLD = r'(?<!\\)(\*\*) ([^<>]*?) (?<!\\)(\*\*)'
 ITAL = r'(?:(?<!\\)(?<=\W)|^) ( _) ([^<>]*?) (?<!\\)( _) (?:(?=\W)|$)'; FREE_ITAL = r'(?<!\\)( _ _) ([^<>]*?) (?<!\\)( _ _)'
-MONO = r'(?:(?<!\\)(?<=\W)|^) ((?<!")`) (?:[^<>]|<[^<>]*?>)*? (?<!\\)(`(?!")) (?:(?=\W)|$)'; FREE_MONO = r'(?<!\\)( ` `) ([^<>]*?) (?<!\\)( ` `)'
+# MONO = r'(?:(?<!\\)(?<=\W)|(?<!")|^) (`) (?:[^<>]|<[^<>]*?>)*? (?<!\\)(`) (?:(?!")|(?=\W)|$)'; FREE_MONO = r'(?<!\\)(``) ([^<>]*?) (?<!\\)(``)'
+MONO = r'((?<!\\|\w|"))(`.*?(?<!\\)`)((?!"|\w))'; FREE_MONO = r'(?<!\\)(``) ([^<>]*?) (?<!\\)(``)'
 # TODO: setFontFixedPitch()?
 
 CROSSREF = '(<<) (.*?) (>>)'
@@ -321,44 +322,72 @@ _f.setPointSizeF(0.1)
 CONCEAL_FMT.setFont(_f)
 
 def R(r): return re.compile(r, re.X | re.U)
-def F(c,s=''): return format(COLORS[c], s)
-
-COMMENT_FMT = F('gray', 'i')
+def F(c,s=''): return format(globals()['COLORS'][c], s)
 
 BRACKETS = r' ( \[+ ) ( [^\[\]]* ) ( \]+ )'
 BRACES   = r' ( \{+ ) ( [^{}]*   ) ( \}+ )'
 
-INLINE_FMT = [
-    [[R(BRACKETS)],           [F('gray2'),  COMMENT_FMT], [F('yellow2'),  COMMENT_FMT]],
-    [[R(BRACES)],             [F('gray2'), F('bg3', 'i')], [F('green2'),   F('green4', 'i')]],
-    [[R(CROSSREF)],           [F('blue', 'm'), F('bg3', 'i')], [F('blue2', 'm'),   F('green4', 'i')]],
-    [[R(BOLD), R(FREE_BOLD)], [CONCEAL_FMT, CONCEAL_FMT], [F('fg', 'b'), F('gray', 'bi')]],
-    # [[R(MONO), R(FREE_MONO)], [CONCEAL_FMT, CONCEAL_FMT], [F('fg', 'm'), F('gray', 'mi')]],
-    [[R(ITAL), R(FREE_ITAL)], [CONCEAL_FMT, CONCEAL_FMT], [F('fg', 'i'), F('gray', '')]],
-]
-
 COMMENT_RE = re.compile(COMMENT, re.X)
 
-RULES = list(map(lambda e: format_rule(*e), [
-    [HEADING,               'red',     'b'  ], # heading
-    [COMMENT,               'gray',    'i'  ], # comment - XXX: multiline unsupported
-    [r'(^:.*)',             'yellow',       ], # abbr
-    # [ABBR_INHEAD,           'red2',   'b'  ],
-    # [ABBR_INCOMMENT,        'gray2',   'i'  ],
-    [ENTITY,                'yellow',       ],
-    [LINKS,                 'blue',         ],
-    [DIRECTIVES,            'green',        ],
-    [REFERENCES,            'bg3',          ],
-    [LISTS,                 'red2',         ],
-    ['FIXME',               'red2',    'bi' ],
-    [r'(^\..*)',            'yellow',  'i'  ],
-    [MERGEMARKS,            'red2',    'b'  ], # this doesn't show?
-    [QUOTES,                'aqua',         ],
-]))
+is_light = True
 
-nbsp_format = QTextCharFormat()
-nbsp_format.setBackground(QColor(COLORS['yellow']))
-RULES.append((re.compile('\N{NO-BREAK SPACE}'), nbsp_format))
+def set_colors(want_light=False):
+    global is_light
+    is_light = want_light
+    global COLORS
+    COLORS = COLORS_LIGHT if want_light else COLORS_DARK
+
+    COMMENT_FMT = F('gray', 'i')
+
+    # first elem is the state, and it must be binary-exclusive with each other: 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, and so on.
+    global MULTILINE_PRE
+    MULTILINE_PRE = [
+        (1, *format_rule('^====$',  'orange',    )),  # admn
+    ]
+    global MULTILINE_POST
+    MULTILINE_POST = [
+        (2, *format_rule('^----$',  'aqua',   'm')),  # code
+        (4, *format_rule('^\+{3}$', 'purple', 'm')),  # pass
+        (8, *format_rule('^////$',  'gray',   'mi')), # cmnt (block comments are almost always for code blocks)
+    ]
+
+    global INLINE_FMT
+    INLINE_FMT = [
+        [[R(BRACKETS)],           [F('gray2'),  COMMENT_FMT], [F('yellow2'),  COMMENT_FMT]],
+        [[R(BRACES)],             [F('gray2'), F('bg3', 'i')], [F('green2'),   F('green4', 'i')]],
+        [[R(CROSSREF)],           [F('blue', 'm'), F('blue', 'm')], [F('blue2', 'm'),   F('green4', 'i')]],
+        [[R(BOLD), R(FREE_BOLD)], [CONCEAL_FMT, CONCEAL_FMT], [F('fg', 'b'), F('gray', 'bi')]],
+        [[R(MONO), R(FREE_MONO)], [CONCEAL_FMT, CONCEAL_FMT], [F('fg', 'm'), F('gray', 'mi')]],
+        [[R(ITAL), R(FREE_ITAL)], [CONCEAL_FMT, CONCEAL_FMT], [F('fg', 'i'), F('gray', '')]],
+    ]
+
+    global RULES
+    RULES = list(map(lambda e: format_rule(*e), [
+        [HEADING,               'red',     'b'  ], # heading
+        [COMMENT,               'gray',    'i'  ], # comment - XXX: multiline unsupported
+        [r'(^:.*)',             'yellow',       ], # abbr
+        # [ABBR_INHEAD,           'red2',   'b'  ],
+        # [ABBR_INCOMMENT,        'gray2',   'i'  ],
+        [ENTITY,                'yellow',       ],
+        [LINKS,                 'blue',         ],
+        [DIRECTIVES,            'green',        ],
+        [REFERENCES,            'bg3',          ],
+        [LISTS,                 'red2',         ],
+        ['FIXME',               'red2',    'bi' ],
+        [r'(^\..*)',            'yellow',  'i'  ],
+        [MERGEMARKS,            'red2',    'b'  ], # this doesn't show?
+        [QUOTES,                'aqua',         ],
+    ]))
+
+    global nbsp_format
+    nbsp_format = QTextCharFormat()
+    nbsp_format.setBackground(QColor(COLORS['yellow']))
+    RULES.append((re.compile('\N{NO-BREAK SPACE}'), nbsp_format))
+
+set_colors('light' in sys.argv)
+
+def toggle_colors():
+    set_colors(not is_light)
 
 class AsciiDocHighlighter (QSyntaxHighlighter):
     """Syntax highlighter for the AsciiDoc language."""
@@ -416,29 +445,33 @@ class AsciiDocHighlighter (QSyntaxHighlighter):
 class MyMainWindow(QMainWindow):
 
     def updateStyle(self):
+        self.finder.setStyleSheet(f"color: {COLORS['fg2']}; background: {COLORS['bg3']}")
         self.setStyleSheet(f"""
+            QSplitter {{ background: {COLORS['bg0_h']} }}
+            QScrollBar {{ width: 1em; color: {COLORS['fg']}; background: {COLORS['bg0_s']} }}
+            QScrollBar::handle {{ border: none; background: {COLORS['bg2']} }}
+            QScrollBar::handle:hover {{ background: {COLORS['bg3']} }}
+            /* I couldn't remove the arrows' borders without restyling them from scratch */
+            QScrollBar::sub-line, QScrollBar::add-line {{ background: none }} /* any styling */
+            QScrollBar::up-arrow, QScrollBar::down-arrow {{ border: .5em solid {COLORS['bg']} }}
+            QScrollBar::up-arrow   {{ width: 0; height: .5em; border-bottom: .5em solid {COLORS['bg3']}; border-top:    0 }}
+            QScrollBar::down-arrow {{ width: 0; height: .5em; border-top:    .5em solid {COLORS['bg3']}; border-bottom: 0 }}
+            QScrollBar::up-arrow:hover   {{ border-bottom: .5em solid {COLORS['fg4']} }}
+            QScrollBar::down-arrow:hover {{ border-top:    .5em solid {COLORS['fg4']} }}  /* all these .5em are half QScrollBar width */
+            /**/
             QTextEdit, QListWidget {{ color: {COLORS['fg']}; background: {COLORS['bg']} }}
-            QTextEdit {{ font-family: '{EDITOR_FONT_FAMILY}'; font-size: {EDITOR_FONT_SIZE_VALUE}{EDITOR_FONT_SIZE_UNIT} }}
-            QListWidget {{ font-family: '{LIST_FONT_FAMILY}'; font-size: {LIST_FONT_SIZE_VALUE}{LIST_FONT_SIZE_UNIT} }}
+            QTextEdit {{ font-family: {EDITOR_FONT_FAMILY}; font-size: {EDITOR_FONT_SIZE_VALUE}{EDITOR_FONT_SIZE_UNIT} }}
+            QListWidget {{ font-family: {LIST_FONT_FAMILY}; font-size: {LIST_FONT_SIZE_VALUE}{LIST_FONT_SIZE_UNIT} }}
             """)
 
-    def zoomIn(self):
-        global EDITOR_FONT_SIZE_VALUE
-        EDITOR_FONT_SIZE_VALUE += 1
-        print(EDITOR_FONT_SIZE_VALUE)
-        self.updateStyle()
-
-    def zoomOut(self):
-        global EDITOR_FONT_SIZE_VALUE
-        EDITOR_FONT_SIZE_VALUE -= 1
-        print(EDITOR_FONT_SIZE_VALUE)
-        self.updateStyle()
+    def zoomIn(self):  global EDITOR_FONT_SIZE_VALUE; EDITOR_FONT_SIZE_VALUE += 1; self.updateStyle()
+    def zoomOut(self): global EDITOR_FONT_SIZE_VALUE; EDITOR_FONT_SIZE_VALUE -= 1; self.updateStyle()
 
     def toggleSidePane(self):
-        if self.list.isVisible():
-            self.list.hide()
-        else:
-            self.list.show()
+        self.list.hide() if self.list.isVisible() else self.list.show()
+
+    def toggleSideSide(self):  # puts the list on the right if it's on the left and vice versa
+        self.cent.addWidget(self.list) if self.cent.indexOf(self.list) == 0 else self.cent.insertWidget(0, self.list)
 
     def __init__(self, builder, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -449,15 +482,15 @@ class MyMainWindow(QMainWindow):
         self.list.itemActivated.connect(lambda item: self.__onactivate(item))
         # self.edit = QPlainTextEdit()
         self.edit = QTextEdit()
+        self.edit.setAcceptRichText(False)
         # self.edit.setAlignment(Qt.AlignLeading)
-        self.updateStyle()
         self.hi = AsciiDocHighlighter(self.edit.document())
         self.cent = QSplitter(self)
         self.cent.addWidget(self.list)
         self.finder = QLineEdit()
         self.finder.hide()
         self.finder.textChanged.connect(self._find)
-        self.finder.setStyleSheet(f"color: {COLORS['fg2']}; background: {COLORS['bg3']}")
+        self.updateStyle()
         vbox = QVBoxLayout()
         vbox.setContentsMargins(0,0,0,0)
         vbox.addWidget(self.edit)
@@ -479,14 +512,18 @@ class MyMainWindow(QMainWindow):
 
         self.lastFile = None
 
-        # update all titles to reflect status
-        for t,f in title_filename:
-            self.load(f)
         self.load(title_filename[0][1])
+        # update all titles in the list to reflect status
+        for _,filename in title_filename:
+            self.filename = filename
+            self.current_item = self.list.item(index_of_filename[filename])
+            self.updateTitle()  # relies only on these two attributes, and updates only the list title
 
         for key, act in [
                 ('Esc',              lambda: (self.save(), self.build(), self.hi.rehighlight())),
                 ('Ctrl+S',           lambda: (self.save(), self.build(), self.hi.rehighlight())),
+                ('F6',               lambda: (toggle_colors(), self.hi.rehighlight(), self.updateStyle(), self.hilightCurrentLine())),
+                ('F10',              lambda: self.toggleSideSide()),
                 ('F1',               lambda: self.cycleThruStatuses()),
                 ('Shift+F1',         lambda: self.cycleThruStatuses(True)),  # reverse direction
                 ('Ctrl+/',           lambda: self.toggleComment()),
@@ -504,8 +541,13 @@ class MyMainWindow(QMainWindow):
                 ('Ctrl++',           lambda: self.zoomIn()),
                 ('Ctrl+-',           lambda: self.zoomOut()),
                 ('Ctrl+Shift+f',     lambda: self.toggleSidePane()),
+                ('Ctrl+]',           lambda: self.gotoSiblingHeading()),
+                ('Ctrl+[',           lambda: self.gotoSiblingHeading(backward=True)),
+                ('Ctrl+}',           lambda: self.gotoSiblingHeading(bigheading=True)),
+                ('Ctrl+{',           lambda: self.gotoSiblingHeading(backward=True, bigheading=True)),
                 ('Ctrl+PgUp',        lambda: self.prevFile()),
                 ('Ctrl+PgDown',      lambda: self.nextFile()),
+                ('Ctrl+M',           lambda: self.addFixme()),
                 # ('Ctrl+Shift+C',   lambda: self.copyBigWord()),
                 # ('Ctrl+Shift+V',   lambda: self.pasteBigWord()),
         ]:
@@ -524,6 +566,28 @@ class MyMainWindow(QMainWindow):
         #         oldevent(s, e)
         # self.edit.keyPressEvent = lambda e: newevent(self.edit, e)
 
+    def _find_heading(self, where, bwk, bigheading=False):
+        rx = self.HEADING_STATUS_RE if bigheading else self.HEADING_RE
+        return self.edit.document().find(*( [rx, where]
+           + ([QTextDocument.FindFlag.FindBackward] if bwk else []) ))
+
+    def gotoSiblingHeading(self, backward=False, bigheading=False):
+        def move_to(c):
+            if c == QTextCursor(): return False
+            c.setPosition(c.anchor())  # de-select the found text
+            self.edit.setTextCursor(c)
+            return True
+        # TODO: if has shift, extend the selection
+        #
+        # start from the next char, otherwise you can't repeat ctrl+] to move between headings
+        start = QTextCursor(self.edit.textCursor()); start.movePosition(Prev_Char if backward else Next_Char)
+        if not move_to(self._find_heading(start, backward, bigheading)):
+            if backward:
+                end = QTextCursor(self.edit.textCursor()); end.movePosition(End_Doc)
+            move_to(self._find_heading(end if backward else 0, backward, bigheading))
+
+    def addFixme(self):
+        self.edit.textCursor().insertText(' FIXME')
 
     def copyCurrentFullLine(self):
         cursor = self.edit.textCursor()
@@ -560,10 +624,11 @@ class MyMainWindow(QMainWindow):
     def toggleFind(self):
         if self.finder.isVisible() and self.finder.hasFocus():
             self.finder.hide()
-            self.edit.setFocus(True)
+            self.edit.setFocus()
         else:
             self.finder.show()
-            self.finder.setFocus(True)
+            self.finder.setFocus()
+            self.finder.selectAll()
 
     def copy(self):
         if self.edit.textCursor().hasSelection():
@@ -599,10 +664,10 @@ class MyMainWindow(QMainWindow):
 
     PREFIX_RE = Regex(
         r''' ^( [ \t]+
-              | =+[ \t]
+              | =+[ \t]+
               | >+[ \t]*
               | \.
-              | [1-9][0-9]*\.[ \t]
+              | [1-9][0-9]*\.[ \t]+
               | [.*-]+[ \t]+
               | image::.*?\[
               ) [^ \t\n]+ ''')
@@ -617,7 +682,7 @@ class MyMainWindow(QMainWindow):
         cursor.movePosition(End_Line, Add_Selection)
         text = cursor.selectedText()
         # comments the current line; assumes it's not commented (FIXME)
-        self.toggleComment()
+        self.toggleCommentLine()
         # makes the current physical line (block) entirely visible
         self.moveCursor(End_Line)
         self.edit.ensureCursorVisible()
@@ -644,7 +709,7 @@ class MyMainWindow(QMainWindow):
         if prefix.startswith('image::'):
             suffix = ']' + suffix
         # comments the current line; assumes it's not commented (FIXME)
-        self.toggleComment()
+        self.toggleCommentLine()
         # makes the current physical line (block) entirely visible
         self.moveCursor(End_Line)
         self.edit.ensureCursorVisible()
@@ -765,6 +830,26 @@ class MyMainWindow(QMainWindow):
     COMMENTED_LINE_RE = Regex(r'^ \s* (//[ ])')
 
     def toggleComment(self):
+        # make all these changes a single operation (one Ctrl-Z undoes them all)
+        self.edit.textCursor().beginEditBlock()
+        #
+        cursor = self.edit.textCursor()
+        st = cursor.selectionStart()
+        en = cursor.selectionEnd()
+        if st == en:
+            self.toggleCommentLine()
+        else:  # a block comment
+            cursor.setPosition(en)  # after it...
+            cursor.movePosition(End_Line)
+            cursor.insertText('\n////')
+            cursor.setPosition(st)  # before it...
+            cursor.movePosition(Bgn_Line)
+            cursor.insertText('////\n')
+        # end of changes
+        self.edit.textCursor().endEditBlock()
+        self.hi.rehighlight()  # adjust syntax highlighting
+
+    def toggleCommentLine(self):
         line = self.getCurrentLine()
         cmnt = self.COMMENTED_LINE_RE.match(line)
         cursor = self.edit.textCursor()
@@ -831,7 +916,9 @@ class MyMainWindow(QMainWindow):
         cursor.setPosition(lastposition[self.filename])
         self.edit.setTextCursor(cursor)
 
-    def load(self, filename):
+    def load(self, filename, cursorposition=None):
+        if cursorposition is not None:
+            lastposition[filename] = cursorposition
         if self.filename:
             self.save()
             self.build()
@@ -847,6 +934,8 @@ class MyMainWindow(QMainWindow):
         self.updateTitle()
         self.updateWindowTitle()
         self.loadCursorPosition()
+        self.edit.ensureCursorVisible()
+        self.edit.setFocus(Qt.FocusReason.OtherFocusReason)
 
     def __onactivate(self, item):
         self.load(item.data(Qt.ItemDataRole.UserRole))
@@ -854,6 +943,9 @@ class MyMainWindow(QMainWindow):
     def closeEvent(self, ev):
         self.save()
         self.build()
+        settings.setValue('last_file', self.filename)
+        settings.setValue('last_cursorposition', self.edit.textCursor().position())
+        settings.setValue('sidepane_place', 'L' if self.cent.indexOf(self.list) == 0 else 'R')
 
 
 class Builder(QThread) :
@@ -888,10 +980,24 @@ w.resize(availableGeometry.width() // 3, 2 * availableGeometry.height() // 3)
 w.move((availableGeometry.width() - w.width()) // 2,
        (availableGeometry.height() - w.height()) // 2)
 
+settings = QSettings('dev.noureddin', 'ProGit2 Arabic')
+file = settings.value('last_file')
+sidepane = settings.value('sidepane_place')
+try:
+    if file is not None:
+        curpos = int(settings.value('last_cursorposition'))
+        w.load(file, curpos)
+except:
+    pass
+
 for f in sys.argv[1:]:
     if f != 'light':
         w.load(f)
         break
+
+if sidepane is not None:  # currently only the placement (left or right) is remembered, but not the size or if hidden altogether
+    if sidepane == 'R':
+        w.toggleSideSide()
 
 w.show()
 

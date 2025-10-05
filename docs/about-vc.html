@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>عن إدارة النسخ | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="about-vc" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.449,</span>
+<span id="revdate">2025-10-24</span>
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+<ul class="sectlevel2">
+<li><a href="about-vc.html"><span class="toc-current">١، ١، عن إدارة النسخ</span></a>
+</li>
+<li><a href="git-history.html">١<small>،</small> ٢<small>،</small> تاريخ جت بإيجاز</a>
+</li>
+<li><a href="what_is_git_section.html">١<small>،</small> ٣<small>،</small> ما هو جت؟</a>
+</li>
+<li><a href="git-cmdline.html">١<small>،</small> ٤<small>،</small> سطر الأوامر</a>
+</li>
+<li><a href="installing-git.html">١<small>،</small> ٥<small>،</small> تثبيت جت</a>
+</li>
+<li><a href="_first_time.html">١<small>،</small> ٦<small>،</small> إعداد جت أول مرة</a>
+</li>
+<li><a href="_git_help.html">١<small>،</small> ٧<small>،</small> الحصول على المساعدة</a>
+</li>
+<li><a href="summary-01.html">١<small>،</small> ٨<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="about-vc">١، ١، عن إدارة النسخ</h3>
+<div class="paragraph">
+<p>
+ما هي «إدارة النسخ»، ولماذا عليك أن تهتم؟
+إدارة النسخ هي نظام يسجل التعديلات على ملف أو مجموعة من الملفات عبر الزمان، حتى يمكنك استدعاء نسخ معينة منها فيما بعد.
+نستعمل في أمثلة هذا الكتاب ملفات مصادر برمجية لإدارة نُسخها، ولو أن في الحقيقة يمكنك فعل ذلك مع أكثر أنواع الملفات الحاسوبية.</p>
+</div>
+<div class="paragraph">
+<p>إذا كنت مصمم رسوميات أو وب، وتريد الإبقاء على جميع نسخ صورة أو تخطيط (وهذا شيء يُفترض أنك تريد فعله يقينًا)، فإن استخدام نظام إدارة نسخ (VCS) لهو قرار حكيم حقا.
+فهو يسمح لك بإرجاع ملف محدد إلى حالة سابقة، أو إرجاع المشروع كله إلى حالة سابقة، أو مقارنة التعديلات عبر الزمان، أو معرفة مَن آخر من غيّر شيئا قد يكون سبّب مشكلة، أو مَن تسبب في إحداث علّة، وغير ذلك.
+استخدام نظام إدارة نسخ أيضا يعني في العموم أنك إذا دمّرت أشياءً أو فقدت ملفات، فإنك تستطيع استرداد الأمور بسهولة.
+وكل هذا تحصل عليه مقابل عبء ضليل جدا.</p>
+</div>
+<div class="sect3">
+<h4 id="_الأنظمة_المحلية_لإدارة_النسخ">الأنظمة المحلية لإدارة النسخ</h4>
+<div class="paragraph">
+<p>
+طريقة إدارة النسخ عند الكثيرين هي نسخ الملفات إلى مجلد آخر (ربما بختم زمني، إذا كان المستخدم بارعا).
+هذه الطريقة شائعة جدا لأنها سهلة جدا، لكنها أيضا خطّاءة جدا جدا.
+فسهل جدا أن تنسى أي مجلد أنت فيه وتحرر ملفًا خطأ أو تنسخ على ملفات لم ترد إبدالها.</p>
+</div>
+<div class="paragraph">
+<p>لحل هذه القضية، طوّر المبرمجون منذ زمن بعيد «أنظمة محلية لإدارة النسخ» ذات قاعدة بيانات بسيطة تحفظ جميع التعديلات على الملفات المراد التحكم في نُسخها.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/local-AR.png" alt="رسم توضيحي للإدارة المحلية للنسخ">
+</div>
+<div class="title">شكل ١. رسم توضيحي للإدارة المحلية للنسخ</div></div>
+<div class="paragraph">
+<p>كان من أشهر أنظمة إدارة النسخ نظام يسمى RCS، وهو ما زال موَزَّعًا مع حواسيب كثيرة اليوم.
+يعمل <a href="https://www.gnu.org/software/rcs/" target="_blank" rel="noopener">RCS</a> بالاحتفاظ بمجموعات الرقع (أي الفروقات بين الملفات) بصيغة مخصوصة على القرص؛ فيمكنه إذًا إحياء أي ملف من أي حقبة زمنية بمجرد جمع الرقع.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_الأنظمة_المركزية_لإدارة_النسخ">الأنظمة المركزية لإدارة النسخ</h4>
+<div class="paragraph">
+<p>
+المشكلة الكبرى الأخرى التي واجهت الناس هي احتياجهم إلى التعاون مع مطوِّرين على أجهزة أخرى.
+فحلوها بإنشاء «الأنظمة المركزية لإدارة النسخ» (CVCS).
+لهذه الأنظمة (مثل CVS و Subversion و Perforce) خادوم وحيد به جميع الملفات المراقَبة، وعملاء يسحبون الملفات من ذلك المركز الوحيد.
+كان هذا هو المعيار المتبع لإدارة النسخ لأعوام عديدة.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/centralized-AR.png" alt="رسم توضيحي للإدارة المركزية للنسخ">
+</div>
+<div class="title">شكل ٢. رسم توضيحي للإدارة المركزية للنسخ</div></div>
+<div class="paragraph">
+<p>لهذا الترتيب مزايا كثيرة، لا سيما على الإدارة المحلية للنسخ.
+مثلا، الجميع يعلم، إلى حدٍ ما، كل ما يفعله الآخرون في المشروع نفسه.
+ولدى المديرين تحكم مفصّل في تحديد مَن يستطيع فعل ماذا، وإنه لأسهل كثيرا إدارة نظام مركزي مقارنةً بالتعامل مع قواعد بيانات محلية عند كل عميل.</p>
+</div>
+<div class="paragraph">
+<p>ولكن لهذا الترتيب بعض العيوب الجسيمة.
+أوضحها هو نقطة الانهيار الحاسمة الذي يمثلها الخادوم المركز.
+فإذا تعطل ساعةً، ففي تلك الساعة لن يستطيع أحدٌ قَط التعاون أو حتى حفظ تعديلاتهم على ما يعملون عليه.
+وإذا تلف قرص قاعدة بيانات المركز، ولم تحفظ أي نسخ احتياطية، ستفقد كل شيء تماما: تاريخ المشروع برُمّته، ما عدا أي لقطات فردية صادف أن يُبقيها الناس على أجهزتهم المحلية.
+تعاني الأنظمة المحلية لإدارة النسخ كذلك من هذه العلة نفسها؛ وقتما جعلت كل تاريخ المشروع في مكان وحيد، عرّضت نفسك لفقد كل شيء.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_الأنظمة_المتوزعة_لإدارة_النسخ">الأنظمة المتوزعة لإدارة النسخ</h4>
+<div class="paragraph">
+<p>
+الآن تتدخل الأنظمة المتوزِّعة لإدارة النسخ (DVCS).
+في نظام متوزِّع (مثل جت و Mercurial و Darcs)، لا يستنسخ العملاء اللقطة الأخيرة فقط من الملفات، بل يستنسخون المستودع برُمّته، بتاريخه بالكامل.
+لذا فإن انهار أحد الخواديم فجأة، وكانت هذه الأنظمة تتعاون عبر هذا الخادوم، فيمكن نسخ مستودع أي عميل إلى الخادوم مجددًا لإعادته للعمل.
+كل نسخة هي في الحقيقة نسخة احتياطية كاملة لجميع البيانات.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/distributed-AR.png" alt="رسم توضيحي للإدارة الموزعة للنسخ">
+</div>
+<div class="title">شكل ٣. رسم توضيحي للإدارة الموزعة للنسخ</div></div>
+<div class="paragraph">
+<p>علاوة على ذلك، الكثير من هذه الأنظمة تتعامل جيدا مع وجود العديد من المستودعات البعيدة التي يمكنها العمل معها، لذا يمكنك التعاون مع مجموعات مختلفة من الناس بأساليب متعددة في الوقت نفسه داخل المشروع الواحد.
+هذا يسمح لك باتباع أساليب تطوير مختلفة لم تكن ممكنة في الأنظمة المركزية، كالأساليب الشجرية.</p>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>↑ <a href="ch01-getting-started.html">الباب الأول: البدء</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control">الأصل الإنجليزي</a></span></p><p><strong>التالي: </strong><a href="git-history.html">١<small>،</small> ٢<small>،</small> تاريخ جت بإيجاز</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2025-10-24 12:00:00 +0000
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

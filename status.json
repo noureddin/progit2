@@ -45,18 +45,18 @@
       "sections/smart-http.asc": 100
     },
     "05-distributed-git": {
-      "1-distributed-git.asc": 0,
-      "sections/contributing.asc": 0,
-      "sections/distributed-workflows.asc": 0,
-      "sections/maintaining.asc": 0
+      "1-distributed-git.asc": 100,
+      "sections/contributing.asc": 100,
+      "sections/distributed-workflows.asc": 100,
+      "sections/maintaining.asc": 5
     },
     "06-github": {
       "1-github.asc": 100,
-      "sections/1-setting-up-account.asc": 60,
+      "sections/1-setting-up-account.asc": 100,
       "sections/2-contributing.asc": 5,
-      "sections/3-maintaining.asc": 10,
-      "sections/4-managing-organization.asc": 10,
-      "sections/5-scripting.asc": 0
+      "sections/3-maintaining.asc": 30,
+      "sections/4-managing-organization.asc": 60,
+      "sections/5-scripting.asc": 5
     },
     "07-git-tools": {
       "1-git-tools.asc": 0,
@@ -79,8 +79,8 @@
     "08-customizing-git": {
       "1-customizing-git.asc": 100,
       "sections/attributes.asc": 0,
-      "sections/config.asc": 20,
-      "sections/hooks.asc": 80,
+      "sections/config.asc": 30,
+      "sections/hooks.asc": 90,
       "sections/policy.asc": 0
     },
     "09-git-and-other-scms": {
@@ -99,26 +99,26 @@
       "sections/maintenance.asc": 0,
       "sections/objects.asc": 0,
       "sections/packfiles.asc": 0,
-      "sections/plumbing-porcelain.asc": 80,
+      "sections/plumbing-porcelain.asc": 90,
       "sections/refs.asc": 0,
       "sections/refspec.asc": 0,
       "sections/transfer-protocols.asc": 0
     },
     "A-git-in-other-environments": {
-      "1-git-other-environments.asc": 0,
-      "sections/bash.asc": 80,
+      "1-git-other-environments.asc": 100,
+      "sections/bash.asc": 100,
       "sections/guis.asc": 0,
       "sections/jetbrainsides.asc": 0,
       "sections/powershell.asc": 0,
       "sections/sublimetext.asc": 0,
       "sections/visualstudio.asc": 0,
       "sections/visualstudiocode.asc": 0,
-      "sections/zsh.asc": 70
+      "sections/zsh.asc": 100
     },
     "B-embedding-git": {
-      "1-embedding-git.asc": 0,
-      "sections/command-line.asc": 0,
-      "sections/dulwich.asc": 0,
+      "1-embedding-git.asc": 100,
+      "sections/command-line.asc": 100,
+      "sections/dulwich.asc": 100,
       "sections/go-git.asc": 0,
       "sections/jgit.asc": 0,
       "sections/libgit2.asc": 0

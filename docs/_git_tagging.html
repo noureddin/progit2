@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>الوسوم | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="_git_tagging" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">version 2.1.449,</span>
+<span id="revdate">2025-10-24</span>
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+<ul class="sectlevel2">
+<li><a href="_getting_a_repo.html">٢<small>،</small> ١<small>،</small> الحصول على مستودع جت</a>
+</li>
+<li><a href="recording-changes.html">٢<small>،</small> ٢<small>،</small> تسجيل التعديلات في المستودع</a>
+</li>
+<li><a href="_viewing_history.html">٢<small>،</small> ٣<small>،</small> رؤية تاريخ الإيداعات</a>
+</li>
+<li><a href="_undoing.html">٢<small>،</small> ٤<small>،</small> التراجع عن الأفعال</a>
+</li>
+<li><a href="_remote_repos.html">٢<small>،</small> ٥<small>،</small> التعامل مع المستودعات البعيدة</a>
+</li>
+<li><a href="_git_tagging.html"><span class="toc-current">٢، ٦، الوسوم</span></a>
+</li>
+<li><a href="_git_aliases.html">٢<small>،</small> ٧<small>،</small> الكُنيات في جت</a>
+</li>
+<li><a href="summary-02.html">٢<small>،</small> ٨<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="_git_tagging">٢، ٦، الوسوم</h3>
+<div class="paragraph">
+<p>
+مثل معظم أنظمة إدارة النسخ، يستطيع جت وسم المراحل المهمة في تاريخ المشروع.
+يستعمل الناس هذه الآلية في الغالب لتمييز الإصدارات (<code>v1.0</code> و <code>v2.0</code> وهكذا).
+سنتعلم في هذا الفصل كيف نسرد الوسوم الموجودة وكيف ننشئ وسومًا ونحذفها وما النوعان المختلفان للوسوم.</p>
+</div>
+<div class="sect3">
+<h4 id="_سرد_وسوم_مشروعك">سرد وسوم مشروعك</h4>
+<div class="paragraph">
+<p>سرد الوسوم الموجودة في مستودع جت سهل ومباشر؛
+فقط اكتب <code>git tag</code> (اختياريًا مع <code>-l</code> أو <code>--list</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git tag
+v1.0
+v2.0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يسرد لك هذا الأمر الوسوم بترتيب أبجدي؛ أي أن ترتيب عرضها ليس له أهمية حقيقية.</p>
+</div>
+<div class="paragraph">
+<p>يمكنك أيضا البحث عن الوسوم التي تطابق نمطًا معينًا.
+يحتوي مستودع مصدر جت مثلا على أكثر من خمسمئة وسم.
+فإذا كنت مهتمًا برؤية سلسلة 1.8.5 فقط، فنفذ هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git tag -l "v1.8.5*"
+v1.8.5
+v1.8.5-rc0
+v1.8.5-rc1
+v1.8.5-rc2
+v1.8.5-rc3
+v1.8.5.1
+v1.8.5.2
+v1.8.5.3
+v1.8.5.4
+v1.8.5.5</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">سرد الوسوم بأنماط يحتاج الخيار <code>-l</code> أو <code>--list</code></div>
+<div class="paragraph">
+<p>إذا لم تُرِد إلا قائمة الوسوم بكاملها، فتنفيذ <code>git tag</code> يفترض أنك تريد سرد الوسوم فيفعل ذلك؛ فإلحاق <code>-l</code> أو <code>--list</code> اختياريٌّ عندئذٍ.</p>
+</div>
+<div class="paragraph">
+<p>لكن إذا أعطيته نمطًا لمطابقة وسوم عديدة، فتحتاج خيار السرد: <code>-l</code> أو <code>--list</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_إنشاء_وسوم">إنشاء وسوم</h4>
+<div class="paragraph">
+<p>يتيح جت نوعين من الوسوم: <em>خفيفة</em>، و<em>معنونة</em>.</p>
+</div>
+<div class="paragraph">
+<p>الوسم الخفيف كأنه فرع لا يتغيّر: مجرد إشارة إلى إيداع معين.</p>
+</div>
+<div class="paragraph">
+<p>لكن على النقيض، الوسوم المعنونة هي كائنات كاملة في قاعدة بيانات جت؛
+يحسب جت بصمتها، ويسجل معها اسم الواسم، وبريده، وتاريخ الوسم، ورسالته، ويمكن توقيعها وتوثيقها باستعمال GNU Privacy Guard&lrm; (GPG).
+من الأفضل في العموم إنشاء وسوم معنونة حتى تنتفع بكل هذه المعلومات، لكن إذا أردت وسمًا مؤقتًا أو لسببٍ ما لم تشأ الاحتفاظ بكل هذه المعلومات، فالوسوم الخفيفة متاحة.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_annotated_tags">الوسوم المعنونة</h4>
+<div class="paragraph">
+<p>
+إنشاء الوسوم المعنونة في جت سهل.
+الطريقة الأيسر هي إضافة <code>-a</code> (اختصار <code>--annotate</code> «عنونة») إلى أمر الوسم:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git tag -a v1.4 -m "my version 1.4"
+$ git tag
+v0.1
+v1.3
+v1.4</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>والخيار <code>-m</code> (اختصار <code>--message=</code>) يعيّن رسالة الوسم التي تخزّن معه.
+وإذا لم تعيّنها لوسم معنون، فسيفتح لك جت محررك حتى تكتبها فيه.</p>
+</div>
+<div class="paragraph">
+<p>يمكنك أيضا رؤية تاريخ الوسم مع الإيداع الموسوم بأمر الإظهار <code>git show</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git show v1.4
+tag v1.4
+Tagger: Ben Straub &lt;ben@straub.cc&gt;
+Date:   Sat May 3 20:19:12 2014 -0700
+
+my version 1.4
+
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    Change version number</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يُظهر لك هذا معلومات الواسم وتاريخ وسم الإيداع ورسالة الوسم، ثم معلومات الإيداع نفسه.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_الوسوم_الخفيفة">الوسوم الخفيفة</h4>
+<div class="paragraph">
+<p>
+طريقة أخرى لوسم الإيداعات هي بالوسوم الخفيفة.
+هذا لا يعني إلا تخزين بصمة الإيداع في ملف؛ فلا معلومات أخرى تُخزّن.
+لإنشاء وسم خفيف، لا تعطِ أمر الوسم أيًّا من الخيارات <code>-a</code> أو <code>-s</code> أو <code>-m</code> (اختصارات <code>--annotate</code> و <code>--sign</code> و <code>--message=</code> على الترتيب)؛ أعطه فقط اسم الوسم:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git tag v1.4-lw
+$ git tag
+v0.1
+v1.3
+v1.4
+v1.4-lw
+v1.5</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>تنفيذ <code>git show</code> على مثل هذا الوسم لن يعطيك معلومات الوسم الإضافية،
+بل يُظهر فقط معلومات الإيداع:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git show v1.4-lw
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    Change version number</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_الوسم_فيما_بعد">الوسم فيما بعد</h4>
+<div class="paragraph">
+<p>يمكنك أيضا وسم إيداعات قديمة تخطيتها.
+لنفترض مثلا أن تاريخ إيداعاتك يبدو هكذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log --pretty=oneline
+15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
+a6b4c97498bd301d84096da251c98a07c7723e65 Create write support
+0d52aaab4479697da7686c15f77a3d64d9165190 One more thing
+6d52a271eda8725415634dd79daabbc4d9b6008e Merge branch 'experiment'
+0b7434d86859cc7b8c3d5e1dddfed66ff742fcbc Add commit function
+4682c3261057305bdd616e23b64b0857d832627b Add todo file
+166ae0c4d3f420721acbb115cc33848dfcc2121a Create write support
+9fceb02d0ae598e95dc970b74767f19372d61af8 Update rakefile
+964f16d36dfccde844893cac5b347e7b3d44abbc Commit the todo
+8a5cbc430f1a9c3d00faaeffd07798508422908a Update readme</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لنفترض الآن أنك نسيت وسم المشروع عند <code>v1.2</code>، التي كانت عند إيداع ‪&#8220;Update rakefile&#8221;‬.
+يمكنك فعل هذا بعدما حدث ما حدث.
+لوسم ذلك الإيداع، اكتب في نهاية أمر الوسم بصمةَ الإيداع (أو جزءًا من أولها):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git tag -a v1.2 9fceb02</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>والآن ستجد أنك قد وسمت الإيداع:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git tag
+v0.1
+v1.2
+v1.3
+v1.4
+v1.4-lw
+v1.5
+
+$ git show v1.2
+tag v1.2
+Tagger: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Feb 9 15:32:16 2009 -0800
+
+version 1.2
+commit 9fceb02d0ae598e95dc970b74767f19372d61af8
+Author: Magnus Chacon &lt;mchacon@gee-mail.com&gt;
+Date:   Sun Apr 27 20:43:35 2008 -0700
+
+    Update rakefile
+...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sharing_tags">مشاركة الوسوم</h4>
+<div class="paragraph">
+<p>أمر الدفع لا ينقل آليًّا الوسومَ إلى المستودعات البعيدة.
+فعليك دفعها بأمر صريح بعد إنشائها.
+هذه العملية كبيرة الشبه بمشاركة الفروع البعيدة: نفّذ <code>git push origin «اسم-الوسم»</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git push origin v1.5
+Counting objects: 14, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (12/12), done.
+Writing objects: 100% (14/14), 2.05 KiB | 0 bytes/s, done.
+Total 14 (delta 3), reused 0 (delta 0)
+To git@github.com:schacon/simplegit.git
+ * [new tag]         v1.5 -&gt; v1.5</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وإذا كانت لديك العديد من الوسوم التي تريد دفعها جملةً واحدة، فيمكنك إضافة خيار الوسوم <code>--tags</code> إلى أمر الدفع <code>git push</code>،
+لينقل إلى المستودع البعيد جميع وسومك التي ليست هناك بالفعل.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git push origin --tags
+Counting objects: 1, done.
+Writing objects: 100% (1/1), 160 bytes | 0 bytes/s, done.
+Total 1 (delta 0), reused 0 (delta 0)
+To git@github.com:schacon/simplegit.git
+ * [new tag]         v1.4 -&gt; v1.4
+ * [new tag]         v1.4-lw -&gt; v1.4-lw</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>والآن، عندما يستنسخ أحدهم مستودعك أو يجذب منه، فسيحصل على جميع وسومك أيضا.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">يدفع أمر الدفع كلا النوعين من الوسوم</div>
+<div class="paragraph">
+<p>سيدفع <code>git push «البعيد» --tags</code> الوسوم الخفيفة والوسوم المعنونة.
+لا يوجد حاليا خيار لدفع الوسوم الخفيفة فقط، لكن الأمر <code>git push «البعيد» --follow-tags</code> سيدفع الوسوم المعنونة فقط إلى الخادوم البعيد.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_حذف_الوسوم">حذف الوسوم</h4>
+<div class="paragraph">
+<p>لحذف وسم من مستودعك المحلي، نفذ <code>git tag -d «اسم-الوسم»</code>.
+مثلا، يمكننا حذف الوسم الخفيف الذي أنشأناه سابقًا هكذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git tag -d v1.4-lw
+Deleted tag 'v1.4-lw' (was e7d5add)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لاحظ أن هذا لا يحذف الوسم من أي مستودع بعيد.
+توجد طريقتان شائعتان لحذف وسمٍ ما من مستودع بعيد:</p>
+</div>
+<div class="paragraph">
+<p>الطريقة الأولى هي <code>git push «البعيد» :refs/tags/«اسم-الوسم»</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git push origin :refs/tags/v1.4-lw
+To /git@github.com:schacon/simplegit.git
+ - [deleted]         v1.4-lw</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لاستيعاب ما تفعله هذه الطريقة يمكن ترى أنها تدفع القيمة الفارغة التي قبل النقطتين الرأسيتين إلى اسم الوسم على المستودع البعيد، فعمليًّا تحذفه.</p>
+</div>
+<div class="paragraph">
+<p>الطريقة الأخرى (والبديهية أكثر) لحذف وسم من مستودع بعيد، هي:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git push origin --delete «اسم-الوسم»</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_سحب_الوسوم">سحب الوسوم</h4>
+<div class="paragraph">
+<p>إذا أردت رؤية نُسخ الملفات التي يشير إليها وسمٌ ما، يمكنك سحب هذا الوسم بأمر <code>git checkout</code>، مع أن هذا يضع مستودعك في حالة ‪&#8220;detached HEAD&#8221;‬، التي لها بعض الآثار الجانبية السيئة:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout v2.0.0
+Note: switching to 'v2.0.0'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c &lt;new-branch-name&gt;
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at 99ada87... Merge pull request #89 from schacon/appendix-final
+
+$ git checkout v2.0-beta-0.1
+Previous HEAD position was 99ada87... Merge pull request #89 from schacon/appendix-final
+HEAD is now at df3f601... Add atlas.json and cover image</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>في حالة ‪&#8220;detached HEAD&#8221;‬، إذا عدّلت شيئًا وأودعت، فإن الوسم سيبقى كما هو، وإيداعك الجديد لن ينتمي إلى أي فرع ولن يمكن الوصول إليه أبدا، إلا ببصمته.
+لذا، فإن احتجت إجراء تعديلات&#8201;&#8212;&#8201;مثلا لإصلاح علة في نسخة قديمة&#8201;&#8212;&#8201;فغالبا ستحتاج إلى إنشاء فرع:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout -b version2 v2.0.0
+Switched to a new branch 'version2'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>إذا فعلت هذا ثم أودعت، فإن فرع <code>version2</code> سيكون مختلفًا عن وسم <code>v2.0.0</code> لأنه سيكون متقدمًا عنه بتعديلاتك، لذا كن حذرًا.</p>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ <strong>السابق: </strong><a href="_remote_repos.html">٢<small>،</small> ٥<small>،</small> التعامل مع المستودعات البعيدة</a></p>
+<p>↑ <a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Git-Basics-Tagging">الأصل الإنجليزي</a></span></p><p><strong>التالي: </strong><a href="_git_aliases.html">٢<small>،</small> ٧<small>،</small> الكُنيات في جت</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2025-10-24 12:00:00 +0000
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>
