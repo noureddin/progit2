@@ -455,7 +455,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @font-face { font-family: MyMonoFont; font-style: normal; font-weight: 400; src:local('SourceCodePro-Regular'),url("SourceCodePro-Regular.ttf.woff2") format("woff2"), url("SourceCodePro-Regular.ttf.woff") format("woff");font-display: swap}/**/
 @font-face { font-family: MyMonoFont; font-style: normal; font-weight: 700; src:local('SourceCodePro-Bold'),url("SourceCodePro-Bold.ttf.woff2") format("woff2"), url("SourceCodePro-Bold.ttf.woff") format("woff");font-display: swap}
 * { direction: rtl }
-code, pre, pre code, .details, .details * { direction: ltr !important }
+code, pre, pre code { direction: ltr !important }
+               body.book #header .details br+.author+br+span::before{content:"\2002\2014\2002"!important}
+               body.book #header .details br+.author::before{content:"\2002\0648\2009"!important}
+@media print { body.book #header .details br+.author::before{margin-right:-0.35em}
+               body.book #header .details br+.author+br+span::before{content:""!important}
+               .details br:has(+.author) { display: none !important }
+             }
 em,i,.imageblock>.title,table>caption { font-family: MyMainFont }
 .admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{font-family:MyMainFont}
 strong { font-size: 85% }
@@ -567,7 +573,6 @@ li>.tight { margin-top: 1em }
   h2, h3, h4, h5, h6, table > caption, thead, .glue-to-next { page-break-after: avoid }
 }
 
-
 summary > * { display: inline }
 details{margin:1rem 1.25rem 0}
 details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;outline:none;-webkit-tap-highlight-color:transparent}
@@ -589,6 +594,9 @@ s {
 s.rmhead {
   text-decoration-color: var(--fg);
   font-size: 90%;
+  opacity: 0.5;
+}
+#toc s {
   opacity: 0.5;
 }
 

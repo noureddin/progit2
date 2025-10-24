@@ -51,11 +51,13 @@ my $preintro = do {
 my $html_all = "$outdir/progit-all.html";
 my $html_idx = "$outdir/index.html";
 
-## arabize chapter/section numbering {{{
+## arabize chapter/section numbering and dates {{{
 
-sub ar { $_[0] =~ tr[0-9][٠-٩]r }
+sub ar { $_[0] =~ tr[0-9.][٠-٩٫]r }
 my @n = qw[ الأول الثاني الثالث الرابع الخامس السادس السابع الثامن التاسع العاشر ];
 my %apx = qw{  A أ  B ب  C ج  D د  E ه‍  };  # for appendices; the last arabic letter has ZWJ
+
+sub ardate { ar($_[0] =~ s/([0-9]{4})-([0-9]{2})-([0-9]{2})/$3-$2-$1/gr) =~ s|-|&thinsp;&ndash;&thinsp;|gr }
 
 my $body_link = qr/(?<!<li>)   (?<!Next:\h) (?<!Previous:\h) (?<!Up:\h) /x;
 my $fnav_link = qr/(?<!<li>)(?:(?<=Next:\h)|(?<=Previous:\h)|(?<=Up:\h))/;
@@ -440,7 +442,12 @@ if ($prod) {
   open my $fh, '<', $html_all;
   while (<$fh>) {
     if (/<div class="details">/../<\/div>/) {
-      $REV .= $_ unless /<.?div/;
+      if (!m|</?div|) {
+        s/<span id="author"/المؤلفان:&nbsp;$&/;
+        s/version ([0-9.]+),/"الإصدارة: ".ar($1)." &ndash;"/e;
+        s/<span id="revdate">.*/"بتاريخ:&nbsp;".ardate($&)."."/e;
+        $REV .= $_;
+      }
     }
     if (/<ul class="sectlevel1">/../<\/div>/) {
       if ($ignore && /<ul class="sectlevel2"/../<\/ul>/) {  # ignore the entire chapter
@@ -816,9 +823,10 @@ for my $fpath (<$outdir/*.html>) {
     }
     ## }}}
 
-    # slow down the diffs
-    s/(<span id="revdate">)[0-9]{4}-[0-9]{2}-[0-9]{2}(<\/span>)/${1}2025-10-24$2/;
-    s/^Last updated [0-9]{4}-[0-9]{2}-[0-9]{2} 12:00:00 \+0000$/Last updated 2025-10-24 12:00:00 +0000/;
+    # slow down the diffs and arabize the version/update lines
+    s/(<span id="revdate">).*?(<\/span>)/$1.ardate('2025-10-24').".$2"/e;
+    # s/^Last updated [0-9]{4}-[0-9]{2}-[0-9]{2} 12:00:00 \+0000$/Last updated 2025-10-24 12:00:00 +0000/;
+    s/^Last updated [0-9]{4}-[0-9]{2}-[0-9]{2} 12:00:00 \+0000$/"آخر تحديث: ٢٤-١٠-٢٠٢٥" =~ s|-|&thinsp;&ndash;&thinsp;|gr/e;
 
     if ($fpath eq $html_all) {
       # add an <hr> before section headings (sect2) in docs/progit-all.html
