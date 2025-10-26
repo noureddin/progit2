@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>التراجع عن الأفعال | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="undoing" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+المؤلفان:&nbsp;<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">الإصدارة: ٢٫١٫٤٤٩ &ndash;</span>
+بتاريخ:&nbsp;<span id="revdate">٢٤&thinsp;&ndash;&thinsp;١٠&thinsp;&ndash;&thinsp;٢٠٢٥.</span>.
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+<ul class="sectlevel2">
+<li><a href="getting_a_repo.html">٢<small>،</small> ١<small>،</small> الحصول على مستودع جت</a>
+</li>
+<li><a href="recording-changes.html">٢<small>،</small> ٢<small>،</small> تسجيل التعديلات في المستودع</a>
+</li>
+<li><a href="viewing_history.html">٢<small>،</small> ٣<small>،</small> رؤية تاريخ الإيداعات</a>
+</li>
+<li><a href="undoing.html"><span class="toc-current">٢، ٤، التراجع عن الأفعال</span></a>
+</li>
+<li><a href="remote_repos.html">٢<small>،</small> ٥<small>،</small> التعامل مع المستودعات البعيدة</a>
+</li>
+<li><a href="git_tagging.html">٢<small>،</small> ٦<small>،</small> الوسوم</a>
+</li>
+<li><a href="git_aliases.html">٢<small>،</small> ٧<small>،</small> الكُنيات في جت</a>
+</li>
+<li><a href="summary-02.html">٢<small>،</small> ٨<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="undoing">٢، ٤، التراجع عن الأفعال</h3>
+<div class="paragraph">
+<p>قد تحتاج في أي مرحلة إلى التراجع عن فعلٍ ما.
+سنرى الآن بعض الأدوات الأساسية للتراجع عن تعديلاتك.
+كن حذرًا، لأن بعض هذه التراجعات لا يمكن التراجع عنها فيما بعد.
+هذه من المناطق القليلة في جت التي يمكنك أن تفقد فيها شيئًا من عملك إذا فعلت شيئًا خطأ.</p>
+</div>
+<div class="paragraph">
+<p>واحد من أشهر التراجعات هو عندما تودع قبل الأوان وتنسى إضافة ملفات أو تخطئ في رسالة إيداعك.
+إذا أردت إعادة هذا الإيداع، فقم بالتعديلات التي نسيتها، وأهّلها، ثم أودع مجددًا مع خيار التصحيح <code>--amend</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git commit --amend</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يأخذ هذا الأمر منطقة تأهيلك ويستعملها للإيداع.
+وإذا لم تعدّل ملفًا منذ إيداعك الأخير (مثلًا نفذت هذا الأمر مباشرةً بعد إيداعك السابق)، فإن لقطتك ستتطابق تمامًا بلا اختلاف، ولن تغيّر سوى رسالة الإيداع.</p>
+</div>
+<div class="paragraph">
+<p>سيظهر لك محرر رسالة الإيداع، لكن ستجد فيه رسالة الإيداع السابقة
+في انتظارك لتعدّلها إن شئت أو تغيّرها تمامًا.</p>
+</div>
+<div class="paragraph">
+<p>مثلا، إذا أودعت ثم أدركت أنك نسيت تأهيل تعديلات على ملف تريدها في هذا الإيداع، يمكنك فعل شيء مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git commit -m 'Initial commit'
+$ git add forgotten_file
+$ git commit --amend</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ستجد في النهاية إيداعًا واحدًا؛ فالإيداع الثاني يحل محل الأول.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>مهمٌ فهم أنك عندما تصحح إيداعك الأخير، فإنك لا تصلحه ولكن <em>تبدّله</em> برُمّتِه وتضع مكانه إيداعًا جديدًا محسَّنًا وتزيح القديم عن الطريق.
+في الحقيقة، هذا كأن الإيداع السابق لم يحدث من الأصل، ولن يظهر في تاريخ مستودعك.</p>
+</div>
+<div class="paragraph">
+<p>الفائدة الواضحة لتصحيح الإيداعات هو التحسينات الطفيفة للإيداع الأخير، بغير إزحام تاريخ مستودعك برسائل إيداعات من نوعية «عذرا، نسيت إضافة ملف» أو «سحقا، خطأ مطبعي في الإيداع السابق؛ أصلحته».</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>لا تصحح إلا الإيدعات التي لا تزال على جهازك ولم تدفعها بعد إلى أي مكان آخر.
+فتصحيح إيداع قد دُفع بالفعل ثم الدفع عَنوةً (<code>git push --force</code>) سيسبب مشاكل للمتعاونين معك.
+لمعرفة ما سيحدث إن فعلت هذا وكيف تتعافي إذا كنت الطرف المتلقي، اقرأ فصل <a href="rebasing.html#rebase_peril">محذورات إعادة التأسيس</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="unstaging">إلغاء تأهيل ملف مؤهل</h4>
+<div class="paragraph">
+<p>سيوضح الفصلان التاليان كيف تتعامل مع التعديلات في منطقة تأهيلك ومجلد عملك.
+الجميل أن الأمر الذي تستخدمه لمعرفة حالة إحدى هاتين المنطقتين يذكّرك أيضا بكيفية التراجع عما فيهما من تعديلات.
+إن كنت مثلًا قد عدّلت ملفين وأردت إيداع كلٍ منهما في إيداع منفصل، ولكنك كتبت خطأً <code>git add *</code> فأهّلت كليهما.
+كيف يمكنك إلغاء تأهيل أحدهما؟
+أمر الحالة يذكّرك:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git add *
+$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    renamed:    README.md -&gt; README
+    modified:   CONTRIBUTING.md</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>مباشرةً تحت ‪&#8220;Changes to be committed&#8221;‬ («تعديلات ستُودَع») تجده يقول «استخدم <code>git reset HEAD «ملفات»</code> لإلغاء التأهيل».
+فلنعمل بهذه النصيحة إذًا، لإلغاء تأهيل ملف <code>CONTRIBUTING.md</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git reset HEAD CONTRIBUTING.md
+Unstaged changes after reset:
+M	CONTRIBUTING.md
+$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    renamed:    README.md -&gt; README
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   CONTRIBUTING.md</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هذا الأمر غريب قليلًا، لكنه يعمل كما توقعنا.
+ملف <code>CONTRIBUTING.md</code> معدّل لكنه عاد من جديد غير مؤهل.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>صدقًا إن <code>git reset</code> أمر خطِر، خصوصًا مع الخيار <code>--hard</code>.
+مع ذلك، فإن الملف الذي في مجلد عملك لم يُمس في الموقف الموضح بالأعلى، لذا فهذا الأمر آمن نسبيًّا في مثل هذا الموقف.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>هذا الأمر السحري هو كل ما تحتاج معرفته الآن عن أم‍ر الإرجاع <code>git reset</code>.
+سنغوص في فصل <s>تبديد الغموض عن أمر الإرجاع reset</s> في تفاصيل أعمق كثيرا عن أمر الإرجاع وماذا يفعل وكيف تتقنه لتفعل أفعالا شيقة وممتعة جدا.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_إعادة_ملف_معدل_إلى_حالته_قبل_التعديل">إعادة ملف معدل إلى حالته قبل التعديل</h4>
+<div class="paragraph">
+<p>ماذا لو أدركت أنك لم تعد تريد تعديل ملف <code>CONTRIBUTING.md</code> من الأساس؟
+كيف يمكنك إرجاعه إلى حالته عند الإيداع الأخير (أو الاستنساخ الأول، أو كيفما حصلت عليه في مجلد عملك)؟
+لحسن الحظ، يخبرك أمر الحالة بهذا أيضا.
+في ناتج المثال الأخير، كان جزء التعديلات غير المؤهلة هكذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   CONTRIBUTING.md</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فيخبرك أن تستخدم الأمر <code>git checkout -- «ملفات»</code> لتجاهل التعديلات التي في مجلد عملك.
+لنفعل ما يخبرنا به:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout -- CONTRIBUTING.md
+$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    renamed:    README.md -&gt; README</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>كما ترى، أُلغيت التعديلات.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>من المهم جدا فهم أن <code>git checkout -- «ملفات»</code> أمر خطِر؛
+أي تعديلات غير مودعة، على هذا الملف، قد ضاعت، فقد أزال جت للتو هذا الملف ووضع مكانه آخِر نسخة مؤهلة أو مودعة منه.
+إياك أبدا أن تستعمل هذا الأمر، إلا أن تكون واعيًا أشد الوعي أنك لا تريد هذه التعديلات غير المحفوظة.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>إذا أردت الإبقاء على تعديلاتك على هذا الملف لكنك لا تزال تريد إزاحته جانبًا الآن، فسنشرح التفريع في باب <a href="ch03-git-branching.html">التفريع في جت</a> والتخبئة بعد ذلك؛ هاتان الطريقتان أفضل عمومًا.</p>
+</div>
+<div class="paragraph">
+<p>تذكر أن أي شيء تودعه في جت يمكن شِبه دائمًا استعادته.
+حتى الإيداعات في الفروع المحذوفة أو الإيداعات المبدلة بخيار التصحيح (<code>--amend</code>) يمكن استعادتها (انظر فصل <s>استرجاع البيانات</s> لاستعادة البيانات).
+مع ذلك، أي شيء تفقده لم يكن مودعًا، صعب أن تراه مرة أخرى.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="undoing_git_restore">التراجع بأمر الاستعادة git restore</h4>
+<div class="paragraph">
+<p>أضافت النسخة 2.23.0 من جت أمرًا جديدًا: <code>git restore</code>.
+هذا في الأصل بديل لأمر الإرجاع <code>git reset</code> الذي ناقشناه للتو.
+بَدءًا من النسخة 2.23.0 من جت، سيستخدم جت أمر الاستعادة <code>git restore</code> بدلا من أم‍ر الإرجاع <code>git reset</code> في الكثير من عمليات التراجع.</p>
+</div>
+<div class="paragraph">
+<p>لنرتد على آثارنا قَصصًا ونعيد الكرّة ونتراجع بأمر الاستعادة <code>git restore</code> بدلًا من أم‍ر الإرجاع <code>git reset</code>.</p>
+</div>
+<div class="sect4">
+<h5 id="_إلغاء_تأهيل_ملف_مؤهل_بأمر_الاستعادة">إلغاء تأهيل ملف مؤهل بأمر الاستعادة</h5>
+<div class="paragraph">
+<p>سيوضح الفصلان التاليان كيف تتعامل مع التعديلات في منطقة تأهيلك ومجلد عملك بأمر الاستعادة <code>git restore</code>.
+الجميل أن الأمر الذي تستخدمه لمعرفة حالة إحدى هاتين المنطقتين يذكّرك أيضا بكيفية التراجع عما فيهما من تعديلات.
+إن كنت مثلًا قد عدّلت ملفين وأردت إيداع كلٍ منهما في إيداع منفصل، ولكنك كتبت خطأً <code>git add *</code> فأهّلت كليهما.
+كيف يمكنك إلغاء تأهيل أحدهما؟
+أمر الحالة يذكّرك:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git add *
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged &lt;file&gt;..." to unstage)
+	modified:   CONTRIBUTING.md
+	renamed:    README.md -&gt; README</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>مباشرةً تحت ‪&#8220;Changes to be committed&#8221;‬ («تعديلات ستُودَع») تجده يقول «استخدم <code>git restore --staged «ملفات»</code> لإلغاء التأهيل».
+فلنعمل بهذه النصيحة إذًا، لإلغاء تأهيل ملف <code>CONTRIBUTING.md</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git restore --staged CONTRIBUTING.md
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged &lt;file&gt;..." to unstage)
+	renamed:    README.md -&gt; README
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git restore &lt;file&gt;..." to discard changes in working directory)
+	modified:   CONTRIBUTING.md</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ملف <code>CONTRIBUTING.md</code> معدّل لكنه عاد من جديد غير مؤهل.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_إعادة_ملف_معدل_إلى_حالته_قبل_التعديل_بأمر_الاستعادة">إعادة ملف معدل إلى حالته قبل التعديل بأمر الاستعادة</h5>
+<div class="paragraph">
+<p>ماذا لو أدركت أنك لم تعد تريد تعديل ملف <code>CONTRIBUTING.md</code> من الأساس؟
+كيف يمكنك إرجاعه إلى حالته عند الإيداع الأخير (أو الاستنساخ الأول، أو كيفما حصلت عليه في مجلد عملك)؟
+لحسن الحظ، يخبرك أمر الحالة بهذا أيضا.
+في ناتج المثال الأخير، كان جزء التعديلات غير المؤهلة هكذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git restore &lt;file&gt;..." to discard changes in working directory)
+	modified:   CONTRIBUTING.md</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فيخبرك أن تستخدم الأمر <code>git restore «ملفات»</code> لتجاهل التعديلات التي في مجلد عملك.
+لنفعل ما يخبرنا به:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git restore CONTRIBUTING.md
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged &lt;file&gt;..." to unstage)
+	renamed:    README.md -&gt; README</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>من المهم جدا فهم أن <code>git restore «ملفات»</code> أمر خطِر؛
+أي تعديلات غير مودعة، على هذا الملف، قد ضاعت، فقد أزال جت للتو هذا الملف ووضع مكانه آخِر نسخة مؤهلة أو مودعة منه.
+إياك أبدًا أن تستعمل هذا الأمر، إلا أن تكون واعيًّا أشد الوعي أنك لا تريد هذه التعديلات غير المحفوظة.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ <strong>السابق: </strong><a href="viewing_history.html">٢<small>،</small> ٣<small>،</small> رؤية تاريخ الإيداعات</a></p>
+<p>↑ <a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Git-Basics-Undoing-Things">الأصل الإنجليزي</a></span></p><p><strong>التالي: </strong><a href="remote_repos.html">٢<small>،</small> ٥<small>،</small> التعامل مع المستودعات البعيدة</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+آخر تحديث: ٢٤&thinsp;&ndash;&thinsp;١٠&thinsp;&ndash;&thinsp;٢٠٢٥
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

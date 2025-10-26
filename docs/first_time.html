@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>إعداد جت أول مرة | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="first_time" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+المؤلفان:&nbsp;<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">الإصدارة: ٢٫١٫٤٤٩ &ndash;</span>
+بتاريخ:&nbsp;<span id="revdate">٢٤&thinsp;&ndash;&thinsp;١٠&thinsp;&ndash;&thinsp;٢٠٢٥.</span>.
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+<ul class="sectlevel2">
+<li><a href="about-vc.html">١<small>،</small> ١<small>،</small> عن إدارة النسخ</a>
+</li>
+<li><a href="git-history.html">١<small>،</small> ٢<small>،</small> تاريخ جت بإيجاز</a>
+</li>
+<li><a href="what_is_git_section.html">١<small>،</small> ٣<small>،</small> ما هو جت؟</a>
+</li>
+<li><a href="git-cmdline.html">١<small>،</small> ٤<small>،</small> سطر الأوامر</a>
+</li>
+<li><a href="installing-git.html">١<small>،</small> ٥<small>،</small> تثبيت جت</a>
+</li>
+<li><a href="first_time.html"><span class="toc-current">١، ٦، إعداد جت أول مرة</span></a>
+</li>
+<li><a href="git_help.html">١<small>،</small> ٧<small>،</small> الحصول على المساعدة</a>
+</li>
+<li><a href="summary-01.html">١<small>،</small> ٨<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="first_time">١، ٦، إعداد جت أول مرة</h3>
+<div class="paragraph">
+<p>الآن وقد صار جت على نظامك، ستودّ عمل بعض الأمور لتخصيص بيئته لك.
+تحتاج عملها مرة واحدة فقط على أي حاسوب؛ فإنها تبقى عندما تحدّث جت.
+يمكنك أيضا تعديلها في أي وقت بالمرور على الأوامر م‍رة أخرى.</p>
+</div>
+<div class="paragraph">
+<p>في جت أداة «تهيئة» <code>git config</code>، لتعرض أو تعيّن متغيرات التهيئة التي تتحكم في جميع مناحي مظهر وسلوك جت.
+وتُخزَّن هذه المتغيرات في ثلاثة أماكن مختلفة:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>ملف <code>[path]/etc/gitconfig</code>: يحتوي القيم التي تُطبّـق على جميع المستخدمين ومستودعاتهم.
+إذا أعطيت الخيار <code>--system</code> («نظام») إلى أمر التهيئة <code>git config</code>، فإنه يقرأ ويكتب في هذا الملف تحديدًا.
+طبعًا تحتاج صلاحيات إدارية لتعديل هذا الملف لأنه ملف إعدادات خاص بالنظام.</p>
+</li>
+<li>
+<p>ملف <code>~/.gitconfig</code> أو <code>~/.config/git/config</code>: القيم الخاصة بك أنت تحديدًا.
+يمكنك جعل جت يقرأ ويكتب في هذا الملف تحديدًا بالخيار <code>--global</code> («عام»)، وهذا يؤثر في جميع مستودعاتك على هذا النظام.</p>
+</li>
+<li>
+<p>ملف <code>config</code> في مجلد جت (أي <code>.git/config</code>) في أي مستودع أنت فيه الآن: القيم الخاصة بهذا المستودع وحده.
+يمكنك إجبار جت على القراءة والكتابة في هذا الملف بالخيار <code>--local</code> («محلي»)، ولكن في الحقيقة هذا هو المفترض.
+بالطبع تحتاج إلى التواجد في مكان ما في مستودع جت حتى يمكنك استخدام هذا الخيار.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>قيم كل مستوى تطغى على قيم المستوى السابق، لذا فقيم <code>.git/config</code> تتفوق على التي في <code>[path]/etc/gitconfig</code>.</p>
+</div>
+<div class="paragraph">
+<p>في أنظمة ويندوز، يبحث جت عن ملف <code>.gitconfig</code> في مجلد المنزل، <code>$HOME</code> (الذي غالبا يكون <code>C:\Users\$USER</code>).
+ويبحث كذلك عن <code>[path]/etc/gitconfig</code>، ولكن بالنسبة إلى جذر MSys، وهو أينما قررت تثبيت جت فيه على نظامك عندما شغّلت المثبت.
+وإذا كنت تستخدم Git for Windows النسخة <code>2.x</code> أو أحدث، فستجد أيضا ملف إعداد على مستوى النظام، في <code>C:\Documents and Settings\All Users\Application Data\Git\config</code> على ويندوز إكس بي، وفي <code>C:\ProgramData\Git\config</code> على ويندوز فيستا والأحدث.
+لا يمكن تغيير هذا الملف إلا بتنفيذ الأمر <code>git config -f «ملف»</code> بحساب المدير.</p>
+</div>
+<div class="paragraph">
+<p>يمكنك رؤية جميع إعداداتك ومن أين أتت باستخدام:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git config --list --show-origin</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_هويتك">هويتك</h4>
+<div class="paragraph">
+<p>أول ما تحتاج فعله بعد تثبيت جت هو تعيين اسمك وعنوان بريدك الشابكي.
+هذا مهم لأن كل إيداع جت يحتاج معرفتهما، ويصيران جزءًا ثابتًا في الإيداعات التي ستبدأ في صنعها.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git config --global user.name "Mohammad Ali"
+$ git config --global user.email mohammadali@example.com</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>نكرر: لن تحتاج إلى فعل هذا إلا مرة واحدة إذا استخدمت الخيار <code>--global</code> («عام»)، لأن جت عندئذٍ يستعمل هاتين المعلومتين لما تفعله مستخدمًا حسابك على هذا النظام.
+وإن احتجت إلى تجاوز إحدى هاتين القيمتين في مشروعات محددة، يمكنك تنفيذ الأمر في ذلك المشروع بغير الخيار <code>--global</code>.</p>
+</div>
+<div class="paragraph">
+<p>تساعدك الكثير من الواجهات الرسومية في فعل هذا عند تشغيلها أول مرة.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="editor">محررك</h4>
+<div class="paragraph">
+<p>الآن وقد أعددنا هُويّتك، يمكنك تعيين محرر النصوص الذي يشغّله جت عندما يريد منك أن تكتب رسالة.
+فإذا لم يكن معيّنًا، فسيشغّل جت المحرر المبدئي لنظامك.</p>
+</div>
+<div class="paragraph">
+<p>إذا أردت محررًا آخر، مثل Emacs، فافعل الآتي:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git config --global core.editor emacs</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>على ويندوز، إذا أردت تعيين محرر آخر، فعليك تحديد المسار الكامل لملفه التنفيذي.
+الذي يختلف باختلاف طريقة تحزيم محررك.</p>
+</div>
+<div class="paragraph">
+<p>في حالة Notepad++&lrm;، وهو محرر برمجيات مشهور، ستريد غالبا أن تستخدم نسخة ٣٢-بت منه، لأن حتى وقت كتابة هذا، لا تدعم نسخة ٦٤-بت جميع الإضافات.
+إذا كنت على ويندوز ٣٢-بت أو تستخدم محرر ٦٤-بت على ويندوز ٦٤-بت، فإنك ستنفذ شيئا مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git config --global core.editor "'C:/Program Files/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Vim و Emacs و Notepad++&lrm; هي محررات نصوص شهيرة يستخدمها المبرمجون على ويندوز والأنظمة اليونكسية مثل لينكس وماك.
+إذا كنت تستخدم محررًا آخر، أو نسخة ٣٢-بت، فرجاءً انظر شرح تعيين محررك المراد في جت في فصل <s>git config core.editor commands</s>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>إذا لم تعين محررك هكذا، فإنك قد تجد نفسك في حالة محيرة جدا، عندما يحاول جت فتحه.
+مثال ذلك على ويندوز أن يحاول جت فتح المحرر فلا يستطيع فيغلق مبكرًا.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="new_default_branch">اسم الفرع المبدئي</h4>
+<div class="paragraph">
+<p>عندما تنشئ مستودعًا جديدًا بالأمر <code>git init</code>، فإن جت سيُنشئ فيه فرعًا، ويسميه مبدئيًّا <code>master</code>.
+يمكنك تعيين اسم آخر للفرع المبدئي، بَدءًا من النسخة 2.28 من جت.</p>
+</div>
+<div class="paragraph">
+<p>لجعل اسم الفرع المبدئي هو <code>main</code>، نفّذ:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git config --global init.defaultBranch main</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_تفقّد_إعداداتك">تفقّد إعداداتك</h4>
+<div class="paragraph">
+<p>إذا أردت تفقّد إعدادات تهيئتك، نفّذ أمر التهيئة مع خيار السرد&#8201;&#8212;&#8201;<code>git config --list</code>&#8201;&#8212;&#8201;ليسرد لك جميع الإعدادات التي يراها جت وقتئذٍ:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git config --list
+user.name=Mohammad Ali
+user.email=mohammadali@example.com
+color.status=auto
+color.branch=auto
+color.interactive=auto
+color.diff=auto
+...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ربما ترى بعض الأسماء مكررة، هذا لأن جت قد وجد الاسم نفسه في أكثر من ملف (<code>[path]/etc/gitconfig</code> و <code>~/.gitconfig</code> مثلا).
+في مثل هذه الحالة يعتمد جت القيمة الأخيرة لكل اسم يراه.</p>
+</div>
+<div class="paragraph">
+<p>يمكنك أيضا سؤال جت عن القيمة التي يراها لاسم معين، بالأمر <code>git config «اسم»</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git config user.name
+Mohammad Ali</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>قد يقرأ جت متغير تهيئة معين من أكثر من ملف، فقد تجد بعض القيم مثيرة للدهشة ولا تعرف من أين أتت.
+يمكنك في مثل هذه الحالة سؤال جت: من أين لك هذا؟&#8201;&#8212;&#8201;أي بخيار إظهار المصدر <code>--show-origin</code>، الذي يخبرك بالملف الذي غلب على أمرهم في قيمة هذا المتغير:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git config --show-origin rerere.autoUpdate
+file:/home/moali/.gitconfig	false</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ <strong>السابق: </strong><a href="installing-git.html">١<small>،</small> ٥<small>،</small> تثبيت جت</a></p>
+<p>↑ <a href="ch01-getting-started.html">الباب الأول: البدء</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup">الأصل الإنجليزي</a></span></p><p><strong>التالي: </strong><a href="git_help.html">١<small>،</small> ٧<small>،</small> الحصول على المساعدة</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+آخر تحديث: ٢٤&thinsp;&ndash;&thinsp;١٠&thinsp;&ndash;&thinsp;٢٠٢٥
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

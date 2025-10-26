@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>توليد مفتاح SSH عمومي لك | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="generate_ssh_key" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+المؤلفان:&nbsp;<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">الإصدارة: ٢٫١٫٤٤٩ &ndash;</span>
+بتاريخ:&nbsp;<span id="revdate">٢٤&thinsp;&ndash;&thinsp;١٠&thinsp;&ndash;&thinsp;٢٠٢٥.</span>.
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+<ul class="sectlevel2">
+<li><a href="protocols.html">٤<small>،</small> ١<small>،</small> الموافيق (البروتوكولات)</a>
+</li>
+<li><a href="getting_git_on_a_server.html">٤<small>،</small> ٢<small>،</small> تثبيت جت على خادوم</a>
+</li>
+<li><a href="generate_ssh_key.html"><span class="toc-current">٤، ٣، توليد مفتاح SSH عمومي لك</span></a>
+</li>
+<li><a href="setting_up_server.html">٤<small>،</small> ٤<small>،</small> إعداد الخادوم</a>
+</li>
+<li><a href="git-daemon.html">٤<small>،</small> ٥<small>،</small> عفريت جت</a>
+</li>
+<li><a href="smart-http.html">٤<small>،</small> ٦<small>،</small> ميفاق HTTP الذكي</a>
+</li>
+<li><a href="gitweb-section.html">٤<small>،</small> ٧<small>،</small> ؜GitWeb</a>
+</li>
+<li><a href="gitlab.html">٤<small>،</small> ٨<small>،</small> ؜GitLab</a>
+</li>
+<li><a href="hosted-git.html">٤<small>،</small> ٩<small>،</small> خيارات الاستضافة الخارجية</a>
+</li>
+<li><a href="summary-04.html">٤<small>،</small> ١٠<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="generate_ssh_key">٤، ٣، توليد مفتاح SSH عمومي لك</h3>
+<div class="paragraph">
+<p>
+العديد من خواديم جت تستوثق المستخدمين بمفاتيح SSH العمومية.
+فعلى كل مستخدم توليد مفتاح إن لم يكن لديه مفتاح فعلا.
+تتشابه هذه العملية عبر أنظمة التشغيل المختلفة.
+أولا عليك التحقق أنك لا تملك مفتاحًا فعلا.
+المكان المبدئي لتخزين مفاتيح SSH الخاصة بالمستخدم هو مجلد <code>~/.ssh</code>.
+فانظر فيه لتعرف إذا كان لديك مفتاحٌ فعلا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cd ~/.ssh
+$ ls
+authorized_keys2  id_dsa       known_hosts
+config            id_dsa.pub</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>عليك البحث عن ملفين اسم أحدهما يشبه <code>id_dsa</code> أو <code>id_rsa</code>، والآخر هو الاسم نفسه لكن بالامتداد <code>.pub</code>.
+فملف <code>.pub</code> هو مفتاحك العمومي، والملف الآخر هو نظيره الخصوصي.
+وإذا لم يكن لديك هذين الملفين (أو لم يكن لديك مجلد <code>.ssh</code> من الأساس)، فيمكنك إنشاءهما بتشغيل برنامج يسمى <code>ssh-keygen</code> («مولِّد مفاتيح SSH»)، الذي يأتي مع حزمة SSH على أنظمة لينكس وماك أو إس ومع Git for Windows على ويندوز:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ ssh-keygen -o
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/schacon/.ssh/id_rsa):
+Created directory '/home/schacon/.ssh'.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/schacon/.ssh/id_rsa.
+Your public key has been saved in /home/schacon/.ssh/id_rsa.pub.
+The key fingerprint is:
+d0:82:24:8e:d7:f1:bb:9b:33:53:96:93:49:da:9b:e3 schacon@mylaptop.local</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هو أولا يتحقق المكان الذي تريد حفظ المفتاح فيه (<code>.ssh/id_rsa</code>)، ثم يطلب مرتين إدخال عبارة المرور (passphrase)، ويمكنك تركها فارغة إذا لم تشأ إدخال عبارة م‍رور عند استعمال المفتاح.
+أما إذا أردتها، فعليك إضافة الخيار <code>-o</code>؛ فهو يحفظ المفتاح الخصوصي بصيغة أقوى من الصيغة المبدئية في مقاومة كسر عبارات المرور بالقوة العمياء.
+ويمكنك أيضا استخدام أداة <code>ssh-agent</code> («عميل SSH») لمنع الحاجة إلى إدخال عبارة المرور في كل مرة.</p>
+</div>
+<div class="paragraph">
+<p>الآن، على كل مستخدم فَعَلَ هذا أن يرسل مفتاحه العمومي إليك أو إلى من يدير خادوم جت (بفرض أنك أعدت خادوم SSH ليستعمل المفاتيح العمومية).
+وليس عليهم سوى نسخ محتويات ملف <code>.pub</code> وإرسالها إليك بالبريد الشابكي.
+تبدو المفاتيح العمومية مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ cat ~/.ssh/id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
+GPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3
+Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XA
+t3FaoJoAsncM1Q9x5+3V0Ww68/eIFmb1zuUFljQJKprrX88XypNDvjYNby6vw/Pb0rwert/En
+mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
+NrRFi9wrf+M7Q== schacon@mylaptop.local</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لشرح أعمق لإنشاء مفتاح SSH على أنظمة التشغيل المختلفة، انظر دليل جت‌هب لمفاتيح SSH (بالإنجليزية):<br>
+<a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent" class="bare" target="_blank" rel="noopener">https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent</a>.</p>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ <strong>السابق: </strong><a href="getting_git_on_a_server.html">٤<small>،</small> ٢<small>،</small> تثبيت جت على خادوم</a></p>
+<p>↑ <a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Git-on-the-Server-Generating-Your-SSH-Public-Key">الأصل الإنجليزي</a></span></p><p><strong>التالي: </strong><a href="setting_up_server.html">٤<small>،</small> ٤<small>،</small> إعداد الخادوم</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+آخر تحديث: ٢٤&thinsp;&ndash;&thinsp;١٠&thinsp;&ndash;&thinsp;٢٠٢٥
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

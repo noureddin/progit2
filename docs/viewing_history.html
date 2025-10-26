@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>رؤية تاريخ الإيداعات | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="viewing_history" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+المؤلفان:&nbsp;<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">الإصدارة: ٢٫١٫٤٤٩ &ndash;</span>
+بتاريخ:&nbsp;<span id="revdate">٢٤&thinsp;&ndash;&thinsp;١٠&thinsp;&ndash;&thinsp;٢٠٢٥.</span>.
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+<ul class="sectlevel2">
+<li><a href="getting_a_repo.html">٢<small>،</small> ١<small>،</small> الحصول على مستودع جت</a>
+</li>
+<li><a href="recording-changes.html">٢<small>،</small> ٢<small>،</small> تسجيل التعديلات في المستودع</a>
+</li>
+<li><a href="viewing_history.html"><span class="toc-current">٢، ٣، رؤية تاريخ الإيداعات</span></a>
+</li>
+<li><a href="undoing.html">٢<small>،</small> ٤<small>،</small> التراجع عن الأفعال</a>
+</li>
+<li><a href="remote_repos.html">٢<small>،</small> ٥<small>،</small> التعامل مع المستودعات البعيدة</a>
+</li>
+<li><a href="git_tagging.html">٢<small>،</small> ٦<small>،</small> الوسوم</a>
+</li>
+<li><a href="git_aliases.html">٢<small>،</small> ٧<small>،</small> الكُنيات في جت</a>
+</li>
+<li><a href="summary-02.html">٢<small>،</small> ٨<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="viewing_history">٢، ٣، رؤية تاريخ الإيداعات</h3>
+<div class="paragraph">
+<p>بعدما صنعت عددًا من الإيداعات، أو استنسخت مستودعًا ذا تاريخ من الإيداعات بالفعل، قد تود الالتفات إلى الماضي ورؤية ماذا حدث.
+أسهل وأقوى أداة لفعل هذا هي أمر السجل <code>git log</code>:</p>
+</div>
+<div class="paragraph">
+<p>تستعمل هذه الأمثلة مشروعًا صغيرًا جدًا يسمى ‪&#8220;simplegit&#8221;‬.
+للحصول على المشروع، نفذ:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git clone https://github.com/schacon/simplegit-progit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>عندما تنفذ <code>git log</code> داخل هذا المشروع، ترى شيئا مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    Change version number
+
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 16:40:33 2008 -0700
+
+    Remove unnecessary test
+
+commit a11bef06a3f659402fe7563abf99ad00de2209e6
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 10:31:28 2008 -0700
+
+    Initial commit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>عندما تنادي أمر السجل بلا مُعامِلات، أيْ <code>git log</code> فقط، فإنه بطبيعته يسرد لك الإيداعات التي في هذا المستودع بترتيب زمني عكسي؛ أيْ أن الإيداع الأحدث يظهر أولًا.
+كما ترى، يسرد هذا الأمر كل إيداع مع بصمته واسم مؤلفه وعنوان بريده الشابكي وتاريخ الإيداع ورسالته.</p>
+</div>
+<div class="paragraph">
+<p>يتيح أمر السجل عددًا عظيمًا متنوعًا من الخيارات لتُظهر بالضبط ما تريد.
+سنعرض لك هنا بعضًا من أشهرها.</p>
+</div>
+<div class="paragraph">
+<p>واحد من أكثر الخيارات إفادةً هو <code>-p</code> أو <code>--patch</code> («رُقعة»)، الذي يظهر لك الفرق (أي <em>الرقعة</em>) الذي أتى به كل إيداع.
+يمكنك كذلك تقييد عدد السجلات المعروضة، مثلا بالخيار <code>-2</code> لإظهار آخر بيانَيْن فقط.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log -p -2
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    Change version number
+
+diff --git a/Rakefile b/Rakefile
+index a874b73..8f94139 100644
+--- a/Rakefile
++++ b/Rakefile
+@@ -5,7 +5,7 @@ require 'rake/gempackagetask'
+ spec = Gem::Specification.new do |s|
+     s.platform  =   Gem::Platform::RUBY
+     s.name      =   "simplegit"
+-    s.version   =   "0.1.0"
++    s.version   =   "0.1.1"
+     s.author    =   "Scott Chacon"
+     s.email     =   "schacon@gee-mail.com"
+     s.summary   =   "A simple gem for using Git in Ruby code."
+
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 16:40:33 2008 -0700
+
+    Remove unnecessary test
+
+diff --git a/lib/simplegit.rb b/lib/simplegit.rb
+index a0a60ae..47c6340 100644
+--- a/lib/simplegit.rb
++++ b/lib/simplegit.rb
+@@ -18,8 +18,3 @@ class SimpleGit
+     end
+
+ end
+-
+-if $0 == __FILE__
+-  git = SimpleGit.new
+-  puts git.show
+-end</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يعرض هذا الخيار المعلومات نفسها أيضا ولكن مع إتباع كل بيان بالفروقات.
+هذا مفيد جدا لمراجعة الرُّقَع (‪&#8220;code review&#8221;‬) أو للنظر السريع فيما حدث في سلسلة من الإيداعات التي أضافها زميل.
+ولدى أمر السجل كذلك عددًا من خيارات التلخيص.
+فمثلا إذا أردت رؤية إحصاءات مختصرة عن كل إيداع، جرّب خيار الإحصاء <code>--stat</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log --stat
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    Change version number
+
+ Rakefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 16:40:33 2008 -0700
+
+    Remove unnecessary test
+
+ lib/simplegit.rb | 5 -----
+ 1 file changed, 5 deletions(-)
+
+commit a11bef06a3f659402fe7563abf99ad00de2209e6
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 10:31:28 2008 -0700
+
+    Initial commit
+
+ README           |  6 ++++++
+ Rakefile         | 23 +++++++++++++++++++++++
+ lib/simplegit.rb | 25 +++++++++++++++++++++++++
+ 3 files changed, 54 insertions(+)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>فكما ترى، يطبع لك خيار الإحصاء <code>--stat</code> تحت بيان كل إيداع، قائمةً بالملفات المعدلة وعددها وعدد السطور المضافة والمزالة في هذه الملفات.
+ثم يلخّص هذه المعلومات في النهاية.</p>
+</div>
+<div class="paragraph">
+<p>وخيار آخر عظيم النفع هو <code>--pretty</code> («منسَّق»)،
+الذي يعرض ناتج السجل بصيغ أخرى غير الصيغة المبدئية.
+يعرف جت أسماءً لصيغ جاهزة يمكن استعمالها مع هذا الخيار.
+قيمة <code>oneline</code> («سطر واحد») تطبع كل إيداع على سطر وحيد، ما يفيد عندما تنظر إلى إيداعات كثيرة.
+وكذلك، القيم <code>short</code> («قصير») و <code>full</code> («كامل») و <code>fuller</code> («أكمل») تُظهر لك ناتجًا مثل المبدئي مع زيادة أو نقصان في بعض المعلومات.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log --pretty=oneline
+ca82a6dff817ec66f44342007202690a93763949 Change version number
+085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 Remove unnecessary test
+a11bef06a3f659402fe7563abf99ad00de2209e6 Initial commit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>القيمة الأكثر إمتاعًا هي <code>format</code> («صياغة»)، التي تتيح لك تعيين صيغة ناتج السجل بدقة.
+هذا مفيد خصوصًا عندما تولّد ناتجًا لكي يقرؤه ويحلله برنامج أو بُريمج (script)&#8201;&#8212;&#8201;فلأنك تعيّن الصيغة بصراحة ووضوح، فإنك تطمئن أنها لن تتغيّر مع تحديثات جت.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log --pretty=format:"%h - %an, %ar : %s"
+ca82a6d - Scott Chacon, 6 years ago : Change version number
+085bb3b - Scott Chacon, 6 years ago : Remove unnecessary test
+a11bef0 - Scott Chacon, 6 years ago : Initial commit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يسرد جدول <a href="viewing_history.html#pretty_format">متغيرات مفيدة لصياغة السجلات باستخدام <code>git log --pretty=format</code></a> بعض المتغيرات المفيدة التي تفهمها <code>format</code>:</p>
+</div>
+<table id="pretty_format" class="tableblock frame-all grid-all stretch">
+<caption class="title">جدول ١. متغيرات مفيدة لصياغة السجلات باستخدام <code>git log --pretty=format</code></caption><colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">المتغير</th>
+<th class="tableblock halign-right valign-top">وصف الناتج</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%H</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بصمة الإيداع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%h</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بصمة الإيداع المختصرة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%T</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بصمة الشجرة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%t</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بصمة الشجرة المختصرة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%P</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بصمات الآباء</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%p</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بصمات الآباء المختصرة</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%an</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اسم المؤلف</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%ae</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بريد المؤلف</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%ad</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تاريخ التأليف (الصيغة تتبع <code>--date=option</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%ar</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تاريخ التأليف، نسبي</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%cn</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اسم المودِع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%ce</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">بريد المودِع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%cd</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تاريخ الإيداع</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%cr</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">تاريخ الإيداع، نسبي</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>%s</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">الموضوع (عنوان رسالة الإيداع)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>ربما تتساءل عن الفرق بين <em>المؤلف</em> و<em>المودِع</em>.
+المؤلف هو من كتب العمل في الأصل، والمودِع هو من طبّـق العمل في النهاية.
+فمثلا إذا أرسلت رقعة إلى مشروع، وطبّـقها أحد الأعضاء الأساسيين، فيجب الاعتراف بالفضل لكليكما: أنت مؤلفًا، والعضو الأساسي مودِعًا.
+سنتناول هذا التمييز بالتفصيل في باب <a href="ch05-distributed-git.html">جت المتوزع</a>.</p>
+</div>
+<div class="paragraph">
+<p>القيمتان <code>oneline</code> و <code>format</code> مفيدتان خصوصًا مع خيار آخر لأمر السجل يسمى «رسم» <code>--graph</code>.
+يضيف هذا الخيار رسمًا لطيفًا بالمحارف لإظهار تاريخ التفريع والدمج.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log --pretty=format:"%h %s" --graph
+* 2d3acf9 Ignore errors from SIGCHLD on trap
+*  5e3ee11 Merge branch 'master' of https://github.com/dustin/grit.git
+|\
+| * 420eac9 Add method for getting the current branch
+* | 30e367c Timeout code and tests
+* | 5a09431 Add timeout protection to grit
+* | e1193f8 Support for heads with slashes in them
+|/
+* d6016bc Require time for xmlschema
+*  11d191e Merge branch 'defunkt' into local</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>سيصير هذا النوع من الناتج ممتعًا أكثر خلال تناولنا التفريع والدمج في الباب التالي.</p>
+</div>
+<div class="paragraph">
+<p>هذه فقط بعض خيارات تنسيق ناتج <code>git log</code> اليسيرة؛ متاح عدد أكبر من ذلك كثيرًا.
+يسرد جدول <a href="viewing_history.html#log_options">خيارات شائعة لأمر السجل</a> الخيارات التي تناولناها حتى الآن، وكذلك بعض خيارات التنسيق الشائعة الأخرى التي قد تفيد، إضافةً إلى كيفية تغيير ناتج أمر السجل.</p>
+</div>
+<table id="log_options" class="tableblock frame-all grid-all stretch">
+<caption class="title">جدول ٢. خيارات شائعة لأمر السجل</caption><colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">الخيار</th>
+<th class="tableblock halign-right valign-top">الوصف</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-p</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">أظهر الرقعة التي أتى بها كل إيداع.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--stat</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">أظهر إحصاءات الملفات المعدّلة في كل إيداع.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--shortstat</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اعرض فقط سطر التعديلات/الإضافات/الإزالات من أمر <code>--stat</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--name-only</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اسرد أسماء الملفات المعدلة بعد كل إيداع.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--name-status</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اسرد أسماء الملفات مرفقة بحالتها: معدّل/مضاف/م‍زال.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--abbrev-commit</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">أظهر فقط الحروف القليلة الأولى من البصمة، بدلًا من الأربعين جميعًا.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--relative-date</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اعرض التاريخ بصيغة نسبية (مثلا ‪&#8220;2 weeks ago&#8221;‬) بدلا من صيغة التاريخ الكاملة.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--graph</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اعرض رسمًا بالمحارف لتاريخ التفريع والدمج بجانب ناتج السجل.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--pretty</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اعرض الإيداعات بصيغة أخرى. قيم الخيار المتاحة تشمل <code>oneline</code> و <code>short</code> و <code>full</code> و <code>fuller</code> و <code>format</code> (التي تتيح لك تحديد صياغتك المخصوصة).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--oneline</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">اختصار الخيارين <code>--pretty=oneline --abbrev-commit</code> معًا.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect3">
+<h4 id="_تقييد_ناتج_السجل">تقييد ناتج السجل</h4>
+<div class="paragraph">
+<p>إضافةً إلى خيارات صياغة الناتج، يتيح أمر السجل عددًا من خيارات تقييد الناتج؛ أيْ إظهار جزء من الإيداعات فقط.
+لقد رأيت أحد هذه الخيارات بالفعل: خيار <code>-2</code> الذي يُظهر آخر إيداعين فقط.
+الحقيقة أن استخدام <code>-«ن»</code>، حيث <code>ن</code> هو أي عدد صحيح موجب، يُظهر لك آخر <code>ن</code> إيداعًا.
+لن تحتاج هذا كثيرًا في الواقع، لأن جت بطبيعته يمرر الناتج كله إلى برنامج عرض (‪&#8220;pager&#8221;‬ مثل <code>less</code>) حتى ترى ناتج السجل صفحةً صفحة.</p>
+</div>
+<div class="paragraph">
+<p>لكن خيارات التقييد بالزمن مثل <code>--since</code> («منذ») و <code>--until</code> («حتى») مفيدة جدا.
+مثلا، هذا الأمر يسرد الإيداعات التي تمت خلال الأسبوعين السابقين:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log --since=2.weeks</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يعمل هذا الأمر مع العديد من الصيغ؛ يمكنك تحديد تاريخ محدد مثل <code>"2008-01-15"</code> أو تاريخ نسبي مثل <code>"2 years 1 day 3 minutes ago"</code>.</p>
+</div>
+<div class="paragraph">
+<p>يمكنك كذلك سرد الإيداعات المطابقة لمعايير بحث معينة.
+مثلا خيار <code>--author</code> يتيح لك سرد إيداعات مؤلف معين فقط، و <code>--grep</code> يتيح لك البحث عن كلمات معينة في رسائل الإيداعات.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>يمكنك استعمال <code>--author</code> أو <code>--grep</code> أكثر من مرة في الأم‍ر الواحد، لتسرد الإيداعات التي توافق <em>أي</em> نمط <code>--author</code> معطى وتوافق <em>أي</em> نمط <code>--grep</code> معطى؛ ولكن إضافة خيار <code>--all-match</code> يقيّد الناتج إلى الإيداعات الموافقة <em>لجميع</em> أنماط <code>--grep</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>مصفاة مفيدة جدا أخرى هي خيار <code>-S</code> (المعروف بالاسم الدارج: خيار «فأس» جت)، الذي يُعطى سلسلة نصية ولا يظهر إلا الإيداعات التي عدّلت عدد مرات وجودها.
+فمثلًا إذا أردت إظهار آخر إيداع أضاف أو أزال إشارة إلى دالة معينة، يمكنك تنفيذ:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log -S function_name</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>آخر خيار تصفية مفيد حقا لأمر السجل هو إعطاؤه مسار.
+فإذا أعطيته مجلدًا أو ملفًا، فإنه يقيّد ناتج السجل إلى الإيداعات التي عدّلت هذه الملفات.
+يكون هذا دائما آخر خيار وفي الغالب يُسبق بشرطتين (<code>--</code>) لفصل المسارات عن الخيارات:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log -- path/to/file</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>نسرد في جدول <a href="viewing_history.html#limit_options">خيارات تقييد ناتج أمر السجل</a> هذه الخيارات وبعض الخيارات الأخرى حتى تكون مرجعًا لك.</p>
+</div>
+<table id="limit_options" class="tableblock frame-all grid-all stretch">
+<caption class="title">جدول ٣. خيارات تقييد ناتج أمر السجل</caption><colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">الخيار</th>
+<th class="tableblock halign-right valign-top">الوصف</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-«ن»</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">أظهر فقط آخر <code>ن</code> إيداعًا.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--since</code> أو <code>--after</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">قيّد الناتج إلى الإيداعات التي تمت بعد التاريخ المعطى.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--until</code> أو <code>--before</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">قيّد الناتج إلى الإيداعات التي تمت قبل التاريخ المعطى.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--author</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">لا تظهر إلا الإيداعات التي يطابق اسم مؤلفها السلسلة النصية المعطاة.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--committer</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">لا تظهر إلا الإيداعات التي يطابق اسم مودِعها السلسلة النصية المعطاة.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>--grep</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">لا تظهر إلا الإيداعات التي تشتمل رسالتها على السلسلة النصية المعطاة.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-S</code></p></td>
+<td class="tableblock halign-right valign-top"><p class="tableblock">لا تظهر إلا الإيداعات التي أضافت أو أزالت سطورًا برمجية فيها السلسلة النصية المعطاة.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>مثلا، إذا أردت رؤية أيِّ الإيداعات التي عدّلت ملفات الاختبارات في مصدر جت، وقد أودعها Junio Hamano في شهر أكتوبر عام ٢٠٠٨، وليست إيداعات دمج، يمكنك فعل شيء مثل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log --pretty="%h - %s" --author='Junio C Hamano' --since="2008-10-01" \
+   --before="2008-11-01" --no-merges -- t/
+5610e3b - Fix testcase failure when extended attributes are in use
+acd3b9e - Enhance hold_lock_file_for_{update,append}() API
+f563754 - demonstrate breakage of detached checkout with symbolic link HEAD
+d1a43f2 - reset --hard/read-tree --reset -u: remove unmerged new paths
+51a94af - Fix "checkout --track -b newbranch" on detached HEAD
+b0ad11e - pull: allow "git pull origin $something:$current_branch" into an unborn branch</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>حوالي أربعين ألف إيداع في تاريخ مصدر جت، وهذا الأمر لا يُظهر منها إلا الإيداعات الستة المطابقة لتلك المعايير.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="title">منع عرض إيداعات الدمج</div>
+<div class="paragraph">
+<p>حسب أسلوب التطوير في مستودعك، قد يكون عدد ضخم من الإيداعات في تاريخ سجلك مجرد إيداعات دمج، وهي لا تفيد كثيرًا.
+لمنع عرضها وإزحامها تاريخ سجلك، أضف إلى أمر السجل خيار منع الدمج <code>--no-merges</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ <strong>السابق: </strong><a href="recording-changes.html">٢<small>،</small> ٢<small>،</small> تسجيل التعديلات في المستودع</a></p>
+<p>↑ <a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History">الأصل الإنجليزي</a></span></p><p><strong>التالي: </strong><a href="undoing.html">٢<small>،</small> ٤<small>،</small> التراجع عن الأفعال</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+آخر تحديث: ٢٤&thinsp;&ndash;&thinsp;١٠&thinsp;&ndash;&thinsp;٢٠٢٥
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

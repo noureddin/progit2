@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>الفروع بإيجاز | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="git_branches_overview" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+المؤلفان:&nbsp;<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">الإصدارة: ٢٫١٫٤٤٩ &ndash;</span>
+بتاريخ:&nbsp;<span id="revdate">٢٤&thinsp;&ndash;&thinsp;١٠&thinsp;&ndash;&thinsp;٢٠٢٥.</span>.
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+<ul class="sectlevel2">
+<li><a href="git_branches_overview.html"><span class="toc-current">٣، ١، الفروع بإيجاز</span></a>
+</li>
+<li><a href="basic-branching-merging.html">٣<small>،</small> ٢<small>،</small> أسس التفريع والدمج</a>
+</li>
+<li><a href="branch_management.html">٣<small>،</small> ٣<small>،</small> إدارة الفروع</a>
+</li>
+<li><a href="branching-workflows.html">٣<small>،</small> ٤<small>،</small> أساليب التطوير التفريعية</a>
+</li>
+<li><a href="remote_branches.html">٣<small>،</small> ٥<small>،</small> الفروع البعيدة</a>
+</li>
+<li><a href="rebasing.html">٣<small>،</small> ٦<small>،</small> إعادة التأسيس</a>
+</li>
+<li><a href="summary-03.html">٣<small>،</small> ٧<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="git_branches_overview">٣، ١، الفروع بإيجاز</h3>
+<div class="paragraph">
+<p>لنفهم حقًا طريقة التفريع في جت، علينا أن نتراجع خطوة إلى الخلف ونتدبر طريقته في تخزين البيانات.</p>
+</div>
+<div class="paragraph">
+<p>كما قد تتذكر من فصل <a href="what_is_git_section.html">ما هو جت؟</a>، لا يخزن جت بياناته في صورة فروقات، بل في صورة لقطات.</p>
+</div>
+<div class="paragraph">
+<p>وعندما تُودع، يخزن جت كائنَ إيداع فيه إشارة إلى لقطة المحتوى الذي أهّلته.
+وفيه كذلك اسم المؤلف وعنوان بريده ورسالة الإيداع والإشارات إلى الإيداعات السابقة له مباشرةً (الإيداعات الآباء): لا أب لأول إيداع، وأب واحد للإيداعات العادية، وأبوين أو أكثر لإيداعات الدمج، وهي الإيداعات الناتجة من دمج فرعين أو أكثر.</p>
+</div>
+<div class="paragraph">
+<p>حتى نستطيع تصور هذا، لنفترض أن لديك مجلدًا به ثلاثة ملفات، وأنك أهّلتها جميعها ثم أودعتها.
+يحسب تأهيل الملفات بصمة كل ملف (بصمة SHA-1 التي ذكرناها في فصل <a href="what_is_git_section.html">ما هو جت؟</a>)، ويخزن نسخة الملف هذه في المستودع (وهي ما يسميها جت «كتلة رقمية» (‪&#8220;blob&#8221;‬)، ونسميها «ك‍تلة» اختصارا)، ويضيف تلك البصمة إلى منطقة التأهيل:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git add README test.rb LICENSE
+$ git commit -m 'Initial commit'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>عندما تودع بأمر <code>git commit</code>، فإن جت يحسب أيضا بصمات كل مجلد ومجلد فرعي (في هذه الحالة، مجلد جذر المشروع فقط)، ويخزنها في صورة كائنات أشجار في المستودع.
+ثم ينشئ جت كائنَ إيداعٍ فيه بيانات وصفية وإشارة إلى شجرة جذر المشروع، حتى يستطيع إعادة إنشاء تلك اللقطة عند الحاجة.</p>
+</div>
+<div class="paragraph">
+<p>صار في مستودعك الآن خمسة كائنات: ثلاث <em>كتل</em> (كلٌ منها يمثل محتويات ملف من الثلاثة)، و<em>شجرة</em> واحدة (تسرد محتويات المجلد وما الك‍تل التي تشير إليها أسماء الملفات)، و<em>إيداع</em> واحد (فيه إشارة إلى شجرة الجذر تلك وكذلك البيانات الوصفية للإيداع).</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/commit-and-tree.png" alt="إيداعٌ وشجرته">
+</div>
+<div class="title">شكل ٩. إيداعٌ وشجرته</div></div>
+<div class="paragraph">
+<p>إذا أجريت تعديلات وأودعتها، فإن إيداعك التالي سيخزن إشارةً إلى الإيداع السابق له مباشرةً.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/commits-and-parents.png" alt="إيداعات وآباؤها">
+</div>
+<div class="title">شكل ١٠. إيداعات وآباؤها</div></div>
+<div class="paragraph">
+<p>فإنما الفرع في جت هو إشارة متحركة تشير إلى أحد هذه الإيداعات.
+والفرع المبدئي في جت يُسمى <code>master</code>.
+فعندما تشرع في صنع الإيداعات، فإن جت يعطيك فرعا رئيسا يسمى <code>master</code> ويشير إلى آخر إيداع صنعته.
+ويتقدم فرع <code>master</code> مع كل إيداعٍ تودِعه.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>فرع <code>master</code> في جت ليس مميزًا.
+فهو تمامًا مثل أي فرع آخر.
+والسبب الوحيد لوجوده في أغلب المستودعات أن أمر <code>git init</code> ينشئه بهذا الاسم المبدئي وأكثر الناس لا يبالون بتغييره.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/branch-and-history.png" alt="فرع وتاريخ إيداعاته">
+</div>
+<div class="title">شكل ١١. فرع وتاريخ إيداعاته</div></div>
+<div class="sect3">
+<h4 id="create_new_branch">إنشاء فرع جديد</h4>
+<div class="paragraph">
+<p>
+ماذا يحدث عندما تنشئ فرعًا جديدًا؟
+الإجابة: ينشئ جت إشارة جديدة لك لتحركها كما تشاء.
+لنقُل إنك أردت إنشاء فرع جديد اسمه <code>testing</code>.
+تفعل هذا بأمر الفروع <code>git branch</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git branch testing</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ينشئ هذا إشارةً إلى الإيداع الذي تقف عنده الآن.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/two-branches.png" alt="فرعان يشيران إلى سلسلة الإيداعات نفسها">
+</div>
+<div class="title">شكل ١٢. فرعان يشيران إلى سلسلة الإيداعات نفسها</div></div>
+<div class="paragraph">
+<p>كيف يعرف جت في أيّ فرع أنت الآن؟
+إنه يحتفظ بإشارة مخصوصة تسمى «إشارة الرأس» (<code>HEAD</code>).
+لاحظ أن هذه مختلفة كثيرًا عن مفهوم <code>HEAD</code> في الأنظمة الأخرى مثل Subversion و CVS.
+في جت، هذه إشارة إلى الفرع المحلي الذي تقف فيه الآن.
+في حالتنا هذه، ما زلتَ واقفًا في فرع <code>master</code>.
+فما على أمر <code>git branch</code> إلا إنشاء فرع جديد؛ ليس عليه الانتقال إليه.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/head-to-master.png" alt="إشارة الرأس `HEAD` تشير إلى فرع">
+</div>
+<div class="title">شكل ١٣. إشارة الرأس <code>HEAD</code> تشير إلى فرع</div></div>
+<div class="paragraph">
+<p>يمكنك رؤية هذا بسهولة بأمر السجل، الذي يُظهر لك ما تشير إليه إشارات الفروع،
+وذلك بالخيار <code>--decorate</code> («تسميات»، أي إظهار أسماء الإشارات؛ وهو مفترض مبدئيا منذ النسخة 2.13 من جت).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log --oneline --decorate
+f30ab (HEAD -&gt; master, testing) Add feature #32 - ability to add new formats to the central interface
+34ac2 Fix bug #1328 - stack overflow under certain conditions
+98ca9 Initial commit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يمكنك رؤية فرعَي <code>master</code> و <code>testing</code> عند إيداع <code>f30ab</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="switching_branches">الانتقال بين الفروع</h4>
+<div class="paragraph">
+<p>
+للانتقال إلى فرع موجود، استخدم أمر السحب <code>git checkout</code>.
+هيا بنا نتنقل إلى فرعنا الجديد <code>testing</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout testing</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يحرك هذا الأمر إشارة الرأس لتشير إلى فرع <code>testing</code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/head-to-testing.png" alt="إشارة الرأس تشير إلى الفرع الحالي">
+</div>
+<div class="title">شكل ١٤. إشارة الرأس تشير إلى الفرع الحالي</div></div>
+<div class="paragraph">
+<p>ما دلالة هذا؟
+لنصنع إيداعًا آخر إذًا.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ vim test.rb
+$ git commit -a -m 'Make a change'</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/advance-testing.png" alt="فرع الرأس يتقدم عند صنع إيداع">
+</div>
+<div class="title">شكل ١٥. فرع الرأس يتقدم عند صنع إيداع</div></div>
+<div class="paragraph">
+<p>هذا يدعو للتفكر، لأن الآن فرع <code>testing</code> قد تقدم، بينما قعد فرع <code>master</code> في مكانه مشيرًا إلى الإيداع القديم نفسه عندما انتقلنا إلى الفرع الجديد بأمر السحب.
+لنعد إلى فرع <code>master</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout master</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">لا يُظهر أمر السجل <em>جميع</em> الفروع <em>طوال</em> الوقت</div>
+<div class="paragraph">
+<p>إذا نفذت <code>git log</code> الآن، فستتساءل أين ذهب فرع <code>testing</code> الذي أنشأته، لأنه لن يظهر في ناتجه.</p>
+</div>
+<div class="paragraph">
+<p>لم يتبخر الفرع، ولكن جت لا يعلم أنك مهتمٌ به الآن، ولا يُظهر لك جت إلا ما يظن أنك مهتم به.
+بلفظ آخر، لا يُظهر لك أمر السجل بطبيعته إلا تاريخ الفرع الذي تقف فيه حاليًا.</p>
+</div>
+<div class="paragraph">
+<p>لإظهار تاريخ فرع آخر، عليك طلب ذلك صراحةً، مثل <code>git log testing</code>.
+ولإظهار جميع الفروع، اطلب ذلك من <code>git log</code> بالخيار <code>--all</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/checkout-master.png" alt="تتحرك إشارة الرأس عندما تنتقل إلى فرع آخر">
+</div>
+<div class="title">شكل ١٦. تتحرك إشارة الرأس عندما تنتقل إلى فرع آخر</div></div>
+<div class="paragraph">
+<p>فَعَل هذا الأمر فعلين:
+أعاد إشارة الرأس لتشير إلى فرع <code>master</code>، وأرجع الملفات في مجلد العمل إلى حالها كما كانت في اللقطة التي يشير إليها <code>master</code>.
+هذا يعني أيضا أن التعديلات التي ستصنعها الآن ستُبنى على نسخة قديمة من المشروع.
+أي أنه عمليًّا يتراجع عما فعلت في فرع <code>testing</code> لكي تستطيع السير في اتجاه آخر.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">الانتقال بين الفروع يغيّر الملفات التي في مجلد عملك</div>
+<div class="paragraph">
+<p>مهمٌ ملاحظة أنك عندما تنتقل إلى فرع آخر في جت، فإن الملفات التي في مجلد عملك ستتغير.
+فإذا انتقلت إلى فرع قديم، سيعود مجلد عملك إلى ما كان عليه عند آخر إيداع في هذا الفرع.
+وإن لم يستطع جت تغيير الملفات تغييرا نظيفا، فلن يسمح لك بالتبديل أصلا.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>لنُجري بعض التعديلات ونودع مجددًا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ vim test.rb
+$ git commit -a -m 'Make other changes'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>الآن افترق تاريخ مشروعك (انظر شكل <a href="git_branches_overview.html#divergent_history">تاريخ مفترِق</a>).
+فلقد أنشأتَ فرعًا وانتقلت إليه وعملت فيه قليلا، ثم عدت إلى الفرع الرئيس وعملت فيه عملا آخر.
+كلا هذين التغييرين منعزلان في فرعين منفصلين: يمكنك التنقل بينهما كما تشاء، ودمجهما معًا عندما تكون جاهزًا.
+وكل هذا فعلتَه بسهولة بأوامر الفروع <code>branch</code> والسحب <code>checkout</code> والإيداع <code>commit</code>.</p>
+</div>
+<div id="divergent_history" class="imageblock">
+<div class="content">
+<img src="images/advance-master-fixed.png" alt="تاريخ مفترِق">
+</div>
+<div class="title">شكل ١٧. تاريخ مفترِق</div></div>
+<div class="paragraph">
+<p>يمكنك أيضا رؤية هذا بسهولة بأمر السجل،
+فإذا نفّذت <code>git log --oneline --decorate --graph --all</code> فسيُظهر لك تاريخ إيداعاتك ومواضع إشارات فروعك وكيف افترق تاريخك.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log --oneline --decorate --graph --all
+* c2b9e (HEAD, master) Make other changes
+| * 87ab2 (testing) Make a change
+|/
+* f30ab Add feature #32 - ability to add new formats to the central interface
+* 34ac2 Fix bug #1328 - stack overflow under certain conditions
+* 98ca9 Initial commit of my project</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ولأن الفرع في جت ليس إلا ملفًا مجردًا فيه ٤٠ محرفًا تمثّل بصمة الإيداع الذي يشير إليه الفرع، فإن إنشاء الفروع وإزالتها عمليتان رخيصتان سريعتان.
+فعملية إنشاء فرع جديد تماثل في سرعتها ويسرها عملية كتابة ٤١ بايتًا إلى ملف (٤٠ محرفًا للبصمة ثم محرف نهاية السطر).</p>
+</div>
+<div class="paragraph">
+<p>هذا اختلاف عظيم عن طريقة التفريع في معظم الأنظمة القديمة لإدارة النسخ، التي تُنسخ فيها جميع ملفات المشروع إلى مجلد آخر.
+قد يحتاج هذا عدة ثوانٍ أو حتى دقائق، حسب حجم المشروع. ولكن تلك العملية في جت دائمًا عملية آنيّة.
+وأيضا لأننا نسجّل آباء الإيداعات عندما نودع، فإن إيجاد قاعدة مناسبة للدمج هي عملية يفعلها جت من أجلنا آليًّا، وهي سهلة جدا عموما.
+تشجّع هذه الميزات المطورين على إنشاء فروع واستعمالها بكثرة.</p>
+</div>
+<div class="paragraph">
+<p>لنرَ لماذا عليك فعل هذا.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">إنشاء فرع جديد والانتقال إليه في خطوة واحدة</div>
+<div class="paragraph">
+<p>من المعتاد أن ترغب في الانتقال إلى فرع جديد فور إنشائه؛ يمكنك إنشاء فرع والانتقال إليه بأمر واحد: <code>git checkout -b «اسم-الفرع-الجديد»</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>بَدءًا من النسخة 2.23 من جت يمكنك استعمال أمر التبديل بدلًا من أم‍ر السحب من أجل:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>الانتقال إلى فرع موجود: <code>git switch testing-branch</code>.</p>
+</li>
+<li>
+<p>إنشاء فرع جديد والانتقال إليه: <code>git switch -c new-branch</code>.
+الخيار <code>-c</code> للإنشاء، ويمكنك استخدام الخيار الكامل: <code>--create</code>.</p>
+</li>
+<li>
+<p>العودة إلى الفرع المسحوب سابقًا: <code>git switch -</code>.</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph nav-footer">
+<p>↑ <a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell">الأصل الإنجليزي</a></span></p><p><strong>التالي: </strong><a href="basic-branching-merging.html">٣<small>،</small> ٢<small>،</small> أسس التفريع والدمج</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+آخر تحديث: ٢٤&thinsp;&ndash;&thinsp;١٠&thinsp;&ndash;&thinsp;٢٠٢٥
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

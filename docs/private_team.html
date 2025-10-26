@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="author" content="Scott Chacon, Ben Straub">
+<link rel="icon" type="image/png" sizes="72x72" href="res/fav72.png">
+<link rel="icon" type="image/png" sizes="32x32" href="res/fav32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="res/fav16.png">
+<link rel="icon" type="image/svg+xml" sizes="any" href="res/fav.svg">
+<!-- favicon is based on Git Logo by Jason Long (CC-BY 3.0); https://git-scm.com/downloads/logos -->
+<title>المساهمة في مشروع  — فريق خصوصي صغير | احترف جت</title>
+<link rel=stylesheet type=text/css href="res/style.css">
+</head>
+<body id="private_team" class="book">
+<div id="body">
+<div id="header">
+<h1>احترف Git</h1>
+<div class="details">
+المؤلفان:&nbsp;<span id="author" class="author">Scott Chacon</span><br>
+<span id="author2" class="author">Ben Straub</span><br>
+<span id="revnumber">الإصدارة: ٢٫١٫٤٤٩ &ndash;</span>
+بتاريخ:&nbsp;<span id="revdate">٢٤&thinsp;&ndash;&thinsp;١٠&thinsp;&ndash;&thinsp;٢٠٢٥.</span>.
+</div>
+<div id="toc" class="toc"><details>
+<summary><div id="toctitle">فهرس المحتويات</div></summary>
+<p class="toc-root-para"><span class="toc-root"><a href="index.html">احترف جت</a></span></p><ul class="sectlevel1">
+<li><a href="frontmatter.html">توطئة</a>
+</li>
+<li><a href="introduction.html">مقدمة</a>
+</li>
+<li><a href="ch01-getting-started.html">الباب الأول: البدء</a>
+</li>
+<li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
+</li>
+<li><a href="ch03-git-branching.html">الباب الثالث: التفريع في جت</a>
+</li>
+<li><a href="ch04-git-on-the-server.html">الباب الرابع: جت على الخادوم</a>
+</li>
+<li><a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a>
+<ul class="sectlevel2">
+<li><a href="distributed-workflows.html">٥<small>،</small> ١<small>،</small> أساليب التطوير المتوزع</a>
+</li>
+<li><a href="contributing_project.html">٥<small>،</small> ٢<small>،</small> المساهمة في مشروع — مقدمة</a>
+</li>
+<li><a href="commit_guidelines.html">٥<small>،</small> ٣<small>،</small> المساهمة في مشروع — إرشادات الإيداع</a>
+</li>
+<li><a href="private_team.html"><span class="toc-current">٥، ٤، المساهمة في مشروع — فريق خصوصي صغير</span></a>
+</li>
+<li><a href="private_managed_team.html">٥<small>،</small> ٥<small>،</small> المساهمة في مشروع — فريق خصوصي بمدير دمج</a>
+</li>
+<li><a href="public_project.html">٥<small>،</small> ٦<small>،</small> المساهمة في مشروع — مشروع عمومي باشتقاقات</a>
+</li>
+<li><a href="project_over_email.html">٥<small>،</small> ٧<small>،</small> المساهمة في مشروع — مشروع عمومي عبر البريد الشابكي</a>
+</li>
+<li><a href="summary-contrib.html">٥<small>،</small> ٨<small>،</small> المساهمة في مشروع — الخلاصة</a>
+</li>
+<li><a href="maintaining-project-intro.html">٥<small>،</small> ٩<small>،</small> رعاية مشروع — مقدمة</a>
+</li>
+<li><a href="patches_from_email.html">٥<small>،</small> ١٠<small>،</small> رعاية مشروع — تطبيق الرقع من البريد</a>
+</li>
+<li><a href="checking_out_remotes.html">٥<small>،</small> ١١<small>،</small> رعاية مشروع — سحب فروع بعيدة</a>
+</li>
+<li><a href="what_is_introduced.html">٥<small>،</small> ١٢<small>،</small> رعاية مشروع — تحديد التغييرات الجديدة</a>
+</li>
+<li><a href="maintaining-project-integrating.html">٥<small>،</small> ١٣<small>،</small> رعاية مشروع — دمج المساهمات</a>
+</li>
+<li><a href="maintaining-project-releasing.html">٥<small>،</small> ١٤<small>،</small> رعاية مشروع — إصدار مشروعك</a>
+</li>
+<li><a href="summary-05.html">٥<small>،</small> ١٥<small>،</small> الخلاصة</a>
+</li>
+</ul>
+</li>
+<li><a href="ch06-github.html">الباب السادس: ؜GitHub</a>
+</li>
+<li><s>الباب السابع: أدوات جت</s>
+</li>
+<li><a href="ch08-customizing-git.html">الباب الثامن: تخصيص جت</a>
+</li>
+<li><s>الباب التاسع: جت والأنظمة الأخرى</s>
+</li>
+<li><s>الباب العاشر: دواخل جت</s>
+</li>
+<li><a href="A-git-in-other-environments.html">الملحق الأول: جت في البيئات الأخرى</a>
+</li>
+<li><a href="B-embedding-git-in-your-applications.html">الملحق الثاني: تضمين جت في تطبيقاتك</a>
+</li>
+<li><s>الملحق الثالث: أوامر جت</s>
+</li>
+<li><a href="D-terms.html">الملحق الرابع: دليل المصطلحات</a>
+</li>
+<li><a href="E-arabic-reference.html">الملحق الخامس: المصطلحات والمفاهيم باللغتين</a>
+</li>
+</ul>
+</details>
+</div>
+</div>
+<div id="content">
+<div class="sect2">
+<h3 id="private_team">٥، ٤، المساهمة في مشروع <br>&emsp;— فريق خصوصي صغير</h3>
+<div class="paragraph">
+<p>
+أصغر شكل مشروع قد تقابله هو مشروع خصوصي له مطور واحد آخر أو مطوران.
+«خصوصي» في هذا السياق تعني مغلق المصدر، أي ليس متاحًا لعموم الناس.
+لديك أنت والمطورين الآخرين إذن الدفع إلى المستودع.</p>
+</div>
+<div class="paragraph">
+<p>يمكنك في هذا اتباع أسلوب يشبه ما قد تتبعه مع Subversion أو نظام مركزي آخر.
+وستنتفع بمزايا مثل الإيداع بغير اتصال بالشابكة، والتفريع والدمج الأسهلان كثيرًا. لكن أسلوب التطوير متطابق تقريبًا؛ ليس أكبر اختلاف إلا أن الدمج يحدث في المستودعات المحلية وليس في الخادوم عند الإيداع.
+لنرَ كيف يبدو عندما يعمل مطوران معًا في مستودع مشترك.
+سمير، المطور الأول، استنسخ المستودع وعدّل فيه وأودع محليًّا.
+اختصرنا الرسميّات التي في الرسائل إلى <code>...</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console"># حاسوب سمير
+$ git clone samir@githost:simplegit.git
+Cloning into 'simplegit'...
+...
+$ cd simplegit/
+$ vim lib/simplegit.rb
+$ git commit -am 'Remove invalid default value'
+[master 738ee87] Remove invalid default value
+ 1 files changed, 1 insertions(+), 1 deletions(-)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وسميرة، المطورة الأخرى في المشروع، فعلت الشيء نفسه: استنسخت المستودع وعدّلت فيه وأودعت محليًّا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console"># حاسوب سميرة
+$ git clone sameera@githost:simplegit.git
+Cloning into 'simplegit'...
+...
+$ cd simplegit/
+$ vim TODO
+$ git commit -am 'Add reset task'
+[master fbff5bc] Add reset task
+ 1 files changed, 1 insertions(+), 0 deletions(-)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ثم دفعت سميرة بعملها إلى الخادوم، فقبله على الرحب والسعة:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console"># حاسوب سميرة
+$ git push origin master
+...
+To sameera@githost:simplegit.git
+   1edee6b..fbff5bc  master -&gt; master</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>يُظهر السطر الأخير رسالة مفيدة من عملية الدفع.
+وصيغتها <code>&#x202b;«شِر-قديم»..«شِر-جديد» «شِر-أصل» -&gt; «شِر-هدف»</code>&#x202b;، حيث <code>&#x202b;«شِر-قديم»</code>&#x202b; هي الإشارة (‪&#8220;reference&#8221;‬) القديمة، و<code>&#x202b;«شِر-جديد»</code>&#x202b; هي الإشارة الجديدة، و<code>&#x202b;«شِر-أصل»</code>&#x202b; هي اسم الإشارة المحلية المدفوعة إلى الخادوم، و<code>&#x202b;«شِر-هدف»</code>&#x202b; هي اسم الإشارة التي على الخادوم ويُراد تحديثها.
+سترى مثل هذا الناتج في الشرح التالي، فالمعرفة اليسيرة بمعناه ستفيدك في فهم الحالات المختلفة للمستودعات.
+وللاستزادة، انظر توثيق أمر الدفع <a href="https://git-scm.com/docs/git-push" target="_blank" rel="noopener">git-push</a>.</p>
+</div>
+<div class="paragraph">
+<p>لنكمل مثالنا. بعد ما حدث بقليل، عدّل سمير في المستودع وأودع تعديلاته في مستودعه المحلي، وحاول دفعها إلى الخادوم نفسه:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console"># حاسوب سمير
+$ git push origin master
+To samir@githost:simplegit.git
+ ! [rejected]        master -&gt; master (non-fast forward)
+error: failed to push some refs to 'samir@githost:simplegit.git'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>في هذه الحالة، فشل دفع سمير بسبب دفع سميرة السابق <em>لتعديلاتها</em>.
+هذا مهم جدًا فهمه خصوصًا إذا كنت معتادًا على Subversion، لأنك تلاحظ أنهما لم يعدّلا في الملف نفسه.
+فإنْ عدّلت ملفات مختلفة فإنّ Subversion سيدمجها لك آليًّا على الخادوم، لكن مع جت يجب عليك <em>أولًا</em> دمج الإيداعات محليًّا.
+بلفظ آخر: يجب على سمير أن يستحضر (<code>fetch</code>) تعديلات سميرة من المستودع المنبع ويدمجها في مستودعه المحلي قبل أن يُسمح له بالدفع.</p>
+</div>
+<div class="paragraph">
+<p>فخطوة سمير الأولى هي استحضار عمل سميرة (وهذا فقط <em>يستحضر</em> عملها من المستودع المنبع، لكن لا يدمجه في عمله):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git fetch origin
+...
+From samir@githost:simplegit
+ + 049d078...fbff5bc master     -&gt; origin/master</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>عندئذٍ يبدو مستودع سمير المحلي هكذا:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/small-team-1.png" alt="التاريخ المفترق عند سمير">
+</div>
+<div class="title">شكل ٥٧. التاريخ المفترق عند سمير</div></div>
+<div class="paragraph">
+<p>يستطيع سمير الآن أن يدمج في مستودعه المحلي عملَ سميرة الذي استحضره.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git merge origin/master
+Merge made by the 'recursive' strategy.
+ TODO |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ما دام هذا الدمج المحلي قد تم بسلام، فسيبدو التاريخ الجديد عند سمير هكذا:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/small-team-2.png" alt="مستودع سمير بعد دمج `origin/master`">
+</div>
+<div class="title">شكل ٥٨. مستودع سمير بعد دمج <code>origin/master</code></div></div>
+<div class="paragraph">
+<p>عندئذٍ قد يودّ سمير أن يجرب هذا المصدر البرمجي الجديد ليطمئن أن لا شيء من عمل سميرة قد أثّر على عمله. فإذا بدا كل شيء بخير، فيمكنه أخيرًا أن يدفع هذا العمل المدموج إلى الخادوم:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git push origin master
+...
+To samir@githost:simplegit.git
+   fbff5bc..72bbc59  master -&gt; master</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>وفي النهاية، سيبدو تاريخ إيداعات سمير هكذا:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/small-team-3.png" alt="التاريخ عند سمير بعد الدفع إلى الخادوم `origin`">
+</div>
+<div class="title">شكل ٥٩. التاريخ عند سمير بعد الدفع إلى الخادوم <code>origin</code></div></div>
+<div class="paragraph">
+<p>وفي هذه الأثناء أنشأت سميرة فرع موضوع جديد وسمّته <code>issue54</code> وأودعت فيه ثلاثة إيداعات.
+ولم تستحضر تعديلات سمير بعد. فيبدو تاريخ إيداعاتها هكذا:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/small-team-4.png" alt="فرع الموضوع عند سميرة">
+</div>
+<div class="title">شكل ٦٠. فرع الموضوع عند سميرة</div></div>
+<div class="paragraph">
+<p>وفجأةً علمت سميرة بخبر دفع سمير إيداعاتٍ إلى الخادوم، وتريد أن تنظر فيها، فاستحضرت ما لدى الخادوم من جديد:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console"># حاسوب سميرة
+$ git fetch origin
+...
+From sameera@githost:simplegit
+   fbff5bc..72bbc59  master     -&gt; origin/master</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>هذا يجذب العمل الذي دفعه سمير في هذه الأثناء،
+فصار التاريخ عند سميرة هكذا:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/small-team-5.png" alt="التاريخ عند سميرة بعد استحضار تعديلات سمير">
+</div>
+<div class="title">شكل ٦١. التاريخ عند سميرة بعد استحضار تعديلات سمير</div></div>
+<div class="paragraph">
+<p>ثم رأت سميرة أن فرع موضوعها قد صار جاهزًا، لكنها أرادت أن ترى أيَّ جزء من عمل سمير الذي استحضرته، يجب عليها دمجه في عملها حتى تستطيع الدفع.
+فاستعملت أمر السجل:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git log --no-merges issue54..origin/master
+commit 738ee872852dfaa9d6634e0dea7a324040193016
+Author: Samir Samara &lt;samsam@example.com&gt;
+Date:   Fri May 29 16:01:27 2009 -0700
+
+   Remove invalid default value</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>الصيغة <code>issue54..origin/master</code> هي «مصفاة سجل» تسأل جت أن يعرض فقط الإيداعات التي في الفرع الآخر (<code>origin/master</code> هنا) وليست في الفرع الأول (<code>issue54</code> هنا).
+سنفصّل هذه الصيغة في فصل <s>نطاقات الإيداعات</s>.</p>
+</div>
+<div class="paragraph">
+<p>من هذا الناتج، نرى أن إيداعًا واحدًا فقط صنعه سمير ولم يُدمج بعد في المستودع المحلي عند سميرة.
+فعندما تدمج سميرة <code>origin/master</code> فإن هذا الإيداع وحده الذي سيُغيّر مستودعها المحلي.</p>
+</div>
+<div class="paragraph">
+<p>تستطيع سميرة الآن أن تدمج فرع الموضوع في فرعها الرئيس ثم تدمج عمل سمير (<code>origin/master</code>) في فرعها الرئيس، ثم تدفع هذا العمل المدموج إلى الخادوم.</p>
+</div>
+<div class="paragraph">
+<p>فأولا، بعد أن أودعت سميرة كل عملها في فرع الموضوع <code>issue54</code>، انتقلت إلى فرعها الرئيس استعدادًا لدمج كل هذا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git checkout master
+Switched to branch 'master'
+Your branch is behind 'origin/master' by 2 commits, and can be fast-forwarded.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>تستطيع سميرة الآن أن تدمج أيَّ الفرعين أولًا (<code>origin/master</code> أو <code>issue54</code>)؛ كلاهما «منبع»، فلا يهم الترتيب.
+ولقطة المشروع في آخر المطاف ستتطابق في الحالين؛ لن يختلف سوى شكل التاريخ.
+فاختارت دمج فرع <code>issue54</code> أولًا:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git merge issue54
+Updating fbff5bc..4af4298
+Fast forward
+ README           |    1 +
+ lib/simplegit.rb |    6 +++++-
+ 2 files changed, 6 insertions(+), 1 deletions(-)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>لم تظهر مشكلة؛ إنما كان دمج تسريع كما رأيت.
+فأكملت سميرة الدمج المحلي بدمج عمل سمير التي استحضرته من قبل وبقى في فرع <code>origin/master</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git merge origin/master
+Auto-merging lib/simplegit.rb
+Merge made by the 'recursive' strategy.
+ lib/simplegit.rb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>دُمِج كل شيء بنظافة، وصار التاريخ عند سميرة هكذا:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/small-team-6.png" alt="التاريخ عند سميرة بعد دمج تعديلات سمير">
+</div>
+<div class="title">شكل ٦٢. التاريخ عند سميرة بعد دمج تعديلات سمير</div></div>
+<div class="paragraph">
+<p>صار الآن <code>origin/master</code> موصولًا بفرع <code>master</code> الخاص بسميرة، فتستطيع الآن دفعه بسلام (بفرض أن سمير لم يدفع إيداعات أخرى جديدة في هذه الأثناء):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-console" data-lang="console">$ git push origin master
+...
+To sameera@githost:simplegit.git
+   72bbc59..8059c15  master -&gt; master</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>كلٌّ منهما أودع عدة مرات ودمج عمل الآخر بسلام.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/small-team-7.png" alt="التاريخ عند سميرة بعد دفع كل التعديلات إلى الخادوم">
+</div>
+<div class="title">شكل ٦٣. التاريخ عند سميرة بعد دفع كل التعديلات إلى الخادوم</div></div>
+<div class="paragraph">
+<p>هذا من أسهل أساليب التطوير:
+فإنك تعمل قليلًا (غالبًا في فرع موضوع)، ثم تدمج عملك في فرعك الرئيس عندما يكون جاهزًا.
+وعندما تريد مشاركته فإنك تستحضر الفرع الرئيس المنبع وتدمج ما فيه (إذا تغيّر) في فرعك الرئيس المحلي، وأخيرًا تدفع هذا إلى الفرع الرئيس المنبع.
+ويكون الشكل العام لتسلسل الأحداث هكذا:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/small-team-flow-AR.png" alt="شكل عام لتسلسل الأحداث في أسلوب تطوير بسيط لعدة مطورين">
+</div>
+<div class="title">شكل ٦٤. شكل عام لتسلسل الأحداث في أسلوب تطوير بسيط لعدة مطورين</div></div>
+</div>
+<div class="paragraph nav-footer">
+<p>→ <strong>السابق: </strong><a href="commit_guidelines.html">٥<small>،</small> ٣<small>،</small> المساهمة في مشروع — إرشادات الإيداع</a></p>
+<p>↑ <a href="ch05-distributed-git.html">الباب الخامس: جت المتوزع</a></p>
+<p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project#private_team">الأصل الإنجليزي</a> (بزيادة موجودة في صفحات عربية أخرى)</span></p><p><strong>التالي: </strong><a href="private_managed_team.html">٥<small>،</small> ٥<small>،</small> المساهمة في مشروع — فريق خصوصي بمدير دمج</a> ←</p>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+آخر تحديث: ٢٤&thinsp;&ndash;&thinsp;١٠&thinsp;&ndash;&thinsp;٢٠٢٥
+</div>
+</div>
+</div>
+<script>onbeforeprint = function () {
+
+  // https://css-tricks.com/better-line-breaks-for-long-urls/
+  const format_url = function (url) {  // Insert line break opportunities into a URL
+    // Split the URL into an array to distinguish double slashes from single slashes
+    // And format the strings on either side of double slashes separately
+    return url.split('//').map(str =>
+      // Insert a word break opportunity after a colon
+      str.replace(/(?<after>:)/giu, '$1<wbr>')
+        // Before a single slash, tilde, period, comma, hyphen, underline, question mark, number sign, or percent symbol
+        .replace(/(?<before>[/~.,\-_?#%])/giu, '<wbr>$1')
+        // Before and after an equals sign or ampersand
+        .replace(/(?<beforeAndAfter>[=&])/giu, '<wbr>$1<wbr>')
+      // Reconnect the strings with word break opportunities after double slashes
+      ).join('//<wbr>')
+  }
+
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href')
+    if (!href.startsWith('#')      // not an internal link in the single-page book
+      && href.indexOf('/') !== -1  // not an internal link in the multi-page book
+      && href !== a.innerHTML      // not an (external) literal link
+    ) {
+      const h = document.createElement('span')
+      h.className = 'href'
+      h.innerHTML = ' \u27e8الرابط: <span dir="ltr">' + format_url(href) + '</span>\u27e9'
+      a.appendChild(h)
+    }
+    else if (href === a.innerHTML) {
+      a.innerHTML = format_url(href)  // to allow line breaks (this probably should be allowed on the web too?)
+    }
+  })
+
+  document.querySelectorAll('div.imageblock').forEach(blk => {
+    blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  })
+
+  document.querySelector('.toc-root').innerHTML = '<b>احترف جت</b>'  // remove '(البوابة)', and make it just a (bold) title, not a link
+}
+
+onafterprint = function () {  // undo most of what we did in onbeforeprint, so the reader can continue reading the Web page after printing
+
+  document.querySelectorAll('a[href] > span.href').forEach(h => h.remove())
+  document.querySelectorAll('a[href]').forEach(a => { if (a.innerHTML.match(/<wbr>/)) { a.innerHTML = a.innerHTML.replace(/<wbr>/g, '') } })
+
+  // // probably this is fine?
+  // document.querySelectorAll('div.imageblock').forEach(blk => {
+  //   blk.outerHTML = '<figure>' + blk.outerHTML + '</figure>'
+  // })
+
+  document.querySelector('.toc-root').innerHTML = '<a href="index.html">احترف جت (البوابة)</a>'
+}
+</script></body></html>

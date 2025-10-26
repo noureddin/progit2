@@ -22,7 +22,7 @@
 المؤلفان:&nbsp;<span id="author" class="author">Scott Chacon</span><br>
 <span id="author2" class="author">Ben Straub</span><br>
 <span id="revnumber">الإصدارة: ٢٫١٫٤٤٩ &ndash;</span>
-بتاريخ:&nbsp;<span id="revdate">٢٤&thinsp;&ndash;&thinsp;١٠&thinsp;&ndash;&thinsp;٢٠٢٥</span>.
+بتاريخ:&nbsp;<span id="revdate">٢٤&thinsp;&ndash;&thinsp;١٠&thinsp;&ndash;&thinsp;٢٠٢٥.</span>.
 </div>
 <div id="toc" class="toc"><details>
 <summary><div id="toctitle">فهرس المحتويات</div></summary>
@@ -35,19 +35,19 @@
 </li>
 <li><a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a>
 <ul class="sectlevel2">
-<li><a href="_getting_a_repo.html">٢<small>،</small> ١<small>،</small> الحصول على مستودع جت</a>
+<li><a href="getting_a_repo.html">٢<small>،</small> ١<small>،</small> الحصول على مستودع جت</a>
 </li>
 <li><a href="recording-changes.html"><span class="toc-current">٢، ٢، تسجيل التعديلات في المستودع</span></a>
 </li>
-<li><a href="_viewing_history.html">٢<small>،</small> ٣<small>،</small> رؤية تاريخ الإيداعات</a>
+<li><a href="viewing_history.html">٢<small>،</small> ٣<small>،</small> رؤية تاريخ الإيداعات</a>
 </li>
-<li><a href="_undoing.html">٢<small>،</small> ٤<small>،</small> التراجع عن الأفعال</a>
+<li><a href="undoing.html">٢<small>،</small> ٤<small>،</small> التراجع عن الأفعال</a>
 </li>
-<li><a href="_remote_repos.html">٢<small>،</small> ٥<small>،</small> التعامل مع المستودعات البعيدة</a>
+<li><a href="remote_repos.html">٢<small>،</small> ٥<small>،</small> التعامل مع المستودعات البعيدة</a>
 </li>
-<li><a href="_git_tagging.html">٢<small>،</small> ٦<small>،</small> الوسوم</a>
+<li><a href="git_tagging.html">٢<small>،</small> ٦<small>،</small> الوسوم</a>
 </li>
-<li><a href="_git_aliases.html">٢<small>،</small> ٧<small>،</small> الكُنيات في جت</a>
+<li><a href="git_aliases.html">٢<small>،</small> ٧<small>،</small> الكُنيات في جت</a>
 </li>
 <li><a href="summary-02.html">٢<small>،</small> ٨<small>،</small> الخلاصة</a>
 </li>
@@ -109,7 +109,7 @@
 </div>
 <div class="title">شكل ٨. دورة حياة حالة ملفاتك</div></div>
 <div class="sect3">
-<h4 id="_checking_status">فحص حالة ملفاتك</h4>
+<h4 id="checking_status">فحص حالة ملفاتك</h4>
 <div class="paragraph">
 <p>الأداة الأساسية التي تستعملها لمعرفة أي ملف في أي حالة، هي أمر الحالة <code>git status</code>.
 إذا نفّذت هذا الأمر مباشرةً بعد استنساخ مستودع جديد، سترى شيئًا مثل هذا:</p>
@@ -139,7 +139,7 @@ nothing to commit, working tree clean</code></pre>
 <div class="paragraph">
 <p>غيّرت شركة جت‌هب (GitHub) اسم الفرع المبدئي من <code>master</code> إلى <code>main</code> في منتصف عام ٢٠٢٠، ثم تبعتها خدمات استضافة جت الأخرى.
 لذلك قد تجد أن اسم الفرع المبدئي هو <code>main</code> في المستودعات التي أُنشئت حديثًا، وليس <code>master</code>.
-وأيضا يمكنك تغيير اسم الفرع المبدئي (كما رأيت في فصل <a href="_first_time.html#_new_default_branch">اسم الفرع المبدئي</a>)، فربما ترى اسمًا آخر للفرع المبدئي.</p>
+وأيضا يمكنك تغيير اسم الفرع المبدئي (كما رأيت في فصل <a href="first_time.html#new_default_branch">اسم الفرع المبدئي</a>)، فربما ترى اسمًا آخر للفرع المبدئي.</p>
 </div>
 <div class="paragraph">
 <p>ولكن ما زال جت نفسه يسمي الفرع المبدئي <code>master</code>، لذا فهذا ما سنستعمل خلال الكتاب.</p>
@@ -174,7 +174,7 @@ nothing added to commit but untracked files present (use "git add" to track)</co
 </div>
 </div>
 <div class="sect3">
-<h4 id="_tracking_files">تعقب ملفات جديدة</h4>
+<h4 id="tracking_files">تعقب ملفات جديدة</h4>
 <div class="paragraph">
 <p>لبدء تعقب ملف جديد، استخدم أمر الإضافة <code>git add</code>.
 فمثلا لبدء تعقب ملف <code>README</code>، نفّذ هذا:</p>
@@ -320,7 +320,7 @@ M  lib/simplegit.rb
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ignoring">تجاهل ملفات</h4>
+<h4 id="ignoring">تجاهل ملفات</h4>
 <div class="paragraph">
 <p>سيكون لديك غالبًا فئة من الملفات التي لا تريد من جت أن يضيفها آليًا ولا حتى أن يخبرك أنها غير متعقبة.
 أشهر أمثلتها الملفات الموّلدة آليًا مثل ملفات السجلات أو الملفات المبنية.
@@ -427,7 +427,7 @@ doc/**/*.pdf</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_git_diff_staged">رؤية تعديلاتك المؤهلة وغير المؤهلة</h4>
+<h4 id="git_diff_staged">رؤية تعديلاتك المؤهلة وغير المؤهلة</h4>
 <div class="paragraph">
 <p>إذا كنت تجد ناتج أمر الحالة <code>git status</code> شديد الغموض&#8201;&#8212;&#8201;تريد معرفة ما الذي عدّلته تحديدًا، وليس مجرد أسماء الملفات التي تعدّلت&#8201;&#8212;&#8201;فعليك بأم‍ر الفرق <code>git diff</code>.
 نتناوله بالتفصيل فيما بعد، لكنك في الغالب تستخدمه لإجابة أحد التساؤلين: ما الذي عدّلته ولم تؤهله بعد؟
@@ -583,7 +583,7 @@ index 8ebb991..643e24f 100644
 </div>
 </div>
 <div class="sect3">
-<h4 id="_committing_changes">إيداع تعديلاتك</h4>
+<h4 id="committing_changes">إيداع تعديلاتك</h4>
 <div class="paragraph">
 <p>الآن وقد هيّأت منطقة تأهيلك كما تحب، يمكنك أن تودع تعديلاتك.
 تذكر أنه لن يُحفظ في هذا الإيداع أي شي ما زال غير مؤهل&#8201;&#8212;&#8201;أيْ أيّ ملفات أنشأتها أو عدّلتها ولم تنفذ <code>git add</code> عليها بعدما عدلتها؛
@@ -607,7 +607,7 @@ index 8ebb991..643e24f 100644
 </td>
 <td class="content">
 <div class="paragraph">
-<p>يعيّن «محررَك المختار» متغيرُ بيئة المحرر <code>EDITOR</code> في صدفتك، الذي غالبا يكون <code>vim</code> أو <code>emacs</code>. مع أنك تستطيع جعله أي شيء تريده بالأمر <code>git config --global core.editor</code> كما رأيت في فصل <a href="_first_time.html">إعداد جت أول مرة</a>.</p>
+<p>يعيّن «محررَك المختار» متغيرُ بيئة المحرر <code>EDITOR</code> في صدفتك، الذي غالبا يكون <code>vim</code> أو <code>emacs</code>. مع أنك تستطيع جعله أي شيء تريده بالأمر <code>git config --global core.editor</code> كما رأيت في فصل <a href="first_time.html">إعداد جت أول مرة</a>.</p>
 </div>
 </td>
 </tr>
@@ -711,7 +711,7 @@ $ git commit -a -m 'Add new benchmarks'
 </div>
 </div>
 <div class="sect3">
-<h4 id="_removing_files">إزالة ملفات</h4>
+<h4 id="removing_files">إزالة ملفات</h4>
 <div class="paragraph">
 <p>
 لإزالة ملف من جت، عليك أن تزيله من ملفاتك المتعقبة (أو بتعبير أدق، من منطقة تأهيلك)، ثم تودع.
@@ -792,7 +792,7 @@ Changes to be committed:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_git_mv">نقل ملفات</h4>
+<h4 id="git_mv">نقل ملفات</h4>
 <div class="paragraph">
 <p>
 لا يتعقب جت حركة الملفات تعقبًا صريحًا، خلافًا لكثير من أنظمة إدارة النسخ الأخرى.
@@ -842,10 +842,10 @@ $ git add README</code></pre>
 </div>
 </div>
 <div class="paragraph nav-footer">
-<p>→ <strong>السابق: </strong><a href="_getting_a_repo.html">٢<small>،</small> ١<small>،</small> الحصول على مستودع جت</a></p>
+<p>→ <strong>السابق: </strong><a href="getting_a_repo.html">٢<small>،</small> ١<small>،</small> الحصول على مستودع جت</a></p>
 <p>↑ <a href="ch02-git-basics-chapter.html">الباب الثاني: أسس جت</a></p>
 <p>⌂ <a href="index.html"><strong>البوابة</strong></a></p>
-<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository">الأصل الإنجليزي</a></span></p><p><strong>التالي: </strong><a href="_viewing_history.html">٢<small>،</small> ٣<small>،</small> رؤية تاريخ الإيداعات</a> ←</p>
+<p>⊕ <span class="english-source"><a href="https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository">الأصل الإنجليزي</a></span></p><p><strong>التالي: </strong><a href="viewing_history.html">٢<small>،</small> ٣<small>،</small> رؤية تاريخ الإيداعات</a> ←</p>
 </div>
 </div>
 <div id="footer">
